@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+route::get('oficio7122020', function(){
+    return view('contenido.oficioive7122020');
+
+});
