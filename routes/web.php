@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InformacionClienteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-route::get('oficio7122020', function(){
-    return view('contenido.oficioive7122020');
 
-});
+Route::get('/oficio7122020',[InformacionClienteController::class, 'index']);
+Route::resource('oficios/7122020',InformacionClienteController::class);
