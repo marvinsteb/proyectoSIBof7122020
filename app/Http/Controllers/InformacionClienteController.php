@@ -25,7 +25,12 @@ class InformacionClienteController extends Controller
      */
     public function create()
     {
-        //
+        $pais = DB::table('pais');
+        $pais = $pais->get();
+
+        return view('contenido.diccionarioFormulario',[
+            'pais'=> $pais
+        ]);
     }
 
     /**

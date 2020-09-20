@@ -59,7 +59,28 @@
                       </div> 
                     </div>
 
-   
+                                      <!-- II. LUGAR Y FECHA -->
+                    <div class="row">
+                        <h4>II. LUGAR Y FECHA</h4>
+                        <br>
+                        <br>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                          <label>Minimal</label>
+                          <select class="form-control select2" style="width: 100%;">
+                            <option selected="selected">canada</option>
+                            <option>Guatemala</option>
+                            <option>El salvador</option>
+                            <option>Mexico</option>
+                            <option>eeuu</option>
+                            <option>honduras</option>
+                            <option>panama</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
                 </form>
               </div><!-- /.card-body -->
 
