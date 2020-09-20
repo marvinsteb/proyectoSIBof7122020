@@ -66,17 +66,23 @@
                         <br>
                     </div>
                     <div class="row">
-                      <div class="col-sm-6">
+                      <div class="col-sm-2">
                           <div class="form-group">
-                          <label>Minimal</label>
-                          <select class="form-control select2" style="width: 100%;">
-                            <option selected="selected">canada</option>
-                            <option>Guatemala</option>
-                            <option>El salvador</option>
-                            <option>Mexico</option>
-                            <option>eeuu</option>
-                            <option>honduras</option>
-                            <option>panama</option>
+                          <label>País</label>
+                          <select name ='codigoPais' id ='codigoPais' class="form-control select2" style="width: 100%;">
+                            @foreach($paises as $pais)
+                              <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                          <div class="form-group">
+                          <label>Departamento</label>
+                          <select name ='codigoPais' id ='codigoPais' class="form-control select2" style="width: 100%;">
+                            @foreach($paises as $pais)
+                              <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                            @endforeach
                           </select>
                         </div>
                       </div>
