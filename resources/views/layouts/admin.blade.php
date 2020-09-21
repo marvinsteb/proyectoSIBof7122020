@@ -125,9 +125,28 @@
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 
   <script>
-    $(function(){
-      $('.select2').select2()
+    
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
     })
+
+    
+    $('#fechaDoc').datetimepicker({
+        format: 'L'
+    })
+
+    
+
+
+  })
+
+
+
   </script>
 </body>
 </html>

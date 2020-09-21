@@ -32,6 +32,8 @@
                         <br>
                         <br>
                     </div>
+                    <!-- .row -->
+
                     <div class="row">
                       <div class="col-sm-4">
                         <div class="form-group">
@@ -58,44 +60,66 @@
                           </div>
                       </div> 
                     </div>
+                    <!-- .row -->
 
-                                      <!-- II. LUGAR Y FECHA -->
+                    <!-- II. LUGAR Y FECHA -->
                     <div class="row">
                         <h4>II. LUGAR Y FECHA</h4>
                         <br>
                         <br>
                     </div>
+                    <!-- row -->
+
                     <div class="row">
-                      <div class="col-sm-2">
+                      <!-- select pais -->
+                      <div class="col-sm">
                           <div class="form-group">
-                          <label>País</label>
-                          <select name ='codigoPais' id ='codigoPais' class="form-control select2" style="width: 100%;">
-                            @foreach($paises as $pais)
-                              <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
-                            @endforeach
-                          </select>
+                            <label>País</label>
+                            <select name ='codigoPais' id ='codigoPais' class="form-control select2bs4" style="width: 100%;">
+                              @foreach($paises as $pais)
+                                <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                              @endforeach
+                            </select>
                         </div>
                       </div>
-                      <div class="col-sm-2">
+                      <!-- select departamento -->
+                      <div class="col-sm">
                           <div class="form-group">
                           <label>Departamento</label>
-                          <select name ='codigoPais' id ='codigoPais' class="form-control select2" style="width: 100%;">
-                            @foreach($paises as $pais)
-                              <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
-                            @endforeach
+                          <select name ='codigoDepartamento' id ='codigoDepartamento' class="form-control select2bs4" style="width: 100%;">
+                              <option value="codigoDepartamento">Departamento</option>
                           </select>
                         </div>
                       </div>
+                      <!-- select municipio -->
+                      <div class="col-sm">
+                          <div class="form-group">
+                          <label>Municipio</label>
+                          <select name ='codigoMunicipio' id ='codigoMunicipio' class="form-control select2bs4" style="width: 100%;">
+                              <option value="codigoMunicipio">Municipio</option>
+                          </select>
+                        </div>
+                      </div>
+                        <!-- fecha -->
+                      <div class="col-sm">
+                        <div class="form-group">
+                          <label>Fecha</label>
+                          <div class="input-group date" id="fechaDoc" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#fechaDoc"/>
+                            <div class="input-group-append" data-target="#fechaDoc" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
                     </div>
+                    <!-- .row -->
                 </form>
               </div><!-- /.card-body -->
-
-
-
-
-          </div> <!-- /.card -->
-        <!-- . datos titular -->
-      </div><!-- /.container-fluid -->
+          </div> <!-- /.card card-primary -->
+      </div><!--/.container-fluid -->
     </section>
     <!-- /.content -->
 @stop
