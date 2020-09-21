@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-Use DB;
+use DB;
 use Illuminate\Http\Request;
+use App\Models\CamposMinimos;
 
 class InformacionClienteController extends Controller
 {
@@ -41,7 +42,15 @@ class InformacionClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            DB::beginTransaccion();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
+
+       return Response()->json($camposMinimos);  
     }
 
     /**

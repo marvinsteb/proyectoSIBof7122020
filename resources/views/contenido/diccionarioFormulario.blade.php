@@ -42,11 +42,11 @@
                           </div>
 
                           <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimary1" name="tipoActuacion" value = 'C'>
+                            <input type="radio" id="radioPrimary1" class ="actuaNombrePropio" name="tipoActuacion" value = 'C' checked>
                             <label for="radioPrimary1">Sí</label>
                           </div>
                           <div class="icheck-primary d-inline"> 
-                            <input type="radio" id="radioPrimary2" name="tipoActuacion" value = 'R'> 
+                            <input type="radio" id="radioPrimary2" class = "actuaNombrePropio" name="tipoActuacion" value = 'R'> 
                             <label for="radioPrimary2">No</label>
                           </div>
               
@@ -56,7 +56,7 @@
                       <div class="col-sm-8">
                           <div class="form-group">
                             <label>Calidad con que actúa</label>
-                            <input type="text" class="form-control" placeholder="Calidad con que actúa ...">
+                            <input type="text" class="form-control actuaNombrePropio" placeholder="Calidad con que actúa ..." disabled>
                           </div>
                       </div> 
                     </div>
@@ -64,7 +64,9 @@
 
                     <!-- II. LUGAR Y FECHA -->
                     <div class="row">
+                      <div class="col-sm-12">
                         <h4>II. LUGAR Y FECHA</h4>
+                      </div>
                         <br>
                         <br>
                     </div>
@@ -75,7 +77,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                             <label>País</label>
-                            <select name ='codigoPais' id ='codigoPais' class="form-control select2bs4" style="width: 100%;">
+                            <select name ='paisCamposMinimos' id ='paisCamposMinimos' class="form-control" style="width: 100%;">
                               @foreach($paises as $pais)
                                 <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
                               @endforeach
@@ -86,7 +88,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Departamento</label>
-                          <select name ='codigoDepartamento' id ='codigoDepartamento' class="form-control select2bs4" style="width: 100%;">
+                          <select name ='departamentoCamposMinimos' id ='departamentoCamposMinimos' class=" paisCamposMinimos form-control select2bs4" style="width: 100%;">
                               <option value="codigoDepartamento">Departamento</option>
                           </select>
                         </div>
@@ -95,7 +97,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Municipio</label>
-                          <select name ='codigoMunicipio' id ='codigoMunicipio' class="form-control select2bs4" style="width: 100%;">
+                          <select name ='codigoMunicipio' id ='codigoMunicipio' class=" paisCamposMinimos form-control select2bs4" style="width: 100%;">
                               <option value="codigoMunicipio">Municipio</option>
                           </select>
                         </div>
@@ -116,10 +118,92 @@
 
                     </div>
                     <!-- .row -->
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <h4>III. DATOS PERSONALES</h4>
+                      </div>
+                      <div class="col-sm-12">
+                        <h5>Información del cliente</h5>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm">
+                            <div class="form-group">
+                              <label>Primer Apellido</label>
+                              <input type="text" class="form-control" placeholder="Primer Apellido ...">
+                            </div>
+                        </div>
+                      <div class="col-sm">
+                            <div class="form-group">
+                              <label>Segundo apellido</label>
+                              <input type="text" class="form-control" placeholder="Segundo apellido ...">
+                            </div>
+                        </div>
+                      <div class="col-sm">
+                            <div class="form-group">
+                              <label>Apellido casada</label>
+                              <input type="text" class="form-control" placeholder="Apellido casada ...">
+                            </div>
+                        </div>
+                      <div class="col-sm">
+                            <div class="form-group">
+                              <label>Primer nombre</label>
+                              <input type="text" class="form-control" placeholder="Primer nombre ...">
+                            </div>
+                        </div>
+                      <div class="col-sm">
+                            <div class="form-group">
+                              <label>Segundo nombre</label>
+                              <input type="text" class="form-control" placeholder="Segundo nombre ...">
+                            </div>
+                        </div>
+                      <div class="col-sm">
+                          <div class="form-group">
+                            <label>Otros nombre</label>
+                            <input type="text" class="form-control" placeholder="Otros nombres ...">
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm">
+                        <div class="form-group">
+                          <label>Fecha nacimiento</label>
+                          <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento"/>
+                            <div class="input-group-append" data-target="#fechaNacimiento" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- select pais -->
+                      <div class="col-sm">
+                          <div class="form-group">
+                            <label>País</label>
+                            <select name ='paisNacimiento' id ='paisNacimiento' class="pais form-control" style="width: 100%;">
+                              @foreach($paises as $pais)
+                                <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                              @endforeach
+                            </select>
+                        </div>
+                      </div>                      
+                    </div>
+
+
+
+
+
                 </form>
               </div><!-- /.card-body -->
           </div> <!-- /.card card-primary -->
       </div><!--/.container-fluid -->
     </section>
     <!-- /.content -->
-@stop
+ 
+@endsection
+

@@ -66,7 +66,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-header">Formularios</li>
               <li class="nav-item">
-                <a href="oficio7122020" class="nav-link">
+                <a href="/oficios/7122020" class="nav-link">
                   <i class="nav-icon fas fa-edit"></i>
                   <p class="text">Oficio IVE Núm 712-2020</p>
                 </a>
@@ -124,6 +124,8 @@
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 
+  <script src="{{ asset('plugins/scripts/selectDepartamento.js') }}"></script>
+
   <script>
     
   $(function () {
@@ -137,6 +139,10 @@
 
     
     $('#fechaDoc').datetimepicker({
+        format: 'L'
+    })
+
+    $('#fechaNacimiento').datetimepicker({
         format: 'L'
     })
 
