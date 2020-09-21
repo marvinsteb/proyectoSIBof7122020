@@ -77,7 +77,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                             <label>País</label>
-                            <select name ='paisCamposMinimos' id ='paisCamposMinimos' class="form-control" style="width: 100%;">
+                            <select name ='paisCamposMinimos' id ='paisCamposMinimos' class="pais form-control" style="width: 100%;">
                               @foreach($paises as $pais)
                                 <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
                               @endforeach
@@ -88,7 +88,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Departamento</label>
-                          <select name ='departamentoCamposMinimos' id ='departamentoCamposMinimos' class=" paisCamposMinimos form-control select2bs4" style="width: 100%;">
+                          <select name ='departamentoCamposMinimos' id ='departamentoCamposMinimos' class="paisCamposMinimos form-control select2bs4" style="width: 100%;">
                               <option value="codigoDepartamento">Departamento</option>
                           </select>
                         </div>
@@ -97,7 +97,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Municipio</label>
-                          <select name ='codigoMunicipio' id ='codigoMunicipio' class=" paisCamposMinimos form-control select2bs4" style="width: 100%;">
+                          <select name ='codigoMunicipio' id ='codigoMunicipio' class="paisCamposMinimos form-control select2bs4" style="width: 100%;">
                               <option value="codigoMunicipio">Municipio</option>
                           </select>
                         </div>
@@ -191,8 +191,28 @@
                               @endforeach
                             </select>
                         </div>
-                      </div>                      
+                      </div>
+
+                      <!-- select departamento -->
+                      <div class="col-sm">
+                          <div class="form-group">
+                          <label>Departamento</label>
+                          <select name ='departamentoNacimiento' id ='departamentoNacimiento' class="paisNacimiento form-control select2bs4" style="width: 100%;">
+                          </select>
+                        </div>
+                      </div>
+                      <!-- select municipio -->
+                      <div class="col-sm">
+                          <div class="form-group">
+                          <label>Municipio</label>
+                          <select name ='municipioNaciminento' id ='municipioNacimiento' class="paisNacimiento form-control select2bs4" style="width: 100%;">
+                          </select>
+                        </div>
+                      </div> 
+
+                     
                     </div>
+                    <!-- .row -->
 
 
 

@@ -2,10 +2,9 @@
     "use strict";
     document.addEventListener("DOMContentLoaded", function () {
       console.log("Esperando a que la pagina cargue completamente ");
-      var selectPais = document.getElementsByClassName("pais");
+     
 
       var elementoActuaNomprePropio = document.getElementsByClassName('actuaNombrePropio');
-      console.log(elementoActuaNomprePropio);
       for (var i = 0; i < elementoActuaNomprePropio.length -1 ; i++){
         elementoActuaNomprePropio[i].addEventListener('change',function(){
             if(this.value === 'C'){
@@ -18,16 +17,22 @@
             }
         }); 
       }
+
+      var selectPais = document.getElementsByClassName("pais");
       for (var i = 0; i < selectPais.length; i++) {
         selectPais[i].addEventListener('change', function () {
+            var departamentoMunicipio = document.getElementsByClassName(this.id);
             if(this.value === 'GT'){
-                console.log('habilitar departamento y municipio');
-                this.id
+                departamentoMunicipio[0].disabled = false;
+                departamentoMunicipio[1].disabled = false;
+                /* hacer la implementacion de llenado de municipios por departamento*/
             }else{
-                console.log('deshabilidar departamento y municipio'),
+                departamentoMunicipio[0].disabled = true;
+                departamentoMunicipio[1].disabled = true;
             }
         });
       }
+      
 
       
     }); // dom content loaded
