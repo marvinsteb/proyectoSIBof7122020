@@ -43,7 +43,7 @@
                           </div>
 
                           <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimary1" class ="actuaNombrePropio" name="tipoActuacion" value = 'C' required>
+                            <input type="radio" id="radioPrimary1" class ="actuaNombrePropio" name="tipoActuacion" value = 'C' required checked>
                             <label for="radioPrimary1">Sí</label>
                           </div>
                           <div class="icheck-primary d-inline"> 
@@ -80,7 +80,6 @@
                             <label>País</label>
                             <select name ='paisCamposMinimos' id ='paisCamposMinimos' class="pais form-control" style="width: 100%;" required>
                               @foreach($paises as $pais)
-                                
                                 <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
                               @endforeach
                             </select>
@@ -90,8 +89,11 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Departamento</label>
-                          <select name ='departamentoCamposMinimos' id ='departamentoCamposMinimos' class="paisCamposMinimos form-control select2bs4" style="width: 100%;">
-                               <option value="">Select your option</option>
+                          <select name ='departamentoCamposMinimos' id ='departamentoCamposMinimos' class="paisCamposMinimos departamento form-control" style="width: 100%;">
+                            <option value="0" disabled selected>Selecciona</option>
+                            @foreach($departamentos as $departamento)
+                              <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>                            
+                            @endforeach
                           </select>
                         </div>
                       </div>
@@ -99,8 +101,8 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Municipio</label>
-                          <select name ='municipioCamposMinimos' id ='municipioCamposMinimos' class="paisCamposMinimos form-control select2bs4" style="width: 100%;">
-                            <option value="">Select your option</option>
+                          <select name ='municipioCamposMinimos' id ='municipioCamposMinimos' class="paisCamposMinimos form-control" style="width: 100%;">
+                          <option value="" disabled selected>Selecciona</option>
                             <option value="codigoMunicipio">Municipio</option>
                           </select>
                         </div>

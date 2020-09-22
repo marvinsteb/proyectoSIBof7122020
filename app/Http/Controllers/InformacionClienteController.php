@@ -29,8 +29,12 @@ class InformacionClienteController extends Controller
         $paises = DB::table('pais');
         $paises = $paises->get();
 
+        $departamentos = DB::table('departamento');
+        $departamentos = $departamentos->get();
+
         return view('contenido.diccionarioFormulario',[
-            'paises'=> $paises
+            'paises'=> $paises,
+            'departamentos' => $departamentos
         ]);
     }
 
