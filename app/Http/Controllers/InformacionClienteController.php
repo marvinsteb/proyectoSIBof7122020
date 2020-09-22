@@ -42,6 +42,27 @@ class InformacionClienteController extends Controller
      */
     public function store(Request $request)
     {
+        $lugarCamposMinimos = array(
+            "pais"=> $request->paisCamposMinimos,
+            "departamento" => $request->departamentoCamposMinimos,
+            "municipio" => $request->municipioCamposMinimos
+        );
+        $camposMinimos = array(
+            'tipoActuacion' => $request->tipoActuacion,
+            'calidadActua' => $request->tipoActuacion,
+            'lugar' => $lugarCamposMinimos,
+            'fecha' => $request->tipoActuacion,
+            'cliente' => $request->tipoActuacion,
+            'representante' => $request->tipoActuacion,
+            'infoEconomica' => $request->tipoActuacion,
+        );
+
+        $diccionarioFormulario = array(
+            'titulares' => $camposMinimos,
+            'productos' => 'dicccionario producto y servicio',
+            'perfilEconomico'=> 'diccionario Perfil economico'
+        );
+        
         $camposMinimos = $request;
 
        return Response()->json($camposMinimos);  

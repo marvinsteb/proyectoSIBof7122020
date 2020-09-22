@@ -99,8 +99,9 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Municipio</label>
-                          <select name ='codigoMunicipio' id ='codigoMunicipio' class="paisCamposMinimos form-control select2bs4" style="width: 100%;">
-                              <option value="codigoMunicipio">Municipio</option>
+                          <select name ='municipioCamposMinimos' id ='municipioCamposMinimos' class="paisCamposMinimos form-control select2bs4" style="width: 100%;">
+                            <option value="">Select your option</option>
+                            <option value="codigoMunicipio">Municipio</option>
                           </select>
                         </div>
                       </div>
@@ -135,7 +136,7 @@
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Primer Apellido</label>
-                              <input name = "primerApellido[][]" type="text" class="form-control" placeholder="Primer Apellido ..." maxlength="15" required>
+                              <input name = "primerApellido[]" type="text" class="form-control" placeholder="Primer Apellido ..." maxlength="15" required>
                             </div>
                         </div>
                       <div class="col-sm">
