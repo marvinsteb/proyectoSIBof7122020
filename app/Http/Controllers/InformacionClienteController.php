@@ -42,13 +42,7 @@ class InformacionClienteController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            DB::beginTransaccion();
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-        }
+        $camposMinimos = $request;
 
        return Response()->json($camposMinimos);  
     }

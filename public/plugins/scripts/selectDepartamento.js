@@ -10,8 +10,10 @@
             if(this.value === 'C'){
                 elementoActuaNomprePropio[2].disabled = true;
                 elementoActuaNomprePropio[2].value = "";
+                elementoActuaNomprePropio[2].required = false;
             } else if(this.value === 'R') {
                 elementoActuaNomprePropio[2].disabled = false;
+                elementoActuaNomprePropio[2].required = true;
                 console.log('mostrar el form del representante');
               /* implementa el formulario para datos del representante */
             }

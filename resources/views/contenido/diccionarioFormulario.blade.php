@@ -25,7 +25,8 @@
 
 
               <div class="card-body">
-                <form role="form">
+                <form action="guardarActualizar"  method="post">
+                @csrf
                     <!-- I. TIPO DE ACTUACIÓN DEL CLIENTE -->
                     <div class="row">
                         <h4>I. TIPO DE ACTUACIÓN DEL CLIENTE</h4>
@@ -42,11 +43,11 @@
                           </div>
 
                           <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimary1" class ="actuaNombrePropio" name="tipoActuacion" value = 'C' checked>
+                            <input type="radio" id="radioPrimary1" class ="actuaNombrePropio" name="tipoActuacion" value = 'C' required>
                             <label for="radioPrimary1">Sí</label>
                           </div>
                           <div class="icheck-primary d-inline"> 
-                            <input type="radio" id="radioPrimary2" class = "actuaNombrePropio" name="tipoActuacion" value = 'R'> 
+                            <input type="radio" id="radioPrimary2" class = "actuaNombrePropio" name="tipoActuacion" value = 'R' required> 
                             <label for="radioPrimary2">No</label>
                           </div>
               
@@ -56,7 +57,7 @@
                       <div class="col-sm-8">
                           <div class="form-group">
                             <label>Calidad con que actúa</label>
-                            <input type="text" class="form-control actuaNombrePropio" placeholder="Calidad con que actúa ..." disabled>
+                            <input name = "calidadActua" type="text" class="form-control actuaNombrePropio" placeholder="Calidad con que actúa ..." disabled>
                           </div>
                       </div> 
                     </div>
@@ -77,8 +78,9 @@
                       <div class="col-sm">
                           <div class="form-group">
                             <label>País</label>
-                            <select name ='paisCamposMinimos' id ='paisCamposMinimos' class="pais form-control" style="width: 100%;">
+                            <select name ='paisCamposMinimos' id ='paisCamposMinimos' class="pais form-control" style="width: 100%;" required>
                               @foreach($paises as $pais)
+                                
                                 <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
                               @endforeach
                             </select>
@@ -89,7 +91,7 @@
                           <div class="form-group">
                           <label>Departamento</label>
                           <select name ='departamentoCamposMinimos' id ='departamentoCamposMinimos' class="paisCamposMinimos form-control select2bs4" style="width: 100%;">
-                              <option value="codigoDepartamento">Departamento</option>
+                               <option value="">Select your option</option>
                           </select>
                         </div>
                       </div>
@@ -133,7 +135,7 @@
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Primer Apellido</label>
-                              <input type="text" class="form-control" placeholder="Primer Apellido ...">
+                              <input name = "primerApellido[][]" type="text" class="form-control" placeholder="Primer Apellido ..." maxlength="15" required>
                             </div>
                         </div>
                       <div class="col-sm">
@@ -184,7 +186,7 @@
                       <!-- select pais -->
                       <div class="col-sm">
                           <div class="form-group">
-                            <label>País</label>
+                            <label>País nacimiento</label>
                             <select name ='paisNacimiento' id ='paisNacimiento' class="pais form-control" style="width: 100%;">
                               @foreach($paises as $pais)
                                 <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
@@ -196,7 +198,7 @@
                       <!-- select departamento -->
                       <div class="col-sm">
                           <div class="form-group">
-                          <label>Departamento</label>
+                          <label>Departamento nacimiento</label>
                           <select name ='departamentoNacimiento' id ='departamentoNacimiento' class="paisNacimiento form-control select2bs4" style="width: 100%;">
                           </select>
                         </div>
@@ -204,12 +206,29 @@
                       <!-- select municipio -->
                       <div class="col-sm">
                           <div class="form-group">
-                          <label>Municipio</label>
+                          <label>Municipio nacimiento</label>
                           <select name ='municipioNaciminento' id ='municipioNacimiento' class="paisNacimiento form-control select2bs4" style="width: 100%;">
                           </select>
                         </div>
                       </div> 
+                      <!-- select municipio -->
+                      <div class="col-sm">
+                          <div class="form-group">
+                          <label>Condición migratoria</label>
+                          <select name ='condicionMigratoria' id ='condicionMigratoria' class="form-control select2bs4" style="width: 100%;">
+                          </select>
+                        </div>
+                      </div> 
 
+                      <div class="col-sm">
+                            <div class="form-group">
+                              <label>Especifique</label>
+                              <input type="text" class="form-control" placeholder="Otra condición migratoria ...">
+                            </div>
+                        </div>
+
+
+                     
                      
                     </div>
                     <!-- .row -->
@@ -217,9 +236,11 @@
 
 
 
-
+                    <button type="submit" class = "btn btn-primary">Guardar Titular</button>
                 </form>
               </div><!-- /.card-body -->
+
+              <button class ='btn btn-success'>Agregar Titular</button>
           </div> <!-- /.card card-primary -->
       </div><!--/.container-fluid -->
     </section>
