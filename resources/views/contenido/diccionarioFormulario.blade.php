@@ -102,8 +102,7 @@
                           <div class="form-group">
                           <label>Municipio</label>
                           <select name ='municipioCamposMinimos' id ='municipioCamposMinimos' class="paisCamposMinimos form-control" style="width: 100%;">
-                          <option value="" disabled selected>Selecciona</option>
-                            <option value="codigoMunicipio">Municipio</option>
+                          <option value="0" disabled selected>Selecciona</option>
                           </select>
                         </div>
                       </div>
@@ -202,7 +201,11 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Departamento nacimiento</label>
-                          <select name ='departamentoNacimiento' id ='departamentoNacimiento' class="paisNacimiento form-control select2bs4" style="width: 100%;">
+                          <select name ='departamentoNacimiento' id ='departamentoNacimiento' class="paisNacimiento departamento form-control" style="width: 100%;">
+                           <option value="0" disabled selected>Selecciona</option>
+                           @foreach($departamentos as $departamento)
+                            <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>                            
+                           @endforeach
                           </select>
                         </div>
                       </div>
@@ -210,7 +213,8 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Municipio nacimiento</label>
-                          <select name ='municipioNaciminento' id ='municipioNacimiento' class="paisNacimiento form-control select2bs4" style="width: 100%;">
+                          <select name ='municipioNaciminento' id ='municipioNacimiento' class="paisNacimiento form-control" style="width: 100%;">
+                          <option value="0" disabled selected>Selecciona</option>
                           </select>
                         </div>
                       </div> 
@@ -218,7 +222,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Condición migratoria</label>
-                          <select name ='condicionMigratoria' id ='condicionMigratoria' class="form-control select2bs4" style="width: 100%;">
+                          <select name ='condicionMigratoria' id ='condicionMigratoria' class="form-control" style="width: 100%;">
                           </select>
                         </div>
                       </div> 
