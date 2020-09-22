@@ -24,13 +24,14 @@ function cargarMunicipio(){
     });
     $(".departamento").change(event => {	    
     $.get(`/departamentos/municipios/${event.target.value}`, function(res, sta){
-      console.log(res);
- 
-      // $(".idmodelo").empty();
-      // $("#idmodelo").append('<option value="" disabled selected>Selecciona</option>');
-      // res.forEach(element => {
-      //   $("#idmodelo").append(`<option value=${element.idmodelo}> ${element.modelo} </option>`);
-      // });
+      var selectHijos = $(event.target).attr('class').split(' ')[0];
+      var selectActual = $(`.${selectHijos}`);
+
+        $(selectActual[1]).empty();
+        $(selectActual[1]).append('<option value="0" disabled selected>Selecciona</option>');
+        res.forEach(element => {
+          $(selectActual[1]).append(`<option value=${element.codigoMunicipio}> ${element.nombreMunicipio} </option>`);
+        });
 
     }
     
@@ -44,7 +45,7 @@ function habilitaCamposPaisDepartamento() {
       for (var i = 0; i < selectPais.length; i++) {
         $(selectPais[i]).change(function(){
         //convertir el id a clase antes de obtener los selects departamento y municipio que contengan dicha clase
-          var clasePais = `.${this.id.toString()}`
+          var clasePais = `.${this.id.toString()}`;
           var departamentoMunicipio = $(clasePais);
              if(this.value === 'GT'){
                  departamentoMunicipio[0].disabled = false;
