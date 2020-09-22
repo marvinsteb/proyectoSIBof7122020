@@ -46,20 +46,20 @@
                             <input type="radio" id="radioPrimary1" class ="actuaNombrePropio" name="tipoActuacion" value = 'C' required checked>
                             <label for="radioPrimary1">Sí</label>
                           </div>
-                          <div class="icheck-primary d-inline"> 
-                            <input type="radio" id="radioPrimary2" class = "actuaNombrePropio" name="tipoActuacion" value = 'R' required> 
+                          <div class="icheck-primary d-inline">
+                            <input type="radio" id="radioPrimary2" class = "actuaNombrePropio" name="tipoActuacion" value = 'R' required>
                             <label for="radioPrimary2">No</label>
                           </div>
-              
+
                         </div>
                       </div>
 
                       <div class="col-sm-8">
                           <div class="form-group">
                             <label>Calidad con que actúa</label>
-                            <input name = "calidadActua" type="text" class="form-control actuaNombrePropio" placeholder="Calidad con que actúa ..." disabled>
+                            <input name = "calidadActua" type="text" class="form-control actuaNombrePropio" placeholder="Calidad con que actúa ..."  maxlength="100" disabled>
                           </div>
-                      </div> 
+                      </div>
                     </div>
                     <!-- .row -->
 
@@ -89,10 +89,10 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Departamento</label>
-                          <select name ='departamentoCamposMinimos' id ='departamentoCamposMinimos' class="paisCamposMinimos departamento form-control" style="width: 100%;">
-                            <option value="0" disabled selected>Selecciona</option>
+                          <select name ='departamentoCamposMinimos' id ='departamentoCamposMinimos' class="paisCamposMinimos departamento form-control" style="width: 100%;" required>
+                            <option value="" disabled selected>Selecciona</option>
                             @foreach($departamentos as $departamento)
-                              <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>                            
+                              <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                             @endforeach
                           </select>
                         </div>
@@ -101,8 +101,8 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Municipio</label>
-                          <select name ='municipioCamposMinimos' id ='municipioCamposMinimos' class="paisCamposMinimos form-control" style="width: 100%;">
-                          <option value="0" disabled selected>Selecciona</option>
+                          <select name ='municipioCamposMinimos' id ='municipioCamposMinimos' class="paisCamposMinimos form-control" style="width: 100%;" required>
+                          <option value="" disabled selected>Selecciona</option>
                           </select>
                         </div>
                       </div>
@@ -111,7 +111,7 @@
                         <div class="form-group">
                           <label>Fecha</label>
                           <div class="input-group date" id="fechaDoc" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#fechaDoc"/>
+                            <input type="text" class="form-control datetimepicker-input" data-target="#fechaDoc" required/>
                             <div class="input-group-append" data-target="#fechaDoc" data-toggle="datetimepicker">
                               <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -137,37 +137,40 @@
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Primer Apellido</label>
-                              <input name = "primerApellido[]" type="text" class="form-control" placeholder="Primer Apellido ..." maxlength="15" required>
+                              <input name = "clientePrimerApellido" type="text" class="form-control" placeholder="Primer Apellido ..." maxlength = "15" required>
                             </div>
                         </div>
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Segundo apellido</label>
-                              <input type="text" class="form-control" placeholder="Segundo apellido ...">
+                              <!-- la llave es obligatoria, pero consignar SOA si no aplica -->
+                              <input name = "clienteSegundoApellido" type="text" class="form-control" placeholder="Segundo apellido ..." maxlength = "15">
                             </div>
                         </div>
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Apellido casada</label>
-                              <input type="text" class="form-control" placeholder="Apellido casada ...">
+                              <!-- no anteponer de al apellido -->
+                              <input name = "clienteApellidoCasada" type="text" class="form-control" placeholder="Apellido casada ..." maxlength = "15">
                             </div>
                         </div>
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Primer nombre</label>
-                              <input type="text" class="form-control" placeholder="Primer nombre ...">
+                              <input name = "clientePrimerNombre" type="text" class="form-control" placeholder="Primer nombre ..." maxlength = "15" required>
                             </div>
                         </div>
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Segundo nombre</label>
-                              <input type="text" class="form-control" placeholder="Segundo nombre ...">
+                              <!-- la llave es obligatoria, si no aplica consignar SON -->
+                              <input name = "clienteSegundoNombre" type="text" class="form-control" placeholder="Segundo nombre ..." maxlength = "15">
                             </div>
                         </div>
                       <div class="col-sm">
                           <div class="form-group">
                             <label>Otros nombre</label>
-                            <input type="text" class="form-control" placeholder="Otros nombres ...">
+                            <input name = "clienteOtrosNombres "type="text" class="form-control" placeholder="Otros nombres ..." maxlength = "30">
                           </div>
                       </div>
                     </div>
@@ -177,7 +180,7 @@
                         <div class="form-group">
                           <label>Fecha nacimiento</label>
                           <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento"/>
+                            <input type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento" required/>
                             <div class="input-group-append" data-target="#fechaNacimiento" data-toggle="datetimepicker">
                               <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -204,7 +207,7 @@
                           <select name ='departamentoNacimiento' id ='departamentoNacimiento' class="paisNacimiento departamento form-control" style="width: 100%;">
                            <option value="0" disabled selected>Selecciona</option>
                            @foreach($departamentos as $departamento)
-                            <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>                            
+                            <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                            @endforeach
                           </select>
                         </div>
@@ -214,18 +217,22 @@
                           <div class="form-group">
                           <label>Municipio nacimiento</label>
                           <select name ='municipioNaciminento' id ='municipioNacimiento' class="paisNacimiento form-control" style="width: 100%;">
-                          <option value="0" disabled selected>Selecciona</option>
+                          <option value="" disabled selected>Selecciona</option>
                           </select>
                         </div>
-                      </div> 
+                      </div>
                       <!-- select municipio -->
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Condición migratoria</label>
                           <select name ='condicionMigratoria' id ='condicionMigratoria' class="form-control" style="width: 100%;">
+                          <option value="" disabled selected>Selecciona</option>
+                          @foreach($listaCondicionMigratoria as $condicionMigratoria)
+                              <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">{{$condicionMigratoria->descripcion}}</option>
+                          @endforeach
                           </select>
                         </div>
-                      </div> 
+                      </div>
 
                       <div class="col-sm">
                             <div class="form-group">
@@ -235,8 +242,8 @@
                         </div>
 
 
-                     
-                     
+
+
                     </div>
                     <!-- .row -->
 
@@ -247,11 +254,11 @@
                 </form>
               </div><!-- /.card-body -->
 
-              <button class ='btn btn-success'>Agregar Titular</button>
           </div> <!-- /.card card-primary -->
+              <button class ='btn btn-success'>Agregar Titular</button>
       </div><!--/.container-fluid -->
     </section>
     <!-- /.content -->
- 
+
 @endsection
 

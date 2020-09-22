@@ -32,9 +32,13 @@ class InformacionClienteController extends Controller
         $departamentos = DB::table('departamento');
         $departamentos = $departamentos->get();
 
+        $listaCondicionMigratoria = DB::table('listacondicionmigratoria');
+        $listaCondicionMigratoria = $listaCondicionMigratoria->get();
+
         return view('contenido.diccionarioFormulario',[
             'paises'=> $paises,
-            'departamentos' => $departamentos
+            'departamentos' => $departamentos,
+            'listaCondicionMigratoria' => $listaCondicionMigratoria
         ]);
     }
 

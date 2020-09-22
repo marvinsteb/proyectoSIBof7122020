@@ -28,7 +28,7 @@ function cargarMunicipio(){
       var selectActual = $(`.${selectHijos}`);
 
         $(selectActual[1]).empty();
-        $(selectActual[1]).append('<option value="0" disabled selected>Selecciona</option>');
+        $(selectActual[1]).append('<option value="" disabled selected>Selecciona</option>');
         res.forEach(element => {
           $(selectActual[1]).append(`<option value=${element.codigoMunicipio}> ${element.nombreMunicipio} </option>`);
         });
