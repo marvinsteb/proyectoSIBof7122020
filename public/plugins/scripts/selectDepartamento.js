@@ -16,6 +16,7 @@ function verificaActuaNombrePropio () {
   }
 }
 
+
 function cargarMunicipio(){
       $.ajaxSetup({
         headers: {
@@ -50,12 +51,16 @@ function habilitaCamposPaisDepartamento() {
              if(this.value === 'GT'){
                  departamentoMunicipio[0].disabled = false;
                  departamentoMunicipio[1].disabled = false;
+                 departamentoMunicipio[2].disabled = true;
+                 departamentoMunicipio[2].value = 0;
                  /* hacer la implementacion de llenado de municipios por departamento*/
              }else{
                  departamentoMunicipio[0].disabled = true;
                  departamentoMunicipio[0].value = 0;
                  departamentoMunicipio[1].disabled = true;
                  departamentoMunicipio[1].value = 0;
+
+                 departamentoMunicipio[2].disabled = false;
              } 
         });
       }

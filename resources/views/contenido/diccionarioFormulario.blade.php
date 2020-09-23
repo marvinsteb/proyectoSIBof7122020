@@ -137,40 +137,40 @@
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Primer Apellido</label>
-                              <input name = "clientePrimerApellido" type="text" class="form-control" placeholder="Primer Apellido ..." maxlength = "15" required>
+                              <input name = "primerApellidoCliente" type="text" class="form-control" placeholder="Primer Apellido ..." maxlength = "15" required>
                             </div>
                         </div>
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Segundo apellido</label>
                               <!-- la llave es obligatoria, pero consignar SOA si no aplica -->
-                              <input name = "clienteSegundoApellido" type="text" class="form-control" placeholder="Segundo apellido ..." maxlength = "15">
+                              <input name = "segundoApellidoCliente" type="text" class="form-control" placeholder="Segundo apellido ..." maxlength = "15">
                             </div>
                         </div>
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Apellido casada</label>
                               <!-- no anteponer de al apellido -->
-                              <input name = "clienteApellidoCasada" type="text" class="form-control" placeholder="Apellido casada ..." maxlength = "15">
+                              <input name = "apellidoCasadaCliente" type="text" class="form-control" placeholder="Apellido casada ..." maxlength = "15">
                             </div>
                         </div>
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Primer nombre</label>
-                              <input name = "clientePrimerNombre" type="text" class="form-control" placeholder="Primer nombre ..." maxlength = "15" required>
+                              <input name = "primerNombreCliente" type="text" class="form-control" placeholder="Primer nombre ..." maxlength = "15" required>
                             </div>
                         </div>
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Segundo nombre</label>
                               <!-- la llave es obligatoria, si no aplica consignar SON -->
-                              <input name = "clienteSegundoNombre" type="text" class="form-control" placeholder="Segundo nombre ..." maxlength = "15">
+                              <input name = "segundoNombreCliente" type="text" class="form-control" placeholder="Segundo nombre ..." maxlength = "15">
                             </div>
                         </div>
                       <div class="col-sm">
                           <div class="form-group">
                             <label>Otros nombre</label>
-                            <input name = "clienteOtrosNombres "type="text" class="form-control" placeholder="Otros nombres ..." maxlength = "30">
+                            <input name = "otrosNombresCliente "type="text" class="form-control" placeholder="Otros nombres ..." maxlength = "30">
                           </div>
                       </div>
                     </div>
@@ -180,7 +180,7 @@
                         <div class="form-group">
                           <label>Fecha nacimiento</label>
                           <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento" required/>
+                            <input name = 'fechaNacimientoCliente'type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento" required/>
                             <div class="input-group-append" data-target="#fechaNacimiento" data-toggle="datetimepicker">
                               <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -192,7 +192,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                             <label>País nacimiento</label>
-                            <select name ='paisNacimiento' id ='paisNacimiento' class="pais form-control" style="width: 100%;">
+                            <select name ='paisNacimientoCliente' id ='paisNacimientoCliente' class="pais form-control" style="width: 100%;">
                               @foreach($paises as $pais)
                                 <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
                               @endforeach
@@ -204,8 +204,8 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Departamento nacimiento</label>
-                          <select name ='departamentoNacimiento' id ='departamentoNacimiento' class="paisNacimiento departamento form-control" style="width: 100%;">
-                           <option value="0" disabled selected>Selecciona</option>
+                          <select name ='departamentoNacimientoCliente' id ='departamentoNacimientoCliente' class="paisNacimientoCliente departamento form-control" style="width: 100%;">
+                           <option value="" disabled selected>Selecciona</option>
                            @foreach($departamentos as $departamento)
                             <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                            @endforeach
@@ -216,7 +216,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Municipio nacimiento</label>
-                          <select name ='municipioNaciminento' id ='municipioNacimiento' class="paisNacimiento form-control" style="width: 100%;">
+                          <select name ='municipioNaciminentoCliente' id ='municipioNaciminentoCliente' class="paisNacimientoCliente form-control" style="width: 100%;">
                           <option value="" disabled selected>Selecciona</option>
                           </select>
                         </div>
@@ -225,7 +225,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Condición migratoria</label>
-                          <select name ='condicionMigratoria' id ='condicionMigratoria' class="form-control" style="width: 100%;">
+                          <select name ='condicionMigratoriaCliente' id ='condicionMigratoriaCliente' class=" paisNacimientoCliente form-control" style="width: 100%;" disabled required>
                           <option value="" disabled selected>Selecciona</option>
                           @foreach($listaCondicionMigratoria as $condicionMigratoria)
                               <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">{{$condicionMigratoria->descripcion}}</option>
@@ -237,13 +237,23 @@
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Especifique</label>
-                              <input type="text" class="form-control" placeholder="Otra condición migratoria ...">
+                              <input type="text" class="paisNacimientoCliente form-control" placeholder="Otra condición migratoria ...">
                             </div>
                         </div>
+                    </div>
+                    <!-- .row -->
 
-
-
-
+                    <div class="row">
+                      <div class="col-sm">
+                            <div class="form-group">
+                            <label>Sexo</label>
+                            <select name ='sexoCliente' id ='sexoCliente' class="form-control" style="width: 100%;" required>
+                            <option value="" disabled selected>Selecciona</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                            </select>
+                          </div>
+                        </div>
                     </div>
                     <!-- .row -->
 
