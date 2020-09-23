@@ -50,16 +50,17 @@ class InformacionClienteController extends Controller
      */
     public function store(Request $request)
     {
+        
         $lugarCamposMinimos = array(
-            "pais"=> $request->paisCamposMinimos,
+            "pais" => $request->paisCamposMinimos,
             "departamento" => $request->departamentoCamposMinimos,
             "municipio" => $request->municipioCamposMinimos
         );
         $camposMinimos = array(
             'tipoActuacion' => $request->tipoActuacion,
-            'calidadActua' => $request->tipoActuacion,
+            'calidadActua' => $request->calidadActua,
             'lugar' => $lugarCamposMinimos,
-            'fecha' => $request->tipoActuacion,
+            'fecha' => $request->fecha,
             'cliente' => $request->tipoActuacion,
             'representante' => $request->tipoActuacion,
             'infoEconomica' => $request->tipoActuacion,
@@ -70,10 +71,39 @@ class InformacionClienteController extends Controller
             'productos' => 'dicccionario producto y servicio',
             'perfilEconomico'=> 'diccionario Perfil economico'
         );
-        
-        $camposMinimos = $request;
+       
 
-       return Response()->json($camposMinimos);  
+        DB::beginTransaction();
+
+        try {
+            //insertar lugar
+            $idLugar = DB::table('lugar')->insertGetId([
+                "pais" => $request->paisCamposMinimos,
+                "departamento" => $request->departamentoCamposMinimos,
+                "municipio" => $request->municipioCamposMinimos
+                ]);
+
+            $idCamposMinimos = DB::table('camposminimos')->insertGetId([
+                'tipoActuacion' => $request->tipoActuacion,
+                'calidadActua' => $request->calidadActua,
+                'lugar' => $idLugar,
+                'fecha' => null,
+                'cliente' => null,
+                'representante' => null,
+                'infoEconomica' => null,
+            ]);
+
+            DB::commit();
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+        }
+                
+        $respuesta = $camposMinimos;
+
+       return Response()->json($respuesta, 200 ,['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+       JSON_UNESCAPED_UNICODE);  
     }
 
     /**

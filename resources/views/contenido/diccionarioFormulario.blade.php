@@ -80,7 +80,7 @@
                             <label>País</label>
                             <select name ='paisCamposMinimos' id ='paisCamposMinimos' class="pais form-control" style="width: 100%;" required>
                               @foreach($paises as $pais)
-                                <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                                <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                               @endforeach
                             </select>
                         </div>
@@ -111,7 +111,7 @@
                         <div class="form-group">
                           <label>Fecha</label>
                           <div class="input-group date" id="fechaDoc" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#fechaDoc" required/>
+                            <input name = "fechaCamposMinimos"type="text" class="form-control datetimepicker-input" data-target="#fechaDoc" required/>
                             <div class="input-group-append" data-target="#fechaDoc" data-toggle="datetimepicker">
                               <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
