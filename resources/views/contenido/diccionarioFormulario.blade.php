@@ -188,7 +188,7 @@
                         </div>
                       </div>
 
-                      <!-- select pais -->
+                      <!-- select pais nacimiento Cliente -->
                       <div class="col-sm">
                           <div class="form-group">
                             <label>País nacimiento</label>
@@ -244,18 +244,85 @@
                     <!-- .row -->
 
                     <div class="row">
-                      <div class="col-sm">
+                        <div class="col-sm-2">
                             <div class="form-group">
-                            <label>Sexo</label>
-                            <select name ='sexoCliente' id ='sexoCliente' class="form-control" style="width: 100%;" required>
+                              <label>Sexo</label>
+                              <select name ='sexoCliente' id ='sexoCliente' class="form-control" style="width: 100%;" required>
+                              <option value="" disabled selected>Selecciona</option>
+                              <option value="M">Masculino</option>
+                              <option value="F">Femenino</option>
+                              </select>
+                            </div>
+                        </div>
+                        <!-- .col-sm -->
+                        <div class="col-sm">
+                            <div class="form-group">
+                              <label>Estado civil</label>
+                              <select name ='estadoCivilCliente' id ='estadoCivilCliente' class="form-control" style="width: 100%;" required>
+                              <option value="" disabled selected>Selecciona</option>
+                              <option value="S">Soltero</option>
+                              <option value="C">Casado</option>
+                              </select>
+                            </div>
+                        </div>
+                        <!-- .col-sm -->
+
+                        <div class="col-sm">
+                          <div class="form-group">
+                            <label>Nit</label>
+                            <input name = "nitCliente"type="text" class="form-control" placeholder="Nit ..." maxlength = "20">
+                          </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                              <label>Docto. identificación</label>
+                              <select name ='tipoDoctoIdentificacionCliente' id ='tipoDoctoIdentificacionCliente' class="form-control" style="width: 100%;" required>
+                              <option value="" disabled selected>Selecciona</option>
+                              <option value="D">DPI</option>
+                              <option value="P">Pasaporte</option>
+                              </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                          <div class="form-group">
+                          <label>Número identificación</label>
+                            <input name = "numeroDocumentoIdentificacionCliente"type="text" class="form-control" placeholder="Número identificación..." maxlength = "20">                          
+                          </div>
+                        </div>
+
+                                      <!-- select pais -->
+                      <div class="col-sm">
+                          <div class="form-group">
+                            <label>País (Pasaporte)</label>
+                            <select name ='emicionPasaporteCliente' id ='emicionPasaporteCliente' class="pais form-control" style="width: 100%;">
                             <option value="" disabled selected>Selecciona</option>
-                            <option value="M">Masculino</option>
-                            <option value="F">Femenino</option>
+                              @foreach($paises as $pais)
+                                <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                              @endforeach
                             </select>
+                        </div>
+                      </div>
+
+
+                    </div>
+                    <!-- .row -->
+
+                    <div class="row">
+                        <div class="col-sm">
+                          <div class="form-group">
+                            <label>Profesión u oficio</label>
+                            <input name = "profecionOficioCLiente" type="text" class="form-control" placeholder="Profesión u oficio ..." maxlength = "100">
+                          </div>
+                        </div>
+                        <div class="col-sm">
+                          <div class="form-group">
+                            <label>Correo electrónico</label>
+                            <input name = "emailCliente" type="text" class="form-control" placeholder="Correo electrónico ..." maxlength = "100">
                           </div>
                         </div>
                     </div>
-                    <!-- .row -->
 
 
 
