@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\Models\CamposMinimos;
+use Carbon\Carbon;
 
 class InformacionClienteController extends Controller
 {
@@ -12,6 +13,12 @@ class InformacionClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function formatoFechaDB($fecha)
+    {
+        $fechaFormateada = Carbon::parse($fecha);
+        return $fechaFormateada->format('Y-m-d');
+    }
     public function index()
     {
         $departamentos = DB::table('departamento');
@@ -60,7 +67,7 @@ class InformacionClienteController extends Controller
             'tipoActuacion' => $request->tipoActuacion,
             'calidadActua' => $request->calidadActua,
             'lugar' => $lugarCamposMinimos,
-            'fecha' => $request->fecha,
+            'fecha' => $this->formatoFechaDB($request->fechaCamposMinimos),
             'cliente' => $request->tipoActuacion,
             'representante' => $request->tipoActuacion,
             'infoEconomica' => $request->tipoActuacion,
@@ -87,7 +94,7 @@ class InformacionClienteController extends Controller
                 'tipoActuacion' => $request->tipoActuacion,
                 'calidadActua' => $request->calidadActua,
                 'lugar' => $idLugar,
-                'fecha' => null,
+                'fecha' => $this->formatoFechaDB($request->fechaCamposMinimos),
                 'cliente' => null,
                 'representante' => null,
                 'infoEconomica' => null,
