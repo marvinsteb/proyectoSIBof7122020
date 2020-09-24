@@ -401,6 +401,8 @@
                       <!-- .nacionalidad -->
                       <div class="col-sm-6 telefono">
                       <label>Telefonos:</label>
+                      <input name = "telefonoCliente" type="text" class="form-control" placeholder="telefono ..." maxlength = "30">
+                        <input name = "telefonoCliente" type="text" class="form-control" placeholder="telefono ..." maxlength = "30">
                       </div>
                       <!-- .telefono -->
                     </div>

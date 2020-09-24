@@ -107,7 +107,7 @@ class InformacionClienteController extends Controller
             // something went wrong
         }
                 
-        $respuesta = $camposMinimos;
+        $respuesta = $request;
 
        return Response()->json($respuesta, 200 ,['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
        JSON_UNESCAPED_UNICODE);  
