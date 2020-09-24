@@ -122,6 +122,7 @@
 
                     </div>
                     <!-- .row -->
+
                     <div class="row">
                       <div class="col-sm-12">
                         <h4>III. DATOS PERSONALES</h4>
@@ -132,6 +133,7 @@
                       <br>
                       <br>
                     </div>
+                    <!-- .row -->
 
                     <div class="row">
                       <div class="col-sm">
@@ -221,7 +223,7 @@
                           </select>
                         </div>
                       </div>
-                      <!-- select municipio -->
+                      <!-- select condicion Migratoria -->
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Condición migratoria</label>
@@ -323,11 +325,89 @@
                           </div>
                         </div>
                     </div>
+                    <!-- .row -->
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <h5>Residencia</h5>
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                    <!-- .row -->
+
+
+                    <div class="row">
+                      <div class="col-sm">
+                        <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
+                        <input name = "direccionRecidenciaCliente" type="text" class="form-control" placeholder="Dirección de residencia completa ..." maxlength = "400">
+                      </div>
+                    </div>
+                    <!-- .row -->
+
+                    <div class="row">
+                      <!-- select pais nacimiento Cliente -->
+                      <div class="col-sm">
+                          <div class="form-group">
+                            <label>País nacimiento</label>
+                            <select name ='paisRecidenciaCliente' id ='paisRecidenciaCliente' class="pais form-control" style="width: 100%;">
+                              @foreach($paises as $pais)
+                                <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                              @endforeach
+                            </select>
+                        </div>
+                      </div>
+
+                      <!-- select departamento -->
+                      <div class="col-sm">
+                          <div class="form-group">
+                          <label>Departamento nacimiento</label>
+                          <select name ='departamentoNacimientoCliente' id ='departamentoNacimientoCliente' class="paisRecidenciaCliente departamento form-control" style="width: 100%;">
+                           <option value="" disabled selected>Selecciona</option>
+                           @foreach($departamentos as $departamento)
+                            <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
+                           @endforeach
+                          </select>
+                        </div>
+                      </div>
+                      <!-- select municipio -->
+                      <div class="col-sm">
+                          <div class="form-group">
+                          <label>Municipio nacimiento</label>
+                          <select name ='municipioNaciminentoCliente' id ='municipioNaciminentoCliente' class="paisRecidenciaCliente form-control" style="width: 100%;">
+                          <option value="" disabled selected>Selecciona</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-sm-6 nacionalidad">
+                      <label>Nacionalidad</label>
+                            <select name ='emicionPasaporteCliente' id ='emicionPasaporteCliente' class="pais form-control" style="width: 100%;">
+                                  <option value="" disabled selected>Selecciona</option>
+                                    @foreach($paises as $pais)
+                                      <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                                    @endforeach
+                            </select>
+                            <select name ='emicionPasaporteCliente' id ='emicionPasaporteCliente' class="pais form-control" style="width: 100%;">
+                                  <option value="" disabled selected>Selecciona</option>
+                                    @foreach($paises as $pais)
+                                      <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                                    @endforeach
+                            </select> 
+                      </div>
+                      <!-- .nacionalidad -->
+                      <div class="col-sm-6 telefono">
+                      <label>Telefonos:</label>
+                      </div>
+                      <!-- .telefono -->
+                    </div>
 
 
 
-
-                    <button type="submit" class = "btn btn-primary">Guardar Titular</button>
+                  <button type="submit" class = "btn btn-primary form-control">Guardar Titular</button>
                 </form>
               </div><!-- /.card-body -->
 
