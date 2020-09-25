@@ -57,11 +57,11 @@ class InformacionClienteController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $lugarCamposMinimos = array(
-            "pais" => $request->paisRecidenciaCliente,
-            "departamento" => $request->departamentoNacimientoCliente,
-            "municipio" => $request->municipioNaciminentoCliente
+             "pais" => $request->paisCamposMinimosCliente,
+             "departamento" => $request->departamentoCamposMinimosCliente,
+             "municipio" => $request->municipioCamposMinimosCliente
         );
         $camposMinimos = array(
             'tipoActuacion' => $request->tipoActuacionCliente,
@@ -80,25 +80,19 @@ class InformacionClienteController extends Controller
         );
 
 
-       /* 
-            $datosPersonalesCamposMinimosCliente = array (
-               );
-    */
-        
-       
 
 
         DB::beginTransaction();
 
         try {
             //insertar lugar
-           
+
             $idLugarCamposMinimos = DB::table('lugar')->insertGetId([
                 "pais" => $request->paisCamposMinimosCliente,
                 "departamento" => $request->departamentoCamposMinimosCliente,
                 "municipio" => $request->municipioCamposMinimosCliente
                 ]);
-            /*
+
             $idLugarNacimientoCliente = DB::table('lugar')->insertGetId([
                     "pais" => $request->paisNacimientoCliente,
                     "departamento" => $request->departamentoNacimientoCliente,
@@ -108,7 +102,7 @@ class InformacionClienteController extends Controller
                 "pais" => $request->paisRecidenciaCliente,
                 "departamento" => $request->departamentoRecidenciaCliente,
                 "municipio" => $request->municipioRecidenciaCliente
-            ]);*/
+            ]);
             $idClienteCamposMinimos = DB::table('datospersonales')->insertGetID([
                 'primerApellido' => $request->primerApellidoCliente,
                 'segundoApellido' => $request->segundoApellidoCliente,
@@ -119,7 +113,7 @@ class InformacionClienteController extends Controller
                 'fechaNacimiento' => $this->formatoFechaDB($request->fechaNacimientoCliente),
                 // inplementar una tabla para guardar el arreglo de las nacionalidades
                 'nacionalidades' => 1,
-                'nacimiento' => 40,
+                'nacimiento' =>  $idLugarNacimientoCliente,
                 'condicionMigratoria' => $request->condicionMigratoriaCliente,
                 'otraCondicionMigratoria' => $request->otraCondicionMigratoriacliente,
                 'sexo' => $request->sexoCliente,
@@ -135,7 +129,7 @@ class InformacionClienteController extends Controller
                 'telefonos'  => null,
                 'email' => $request->emailCliente,
                 'direccionResidencia' => $request->direccionRecidenciaCliente,
-                'residencia' => 40 ,
+                'residencia' => $idlugarRecidenciaCliente ,
                 //datos por default, implementa en la vista los inputs para los siguientes campos
                 'pep' => 'S',
                 'datosPep' => null,
@@ -143,13 +137,13 @@ class InformacionClienteController extends Controller
                 'datosParienteAsociadoPep' => null,
                 'cep' => 'S'
             ]);
-            
+
             $idCamposMinimos = DB::table('camposminimos')->insertGetId([
                 'tipoActuacion' => $request->tipoActuacionCliente,
                 'calidadActua' => $request->calidadActuaCliente,
                 'lugar' => $idLugarCamposMinimos,
                 'fecha' => $this->formatoFechaDB($request->fechaCamposMinimosCliente),
-                'cliente' => null,
+                'cliente' => $idClienteCamposMinimos,
                 'representante' => null,
                 'infoEconomica' => null,
             ]);
@@ -161,11 +155,11 @@ class InformacionClienteController extends Controller
             // something went wrong
             $respuesta = $e;
         }
-                
-       
-   
+
+        
+
        return Response()->json( $respuesta, 200 ,['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-       JSON_UNESCAPED_UNICODE);  
+       JSON_UNESCAPED_UNICODE);
     }
 
     /**

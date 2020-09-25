@@ -27,11 +27,10 @@ function cargarMunicipio(){
     $.get(`/departamentos/municipios/${event.target.value}`, function(res, sta){
       var selectHijos = $(event.target).attr('class').split(' ')[0];
       var selectActual = $(`.${selectHijos}`);
-
         $(selectActual[1]).empty();
         $(selectActual[1]).append('<option value="" disabled selected>Selecciona</option>');
         res.forEach(element => {
-          $(selectActual[1]).append(`<option value=${element.codigoMunicipio}> ${element.nombreMunicipio} </option>`);
+          $(selectActual[1]).append(`<option value=${element.idMunicipio}> ${element.nombreMunicipio} </option>`);
         });
 
     }
