@@ -48,19 +48,22 @@ function habilitaCamposPaisDepartamento() {
         //convertir el id a clase antes de obtener los selects departamento y municipio que contengan dicha clase
           var clasePais = `.${this.id.toString()}`;
           var departamentoMunicipio = $(clasePais);
-             if(this.value === 'GT'){
-                 departamentoMunicipio[0].disabled = false;
-                 departamentoMunicipio[1].disabled = false;
-                 departamentoMunicipio[2].disabled = true;
-                 departamentoMunicipio[2].value = 0;
+             if(this.value != 1 && this.value != 'GT' ){
+               departamentoMunicipio[0].disabled = true;
+               departamentoMunicipio[0].value = 0;
+               departamentoMunicipio[1].disabled = true;
+               departamentoMunicipio[1].value = 0;
                  /* hacer la implementacion de llenado de municipios por departamento*/
              }else{
-                 departamentoMunicipio[0].disabled = true;
-                 departamentoMunicipio[0].value = 0;
-                 departamentoMunicipio[1].disabled = true;
-                 departamentoMunicipio[1].value = 0;
+               
+              departamentoMunicipio[0].disabled = false;
+              departamentoMunicipio[1].disabled = false;
+              departamentoMunicipio[2].disabled = true;
+              departamentoMunicipio[2].value = 0;
+            
+  
 
-                 departamentoMunicipio[2].disabled = false;
+                 //departamentoMunicipio[2].disabled = false;
              } 
         });
       }

@@ -59,18 +59,18 @@ class InformacionClienteController extends Controller
     {
         
         $lugarCamposMinimos = array(
-            "pais" => $request->paisCamposMinimos,
-            "departamento" => $request->departamentoCamposMinimos,
-            "municipio" => $request->municipioCamposMinimos
+            "pais" => $request->paisRecidenciaCliente,
+            "departamento" => $request->departamentoNacimientoCliente,
+            "municipio" => $request->municipioNaciminentoCliente
         );
         $camposMinimos = array(
-            'tipoActuacion' => $request->tipoActuacion,
-            'calidadActua' => $request->calidadActua,
-            'lugar' => $lugarCamposMinimos,
-            'fecha' => $this->formatoFechaDB($request->fechaCamposMinimos),
-            'cliente' => $request->tipoActuacion,
-            'representante' => $request->tipoActuacion,
-            'infoEconomica' => $request->tipoActuacion,
+            'tipoActuacion' => $request->tipoActuacionCliente,
+            'calidadActua' => $request->calidadActuaCliente,
+            'lugar' =>  $lugarCamposMinimos ,
+            'fecha' => $this->formatoFechaDB($request->fechaCamposMinimosCliente),
+            'cliente' => null,
+            'representante' => null,
+            'infoEconomica' => null,
         );
 
         $diccionarioFormulario = array(
@@ -78,38 +78,93 @@ class InformacionClienteController extends Controller
             'productos' => 'dicccionario producto y servicio',
             'perfilEconomico'=> 'diccionario Perfil economico'
         );
+
+
+       /* 
+            $datosPersonalesCamposMinimosCliente = array (
+               );
+    */
+        
        
+
 
         DB::beginTransaction();
 
         try {
             //insertar lugar
-            $idLugar = DB::table('lugar')->insertGetId([
-                "pais" => $request->paisCamposMinimos,
-                "departamento" => $request->departamentoCamposMinimos,
-                "municipio" => $request->municipioCamposMinimos
+           
+            $idLugarCamposMinimos = DB::table('lugar')->insertGetId([
+                "pais" => $request->paisCamposMinimosCliente,
+                "departamento" => $request->departamentoCamposMinimosCliente,
+                "municipio" => $request->municipioCamposMinimosCliente
                 ]);
-
+            /*
+            $idLugarNacimientoCliente = DB::table('lugar')->insertGetId([
+                    "pais" => $request->paisNacimientoCliente,
+                    "departamento" => $request->departamentoNacimientoCliente,
+                    "municipio" => $request->municipioNaciminentoCliente
+                    ]);
+            $idlugarRecidenciaCliente = DB::table('lugar')->insertGetId([
+                "pais" => $request->paisRecidenciaCliente,
+                "departamento" => $request->departamentoRecidenciaCliente,
+                "municipio" => $request->municipioRecidenciaCliente
+            ]);*/
+            $idClienteCamposMinimos = DB::table('datospersonales')->insertGetID([
+                'primerApellido' => $request->primerApellidoCliente,
+                'segundoApellido' => $request->segundoApellidoCliente,
+                'apellidoCasada' => $request->apellidoCasadaCliente,
+                'primerNombre' => $request->primerNombreCliente,
+                'segundoNombre' => $request->segundoNombreCliente,
+                'otrosNombres' => $request->otrosNombresCliente,
+                'fechaNacimiento' => $this->formatoFechaDB($request->fechaNacimientoCliente),
+                // inplementar una tabla para guardar el arreglo de las nacionalidades
+                'nacionalidades' => 1,
+                'nacimiento' => 40,
+                'condicionMigratoria' => $request->condicionMigratoriaCliente,
+                'otraCondicionMigratoria' => $request->otraCondicionMigratoriacliente,
+                'sexo' => $request->sexoCliente,
+                'estadoCivil' => $request->estadoCivilCliente,
+                'profesionOficio' => $request->nitCliente,
+                'tipoDocumentoIdentificacion' => $request->tipoDoctoIdentificacionCliente,
+                'numeroDocumentoIdentificacion' =>$request->numeroDocumentoIdentificacionCliente,
+                'emisionPasaporte' => $request->emicionPasaporteCliente,
+                'nit' => $request->nitCliente,
+                /*implementar una tabla para guardar los valores del arreglo telefono,
+                 que se envia desde la vista diccionarFormulario.
+                 ,por el momento enviamos null, pero la llave es obligatoria para generar el json*/
+                'telefonos'  => null,
+                'email' => $request->emailCliente,
+                'direccionResidencia' => $request->direccionRecidenciaCliente,
+                'residencia' => 40 ,
+                //datos por default, implementa en la vista los inputs para los siguientes campos
+                'pep' => 'S',
+                'datosPep' => null,
+                'parienteAsociadoPep' => 'S',
+                'datosParienteAsociadoPep' => null,
+                'cep' => 'S'
+            ]);
+            
             $idCamposMinimos = DB::table('camposminimos')->insertGetId([
-                'tipoActuacion' => $request->tipoActuacion,
-                'calidadActua' => $request->calidadActua,
-                'lugar' => $idLugar,
-                'fecha' => $this->formatoFechaDB($request->fechaCamposMinimos),
+                'tipoActuacion' => $request->tipoActuacionCliente,
+                'calidadActua' => $request->calidadActuaCliente,
+                'lugar' => $idLugarCamposMinimos,
+                'fecha' => $this->formatoFechaDB($request->fechaCamposMinimosCliente),
                 'cliente' => null,
                 'representante' => null,
                 'infoEconomica' => null,
             ]);
-
+            $respuesta = $request;
             DB::commit();
             // all good
         } catch (\Exception $e) {
             DB::rollback();
             // something went wrong
+            $respuesta = $e;
         }
                 
-        $respuesta = $request;
-
-       return Response()->json($respuesta, 200 ,['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+       
+   
+       return Response()->json( $respuesta, 200 ,['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
        JSON_UNESCAPED_UNICODE);  
     }
 

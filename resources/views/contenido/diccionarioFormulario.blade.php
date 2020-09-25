@@ -43,11 +43,11 @@
                           </div>
 
                           <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimary1" class ="actuaNombrePropio" name="tipoActuacion" value = 'C' required checked>
+                            <input type="radio" id="radioPrimary1" class ="actuaNombrePropio" name="tipoActuacionCliente" value = 'C' required checked>
                             <label for="radioPrimary1">Sí</label>
                           </div>
                           <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimary2" class = "actuaNombrePropio" name="tipoActuacion" value = 'R' required>
+                            <input type="radio" id="radioPrimary2" class = "actuaNombrePropio" name="tipoActuacionCliente" value = 'R' required>
                             <label for="radioPrimary2">No</label>
                           </div>
 
@@ -57,7 +57,7 @@
                       <div class="col-sm-8">
                           <div class="form-group">
                             <label>Calidad con que actúa</label>
-                            <input name = "calidadActua" type="text" class="form-control actuaNombrePropio" placeholder="Calidad con que actúa ..."  maxlength="100" disabled>
+                            <input name = "calidadActuaCliente" type="text" class="form-control actuaNombrePropio" placeholder="Calidad con que actúa ..."  maxlength="100" disabled>
                           </div>
                       </div>
                     </div>
@@ -78,7 +78,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                             <label>País</label>
-                            <select name ='paisCamposMinimos' id ='paisCamposMinimos' class="pais form-control" style="width: 100%;" required>
+                            <select name ='paisCamposMinimosCliente' id ='paisCamposMinimosCliente' class="pais form-control" style="width: 100%;" required>
                               @foreach($paises as $pais)
                                 <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                               @endforeach
@@ -89,7 +89,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Departamento</label>
-                          <select name ='departamentoCamposMinimos' id ='departamentoCamposMinimos' class="paisCamposMinimos departamento form-control" style="width: 100%;" required>
+                          <select name ='departamentoCamposMinimosCliente' id ='departamentoCamposMinimosCliente' class="paisCamposMinimosCliente departamento form-control" style="width: 100%;" required>
                             <option value="" disabled selected>Selecciona</option>
                             @foreach($departamentos as $departamento)
                               <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
@@ -101,7 +101,7 @@
                       <div class="col-sm">
                           <div class="form-group">
                           <label>Municipio</label>
-                          <select name ='municipioCamposMinimos' id ='municipioCamposMinimos' class="paisCamposMinimos form-control" style="width: 100%;" required>
+                          <select name ='municipioCamposMinimosCliente' id ='municipioCamposMinimosCliente' class="paisCamposMinimosCliente form-control" style="width: 100%;" required>
                           <option value="" disabled selected>Selecciona</option>
                           </select>
                         </div>
@@ -111,7 +111,7 @@
                         <div class="form-group">
                           <label>Fecha</label>
                           <div class="input-group date" id="fechaDoc" data-target-input="nearest">
-                            <input name = "fechaCamposMinimos"type="text" class="form-control datetimepicker-input" data-target="#fechaDoc" required/>
+                            <input name = "fechaCamposMinimosCliente"type="text" class="form-control datetimepicker-input" data-target="#fechaDoc" required/>
                             <div class="input-group-append" data-target="#fechaDoc" data-toggle="datetimepicker">
                               <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -196,7 +196,7 @@
                             <label>País nacimiento</label>
                             <select name ='paisNacimientoCliente' id ='paisNacimientoCliente' class="pais form-control" style="width: 100%;">
                               @foreach($paises as $pais)
-                                <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                                <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                               @endforeach
                             </select>
                         </div>
@@ -239,7 +239,7 @@
                       <div class="col-sm">
                             <div class="form-group">
                               <label>Especifique</label>
-                              <input type="text" class="paisNacimientoCliente form-control" placeholder="Otra condición migratoria ...">
+                              <input name = "otraCondicionMigratoriacliente" type="text" class="form-control" placeholder="Otra condición migratoria ...">
                             </div>
                         </div>
                     </div>
@@ -294,7 +294,7 @@
                           </div>
                         </div>
 
-                                      <!-- select pais -->
+                      <!-- select emicion pasaporte, se envia el codigo del pais, en la tabla solo recibe el codigo de dos letras -->
                       <div class="col-sm">
                           <div class="form-group">
                             <label>País (Pasaporte)</label>
@@ -321,7 +321,7 @@
                         <div class="col-sm">
                           <div class="form-group">
                             <label>Correo electrónico</label>
-                            <input name = "emailCliente" type="text" class="form-control" placeholder="Correo electrónico ..." maxlength = "100">
+                            <input name = "emailCliente" type="email" class="form-control" placeholder="Correo electrónico ..." maxlength = "100">
                           </div>
                         </div>
                     </div>
@@ -349,10 +349,10 @@
                       <!-- select pais nacimiento Cliente -->
                       <div class="col-sm">
                           <div class="form-group">
-                            <label>País nacimiento</label>
-                            <select name ='paisRecidenciaCliente' id ='paisRecidenciaCliente' class="pais form-control" style="width: 100%;">
+                            <label>País residencia</label> 
+                            <select name ='paisRecidenciaCliente' id ='paisRecidenciaCliente' class="pais form-control" style="width: 100%;" required>
                               @foreach($paises as $pais)
-                                <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                                <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                               @endforeach
                             </select>
                         </div>
@@ -361,8 +361,8 @@
                       <!-- select departamento -->
                       <div class="col-sm">
                         <div class="form-group">
-                          <label>Departamento nacimiento</label>
-                          <select name ='departamentoNacimientoCliente' id ='departamentoNacimientoCliente' class="paisRecidenciaCliente departamento form-control" style="width: 100%;">
+                          <label>Departamento residencia</label>
+                          <select name ='departamentoRecidenciaCliente' id ='departamentoRecidenciaCliente' class="paisRecidenciaCliente departamento form-control" style="width: 100%;">
                            <option value="" disabled selected>Selecciona</option>
                            @foreach($departamentos as $departamento)
                             <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
@@ -373,8 +373,8 @@
                       <!-- select municipio -->
                       <div class="col-sm">
                         <div class="form-group">
-                          <label>Municipio nacimiento</label>
-                          <select name ='municipioNaciminentoCliente' id ='municipioNaciminentoCliente' class="paisRecidenciaCliente form-control" style="width: 100%;">
+                          <label>Municipio residencia</label>
+                          <select name ='municipioRecidenciaCliente' id ='municipioRecidenciaCliente' class="paisRecidenciaCliente form-control" style="width: 100%;">
                           <option value="" disabled selected>Selecciona</option>
                           </select>
                         </div>
