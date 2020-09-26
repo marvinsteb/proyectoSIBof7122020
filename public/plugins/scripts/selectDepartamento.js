@@ -74,9 +74,50 @@ function verificarClientePep() {
     for (let i = 0; i < radioClientePep.length; i++) {
         $(radioClientePep[i]).change(function () {
             if (this.value != "N") {
-                $(".datosPepCLiente").append("<p>Test</p>");
+                var filasDatosPepCliente = `<div class="row">
+                                                    <div class="col-sm">
+                                                    <div class="form-group">
+                                                        <label>Entidad</label>
+                                                        <input name = "entidadClientePep" type="text" class="form-control" placeholder="Entidad ..." maxlength = "400" required>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                    <div class="form-group">
+                                                        <label for="">Puesto que desempeña</label>
+                                                        <input name = "puestoDesepenia" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength = "200" required>
+                                                    </div>
+                                                    </div>
+                                                </div>                                                
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                    <div class="form-group">
+                                                        <label>País entidad</label>
+                                                        <select name ='paisEntidadPepCliente' id ='paisEntidadPepCliente' class="form-control" style="width: 100%;">
+                                                        <option value="" disabled selected>Selecciona</option>
+                                                        @foreach($paises as $pais)
+                                                        <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                                                        @endforeach
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                    <div class="form-group">
+                                                        <label>Origen o procedencia de su riqueza</label>
+                                                        <select name ='paisEntidadPepCliente' id ='paisEntidadPepCliente' class="form-control" style="width: 100%;">
+                                                        <option value="" disabled selected>Selecciona</option>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                    <div class="form-group">
+                                                        <label>Especifique</label>
+                                                        <input name = "otroOrigenRiquezaPepCliente" type="text" class="form-control" placeholder="Origen o procedencia de su riqueza ..." maxlength = "100" required>
+                                                    </div>
+                                                    </div>
+                                                </div>`;
+                $(".datosPepCliente").append(filasDatosPepCliente);
             } else {
-                $(".datosPepCLiente p").remove();
+                $(".datosPepCliente div").remove();
             }
         });
     }
