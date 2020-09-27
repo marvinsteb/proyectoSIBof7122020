@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CondicionMigratoria extends Model
 {
     use HasFactory;
-    protected $table = 'listacondicionmigratoria';
+    protected $table = 'listaCondicionMigratoria';
     protected $primaryKey = 'idListaCondicionMigratoria';
     public $timestamps = false;
     protected $fillable = 

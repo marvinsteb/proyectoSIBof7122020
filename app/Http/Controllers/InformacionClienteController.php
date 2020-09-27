@@ -39,7 +39,7 @@ class InformacionClienteController extends Controller
         $departamentos = DB::table('departamento');
         $departamentos = $departamentos->get();
 
-        $listaCondicionMigratoria = DB::table('listacondicionmigratoria');
+        $listaCondicionMigratoria = DB::table('listaCondicionMigratoria');
         $listaCondicionMigratoria = $listaCondicionMigratoria->get();
 
         return view('contenido.diccionarioFormulario',[
@@ -103,7 +103,7 @@ class InformacionClienteController extends Controller
                 "departamento" => $request->departamentoRecidenciaCliente,
                 "municipio" => $request->municipioRecidenciaCliente
             ]);
-            $idClienteCamposMinimos = DB::table('datospersonales')->insertGetID([
+            $idClienteCamposMinimos = DB::table('datosPersonales')->insertGetID([
                 'primerApellido' => $request->primerApellidoCliente,
                 'segundoApellido' => $request->segundoApellidoCliente,
                 'apellidoCasada' => $request->apellidoCasadaCliente,
@@ -138,7 +138,7 @@ class InformacionClienteController extends Controller
                 'cep' => 'S'
             ]);
 
-            $idCamposMinimos = DB::table('camposminimos')->insertGetId([
+            $idCamposMinimos = DB::table('camposMinimos')->insertGetId([
                 'tipoActuacion' => $request->tipoActuacionCliente,
                 'calidadActua' => $request->calidadActuaCliente,
                 'lugar' => $idLugarCamposMinimos,
