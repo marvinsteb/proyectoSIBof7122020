@@ -16,13 +16,14 @@ function verificaActuaNombrePropio() {
         });
     }
 }
-
-function cargarMunicipio() {
+function configurarAjax() {
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
+}
+function cargarMunicipio() {
     $(".departamento").change((event) => {
         $.get(`/departamentos/municipios/${event.target.value}`, function (
             res,
@@ -41,6 +42,9 @@ function cargarMunicipio() {
             });
         });
     });
+}
+function cargarPais() {
+    $
 }
 
 function habilitaCamposPaisDepartamento() {
@@ -68,6 +72,7 @@ function habilitaCamposPaisDepartamento() {
     }
 }
 
+
 function verificarClientePep() {
     var radioClientePep = $(".pepCliente");
     console.log(radioClientePep);
@@ -93,10 +98,7 @@ function verificarClientePep() {
                                                     <div class="form-group">
                                                         <label>País entidad</label>
                                                         <select name ='paisEntidadPepCliente' id ='paisEntidadPepCliente' class="form-control" style="width: 100%;">
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                        @foreach($paises as $pais)
-                                                        <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
-                                                        @endforeach
+                                                            <option value="" disabled selected>Selecciona</option>
                                                         </select>
                                                     </div>
                                                     </div>
@@ -125,6 +127,7 @@ function verificarClientePep() {
 
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
+    configurarAjax();
     verificaActuaNombrePropio();
     habilitaCamposPaisDepartamento();
     cargarMunicipio();

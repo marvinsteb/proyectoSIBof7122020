@@ -418,10 +418,10 @@
                     </div>
 
                     <div class="row">
-                      <div class="col-sm-4">
+                      <div class="col-sm-6">
                         <div class="form-group">
                                 <div class="icheck-primary d-inline">
-                                  <label>¿El cliente es PEP?</label>
+                                  <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
                                 </div>
 
                                 <div class="icheck-primary d-inline">
@@ -435,7 +435,53 @@
                         </div>
                       </div>
                     </div>
+
                     <div class="datosPepCliente">
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm">
+                        <div class="form-group">
+                          <div class="icheck-primary d-inline">
+                            <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
+                          </div>
+
+                          <div class="icheck-primary d-inline">
+                            <input type="radio" id="primaryParienteAsociadoPep1" class ="parienteAsociadoPepCliente" name="parienteAsociadoPepCliente" value = 'S' required>
+                            <label for="primaryParienteAsociadoPep1">Sí</label>
+                          </div>
+                          <div class="icheck-primary d-inline">
+                            <input type="radio" id="primaryParienteAsociadoPepCliente2" class = "parienteAsociadoPepCliente" name="parienteAsociadoPepCliente" value = 'N' required>
+                            <label for="primaryParienteAsociadoPepCliente2">No</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="datosParienteAsociadoPep">
+                      <div class="row">
+                        <div class="col-sm-2">
+                          <div class="form-group">
+                            <label for="parentescoParienteAsociadoPepCliente">Parentesco</label>
+                            <select name ='parentescoParienteAsociadoPepCliente' id ='parentescoParienteAsociadoPepCliente' class="setParienteAsociadoPep form-control" style="width: 100%;" required>
+                            <option value="" disabled selected>Selecciona</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                          <label for="otroParentesco">Especifique</label>
+                            <input name = "otroParentesco" type="text" class ="form-control" placeholder="Especifique ..." maxlength = "100" required>
+                          </div>
+                        </div>
+
+                        <div class="col-sm">
+                          <div class="form-group">
+                          <label for="motivoAsociacion">Motivo asociación</label>
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
 
