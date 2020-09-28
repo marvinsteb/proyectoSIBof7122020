@@ -283,7 +283,7 @@
                             <div class="form-group">
                                 <label>Otros nombre</label>
                                 <input
-                                    name="otrosNombresCliente "
+                                    name="otrosNombresCliente"
                                     type="text"
                                     class="form-control"
                                     placeholder="Otros nombres ..."
