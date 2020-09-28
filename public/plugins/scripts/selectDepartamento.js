@@ -1,6 +1,5 @@
 function verificaActuaNombrePropio() {
     var elementoActuaNomprePropio = $(".actuaNombrePropio");
-    console.log(elementoActuaNomprePropio);
     for (var i = 0; i < elementoActuaNomprePropio.length - 1; i++) {
         $(elementoActuaNomprePropio[i]).change(function () {
             if (this.value === "C") {
@@ -44,7 +43,7 @@ function cargarMunicipio() {
     });
 }
 function cargarPais() {
-    $
+    $;
 }
 
 function habilitaCamposPaisDepartamento() {
@@ -72,10 +71,8 @@ function habilitaCamposPaisDepartamento() {
     }
 }
 
-
 function verificarClientePep() {
     var radioClientePep = $(".pepCliente");
-    console.log(radioClientePep);
     for (let i = 0; i < radioClientePep.length; i++) {
         $(radioClientePep[i]).change(function () {
             if (this.value != "N") {
@@ -125,6 +122,237 @@ function verificarClientePep() {
     }
 }
 
+function verificarAsoPep() {
+    var camposAsocPep = `<div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label for="parentescoPaAsPepCliente"
+                                        >Parentesco</label
+                                    >
+                                    <select
+                                        name="parentescoPaAsPepCliente"
+                                        id="parentescoPaAsPepCliente"
+                                        class="setPaAsPep form-control"
+                                        style="width: 100%"
+                                        required
+                                    >
+                                        <option value="" disabled selected>
+                                            Selecciona
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="otroParentescoPaAsPepCliente"
+                                        >Especifique</label
+                                    >
+                                    <input
+                                        name="otroParentescoPaAsPepCliente"
+                                        id="otroParentescoPaAsPepCliente"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Especifique ..."
+                                        maxlength="100"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="motivoAsociacion"
+                                        >Motivo asociación</label
+                                    >
+                                    <select
+                                        name="motivoAsociacionPaAsPepCliente"
+                                        id="motivoAsociacionPaPepCliente"
+                                        class="setPaAsPep form-control"
+                                        style="width: 100%"
+                                        required
+                                    >
+                                        <option value="" disabled selected>
+                                            Selecciona
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label for="sexoPaAsPepCliente">Sexo</label>
+                                    <select
+                                        name="sexoPaAsPepCliente"
+                                        id="sexoPaAsPepCliente"
+                                        class="form-control"
+                                        style="width: 100%"
+                                        required
+                                    >
+                                        <option value="" disabled selected>
+                                            Selecciona
+                                        </option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Femenino</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col sm-2">
+                                <div class="form-group">
+                                    <label for="condicionPaAsPepCliente"
+                                        >Condición</label
+                                    >
+                                    <select
+                                        name="condicionPaAsPepCliente"
+                                        id="condicionPaAsPepCliente"
+                                        class="form-control"
+                                        style="width: 100%"
+                                        required
+                                    >
+                                        <option value="">Selecciona</option>
+                                        <option value="N">Nacional</option>
+                                        <option value="E">Extranjero</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--.row-->
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label>Primer Apellido</label>
+                                    <input
+                                        name="primerApellidoPaAsPepCliente"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Primer Apellido ..."
+                                        maxlength="15"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label>Segundo apellido</label>
+                                    <!-- la llave es obligatoria, pero consignar SOA si no aplica -->
+                                    <input
+                                        name="segundoApellidoPaAsPepCliente"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Segundo apellido ..."
+                                        maxlength="15"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label>Apellido casada</label>
+                                    <!-- no anteponer de al apellido -->
+                                    <input
+                                        name="apellidoCasadaPaAsPepCliente"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Apellido casada ..."
+                                        maxlength="15"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label>Primer nombre</label>
+                                    <input
+                                        name="primerNombrePaAsPepCliente"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Primer nombre ..."
+                                        maxlength="15"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label>Segundo nombre</label>
+                                    <!-- la llave es obligatoria, si no aplica consignar SON -->
+                                    <input
+                                        name="segundoNombrePaAsPepCliente"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Segundo nombre ..."
+                                        maxlength="15"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label>Otros nombre</label>
+                                    <input
+                                        name="otrosNombresPaAsPepCliente "
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Otros nombres ..."
+                                        maxlength="30"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="">Entidad</label>
+                                    <input
+                                        name="entidadPaAsPepCliente"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Entidad ..."
+                                        maxlength="400"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="">Puesto que desempeña</label>
+                                    <input
+                                        name="puestoDesempeniaPaAsPepCliente"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Puesto que desempeña ..."
+                                        maxlength="200"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="paisEntidadPaAsPepCliente"
+                                        >País de la institución o entidad</label
+                                    >
+                                    <select
+                                        name="paisEntidadPaAsPepCliente"
+                                        id="paisEntidadPaAsPepCliente"
+                                        class="form-control"
+                                        style="width: 100%"
+                                    >
+                                        <option value="">Selecciona</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>`;
+
+    var asoPepCliente = $(".asoPepCliente");
+    for (let i = 0; i < asoPepCliente.length; i++) {
+        $(asoPepCliente[i]).change(function () {
+            if (this.value != "N") {
+                $(".datosAsoPep").append(camposAsocPep);
+            } else {
+                $(".datosAsoPep div").remove();
+            }
+        });
+    }
+}
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
     configurarAjax();
@@ -132,4 +360,5 @@ $(document).ready(function () {
     habilitaCamposPaisDepartamento();
     cargarMunicipio();
     verificarClientePep();
+    verificarAsoPep();
 });
