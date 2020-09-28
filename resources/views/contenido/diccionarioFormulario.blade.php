@@ -717,6 +717,41 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="icheck-primary d-inline">
+                                    <label for=""
+                                        >¿El cliente es Contratista y Proveedor
+                                        del Estado (CPE)?</label
+                                    >
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input
+                                        type="radio"
+                                        id="primaryCpeCliente1"
+                                        class="cpeCliente"
+                                        name="cpeCliente"
+                                        value="S"
+                                        required
+                                    />
+                                    <label for="primaryCpeCliente1">Sí</label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input
+                                        type="radio"
+                                        id="primaryCpeCliente2"
+                                        class="cpeCliente"
+                                        name="cpeCliente"
+                                        value="N"
+                                        required
+                                    />
+                                    <label for="primaryCpeCliente2">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="icheck-primary d-inline">
                                     <label
                                         >¿El cliente es una Persona Expuesta
                                         Políticamente (PEP)?</label
@@ -891,7 +926,7 @@
                                 <div class="form-group">
                                     <label>Primer Apellido</label>
                                     <input
-                                        name="primerApellidoCliente"
+                                        name="primerApellidoPaAsPepCliente"
                                         type="text"
                                         class="form-control"
                                         placeholder="Primer Apellido ..."
@@ -905,7 +940,7 @@
                                     <label>Segundo apellido</label>
                                     <!-- la llave es obligatoria, pero consignar SOA si no aplica -->
                                     <input
-                                        name="segundoApellidoCliente"
+                                        name="segundoApellidoPaAsPepCliente"
                                         type="text"
                                         class="form-control"
                                         placeholder="Segundo apellido ..."
@@ -918,7 +953,7 @@
                                     <label>Apellido casada</label>
                                     <!-- no anteponer de al apellido -->
                                     <input
-                                        name="apellidoCasadaCliente"
+                                        name="apellidoCasadaPaAsPepCliente"
                                         type="text"
                                         class="form-control"
                                         placeholder="Apellido casada ..."
@@ -930,7 +965,7 @@
                                 <div class="form-group">
                                     <label>Primer nombre</label>
                                     <input
-                                        name="primerNombreCliente"
+                                        name="primerNombrePaAsPepCliente"
                                         type="text"
                                         class="form-control"
                                         placeholder="Primer nombre ..."
@@ -944,7 +979,7 @@
                                     <label>Segundo nombre</label>
                                     <!-- la llave es obligatoria, si no aplica consignar SON -->
                                     <input
-                                        name="segundoNombreCliente"
+                                        name="segundoNombrePaAsPepCliente"
                                         type="text"
                                         class="form-control"
                                         placeholder="Segundo nombre ..."
@@ -956,7 +991,7 @@
                                 <div class="form-group">
                                     <label>Otros nombre</label>
                                     <input
-                                        name="otrosNombresCliente "
+                                        name="otrosNombresPaAsPepCliente "
                                         type="text"
                                         class="form-control"
                                         placeholder="Otros nombres ..."
@@ -966,8 +1001,51 @@
                             </div>
                         </div>
                         <!-- .row -->
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="">Entidad</label>
+                                    <input
+                                        name="entidadPaAsPepCliente"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Entidad ..."
+                                        maxlength="400"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="">Puesto que desempeña</label>
+                                    <input
+                                        name="puestoDesempeniaPaAsPepCliente"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Puesto que desempeña ..."
+                                        maxlength="200"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="paisEntidadPaAsPepCliente"
+                                        >País de la institución o entidad</label
+                                    >
+                                    <select
+                                        name="paisEntidadPaAsPepCliente"
+                                        id="paisEntidadPaAsPepCliente"
+                                        class="form-control"
+                                        style="width: 100%"
+                                    >
+                                        <option value="">Selecciona</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- .datosParientePep -->
+                    <!-- .datosPaAsPep -->
 
                     <button type="submit" class="btn btn-primary form-control">
                         Guardar Titular
