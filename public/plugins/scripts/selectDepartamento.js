@@ -42,11 +42,14 @@ function cargarMunicipio() {
         });
     });
 }
-function cargarPais() {
-    $;
+function getPaises(callbak) {
+    // implementa cargar pais
+    $.get(`/pais/obtenerpaises`, function (res, sta) {
+        callbak(res);
+    });
 }
 
-function habilitaCamposPaisDepartamento() {
+function habilitaCampoDepartamento() {
     var selectPais = $(".pais");
     for (var i = 0; i < selectPais.length; i++) {
         $(selectPais[i]).change(function () {
@@ -80,21 +83,21 @@ function verificarClientePep() {
                                                     <div class="col-sm">
                                                     <div class="form-group">
                                                         <label>Entidad</label>
-                                                        <input name = "entidadClientePep" type="text" class="form-control" placeholder="Entidad ..." maxlength = "400" required>
+                                                        <input name="entidadClientePep" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required>
                                                     </div>
                                                     </div>
                                                     <div class="col-sm">
                                                     <div class="form-group">
                                                         <label for="">Puesto que desempeña</label>
-                                                        <input name = "puestoDesepenia" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength = "200" required>
+                                                        <input name="puestoDesepenia" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required>
                                                     </div>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-sm">
                                                     <div class="form-group">
                                                         <label>País entidad</label>
-                                                        <select name ='paisEntidadPepCliente' id ='paisEntidadPepCliente' class="form-control" style="width: 100%;">
+                                                        <select name="paisEntidadPepCliente" id="paisEntidadPepCliente" class="form-control" style="width: 100%;">
                                                             <option value="" disabled selected>Selecciona</option>
                                                         </select>
                                                     </div>
@@ -102,7 +105,7 @@ function verificarClientePep() {
                                                     <div class="col-sm">
                                                     <div class="form-group">
                                                         <label>Origen o procedencia de su riqueza</label>
-                                                        <select name ='paisEntidadPepCliente' id ='paisEntidadPepCliente' class="form-control" style="width: 100%;">
+                                                        <select name="origenRiquezaPepCliente" id="origenRiquezaPepCliente" class="form-control" style="width: 100%;">
                                                         <option value="" disabled selected>Selecciona</option>
                                                         </select>
                                                     </div>
@@ -110,11 +113,18 @@ function verificarClientePep() {
                                                     <div class="col-sm">
                                                     <div class="form-group">
                                                         <label>Especifique</label>
-                                                        <input name = "otroOrigenRiquezaPepCliente" type="text" class="form-control" placeholder="Origen o procedencia de su riqueza ..." maxlength = "100" required>
+                                                        <input name="otroOrigenRiquezaPepCliente" type="text" class="form-control" placeholder="Origen o procedencia de su riqueza ..." maxlength="100" required>
                                                     </div>
                                                     </div>
                                                 </div>`;
                 $(".datosPepCliente").append(filasDatosPepCliente);
+                getPaises(function (element) {
+                    element.forEach(function (pais) {
+                        $("#paisEntidadPepCliente").append(
+                            `<option value=${pais.codigoPais}> ${pais.nombrePais} </option>`
+                        );
+                    });
+                });
             } else {
                 $(".datosPepCliente div").remove();
             }
@@ -123,7 +133,10 @@ function verificarClientePep() {
 }
 
 function verificarAsoPep() {
-    var camposAsocPep = `<div class="row">
+    var asoPepCliente = $(".asoPepCliente");
+    for (let i = 0; i < asoPepCliente.length; i++) {
+        $(asoPepCliente[i]).change(function () {
+            var camposAsocPep = `<div class="row">
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label for="parentescoPaAsPepCliente"
@@ -341,10 +354,6 @@ function verificarAsoPep() {
                                 </div>
                             </div>
                         </div>`;
-
-    var asoPepCliente = $(".asoPepCliente");
-    for (let i = 0; i < asoPepCliente.length; i++) {
-        $(asoPepCliente[i]).change(function () {
             if (this.value != "N") {
                 $(".datosAsoPep").append(camposAsocPep);
             } else {
@@ -357,7 +366,7 @@ $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
     configurarAjax();
     verificaActuaNombrePropio();
-    habilitaCamposPaisDepartamento();
+    habilitaCampoDepartamento();
     cargarMunicipio();
     verificarClientePep();
     verificarAsoPep();

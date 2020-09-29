@@ -79,12 +79,24 @@ class InformacionClienteController extends Controller
             'perfilEconomico'=> 'diccionario Perfil economico'
         );
 
+        $datosPepCliente = array();
+                    if($request->pepCliente = 'S'){
+                        $datosPepCliente['entidad'] =  $request->entidadClientePep;
+                        $datosPepCliente['puestoDesempenia'] =  $request->puestoDesepenia;
+                        $datosPepCliente['pais'] =  $request->paisEntidadPepCliente;
+                        $datosPepCliente['origenRiqueza'] =  $request->entidadClientePep;
+                        $datosPepCliente['otroOrigenRiqueza'] =  $request->otroOrigenRiquezaPepCliente;
+                    } else {
+                        $datosPepCliente = null;
+                    }
 
 
 
         DB::beginTransaction();
 
         try {
+            // datos pep
+         
             //insertar lugar
 
             $idLugarCamposMinimos = DB::table('lugar')->insertGetId([
@@ -131,11 +143,11 @@ class InformacionClienteController extends Controller
                 'direccionResidencia' => $request->direccionRecidenciaCliente,
                 'residencia' => $idlugarRecidenciaCliente ,
                 //datos por default, implementa en la vista los inputs para los siguientes campos
-                'pep' => 'S',
+                'pep' => $request->pepCliente,
                 'datosPep' => null,
-                'parienteAsociadoPep' => 'S',
+                'parienteAsociadoPep' => $request->asoPepCliente,
                 'datosParienteAsociadoPep' => null,
-                'cep' => 'S'
+                'cpe' => $request->cpeCliente
             ]);
 
             $idCamposMinimos = DB::table('camposminimos')->insertGetId([
@@ -158,7 +170,7 @@ class InformacionClienteController extends Controller
 
         
 
-       return Response()->json( $request, 200 ,['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+       return Response()->json($datosPepCliente, 200 ,['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
        JSON_UNESCAPED_UNICODE);
     }
 
