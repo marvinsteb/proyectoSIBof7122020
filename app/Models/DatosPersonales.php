@@ -42,7 +42,7 @@ class DatosPersonales extends Model
         'datosPep',
         'parienteAsociadoPep',
         'datosParienteAsociadoPep',
-        'cep'
+        'cpe'
     ];
 
 }
