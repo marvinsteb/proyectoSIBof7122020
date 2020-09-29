@@ -370,8 +370,17 @@ function verificarAsoPep() {
         });
     }
 }
+function setFormatoFecha() {
+    var divInputFecha = $(".date");
+    for (let i = 0; i < divInputFecha.length; i++) {
+        $(divInputFecha[i]).datetimepicker({
+            format: "DD/MM/YYYY",
+        });
+    }
+}
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
+    setFormatoFecha();
     cargarMunicipio();
     configurarAjax();
     verificaActuaNombrePropio();

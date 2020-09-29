@@ -136,15 +136,7 @@
     })
 
     
-    $('#fechaDoc').datetimepicker({
-        format: 'L'
-    })
-
-    $('#fechaNacimiento').datetimepicker({
-        format: 'L'
-    })
-
-    
+   
 
 
   })
