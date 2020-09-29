@@ -16,14 +16,12 @@ class InformacionClienteController extends Controller
 
     public function formatoFechaDB($fecha)
     {
-        $fechaFormateada = Carbon::parse($fecha);
-        return $fechaFormateada->format('Y-m-d');
+         $fechaFormateada = Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
+        return $fechaFormateada;
     }
     public function index()
     {
-        $departamentos = DB::table('departamento');
-        $departamentos = $departamentos->get();
-        return view('contenido.oficioive7122020',['departamentos' => $departamentos]);
+        return view('contenido.oficioive7122020');
     }
 
     /**
@@ -57,45 +55,23 @@ class InformacionClienteController extends Controller
      */
     public function store(Request $request)
     {
-
-        $lugarCamposMinimos = array(
-             "pais" => $request->paisCamposMinimosCliente,
-             "departamento" => $request->departamentoCamposMinimosCliente,
-             "municipio" => $request->municipioCamposMinimosCliente
-        );
-        $camposMinimos = array(
-            'tipoActuacion' => $request->tipoActuacionCliente,
-            'calidadActua' => $request->calidadActuaCliente,
-            'lugar' =>  $lugarCamposMinimos ,
-            'fecha' => $this->formatoFechaDB($request->fechaCamposMinimosCliente),
-            'cliente' => null,
-            'representante' => null,
-            'infoEconomica' => null,
-        );
-
-        $diccionarioFormulario = array(
-            'titulares' => $camposMinimos,
-            'productos' => 'dicccionario producto y servicio',
-            'perfilEconomico'=> 'diccionario Perfil economico'
-        );
-
-        $datosPepCliente = array();
-                    if($request->pepCliente = 'S'){
-                        $datosPepCliente['entidad'] =  $request->entidadClientePep;
-                        $datosPepCliente['puestoDesempenia'] =  $request->puestoDesepenia;
-                        $datosPepCliente['pais'] =  $request->paisEntidadPepCliente;
-                        $datosPepCliente['origenRiqueza'] =  $request->entidadClientePep;
-                        $datosPepCliente['otroOrigenRiqueza'] =  $request->otroOrigenRiquezaPepCliente;
-                    } else {
-                        $datosPepCliente = null;
-                    }
-
-
-
         DB::beginTransaction();
-
         try {
             // datos pep
+            $idDatosPepCliente;
+            if($request->pepCliente == 'S'){
+                $datosPepCliente = array();
+
+                $datosPepCliente['entidad'] =  $request->entidadClientePep;
+                $datosPepCliente['puestoDesempenia'] =  $request->puestoDesepenia;
+                $datosPepCliente['pais'] =  $request->paisEntidadPepCliente;
+                $datosPepCliente['origenRiqueza'] =  $request->origenRiquezaPepCliente;
+                $datosPepCliente['otroOrigenRiqueza'] =  $request->otroOrigenRiquezaPepCliente;
+                $idDatosPepCliente = DB::table('datospep')->insertGetID($datosPepCliente);
+            } else {
+                $idDatosPepCliente = null;
+            }
+
          
             //insertar lugar
 
@@ -144,7 +120,7 @@ class InformacionClienteController extends Controller
                 'residencia' => $idlugarRecidenciaCliente ,
                 //datos por default, implementa en la vista los inputs para los siguientes campos
                 'pep' => $request->pepCliente,
-                'datosPep' => null,
+                'datosPep' => $idDatosPepCliente,
                 'parienteAsociadoPep' => $request->asoPepCliente,
                 'datosParienteAsociadoPep' => null,
                 'cpe' => $request->cpeCliente
@@ -170,7 +146,7 @@ class InformacionClienteController extends Controller
 
         
 
-       return Response()->json($datosPepCliente, 200 ,['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+       return Response()->json($respuesta, 200 ,['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
        JSON_UNESCAPED_UNICODE);
     }
 

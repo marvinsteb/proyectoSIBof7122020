@@ -106,7 +106,15 @@ function verificarClientePep() {
                                                     <div class="form-group">
                                                         <label>Origen o procedencia de su riqueza</label>
                                                         <select name="origenRiquezaPepCliente" id="origenRiquezaPepCliente" class="form-control" style="width: 100%;">
-                                                        <option value="" disabled selected>Selecciona</option>
+                                                            <option value="" disabled selected>Selecciona</option>
+                                                            <option value="1"> Bienes muebles e inmuebles por herencia</option>
+                                                            <option value="2"> Bienes muebles e inmuebles</option>
+                                                            <option value="3"> Negocio propio</option>
+                                                            <option value="4"> Servicios profesionales</option>
+                                                            <option value="5"> Préstamos bancarios</option>
+                                                            <option value="6"> Trabajos anteriores</option>
+                                                            <option value="7"> Trabajo actual</option>
+                                                            <option value="8"> otro</option>
                                                         </select>
                                                     </div>
                                                     </div>
@@ -121,7 +129,7 @@ function verificarClientePep() {
                 getPaises(function (element) {
                     element.forEach(function (pais) {
                         $("#paisEntidadPepCliente").append(
-                            `<option value=${pais.codigoPais}> ${pais.nombrePais} </option>`
+                            `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
                         );
                     });
                 });
@@ -362,12 +370,21 @@ function verificarAsoPep() {
         });
     }
 }
+function setFormatoFecha() {
+    var divInputFecha = $(".date");
+    for (let i = 0; i < divInputFecha.length; i++) {
+        $(divInputFecha[i]).datetimepicker({
+            format: "DD/MM/YYYY",
+        });
+    }
+}
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
+    setFormatoFecha();
+    cargarMunicipio();
     configurarAjax();
     verificaActuaNombrePropio();
     habilitaCampoDepartamento();
-    cargarMunicipio();
     verificarClientePep();
     verificarAsoPep();
 });
