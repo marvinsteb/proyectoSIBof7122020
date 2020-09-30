@@ -378,6 +378,26 @@ function setFormatoFecha() {
         });
     }
 }
+function agregaNacionalidadCLiente() {
+    $("#agregarNacionalidaCliente").click(function () {
+        var idPare = $(this).parent().parent().attr("id");
+        console.log(`#${idPare}:nth-last-child(2)`);
+        $(`#${idPare}>div:nth-last-child(2)`).after(
+            `<div class='form-group'>
+                <div class="row">
+                    <div class="col-sm">
+                        <select name="nacionalidadCliente" class="form-control" style="width: 100%">
+                            <option value="" disabled selected>Selecciona</option>
+                        </select>
+                    </div>
+                    <div class="col-sm my-auto">
+                        <button type="button" class="btn btn-danger">borrar</button>
+                    </div>
+                </div>
+            </div>`
+        );
+    });
+}
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
     setFormatoFecha();
@@ -387,4 +407,5 @@ $(document).ready(function () {
     habilitaCampoDepartamento();
     verificarClientePep();
     verificarAsoPep();
+    agregaNacionalidadCLiente();
 });

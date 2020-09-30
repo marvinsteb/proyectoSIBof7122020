@@ -649,41 +649,41 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-6 nacionalidad">
+                        <div class="col-sm" id="nacionalidadCliente">
                             <div class="form-group">
-                                <label>Nacionalidad</label>
-                                <select
-                                    name="emicionPasaporteCliente"
-                                    id="emicionPasaporteCliente"
-                                    class="form-control"
-                                    style="width: 100%"
-                                >
-                                    <option value="" disabled selected>
-                                        Selecciona
-                                    </option>
-                                    @foreach($paises as $pais)
-                                    <option value="{{$pais->codigoPais}}">
-                                        {{$pais->nombrePais}}
-                                    </option>
-                                    @endforeach
-                                </select>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <label>Nacionalidad</label>
+                                        <select
+                                            name="nacionalidadCliente"
+                                            id="nacionalida1Cliente"
+                                            class="form-control"
+                                            style="width: 100%"
+                                            required
+                                        >
+                                            <option value="" disabled selected>
+                                                Selecciona
+                                            </option>
+                                            @foreach($paises as $pais)
+                                            <option
+                                                value="{{$pais->codigoPais}}"
+                                            >
+                                                {{$pais->nombrePais}}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm my-auto pt-2"></div>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <select
-                                    name="emicionPasaporteCliente"
-                                    id="emicionPasaporteCliente"
-                                    class="form-control"
-                                    style="width: 100%"
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    id="agregarNacionalidaCliente"
                                 >
-                                    <option value="" disabled selected>
-                                        Selecciona
-                                    </option>
-                                    @foreach($paises as $pais)
-                                    <option value="{{$pais->codigoPais}}">
-                                        {{$pais->nombrePais}}
-                                    </option>
-                                    @endforeach
-                                </select>
+                                    Agregar Nacionalidad
+                                </button>
                             </div>
                         </div>
                         <!-- .nacionalidad -->
