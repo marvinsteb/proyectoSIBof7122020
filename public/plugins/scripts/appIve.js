@@ -1,3 +1,11 @@
+function setFormatoFecha() {
+    var divInputFecha = $(".date");
+    for (let i = 0; i < divInputFecha.length; i++) {
+        $(divInputFecha[i]).datetimepicker({
+            format: "DD/MM/YYYY",
+        });
+    }
+}
 function verificaActuaNombrePropio() {
     var elementoActuaNomprePropio = $(".actuaNombrePropio");
     for (var i = 0; i < elementoActuaNomprePropio.length - 1; i++) {
@@ -48,7 +56,6 @@ function getPaises(callbak) {
         callbak(res);
     });
 }
-
 function habilitaCampoDepartamento() {
     var selectPais = $(".pais");
     for (var i = 0; i < selectPais.length; i++) {
@@ -73,7 +80,6 @@ function habilitaCampoDepartamento() {
         });
     }
 }
-
 function verificarClientePep() {
     var radioClientePep = $(".pepCliente");
     for (let i = 0; i < radioClientePep.length; i++) {
@@ -139,7 +145,6 @@ function verificarClientePep() {
         });
     }
 }
-
 function verificarAsoPep() {
     var asoPepCliente = $(".asoPepCliente");
     for (let i = 0; i < asoPepCliente.length; i++) {
@@ -370,14 +375,6 @@ function verificarAsoPep() {
         });
     }
 }
-function setFormatoFecha() {
-    var divInputFecha = $(".date");
-    for (let i = 0; i < divInputFecha.length; i++) {
-        $(divInputFecha[i]).datetimepicker({
-            format: "DD/MM/YYYY",
-        });
-    }
-}
 function botonEliminarNacionalidad() {
     var btnEliminar = $(".btnBorrarNacionalidadCliente");
     console.log(btnEliminar);
@@ -389,7 +386,7 @@ function agregaNacionalidadCLiente() {
             `<div class='form-group'>
                 <div class="row">
                     <div class="col-sm">
-                        <select name="nacionalidadCliente" class="form-control" style="width: 100%" required>
+                        <select name="nacionalidadCliente" class="form-control setPais" style="width: 100%" required>
                             <option value="" disabled selected>Selecciona</option>
                         </select>
                     </div>
@@ -404,13 +401,21 @@ function agregaNacionalidadCLiente() {
             .click(function () {
                 $(this).parent().parent().remove();
             });
+        getPaises(function (reqPais) {
+            reqPais.forEach(function (pais) {
+                $(".setPais").append(
+                    `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
+                );
+            });
+            $(".setPais").removeClass("setPais");
+        });
     });
 }
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
     setFormatoFecha();
-    cargarMunicipio();
     configurarAjax();
+    cargarMunicipio();
     verificaActuaNombrePropio();
     habilitaCampoDepartamento();
     verificarClientePep();
