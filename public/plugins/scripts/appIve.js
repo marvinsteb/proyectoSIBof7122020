@@ -378,24 +378,32 @@ function setFormatoFecha() {
         });
     }
 }
+function botonEliminarNacionalidad() {
+    var btnEliminar = $(".btnBorrarNacionalidadCliente");
+    console.log(btnEliminar);
+}
 function agregaNacionalidadCLiente() {
     $("#agregarNacionalidaCliente").click(function () {
         var idPare = $(this).parent().parent().attr("id");
-        console.log(`#${idPare}:nth-last-child(2)`);
         $(`#${idPare}>div:nth-last-child(2)`).after(
             `<div class='form-group'>
                 <div class="row">
                     <div class="col-sm">
-                        <select name="nacionalidadCliente" class="form-control" style="width: 100%">
+                        <select name="nacionalidadCliente" class="form-control" style="width: 100%" required>
                             <option value="" disabled selected>Selecciona</option>
                         </select>
                     </div>
                     <div class="col-sm my-auto">
-                        <button type="button" class="btn btn-danger">borrar</button>
+                        <button type="button" class="btn btn-danger btnBorrarNacionalidadCliente">borrar</button>
                     </div>
                 </div>
             </div>`
         );
+        $(`#${idPare}>div.form-group>div.row`)
+            .find("button")
+            .click(function () {
+                $(this).parent().parent().remove();
+            });
     });
 }
 $(document).ready(function () {
