@@ -375,10 +375,6 @@ function verificarAsoPep() {
         });
     }
 }
-function botonEliminarNacionalidad() {
-    var btnEliminar = $(".btnBorrarNacionalidadCliente");
-    console.log(btnEliminar);
-}
 function agregaNacionalidadCLiente() {
     $("#agregarNacionalidaCliente").click(function () {
         var idPare = $(this).parent().parent().attr("id");
@@ -391,7 +387,7 @@ function agregaNacionalidadCLiente() {
                         </select>
                     </div>
                     <div class="col-sm my-auto">
-                        <button type="button" class="btn btn-danger btnBorrarNacionalidadCliente">borrar</button>
+                        <button type="button" class="btn btn-danger">borrar</button>
                     </div>
                 </div>
             </div>`
@@ -411,6 +407,42 @@ function agregaNacionalidadCLiente() {
         });
     });
 }
+
+function agregarNumeroCliente() {
+    $("#agregarTelefonoCliente").click(function () {
+        var idDivPare = $(this).parent().parent().parent().attr("id");
+        $(`#${idDivPare}>div:nth-last-child(2)`).after(`
+         <div class="form-group">
+            <div class="row">
+                <div class="col-sm">
+                    <input
+                    name="telefonoCliente"
+                    type="text"
+                    class="form-control"
+                    placeholder="telefono ..."
+                    maxlength="30"
+                    required
+                    />
+                </div>
+                <div class="col-sm my-auto">
+                    <button
+                    type="button"
+                    class="btn btn-danger"
+                    >
+                    borrar
+                    </button>
+                </div>
+            </div>
+         </div
+        `);
+        $(`#${idDivPare}>div.form-group>div.row`)
+            .find("button")
+            .click(function () {
+                console.log($(this).parent().parent().parent().remove());
+            });
+    });
+}
+
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
     setFormatoFecha();
@@ -421,4 +453,5 @@ $(document).ready(function () {
     verificarClientePep();
     verificarAsoPep();
     agregaNacionalidadCLiente();
+    agregarNumeroCliente();
 });

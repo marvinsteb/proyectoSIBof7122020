@@ -687,27 +687,31 @@
                             </div>
                         </div>
                         <!-- .nacionalidad -->
-                        <div class="col-sm-6 telefono">
+                        <div class="col-sm" id="telefonosCliente">
                             <div class="form-group">
-                                <label>Telefonos:</label>
-                                <div class="form-group">
-                                    <input
-                                        name="telefonoCliente"
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="telefono ..."
-                                        maxlength="30"
-                                    />
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <label>Telefonos:</label>
+                                        <input
+                                            name="telefonoCliente"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="telefono ..."
+                                            maxlength="30"
+                                            required
+                                        />
+                                    </div>
+                                    <div class="col-sm"></div>
                                 </div>
-                                <div class="form-group">
-                                    <input
-                                        name="telefonoCliente"
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="telefono ..."
-                                        maxlength="30"
-                                    />
-                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    id="agregarTelefonoCliente"
+                                >
+                                    Agregar teléfono
+                                </button>
                             </div>
                         </div>
                         <!-- .telefono -->
