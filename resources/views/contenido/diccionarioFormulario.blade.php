@@ -41,7 +41,7 @@
                 <!-- /.card-header -->
     
     
-                    <div class="card-body">
+                <div class="card-body">
                         <!-- I. TIPO DE ACTUACIÓN DEL CLIENTE -->
                         <div class="row">
                             <h4>I. TIPO DE ACTUACIÓN DEL CLIENTE</h4>
@@ -836,21 +836,58 @@
     
                         <div class="datosAsoPep"></div>
                         <!-- .datosPaAsPep -->
-    
-                        <button type="submit" class="btn btn-primary form-control">
-                            Guardar Titular
-                        </button>
-                    </div>
+                </div>
                     <!-- /.card-body -->
             </div>
         </div>
-        <button class="btn btn-success">Agregar Titular</button>
-        <div class="productoServicio">
+        <div class="row">
+            <div class="col clearfix">
+                <button class="btn btn-success float-right mb-4">Agregar Titular</button>
+            </div>
         </div>
-        <button class="btn btn-success">Agregar Producto y/o servicio</button>
-        <div class="perfilEconomicoTransaccional">
 
+        <div class="productoServicio">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Productos y/o servicios</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body"></div>
+                <!-- /.card-body -->
+            </div>
         </div>
+        <div class="row">
+            <div class="col clearfix">
+                <button class="btn btn-success float-right">Agregar Producto y/o servicio</button>
+            </div>
+        </div>
+        <div class="perfilEconomicoTransaccional">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Perfil económico y transaccional</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body"></div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    <button type="submit" class="btn btn-primary form-control mt-5">Guardar formulario</button>
     </form>
     </div>
     <!--/.container-fluid -->
