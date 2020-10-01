@@ -395,7 +395,7 @@ function agregaNacionalidadCLiente() {
         $(`#${idPare}>div.form-group>div.row`)
             .find("button")
             .click(function () {
-                $(this).parent().parent().remove();
+                $(this).parent().parent().parent().remove();
             });
         getPaises(function (reqPais) {
             reqPais.forEach(function (pais) {
@@ -410,7 +410,7 @@ function agregaNacionalidadCLiente() {
 
 function agregarNumeroCliente() {
     $("#agregarTelefonoCliente").click(function () {
-        var idDivPare = $(this).parent().parent().parent().attr("id");
+        var idDivPare = $(this).parent().parent().attr("id");
         $(`#${idDivPare}>div:nth-last-child(2)`).after(`
          <div class="form-group">
             <div class="row">
