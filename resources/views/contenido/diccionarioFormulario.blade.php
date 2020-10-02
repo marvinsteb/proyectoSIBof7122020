@@ -12,36 +12,34 @@
 </section>
 <!-- Main content -->
 <section class="content">
-
     <div class="container-fluid">
-    <form action="guardarActualizar" method="post"></form>
-    @csrf
-        <!-- datos titular -->
-        <div class="titulares">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Titular 1</h3>
-                    <div class="card-tools">
-                        <button
-                            type="button"
-                            class="btn btn-tool"
-                            data-card-widget="collapse"
-                        >
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-tool"
-                            data-card-widget="remove"
-                        >
-                            <i class="fas fa-times"></i>
-                        </button>
+        <form action="guardarActualizar" method="post">
+            @csrf
+            <!-- datos titular -->
+            <div class="titulares">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Titular 1</h3>
+                        <div class="card-tools">
+                            <button
+                                type="button"
+                                class="btn btn-tool"
+                                data-card-widget="collapse"
+                            >
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-tool"
+                                data-card-widget="remove"
+                            >
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <!-- /.card-header -->
-    
-    
-                <div class="card-body">
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
                         <!-- I. TIPO DE ACTUACIÓN DEL CLIENTE -->
                         <div class="row">
                             <h4>I. TIPO DE ACTUACIÓN DEL CLIENTE</h4>
@@ -49,7 +47,7 @@
                             <br />
                         </div>
                         <!-- .row -->
-    
+
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
@@ -59,7 +57,7 @@
                                             propio</label
                                         >
                                     </div>
-    
+
                                     <div class="icheck-primary d-inline">
                                         <input
                                             type="radio"
@@ -85,7 +83,7 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <div class="col-sm-8">
                                 <div class="form-group">
                                     <label>Calidad con que actúa</label>
@@ -101,7 +99,7 @@
                             </div>
                         </div>
                         <!-- .row -->
-    
+
                         <!-- II. LUGAR Y FECHA -->
                         <div class="row">
                             <div class="col-sm-12">
@@ -111,7 +109,7 @@
                             <br />
                         </div>
                         <!-- row -->
-    
+
                         <div class="row">
                             <!-- select pais -->
                             <div class="col-sm">
@@ -146,7 +144,8 @@
                                         <option value="" disabled selected>
                                             Selecciona
                                         </option>
-                                        @foreach($departamentos as $departamento)
+                                        @foreach($departamentos as
+                                        $departamento)
                                         <option
                                             value="{{$departamento->codigoDepartamento}}"
                                         >
@@ -203,7 +202,7 @@
                             </div>
                         </div>
                         <!-- .row -->
-    
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <h4>III. DATOS PERSONALES</h4>
@@ -215,7 +214,7 @@
                             <br />
                         </div>
                         <!-- .row -->
-    
+
                         <div class="row">
                             <div class="col-sm">
                                 <div class="form-group">
@@ -295,7 +294,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="row">
                             <div class="col-sm">
                                 <div class="form-group">
@@ -324,7 +323,7 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <!-- select pais nacimiento Cliente -->
                             <div class="col-sm">
                                 <div class="form-group">
@@ -343,7 +342,7 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             <!-- select departamento -->
                             <div class="col-sm">
                                 <div class="form-group">
@@ -357,7 +356,8 @@
                                         <option value="" disabled selected>
                                             Selecciona
                                         </option>
-                                        @foreach($departamentos as $departamento)
+                                        @foreach($departamentos as
+                                        $departamento)
                                         <option
                                             value="{{$departamento->codigoDepartamento}}"
                                         >
@@ -409,7 +409,7 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Especifique</label>
@@ -423,7 +423,7 @@
                             </div>
                         </div>
                         <!-- .row -->
-    
+
                         <div class="row">
                             <!-- sexo cliente -->
                             <div class="col-sm-2">
@@ -464,7 +464,7 @@
                                 </div>
                             </div>
                             <!-- .col-sm -->
-    
+
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Nit</label>
@@ -477,7 +477,7 @@
                                     />
                                 </div>
                             </div>
-    
+
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Docto. identificación</label>
@@ -496,7 +496,7 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Número identificación</label>
@@ -509,7 +509,7 @@
                                     />
                                 </div>
                             </div>
-    
+
                             <!-- select emicion pasaporte, se envia el codigo del pais, en la tabla solo recibe el codigo de dos letras -->
                             <div class="col-sm">
                                 <div class="form-group">
@@ -533,7 +533,7 @@
                             </div>
                         </div>
                         <!-- .row -->
-    
+
                         <div class="row">
                             <div class="col-sm">
                                 <div class="form-group">
@@ -561,7 +561,7 @@
                             </div>
                         </div>
                         <!-- .row -->
-    
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <h5>Residencia</h5>
@@ -570,13 +570,13 @@
                             <br />
                         </div>
                         <!-- .row -->
-    
+
                         <div class="row">
                             <div class="col-sm">
                                 <label
                                     >Dirección de residencia completa (calle o
-                                    avenida, número de casa, colonia, sector, lote,
-                                    manzana, otros)</label
+                                    avenida, número de casa, colonia, sector,
+                                    lote, manzana, otros)</label
                                 >
                                 <input
                                     name="direccionRecidenciaCliente"
@@ -588,7 +588,7 @@
                             </div>
                         </div>
                         <!-- .row -->
-    
+
                         <div class="row">
                             <!-- select pais nacimiento Cliente -->
                             <div class="col-sm">
@@ -609,7 +609,7 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             <!-- select departamento -->
                             <div class="col-sm">
                                 <div class="form-group">
@@ -623,7 +623,8 @@
                                         <option value="" disabled selected>
                                             Selecciona
                                         </option>
-                                        @foreach($departamentos as $departamento)
+                                        @foreach($departamentos as
+                                        $departamento)
                                         <option
                                             value="{{$departamento->codigoDepartamento}}"
                                         >
@@ -650,7 +651,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="row">
                             <div class="col-sm" id="nacionalidadCliente">
                                 <div class="form-group">
@@ -664,7 +665,11 @@
                                                 style="width: 100%"
                                                 required
                                             >
-                                                <option value="" disabled selected>
+                                                <option
+                                                    value=""
+                                                    disabled
+                                                    selected
+                                                >
                                                     Selecciona
                                                 </option>
                                                 @foreach($paises as $pais)
@@ -719,14 +724,14 @@
                             </div>
                             <!-- .telefono -->
                         </div>
-    
+
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <div class="icheck-primary d-inline">
                                         <label for=""
-                                            >¿El cliente es Contratista y Proveedor
-                                            del Estado (CPE)?</label
+                                            >¿El cliente es Contratista y
+                                            Proveedor del Estado (CPE)?</label
                                         >
                                     </div>
                                     <div class="icheck-primary d-inline">
@@ -738,7 +743,9 @@
                                             value="S"
                                             required
                                         />
-                                        <label for="primaryCpeCliente1">Sí</label>
+                                        <label for="primaryCpeCliente1"
+                                            >Sí</label
+                                        >
                                     </div>
                                     <div class="icheck-primary d-inline">
                                         <input
@@ -749,12 +756,14 @@
                                             value="N"
                                             required
                                         />
-                                        <label for="primaryCpeCliente2">No</label>
+                                        <label for="primaryCpeCliente2"
+                                            >No</label
+                                        >
                                     </div>
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -764,7 +773,7 @@
                                             Políticamente (PEP)?</label
                                         >
                                     </div>
-    
+
                                     <div class="icheck-primary d-inline">
                                         <input
                                             type="radio"
@@ -790,20 +799,20 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="datosPepCliente"></div>
-    
+
                         <div class="row">
                             <div class="col-sm">
                                 <div class="form-group">
                                     <div class="icheck-primary d-inline">
                                         <label
                                             >¿El cliente tiene parentesco o es
-                                            asociado cercano a una Persona Expuesta
-                                            Políticamente (PEP)?</label
+                                            asociado cercano a una Persona
+                                            Expuesta Políticamente (PEP)?</label
                                         >
                                     </div>
-    
+
                                     <div class="icheck-primary d-inline">
                                         <input
                                             type="radio"
@@ -833,65 +842,88 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="datosAsoPep"></div>
                         <!-- .datosPaAsPep -->
-                </div>
+                    </div>
                     <!-- /.card-body -->
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col clearfix">
-                <button class="btn btn-success float-right mb-4">Agregar Titular</button>
+            <div class="row">
+                <div class="col clearfix">
+                    <button class="btn btn-success float-right mb-4">
+                        Agregar Titular
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <div class="productoServicio">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Productos y/o servicios</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
+            <div class="productoServicio">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Productos y/o servicios</h3>
+                        <div class="card-tools">
+                            <button
+                                type="button"
+                                class="btn btn-tool"
+                                data-card-widget="collapse"
+                            >
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-tool"
+                                data-card-widget="remove"
+                            >
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
+                    <!-- /.card-header -->
+                    <div class="card-body"></div>
+                    <!-- /.card-body -->
                 </div>
-                <!-- /.card-header -->
-                <div class="card-body"></div>
-                <!-- /.card-body -->
             </div>
-        </div>
-        <div class="row">
-            <div class="col clearfix">
-                <button class="btn btn-success float-right">Agregar Producto y/o servicio</button>
+            <div class="row">
+                <div class="col clearfix">
+                    <button class="btn btn-success float-right mb-4">
+                        Agregar Producto y/o servicio
+                    </button>
+                </div>
             </div>
-        </div>
-        <div class="perfilEconomicoTransaccional">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Perfil económico y transaccional</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
+            <div class="perfilEconomicoTransaccional">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Perfil económico y transaccional
+                        </h3>
+                        <div class="card-tools">
+                            <button
+                                type="button"
+                                class="btn btn-tool"
+                                data-card-widget="collapse"
+                            >
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-tool"
+                                data-card-widget="remove"
+                            >
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
+                    <!-- /.card-header -->
+                    <div class="card-body"></div>
+                    <!-- /.card-body -->
                 </div>
-                <!-- /.card-header -->
-                <div class="card-body"></div>
-                <!-- /.card-body -->
             </div>
-        </div>
-    <button type="submit" class="btn btn-primary form-control mt-5">Guardar formulario</button>
-    </form>
+            <button type="submit" class="btn btn-primary form-control mt-5">
+                Guardar formulario
+            </button>
+        </form>
     </div>
     <!--/.container-fluid -->
-
 </section>
 <!-- /.content -->
 
