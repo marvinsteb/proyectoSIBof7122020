@@ -6,6 +6,14 @@ function setFormatoFecha() {
         });
     }
 }
+function configurarAjax() {
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+    });
+}
+
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
         $(elementoActuaNomprePropio[i]).change(function () {
@@ -23,13 +31,24 @@ function verificaActuaNombrePropio(elementoActuaNomprePropio) {
         });
     }
 }
-function configurarAjax() {
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-    });
+
+function habilitaDepartamentoMunicipio(selectPais) {
+    for (let i = 0; i < selectPais.length; i++) {
+        $(selectPais[i]).change(function () {
+            let municipioDepartamento = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .find("select");
+            if (this.value == 1) {
+                console.log(municipioDepartamento);
+            } else {
+                console.log(municipioDepartamento);
+            }
+        });
+    }
 }
+
 function cargarMunicipio() {
     $(".departamento").change((event) => {
         $.get(`/departamentos/municipios/${event.target.value}`, function (
@@ -56,23 +75,7 @@ function getPaises(callbak) {
         callbak(res);
     });
 }
-function habilitaDepartamentoMunicipio() {
-    let selectPais = $(".deshabilitaDepartamentoMunicipio");
-    for (let i = 0; i < selectPais.length; i++) {
-        $(selectPais[i]).change(function () {
-            let municipioDepartamento = $(this)
-                .parent()
-                .parent()
-                .parent()
-                .find("select");
-            if (this.value == 1) {
-                console.log(municipioDepartamento);
-            } else {
-                console.log(municipioDepartamento);
-            }
-        });
-    }
-}
+
 function verificarClientePep() {
     var radioClientePep = $(".pepCliente");
     for (let i = 0; i < radioClientePep.length; i++) {
@@ -1317,7 +1320,7 @@ function guardar() {
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
     verificaActuaNombrePropio($(".actuaNombrePropio"));
-    habilitaDepartamentoMunicipio();
+    habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     setFormatoFecha();
     configurarAjax();
     cargarMunicipio();
