@@ -215,7 +215,6 @@ function verificarAsoPep() {
     for (let i = 0; i < asoPepCliente.length; i++) {
         $(asoPepCliente[i]).change(function () {
             let divActual = $(asoPepCliente[i]);
-            console.log(divActual);
             var camposAsocPep = `
             <div class="card card-primary">
                 <div class="card-header">
@@ -1306,6 +1305,9 @@ function AgregarTitular() {
         `;
         let divTitulares = $("#titulares").append(templateTitular);
         /*agregado validadciones para el nuevo titular*/
+        $(`#titulares>div#titular_${id}`)
+            .find("input.actuaNombrePropio")
+            .focus();
         verificaActuaNombrePropio(
             $(`#titulares>div#titular_${id}`).find("input.actuaNombrePropio")
         );
