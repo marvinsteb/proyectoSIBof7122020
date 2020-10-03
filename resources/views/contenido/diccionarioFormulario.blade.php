@@ -16,7 +16,7 @@
         <form action="guardarActualizar" method="post">
             @csrf
             <!-- datos titular -->
-            <div class="titulares">
+            <div class="titulares" id="titulares">
                 <div class="card card-primary titular_1">
                     <div class="card-header">
                         <h3 class="card-title">Titular 1</h3>
@@ -113,9 +113,9 @@
                                 <div class="form-group">
                                     <label>País</label>
                                     <select
-                                        name="paisCamposMinimosCliente"
-                                        id="paisCamposMinimosCliente"
-                                        class="pais form-control"
+                                        name="paisCaMiCliente_1"
+                                        id="paisCaMiCliente_1"
+                                        class="deshabilitaDepartamentoMunicipio form-control paisCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >
@@ -132,9 +132,9 @@
                                 <div class="form-group">
                                     <label>Departamento</label>
                                     <select
-                                        name="departamentoCamposMinimosCliente"
-                                        id="departamentoCamposMinimosCliente"
-                                        class="paisCamposMinimosCliente departamento form-control"
+                                        name="departamentoCaMiCliente_1"
+                                        id="departamentoCaMiCliente_1"
+                                        class="form-control"
                                         style="width: 100%"
                                         required
                                     >
@@ -157,9 +157,9 @@
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select
-                                        name="municipioCamposMinimosCliente"
-                                        id="municipioCamposMinimosCliente"
-                                        class="paisCamposMinimosCliente form-control"
+                                        name="municipioCaMiCliente"
+                                        id="municipioCaMiCliente"
+                                        class="form-control"
                                         style="width: 100%"
                                         required
                                     >
@@ -179,7 +179,7 @@
                                         data-target-input="nearest"
                                     >
                                         <input
-                                            name="fechaCamposMinimosCliente"
+                                            name="fechaCaMiCliente"
                                             type="text"
                                             class="form-control datetimepicker-input"
                                             data-target="#fechaDoc"
@@ -942,9 +942,9 @@
                                 <div class="form-group">
                                     <label>País</label>
                                     <select
-                                        name="paisCamposMinimosCliente"
-                                        id="paisCamposMinimosCliente"
-                                        class="pais form-control"
+                                        name="paisCaMiCliente_2"
+                                        id="paisCaMiCliente_2"
+                                        class="deshabilitaDepartamentoMunicipio form-control paisCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >
@@ -961,9 +961,9 @@
                                 <div class="form-group">
                                     <label>Departamento</label>
                                     <select
-                                        name="departamentoCamposMinimosCliente"
-                                        id="departamentoCamposMinimosCliente"
-                                        class="paisCamposMinimosCliente departamento form-control"
+                                        name="departamentoCaMiCliente_2"
+                                        id="departamentoCaMiCliente_2"
+                                        class="form-control"
                                         style="width: 100%"
                                         required
                                     >
@@ -986,9 +986,9 @@
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select
-                                        name="municipioCamposMinimosCliente"
-                                        id="municipioCamposMinimosCliente"
-                                        class="paisCamposMinimosCliente form-control"
+                                        name="municipioCaMiCliente"
+                                        id="municipioCaMiCliente"
+                                        class="paisCaMiCliente form-control"
                                         style="width: 100%"
                                         required
                                     >
@@ -1008,7 +1008,7 @@
                                         data-target-input="nearest"
                                     >
                                         <input
-                                            name="fechaCamposMinimosCliente"
+                                            name="fechaCaMiCliente"
                                             type="text"
                                             class="form-control datetimepicker-input"
                                             data-target="#fechaDoc"
@@ -1677,7 +1677,10 @@
             </div>
             <div class="row">
                 <div class="col clearfix">
-                    <button class="btn btn-success float-right mb-4">
+                    <button
+                        class="btn btn-success float-right mb-4"
+                        id="btnAgregarTitular"
+                    >
                         Agregar Titular
                     </button>
                 </div>

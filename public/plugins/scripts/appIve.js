@@ -57,8 +57,8 @@ function getPaises(callbak) {
         callbak(res);
     });
 }
-function habilitaCampoDepartamento() {
-    var selectPais = $(".pais");
+function habilitaDepartamentoMunicipio() {
+    var selectPais = $("deshabilitaDepartamentoMunicipio");
     for (var i = 0; i < selectPais.length; i++) {
         $(selectPais[i]).change(function () {
             //convertir el id a clase antes de obtener los selects departamento y municipio que contengan dicha clase
@@ -474,7 +474,14 @@ function verificarAsoPep() {
         });
     }
 }
-
+function AgregarTitular() {
+    $("#btnAgregarTitular").click(function (event) {
+        event.preventDefault();
+        let cantidadCliente = $("#idTitular").children().length;
+        console.log("agregando un nuevo titular");
+        let divTitulares = $("#titulares").append("<div><h1>hola</h1></div>");
+    });
+}
 function guardar() {
     $("#btnGuardar").click(function (event) {
         event.preventDefault();
@@ -484,12 +491,14 @@ function guardar() {
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
     verificaActuaNombrePropio();
+    habilitaDepartamentoMunicipio();
     setFormatoFecha();
     configurarAjax();
     cargarMunicipio();
-    habilitaCampoDepartamento();
+
     agregaNacionalidadCLiente();
     agregarNumeroCliente();
     verificarClientePep();
     verificarAsoPep();
+    AgregarTitular();
 });
