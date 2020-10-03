@@ -25,8 +25,10 @@ function verificaActuaNombrePropio(elementoActuaNomprePropio) {
                 .find("input.calidadActuaCliente");
             if (this.value === "C") {
                 inputCalidadActua[0].disabled = true;
+                $(inputCalidadActua[0]).prop("required", false);
             } else if (this.value === "R") {
                 inputCalidadActua[0].disabled = false;
+                $(inputCalidadActua[0]).prop("required", true);
             }
         });
     }
