@@ -1302,10 +1302,10 @@ function AgregarTitular() {
                 </div>
         `;
         let divTitulares = $("#titulares").append(templateTitular);
+        /*agregado validadciones para el nuevo titular*/
         verificaActuaNombrePropio(
             $(`#titulares>div#titular_${id}`).find("input.actuaNombrePropio")
         );
-        console.log("agregado evento actua nombre propio");
     });
 }
 function guardar() {
