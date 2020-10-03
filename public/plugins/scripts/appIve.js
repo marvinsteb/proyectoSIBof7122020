@@ -7,20 +7,19 @@ function setFormatoFecha() {
     }
 }
 function verificaActuaNombrePropio() {
-    var elementoActuaNomprePropio = $(".actuaNombrePropio");
-    for (var i = 0; i < elementoActuaNomprePropio.length - 1; i++) {
+    let elementoActuaNomprePropio = $(".actuaNombrePropio");
+    for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
         $(elementoActuaNomprePropio[i]).change(function () {
+            let inputCalidadActua = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .find("input.calidadActuaCliente");
             if (this.value === "C") {
-                console.log(this);
-                // elementoActuaNomprePropio[2].disabled = true;
-                // elementoActuaNomprePropio[2].value = "";
-                // elementoActuaNomprePropio[2].required = false;
+                inputCalidadActua[0].disabled = false;
             } else if (this.value === "R") {
-                console.log(this);
-                // elementoActuaNomprePropio[2].disabled = false;
-                // elementoActuaNomprePropio[2].required = true;
-                // console.log("mostrar el form del representante");
-                /* implementa el formulario para datos del representante */
+                inputCalidadActua[0].disabled = true;
             }
         });
     }
