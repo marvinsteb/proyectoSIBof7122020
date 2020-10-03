@@ -17,7 +17,7 @@
             @csrf
             <!-- datos titular -->
             <div class="titulares" id="titulares">
-                <div class="card card-primary titular_1">
+                <div class="card card-primary" id="titular_1">
                     <div class="card-header">
                         <h3 class="card-title">Titular 1</h3>
                         <div class="card-tools">
@@ -846,7 +846,7 @@
                     <!-- /.card-body -->
                 </div>
 
-                <div class="card card-primary titular_2">
+                <div class="card card-primary" id="titular_2">
                     <div class="card-header">
                         <h3 class="card-title">Titular 2</h3>
                         <div class="card-tools">
