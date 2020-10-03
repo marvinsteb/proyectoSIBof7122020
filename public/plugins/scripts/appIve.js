@@ -474,6 +474,13 @@ function verificarAsoPep() {
         });
     }
 }
+
+function guardar() {
+    $("#btnGuardar").click(function (event) {
+        event.preventDefault();
+        console.log("Guardando");
+    });
+}
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
     verificaActuaNombrePropio();
