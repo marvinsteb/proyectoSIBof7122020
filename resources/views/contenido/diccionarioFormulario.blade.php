@@ -134,7 +134,7 @@
                                     <select
                                         name="departamentoCaMiCliente_1"
                                         id="departamentoCaMiCliente_1"
-                                        class="form-control"
+                                        class="form-control departamentoCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >
@@ -157,9 +157,9 @@
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select
-                                        name="municipioCaMiCliente"
-                                        id="municipioCaMiCliente"
-                                        class="form-control"
+                                        name="municipioCaMiCliente_1"
+                                        id="municipioCaMiCliente_1"
+                                        class="form-control municipioCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >
@@ -963,7 +963,7 @@
                                     <select
                                         name="departamentoCaMiCliente_2"
                                         id="departamentoCaMiCliente_2"
-                                        class="form-control"
+                                        class="form-control departamentoCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >
@@ -986,9 +986,9 @@
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select
-                                        name="municipioCaMiCliente"
-                                        id="municipioCaMiCliente"
-                                        class="paisCaMiCliente form-control"
+                                        name="municipioCaMiCliente_2"
+                                        id="municipioCaMiCliente_2"
+                                        class="form-control municipioCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >

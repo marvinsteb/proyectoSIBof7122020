@@ -572,17 +572,12 @@ function AgregarTitular() {
                                 <div class="form-group">
                                     <label>País</label>
                                     <select
-                                        name="paisCaMiCliente_2"
-                                        id="paisCaMiCliente_2"
+                                        name="paisCaMiCliente_${id}"
+                                        id="paisCaMiCliente_${id}"
                                         class="deshabilitaDepartamentoMunicipio form-control paisCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >
-                                        @foreach($paises as $pais)
-                                        <option value="{{$pais->idPais}}">
-                                            {{$pais->nombrePais}}
-                                        </option>
-                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -591,8 +586,8 @@ function AgregarTitular() {
                                 <div class="form-group">
                                     <label>Departamento</label>
                                     <select
-                                        name="departamentoCaMiCliente_2"
-                                        id="departamentoCaMiCliente_2"
+                                        name="departamentoCaMiCliente_${id}"
+                                        id="departamentoCaMiCliente_${id}"
                                         class="form-control"
                                         style="width: 100%"
                                         required
@@ -600,14 +595,6 @@ function AgregarTitular() {
                                         <option value="" disabled selected>
                                             Selecciona
                                         </option>
-                                        @foreach($departamentos as
-                                        $departamento)
-                                        <option
-                                            value="{{$departamento->codigoDepartamento}}"
-                                        >
-                                            {{$departamento->nombreDepartamento}}
-                                        </option>
-                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -616,9 +603,9 @@ function AgregarTitular() {
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select
-                                        name="municipioCaMiCliente"
-                                        id="municipioCaMiCliente"
-                                        class="paisCaMiCliente form-control"
+                                        name="municipioCaMiCliente_${id}"
+                                        id="municipioCaMiCliente_${id}"
+                                        class="form-control"
                                         style="width: 100%"
                                         required
                                     >
@@ -1305,14 +1292,25 @@ function AgregarTitular() {
                     <!-- /.card-body -->
                 </div>
         `;
-        let divTitulares = $("#titulares").append(templateTitular);
+        $("#titulares").append(templateTitular);
         /*agregado validadciones para el nuevo titular*/
-        $(`#titulares>div#titular_${id}`)
-            .find("input.actuaNombrePropio")
-            .focus();
-        verificaActuaNombrePropio(
-            $(`#titulares>div#titular_${id}`).find("input.actuaNombrePropio")
+        let divTitualActual = $(`#titulares>div#titular_${id}`);
+
+        let inputActuaNombrePropio = divTitualActual.find(
+            "input.actuaNombrePropio"
         );
+        inputActuaNombrePropio.focus();
+        verificaActuaNombrePropio(inputActuaNombrePropio);
+
+        let selectPaisActual = divTitualActual.find("select.paisCaMiCliente");
+        habilitaDepartamentoMunicipio(selectPaisActual);
+        getPaises(function (element) {
+            element.forEach(function (pais) {
+                $(selectPaisActual).append(
+                    `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
+                );
+            });
+        });
     });
 }
 function guardar() {
@@ -1323,10 +1321,10 @@ function guardar() {
 }
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
-    verificaActuaNombrePropio($(".actuaNombrePropio"));
-    habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     setFormatoFecha();
     configurarAjax();
+    verificaActuaNombrePropio($(".actuaNombrePropio"));
+    habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     cargarMunicipio();
 
     agregaNacionalidadCLiente();
