@@ -37,15 +37,15 @@ function verificaActuaNombrePropio(elementoActuaNomprePropio) {
 function habilitaDepartamentoMunicipio(selectPais) {
     for (let i = 0; i < selectPais.length; i++) {
         $(selectPais[i]).change(function () {
-            let municipioDepartamento = $(this)
+            let muniDepartamento = $(this)
                 .parent()
                 .parent()
                 .parent()
                 .find("select");
             if (this.value == 1) {
-                console.log(municipioDepartamento);
+                console.log(muniDepartamento);
             } else {
-                console.log(municipioDepartamento);
+                console.log(muniDepartamento);
             }
         });
     }
@@ -77,7 +77,12 @@ function getPaises(callbak) {
         callbak(res);
     });
 }
-
+function getDepartamentos(callback) {
+    $.get(`/departamento/obtenerdepartamento`, function (res, sta) {
+        console.log(res);
+        callback(res);
+    });
+}
 function verificarClientePep() {
     var radioClientePep = $(".pepCliente");
     for (let i = 0; i < radioClientePep.length; i++) {
@@ -574,7 +579,7 @@ function AgregarTitular() {
                                     <select
                                         name="paisCaMiCliente_${id}"
                                         id="paisCaMiCliente_${id}"
-                                        class="deshabilitaDepartamentoMunicipio form-control paisCaMiCliente"
+                                        class="form-control paisCaMiCliente deshabilitaDepartamentoMunicipio setPais"
                                         style="width: 100%"
                                         required
                                     >
@@ -586,25 +591,23 @@ function AgregarTitular() {
                                 <div class="form-group">
                                     <label>Departamento</label>
                                     <select
-                                        name="departamentoCaMiCliente_${id}"
-                                        id="departamentoCaMiCliente_${id}"
-                                        class="form-control"
+                                        name="deptoCaMiCliente_${id}"
+                                        id="deptoCaMiCliente_${id}"
+                                        class="form-control deptoCaMiCliente setDepartamento"
                                         style="width: 100%"
                                         required
                                     >
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                        <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
                             </div>
-                            <!-- select municipio -->
+                            <!-- select muni -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select
-                                        name="municipioCaMiCliente_${id}"
-                                        id="municipioCaMiCliente_${id}"
+                                        name="muniCaMiCliente_${id}"
+                                        id="muniCaMiCliente_${id}"
                                         class="form-control"
                                         style="width: 100%"
                                         required
@@ -791,32 +794,23 @@ function AgregarTitular() {
                                 <div class="form-group">
                                     <label>Departamento nacimiento</label>
                                     <select
-                                        name="departamentoNacimientoCliente"
-                                        id="departamentoNacimientoCliente"
-                                        class="paisNacimientoCliente departamento form-control"
+                                        name="deptoNacimientoCliente_${id}"
+                                        id="deptoNacimientoCliente_${id}"
+                                        class="form-control deptoNacimientoCliente setDepartamento"
                                         style="width: 100%"
+                                        required
                                     >
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($departamentos as
-                                        $departamento)
-                                        <option
-                                            value="{{$departamento->codigoDepartamento}}"
-                                        >
-                                            {{$departamento->nombreDepartamento}}
-                                        </option>
-                                        @endforeach
+                                        <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
                             </div>
-                            <!-- select municipio -->
+                            <!-- select muni -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio nacimiento</label>
                                     <select
-                                        name="municipioNaciminentoCliente"
-                                        id="municipioNaciminentoCliente"
+                                        name="muniNaciminentoCliente"
+                                        id="muniNaciminentoCliente"
                                         class="paisNacimientoCliente form-control"
                                         style="width: 100%"
                                     >
@@ -1058,8 +1052,8 @@ function AgregarTitular() {
                                 <div class="form-group">
                                     <label>Departamento residencia</label>
                                     <select
-                                        name="departamentoRecidenciaCliente"
-                                        id="departamentoRecidenciaCliente"
+                                        name="deptoRecidenciaCliente"
+                                        id="deptoRecidenciaCliente"
                                         class="paisRecidenciaCliente departamento form-control"
                                         style="width: 100%"
                                     >
@@ -1077,13 +1071,13 @@ function AgregarTitular() {
                                     </select>
                                 </div>
                             </div>
-                            <!-- select municipio -->
+                            <!-- select muni -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio residencia</label>
                                     <select
-                                        name="municipioRecidenciaCliente"
-                                        id="municipioRecidenciaCliente"
+                                        name="muniRecidenciaCliente"
+                                        id="muniRecidenciaCliente"
                                         class="paisRecidenciaCliente form-control"
                                         style="width: 100%"
                                     >
@@ -1294,21 +1288,36 @@ function AgregarTitular() {
         `;
         $("#titulares").append(templateTitular);
         /*agregado validadciones para el nuevo titular*/
-        let divTitualActual = $(`#titulares>div#titular_${id}`);
+        let divTitularActual = $(`#titulares>div#titular_${id}`);
 
-        let inputActuaNombrePropio = divTitualActual.find(
+        let inputActuaNombrePropio = divTitularActual.find(
             "input.actuaNombrePropio"
         );
         inputActuaNombrePropio.focus();
         verificaActuaNombrePropio(inputActuaNombrePropio);
 
-        let selectPaisActual = divTitualActual.find("select.paisCaMiCliente");
+        let selectPaisActual = divTitularActual.find("select.setPais");
         habilitaDepartamentoMunicipio(selectPaisActual);
-        getPaises(function (element) {
-            element.forEach(function (pais) {
-                $(selectPaisActual).append(
-                    `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
-                );
+        getPaises(function (paises) {
+            paises.forEach(function (pais) {
+                for (let i = 0; i < selectPaisActual.length; i++) {
+                    $(selectPaisActual[i]).append(
+                        `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
+                    );
+                }
+            });
+        });
+
+        let selectDepartamentoActual = divTitularActual.find(
+            "select.setDepartamento"
+        );
+        getDepartamentos(function (departamentos) {
+            departamentos.forEach(function (depto) {
+                for (let i = 0; i < selectDepartamentoActual.length; i++) {
+                    $(selectDepartamentoActual[i]).append(
+                        `<option value=${depto.codigoDepartamento}> ${depto.nombreDepartamento} </option>`
+                    );
+                }
             });
         });
     });
@@ -1316,7 +1325,6 @@ function AgregarTitular() {
 function guardar() {
     $("#btnGuardar").click(function (event) {
         event.preventDefault();
-        console.log("Guardando");
     });
 }
 $(document).ready(function () {

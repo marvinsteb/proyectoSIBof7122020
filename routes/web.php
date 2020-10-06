@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InformacionClienteController;
 use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\PaisController;
+use App\Http\Controllers\DepartamentoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +27,4 @@ Route::get('oficios/7122020/crear', [InformacionClienteController::class, 'creat
 Route::post('oficios/7122020/guardarActualizar', [InformacionClienteController::class, 'store']);
 Route::get('departamentos/municipios/{id}',[MunicipioController::class, 'getMunicipio']);
 Route::get('pais/obtenerpaises',[PaisController::class, 'getPais']);
-
-
+Route::get('departamento/obtenerdepartamento',[DepartamentoController::class, 'getDepartamento']);

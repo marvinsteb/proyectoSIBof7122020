@@ -115,7 +115,7 @@
                                     <select
                                         name="paisCaMiCliente_1"
                                         id="paisCaMiCliente_1"
-                                        class="deshabilitaDepartamentoMunicipio form-control paisCaMiCliente"
+                                        class="form-control paisCaMiCliente deshabilitaDepartamentoMunicipio"
                                         style="width: 100%"
                                         required
                                     >
@@ -132,9 +132,9 @@
                                 <div class="form-group">
                                     <label>Departamento</label>
                                     <select
-                                        name="departamentoCaMiCliente_1"
-                                        id="departamentoCaMiCliente_1"
-                                        class="form-control departamentoCaMiCliente"
+                                        name="deptoCaMiCliente_1"
+                                        id="deptoCaMiCliente_1"
+                                        class="form-control deptoCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >
@@ -152,14 +152,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- select municipio -->
+                            <!-- select muni -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select
-                                        name="municipioCaMiCliente_1"
-                                        id="municipioCaMiCliente_1"
-                                        class="form-control municipioCaMiCliente"
+                                        name="muniCaMiCliente_1"
+                                        id="muniCaMiCliente_1"
+                                        class="form-control muniCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >
@@ -345,8 +345,8 @@
                                 <div class="form-group">
                                     <label>Departamento nacimiento</label>
                                     <select
-                                        name="departamentoNacimientoCliente"
-                                        id="departamentoNacimientoCliente"
+                                        name="deptoNacimientoCliente"
+                                        id="deptoNacimientoCliente"
                                         class="paisNacimientoCliente departamento form-control"
                                         style="width: 100%"
                                     >
@@ -364,13 +364,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- select municipio -->
+                            <!-- select muni -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio nacimiento</label>
                                     <select
-                                        name="municipioNaciminentoCliente"
-                                        id="municipioNaciminentoCliente"
+                                        name="muniNaciminentoCliente"
+                                        id="muniNaciminentoCliente"
                                         class="paisNacimientoCliente form-control"
                                         style="width: 100%"
                                     >
@@ -612,8 +612,8 @@
                                 <div class="form-group">
                                     <label>Departamento residencia</label>
                                     <select
-                                        name="departamentoRecidenciaCliente"
-                                        id="departamentoRecidenciaCliente"
+                                        name="deptoRecidenciaCliente"
+                                        id="deptoRecidenciaCliente"
                                         class="paisRecidenciaCliente departamento form-control"
                                         style="width: 100%"
                                     >
@@ -631,13 +631,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- select municipio -->
+                            <!-- select muni -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio residencia</label>
                                     <select
-                                        name="municipioRecidenciaCliente"
-                                        id="municipioRecidenciaCliente"
+                                        name="muniRecidenciaCliente"
+                                        id="muniRecidenciaCliente"
                                         class="paisRecidenciaCliente form-control"
                                         style="width: 100%"
                                     >
@@ -944,7 +944,7 @@
                                     <select
                                         name="paisCaMiCliente_2"
                                         id="paisCaMiCliente_2"
-                                        class="deshabilitaDepartamentoMunicipio form-control paisCaMiCliente"
+                                        class="form-control paisCaMiCliente deshabilitaDepartamentoMunicipio"
                                         style="width: 100%"
                                         required
                                     >
@@ -961,9 +961,9 @@
                                 <div class="form-group">
                                     <label>Departamento</label>
                                     <select
-                                        name="departamentoCaMiCliente_2"
-                                        id="departamentoCaMiCliente_2"
-                                        class="form-control departamentoCaMiCliente"
+                                        name="deptoCaMiCliente_2"
+                                        id="deptoCaMiCliente_2"
+                                        class="form-control deptoCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >
@@ -981,14 +981,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- select municipio -->
+                            <!-- select muni -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select
-                                        name="municipioCaMiCliente_2"
-                                        id="municipioCaMiCliente_2"
-                                        class="form-control municipioCaMiCliente"
+                                        name="muniCaMiCliente_2"
+                                        id="muniCaMiCliente_2"
+                                        class="form-control muniCaMiCliente"
                                         style="width: 100%"
                                         required
                                     >
@@ -1174,8 +1174,8 @@
                                 <div class="form-group">
                                     <label>Departamento nacimiento</label>
                                     <select
-                                        name="departamentoNacimientoCliente"
-                                        id="departamentoNacimientoCliente"
+                                        name="deptoNacimientoCliente"
+                                        id="deptoNacimientoCliente"
                                         class="paisNacimientoCliente departamento form-control"
                                         style="width: 100%"
                                     >
@@ -1193,13 +1193,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- select municipio -->
+                            <!-- select muni -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio nacimiento</label>
                                     <select
-                                        name="municipioNaciminentoCliente"
-                                        id="municipioNaciminentoCliente"
+                                        name="muniNaciminentoCliente"
+                                        id="muniNaciminentoCliente"
                                         class="paisNacimientoCliente form-control"
                                         style="width: 100%"
                                     >
@@ -1441,8 +1441,8 @@
                                 <div class="form-group">
                                     <label>Departamento residencia</label>
                                     <select
-                                        name="departamentoRecidenciaCliente"
-                                        id="departamentoRecidenciaCliente"
+                                        name="deptoRecidenciaCliente"
+                                        id="deptoRecidenciaCliente"
                                         class="paisRecidenciaCliente departamento form-control"
                                         style="width: 100%"
                                     >
@@ -1460,13 +1460,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- select municipio -->
+                            <!-- select muni -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio residencia</label>
                                     <select
-                                        name="municipioRecidenciaCliente"
-                                        id="municipioRecidenciaCliente"
+                                        name="muniRecidenciaCliente"
+                                        id="muniRecidenciaCliente"
                                         class="paisRecidenciaCliente form-control"
                                         style="width: 100%"
                                     >
