@@ -52,34 +52,40 @@ function habilitaDepartamentoMunicipio(selectPais) {
 }
 
 function cargarMunicipio() {
-    $(".departamento").change((event) => {
-        $.get(`/departamentos/municipios/${event.target.value}`, function (
-            res,
-            sta
-        ) {
-            var selectHijos = $(event.target).attr("class").split(" ")[0];
-            var selectActual = $(`.${selectHijos}`);
-            $(selectActual[1]).empty();
-            $(selectActual[1]).append(
+    let selectDeptos = $(".getMunicipio");
+    for (let i = 0; i < selectDeptos.length; i++) {
+        $(selectDeptos[i]).change(function (event) {
+            let selectMuniActual = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .find("select.setMunicipio");
+            $(selectMuniActual[0]).empty();
+            $(selectMuniActual[0]).append(
                 '<option value="" disabled selected>Selecciona</option>'
             );
-            res.forEach((element) => {
-                $(selectActual[1]).append(
-                    `<option value=${element.idMunicipio}> ${element.nombreMunicipio} </option>`
-                );
-            });
+            getMunicipios(function (municipios) {
+                municipios.forEach(function (muni) {
+                    $(selectMuniActual[0]).append(
+                        `<option value=${muni.idMunicipio}> ${muni.nombreMunicipio} </option>`
+                    );
+                });
+            }, event.target.value);
         });
+    }
+}
+function getMunicipios(callback, idDepto) {
+    $.get(`/departamentos/municipios/${idDepto}`, function (res, sta) {
+        callback(res);
     });
 }
 function getPaises(callbak) {
-    // implementa cargar pais
     $.get(`/pais/obtenerpaises`, function (res, sta) {
         callbak(res);
     });
 }
 function getDepartamentos(callback) {
     $.get(`/departamento/obtenerdepartamento`, function (res, sta) {
-        console.log(res);
         callback(res);
     });
 }
@@ -593,7 +599,7 @@ function AgregarTitular() {
                                     <select
                                         name="deptoCaMiCliente_${id}"
                                         id="deptoCaMiCliente_${id}"
-                                        class="form-control deptoCaMiCliente setDepartamento"
+                                        class="form-control deptoCaMiCliente getMunicipio setDepartamento"
                                         style="width: 100%"
                                         required
                                     >
@@ -608,7 +614,7 @@ function AgregarTitular() {
                                     <select
                                         name="muniCaMiCliente_${id}"
                                         id="muniCaMiCliente_${id}"
-                                        class="form-control"
+                                        class="form-control muniCaMiCliente setMunicipio"
                                         style="width: 100%"
                                         required
                                     >
@@ -1311,6 +1317,7 @@ function AgregarTitular() {
         let selectDepartamentoActual = divTitularActual.find(
             "select.setDepartamento"
         );
+        console.log(selectDepartamentoActual);
         getDepartamentos(function (departamentos) {
             departamentos.forEach(function (depto) {
                 for (let i = 0; i < selectDepartamentoActual.length; i++) {

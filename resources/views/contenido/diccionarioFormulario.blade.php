@@ -134,7 +134,7 @@
                                     <select
                                         name="deptoCaMiCliente_1"
                                         id="deptoCaMiCliente_1"
-                                        class="form-control deptoCaMiCliente"
+                                        class="form-control deptoCaMiCliente getMunicipio"
                                         style="width: 100%"
                                         required
                                     >
@@ -159,7 +159,7 @@
                                     <select
                                         name="muniCaMiCliente_1"
                                         id="muniCaMiCliente_1"
-                                        class="form-control muniCaMiCliente"
+                                        class="form-control muniCaMiCliente setMunicipio"
                                         style="width: 100%"
                                         required
                                     >
@@ -963,7 +963,7 @@
                                     <select
                                         name="deptoCaMiCliente_2"
                                         id="deptoCaMiCliente_2"
-                                        class="form-control deptoCaMiCliente"
+                                        class="form-control deptoCaMiCliente getMunicipio"
                                         style="width: 100%"
                                         required
                                     >
@@ -988,7 +988,7 @@
                                     <select
                                         name="muniCaMiCliente_2"
                                         id="muniCaMiCliente_2"
-                                        class="form-control muniCaMiCliente"
+                                        class="form-control muniCaMiCliente setMunicipio"
                                         style="width: 100%"
                                         required
                                     >
