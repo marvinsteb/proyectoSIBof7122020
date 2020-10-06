@@ -59,7 +59,7 @@
                             <div class="col-sm-8">
                                 <div class="form-group">
                                     <label>Calidad con que actúa</label>
-                                    <input name="calidadActuaCliente_1" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
+                                    <input name="calidadActuaCliente_1" id="calidadActuaCliente_1" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
                                 </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                                 <div class="form-group">
                                     <label>Fecha</label>
                                     <div class="input-group date" id="fechaDoc_1" data-target-input="nearest">
-                                        <input name="fechaCaMiCliente_1" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_1" required />
+                                        <input name="fechaDocCaMiCliente_1" id="fechaDocCaMiCliente_1" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_1" required />
                                         <div class="input-group-append" data-target="#fechaDoc_1" data-toggle="datetimepicker">
                                             <div class="input-group-text">
                                                 <i class="fa fa-calendar"></i>
@@ -139,7 +139,7 @@
                                 <h4>III. DATOS PERSONALES</h4>
                             </div>
                             <div class="col-sm-12">
-                                <h5>Información del cliente</h5>
+                                <h5>Información del cliente 1</h5>
                             </div>
                             <br />
                             <br />
@@ -150,40 +150,37 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Primer Apellido</label>
-                                    <input name="primerApellidoCliente" type="text" class="form-control" placeholder="Primer Apellido ..." maxlength="15" required />
+                                    <input name="primerApellidoCliente_1" id="primerApellidoCliente_1" type="text" class="form-control primerApellidoCliente" placeholder="Primer Apellido ..." maxlength="15" required />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Segundo apellido</label>
-                                    <!-- la llave es obligatoria, pero consignar SOA si no aplica -->
-                                    <input name="segundoApellidoCliente" type="text" class="form-control" placeholder="Segundo apellido ..." maxlength="15" />
+                                    <input name="segundoApellidoCliente_1" id="segundoApellidoCliente_1" type="text" class="form-control segundoApellidoCliente" placeholder="Segundo apellido ..." maxlength="15" />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Apellido casada</label>
-                                    <!-- no anteponer de al apellido -->
-                                    <input name="apellidoCasadaCliente" type="text" class="form-control" placeholder="Apellido casada ..." maxlength="15" />
+                                    <input name="apellidoCasadaCliente_1" id="apellidoCasadaCliente_1" type="text" class="form-control apellidoCasadaCliente" placeholder="Apellido casada ..." maxlength="15" />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Primer nombre</label>
-                                    <input name="primerNombreCliente" type="text" class="form-control" placeholder="Primer nombre ..." maxlength="15" required />
+                                    <input name="primerNombreCliente_1" id="primerNombreCliente_1" type="text" class="form-control primerNombreCliente" placeholder="Primer nombre ..." maxlength="15" required />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Segundo nombre</label>
-                                    <!-- la llave es obligatoria, si no aplica consignar SON -->
-                                    <input name="segundoNombreCliente" type="text" class="form-control" placeholder="Segundo nombre ..." maxlength="15" />
+                                    <input name="segundoNombreCliente_1" id="segundoNombreCliente_1" type="text" class="form-control segundoNombreCliente" placeholder="Segundo nombre ..." maxlength="15" />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Otros nombre</label>
-                                    <input name="otrosNombresCliente" type="text" class="form-control" placeholder="Otros nombres ..." maxlength="30" />
+                                    <input name="otrosNombresCliente_1" id="otrosNombresCliente_1" type="text" class="form-control otrosNombresCliente" placeholder="Otros nombres ..." maxlength="30" />
                                 </div>
                             </div>
                         </div>
@@ -193,7 +190,7 @@
                                 <div class="form-group">
                                     <label>Fecha nacimiento</label>
                                     <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
-                                        <input name="fechaNacimientoCliente" type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento" required />
+                                        <input name="fechaNacimientoCliente_1" id="fechaNacimientoCliente_1" type="text" class="form-control datetimepicker-input fechaNacimientoCliente" data-target="#fechaNacimiento" required />
                                         <div class="input-group-append" data-target="#fechaNacimiento" data-toggle="datetimepicker">
                                             <div class="input-group-text">
                                                 <i class="fa fa-calendar"></i>
@@ -203,11 +200,10 @@
                                 </div>
                             </div>
 
-                            <!-- select pais nacimiento Cliente -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>País nacimiento</label>
-                                    <select name="paisNacimientoCliente" id="paisNacimientoCliente" class="pais form-control" style="width: 100%">
+                                    <select name="paisNacimientoCliente_1" id="paisNacimientoCliente_1" class="pais form-control paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                         @foreach($paises as $pais)
                                         <option value="{{$pais->idPais}}">
                                             {{$pais->nombrePais}}
@@ -583,7 +579,7 @@
                             <div class="col-sm-8">
                                 <div class="form-group">
                                     <label>Calidad con que actúa</label>
-                                    <input name="calidadActuaCliente_2" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
+                                    <input name="calidadActuaCliente_2" id="calidadActuaCliente_2" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
                                 </div>
                             </div>
                         </div>
@@ -646,7 +642,7 @@
                                 <div class="form-group">
                                     <label>Fecha</label>
                                     <div class="input-group date" id="fechaDoc_2" data-target-input="nearest">
-                                        <input name="fechaCaMiCliente_2" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_2" required />
+                                        <input name="fechaDocCaMiCliente_2" id="fechaDocCaMiCliente_2" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_2" required />
                                         <div class="input-group-append" data-target="#fechaDoc_2" data-toggle="datetimepicker">
                                             <div class="input-group-text">
                                                 <i class="fa fa-calendar"></i>
@@ -663,7 +659,7 @@
                                 <h4>III. DATOS PERSONALES</h4>
                             </div>
                             <div class="col-sm-12">
-                                <h5>Información del cliente</h5>
+                                <h5>Información del cliente 2</h5>
                             </div>
                             <br />
                             <br />
@@ -674,40 +670,38 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Primer Apellido</label>
-                                    <input name="primerApellidoCliente" type="text" class="form-control" placeholder="Primer Apellido ..." maxlength="15" required />
+                                    <input name="primerApellidoCliente_2" type="text" class="form-control primerApellidoCliente" placeholder="Primer Apellido ..." maxlength="15" required />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Segundo apellido</label>
-                                    <!-- la llave es obligatoria, pero consignar SOA si no aplica -->
-                                    <input name="segundoApellidoCliente" type="text" class="form-control" placeholder="Segundo apellido ..." maxlength="15" />
+                                    <input name="segundoApellidoCliente_2" type="text" class="form-control segundoApellidoCliente" placeholder="Segundo apellido ..." maxlength="15" />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Apellido casada</label>
                                     <!-- no anteponer de al apellido -->
-                                    <input name="apellidoCasadaCliente" type="text" class="form-control" placeholder="Apellido casada ..." maxlength="15" />
+                                    <input name="apellidoCasadaCliente_2" type="text" class="form-control" placeholder="Apellido casada ..." maxlength="15" />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Primer nombre</label>
-                                    <input name="primerNombreCliente" type="text" class="form-control" placeholder="Primer nombre ..." maxlength="15" required />
+                                    <input name="primerNombreCliente_2" type="text" class="form-control" placeholder="Primer nombre ..." maxlength="15" required />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Segundo nombre</label>
-                                    <!-- la llave es obligatoria, si no aplica consignar SON -->
-                                    <input name="segundoNombreCliente" type="text" class="form-control" placeholder="Segundo nombre ..." maxlength="15" />
+                                    <input name="segundoNombreCliente_2" type="text" class="form-control" placeholder="Segundo nombre ..." maxlength="15" />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Otros nombre</label>
-                                    <input name="otrosNombresCliente" type="text" class="form-control" placeholder="Otros nombres ..." maxlength="30" />
+                                    <input name="otrosNombresCliente_2" type="text" class="form-control" placeholder="Otros nombres ..." maxlength="30" />
                                 </div>
                             </div>
                         </div>
