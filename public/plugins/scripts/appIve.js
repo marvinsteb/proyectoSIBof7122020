@@ -1,5 +1,4 @@
-function setFormatoFecha() {
-    var divInputFecha = $(".date");
+function setFormatoFecha(divInputFecha) {
     for (let i = 0; i < divInputFecha.length; i++) {
         $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
     }
@@ -924,6 +923,8 @@ function AgregarTitular() {
         cargarDepartamentos(selectDepartamentoActual);
         let selectChangeMunicpio = divTitularActual.find("select.getMunicipio");
         cargarMunicipios(selectChangeMunicpio);
+        let fechas = divTitularActual.find("div.date");
+        setFormatoFecha(fechas);
     });
 }
 function guardar() {
@@ -933,8 +934,8 @@ function guardar() {
 }
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
-    setFormatoFecha();
     configurarAjax();
+    setFormatoFecha($(".date"));
     verificaActuaNombrePropio($(".actuaNombrePropio"));
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     cargarMunicipios($(".getMunicipio"));

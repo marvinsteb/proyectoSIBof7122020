@@ -121,9 +121,9 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Fecha</label>
-                                    <div class="input-group date" id="fechaDoc" data-target-input="nearest">
-                                        <input name="fechaCaMiCliente" type="text" class="form-control datetimepicker-input" data-target="#fechaDoc" required />
-                                        <div class="input-group-append" data-target="#fechaDoc" data-toggle="datetimepicker">
+                                    <div class="input-group date" id="fechaDoc_1" data-target-input="nearest">
+                                        <input name="fechaCaMiCliente_1" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_1" required />
+                                        <div class="input-group-append" data-target="#fechaDoc_1" data-toggle="datetimepicker">
                                             <div class="input-group-text">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
@@ -645,9 +645,9 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Fecha</label>
-                                    <div class="input-group date" id="fechaDoc" data-target-input="nearest">
-                                        <input name="fechaCaMiCliente" type="text" class="form-control datetimepicker-input" data-target="#fechaDoc" required />
-                                        <div class="input-group-append" data-target="#fechaDoc" data-toggle="datetimepicker">
+                                    <div class="input-group date" id="fechaDoc_2" data-target-input="nearest">
+                                        <input name="fechaCaMiCliente_2" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_2" required />
+                                        <div class="input-group-append" data-target="#fechaDoc_2" data-toggle="datetimepicker">
                                             <div class="input-group-text">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
