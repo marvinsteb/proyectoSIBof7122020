@@ -51,8 +51,7 @@ function habilitaDepartamentoMunicipio(selectPais) {
     }
 }
 
-function cargarMunicipio() {
-    let selectDeptos = $(".getMunicipio");
+function cargarMunicipio(selectDeptos) {
     for (let i = 0; i < selectDeptos.length; i++) {
         $(selectDeptos[i]).change(function (event) {
             let selectMuniActual = $(this)
@@ -1317,7 +1316,6 @@ function AgregarTitular() {
         let selectDepartamentoActual = divTitularActual.find(
             "select.setDepartamento"
         );
-        console.log(selectDepartamentoActual);
         getDepartamentos(function (departamentos) {
             departamentos.forEach(function (depto) {
                 for (let i = 0; i < selectDepartamentoActual.length; i++) {
@@ -1327,6 +1325,8 @@ function AgregarTitular() {
                 }
             });
         });
+        let selectChangeMunicpio = divTitularActual.find("select.getMunicipio");
+        cargarMunicipio(selectChangeMunicpio);
     });
 }
 function guardar() {
@@ -1340,7 +1340,7 @@ $(document).ready(function () {
     configurarAjax();
     verificaActuaNombrePropio($(".actuaNombrePropio"));
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
-    cargarMunicipio();
+    cargarMunicipio($(".getMunicipio"));
 
     agregaNacionalidadCLiente();
     agregarNumeroCliente();
