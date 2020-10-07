@@ -273,10 +273,8 @@
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label>Sexo</label>
-                                    <select name="sexoCliente" id="sexoCliente" class="form-control" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="sexoCliente_1" id="sexoCliente_1" class="form-control sexoCliente" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                         <option value="M">Masculino</option>
                                         <option value="F">Femenino</option>
                                     </select>
@@ -286,10 +284,8 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Estado civil</label>
-                                    <select name="estadoCivilCliente" id="estadoCivilCliente" class="form-control" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="estadoCivilCliente_1" id="estadoCivilCliente_1" class="form-control estadoCivilCliente" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                         <option value="S">Soltero</option>
                                         <option value="C">Casado</option>
                                     </select>
