@@ -296,17 +296,15 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Nit</label>
-                                    <input name="nitCliente" type="text" class="form-control" placeholder="Nit ..." maxlength="20" />
+                                    <input name="nitCliente_1" id="nitCliente_1" type="text" class="form-control validarNit" placeholder="Nit ..." maxlength="20" />
                                 </div>
                             </div>
 
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Docto. identificación</label>
-                                    <select name="tipoDoctoIdentificacionCliente" id="tipoDoctoIdentificacionCliente" class="form-control" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="tipoDoctoIdentificacionCliente_1" id="tipoDoctoIdentificacionCliente_1" class="form-control tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                         <option value="D">DPI</option>
                                         <option value="P">Pasaporte</option>
                                     </select>
@@ -316,22 +314,17 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Número identificación</label>
-                                    <input name="numeroDocumentoIdentificacionCliente" type="text" class="form-control" placeholder="Número identificación..." maxlength="20" />
+                                    <input name="noDocIdentificacionCliente_1" id="noDocIdentificacionCliente_1" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required />
                                 </div>
                             </div>
 
-                            <!-- select emicion pasaporte, se envia el codigo del pais, en la tabla solo recibe el codigo de dos letras -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>País (Pasaporte)</label>
-                                    <select name="emicionPasaporteCliente" id="emicionPasaporteCliente" class="pais form-control" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="emicionPasaporteCliente_1" id="emicionPasaporteCliente_1" class="form-control emicionPasaporteCliente" style="width: 100%" disabled required>
+                                        <option value="" disabled selected>Selecciona</option>
                                         @foreach($paises as $pais)
-                                        <option value="{{$pais->codigoPais}}">
-                                            {{$pais->nombrePais}}
-                                        </option>
+                                        <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -779,7 +772,6 @@
                                 <div class="form-group">
                                     <label>Especifique</label>
                                     <input name="otraCoMiCliente_2" id="otraCoMiCliente_2" type="text" class="form-control otraCoMiCliente" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
-
                                 </div>
                             </div>
                         </div>
@@ -790,10 +782,8 @@
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label>Sexo</label>
-                                    <select name="sexoCliente" id="sexoCliente" class="form-control" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="sexoCliente_2" id="sexoCliente_2" class="form-control sexoCliente" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                         <option value="M">Masculino</option>
                                         <option value="F">Femenino</option>
                                     </select>
@@ -803,10 +793,8 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Estado civil</label>
-                                    <select name="estadoCivilCliente" id="estadoCivilCliente" class="form-control" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="estadoCivilCliente_2" id="estadoCivilCliente_2" class="form-control estadoCivilCliente" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                         <option value="S">Soltero</option>
                                         <option value="C">Casado</option>
                                     </select>
@@ -817,17 +805,15 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Nit</label>
-                                    <input name="nitCliente" type="text" class="form-control" placeholder="Nit ..." maxlength="20" />
+                                    <input name="nitCliente_2" id="nitCliente_2" type="text" class="form-control validarNit" placeholder="Nit ..." maxlength="20" />
                                 </div>
                             </div>
 
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Docto. identificación</label>
-                                    <select name="tipoDoctoIdentificacionCliente" id="tipoDoctoIdentificacionCliente" class="form-control" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="tipoDoctoIdentificacionCliente_2" id="tipoDoctoIdentificacionCliente_2" class="form-control tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                         <option value="D">DPI</option>
                                         <option value="P">Pasaporte</option>
                                     </select>
@@ -837,22 +823,17 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Número identificación</label>
-                                    <input name="numeroDocumentoIdentificacionCliente" type="text" class="form-control" placeholder="Número identificación..." maxlength="20" />
+                                    <input name="noDocIdentificacionCliente_2" id="noDocIdentificacionCliente_2" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" />
                                 </div>
                             </div>
 
-                            <!-- select emicion pasaporte, se envia el codigo del pais, en la tabla solo recibe el codigo de dos letras -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>País (Pasaporte)</label>
-                                    <select name="emicionPasaporteCliente" id="emicionPasaporteCliente" class="pais form-control" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="emicionPasaporteCliente_2" id="emicionPasaporteCliente_2" class="form-control emicionPasaporteCliente" style="width: 100%" disabled required>
+                                        <option value="" disabled selected>Selecciona</option>
                                         @foreach($paises as $pais)
-                                        <option value="{{$pais->codigoPais}}">
-                                            {{$pais->nombrePais}}
-                                        </option>
+                                        <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -1053,7 +1034,6 @@
                     </div>
                     <!-- /.card-body -->
                 </div>
-
 
             </div>
             <div class="row">

@@ -161,6 +161,36 @@ function verificaOtraCondicionMigratoria(condicionMigratoria) {
     }
 }
 
+function validarPaisPasaporte(pasaportes) {
+    for (let i = 0; i < pasaportes.length; i++) {
+        $(pasaportes[i]).change(function (event) {
+            let selectPaisPasaporte = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .find("select.emicionPasaporteCliente");
+            if (event.target.value == "P") {
+                selectPaisPasaporte[0].disabled = false;
+            } else {
+                selectPaisPasaporte[0].disabled = true;
+                $(selectPaisPasaporte[0]).empty();
+                $(selectPaisPasaporte[0]).append(
+                    '<option value="" disabled selected>Selecciona</option>'
+                );
+                getPaises(function (paises) {
+                    paises.forEach(function (pais) {
+                        for (let i = 0; i < selectPaisPasaporte.length; i++) {
+                            $(selectPaisPasaporte[i]).append(
+                                `<option value=${pais.codigoPais}> ${pais.nombrePais} </option>`
+                            );
+                        }
+                    });
+                });
+            }
+        });
+    }
+}
+
 function verificarClientePep() {
     var radioClientePep = $(".pepCliente");
     for (let i = 0; i < radioClientePep.length; i++) {
@@ -668,10 +698,8 @@ function AgregarTitular() {
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label>Sexo</label>
-                                        <select name="sexoCliente" id="sexoCliente" class="form-control" style="width: 100%" required>
-                                            <option value="" disabled selected>
-                                                Selecciona
-                                            </option>
+                                        <select name="sexoCliente_${id}" id="sexoCliente_${id}" class="form-control sexoCliente" style="width: 100%" required>
+                                            <option value="" disabled selected>Selecciona</option>
                                             <option value="M">Masculino</option>
                                             <option value="F">Femenino</option>
                                         </select>
@@ -681,10 +709,8 @@ function AgregarTitular() {
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Estado civil</label>
-                                        <select name="estadoCivilCliente" id="estadoCivilCliente" class="form-control" style="width: 100%" required>
-                                            <option value="" disabled selected>
-                                                Selecciona
-                                            </option>
+                                        <select name="estadoCivilCliente_${id}" id="estadoCivilCliente_${id}" class="form-control estadoCivilCliente" style="width: 100%" required>
+                                            <option value="" disabled selected>Selecciona</option>
                                             <option value="S">Soltero</option>
                                             <option value="C">Casado</option>
                                         </select>
@@ -695,17 +721,15 @@ function AgregarTitular() {
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Nit</label>
-                                        <input name="nitCliente" type="text" class="form-control" placeholder="Nit ..." maxlength="20" />
+                                        <input name="nitCliente_${id}" id="nitCliente_${id}" type="text" class="form-control nitCliente" placeholder="Nit ..." maxlength="20" />
                                     </div>
                                 </div>
 
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Docto. identificación</label>
-                                        <select name="tipoDoctoIdentificacionCliente" id="tipoDoctoIdentificacionCliente" class="form-control" style="width: 100%" required>
-                                            <option value="" disabled selected>
-                                                Selecciona
-                                            </option>
+                                        <select name="tipoDoctoIdentificacionCliente_${id}" id="tipoDoctoIdentificacionCliente_${id}" class="form-control tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
+                                            <option value="" disabled selected>Selecciona</option>
                                             <option value="D">DPI</option>
                                             <option value="P">Pasaporte</option>
                                         </select>
@@ -715,23 +739,14 @@ function AgregarTitular() {
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Número identificación</label>
-                                        <input name="numeroDocumentoIdentificacionCliente" type="text" class="form-control" placeholder="Número identificación..." maxlength="20" />
+                                        <input name="noDocIdentificacionCliente_${id}" id="noDocIdentificacionCliente_${id}" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required/>
                                     </div>
                                 </div>
-
-                                <!-- select emicion pasaporte, se envia el codigo del pais, en la tabla solo recibe el codigo de dos letras -->
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>País (Pasaporte)</label>
-                                        <select name="emicionPasaporteCliente" id="emicionPasaporteCliente" class="pais form-control" style="width: 100%">
-                                            <option value="" disabled selected>
-                                                Selecciona
-                                            </option>
-                                            @foreach($paises as $pais)
-                                            <option value="{{$pais->codigoPais}}">
-                                                {{$pais->nombrePais}}
-                                            </option>
-                                            @endforeach
+                                        <select name="emicionPasaporteCliente_${id}" id="emicionPasaporteCliente_${id}" class="form-control emicionPasaporteCliente" style="width: 100%" disabled required>
+                                        <option value="" disabled selected>Selecciona</option>
                                         </select>
                                     </div>
                                 </div>
@@ -969,6 +984,10 @@ function AgregarTitular() {
             "select.condicionMigratoriaCliente"
         );
         cargarLiCondicionMigratoria(liConMigratoria);
+        let selectValidaPaisPasaporte = divTitularActual.find(
+            "select.validaPaisPasaporte"
+        );
+        validarPaisPasaporte(selectValidaPaisPasaporte);
     });
 }
 
@@ -986,9 +1005,11 @@ $(document).ready(function () {
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     cargarMunicipios($(".getMunicipio"));
     verificaOtraCondicionMigratoria($(".condicionMigratoriaCliente"));
+    validarPaisPasaporte($(".validaPaisPasaporte"));
     agregaNacionalidadCliente();
     agregarNumeroCliente();
     verificarClientePep();
     verificarAsoPep();
+
     AgregarTitular();
 });
