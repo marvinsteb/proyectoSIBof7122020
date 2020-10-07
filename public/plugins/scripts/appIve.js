@@ -116,7 +116,7 @@ function cargarLiCondicionMigratoria(selectCondicionMigratoria) {
                 );
             });
         });
-        verificaOtraCondicionMigratoria(selectCondicionMigratoria[i]);
+        verificaOtraCondicionMigratoria($(selectCondicionMigratoria[i]));
     }
 }
 

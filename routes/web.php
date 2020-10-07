@@ -29,4 +29,4 @@ Route::post('oficios/7122020/guardarActualizar', [InformacionClienteController::
 Route::get('departamentos/municipios/{id}', [MunicipioController::class, 'getMunicipio']);
 Route::get('pais/obtenerpaises', [PaisController::class, 'getPais']);
 Route::get('departamento/obtenerdepartamento', [DepartamentoController::class, 'getDepartamento']);
-Route::get('listacondicionmigratoria', [CondicionMigratoriaController::class, 'getgetCondicionMigratoria']);
+Route::get('listacondicionmigratoria', [CondicionMigratoriaController::class, 'getCondicionMigratoria']);
