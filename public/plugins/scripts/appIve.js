@@ -103,6 +103,22 @@ function cargarDepartamentos(selectDepartamentos) {
     }
 }
 
+function cargarPaisPorCodigo(selectPais) {
+    for (let i = 0; i < selectPais.length; i++) {
+        $(selectPais[i]).empty();
+        $(selectPais[i]).append(
+            '<option value="" disabled selected>Selecciona</option>'
+        );
+        getPaises(function (paises) {
+            paises.forEach(function (pais) {
+                $(selectPais[i]).append(
+                    `<option value=${pais.codigoPais}> ${pais.nombrePais} </option>`
+                );
+            });
+        });
+    }
+}
+
 function cargarLiCondicionMigratoria(selectCondicionMigratoria) {
     for (let i = 0; i < selectCondicionMigratoria.length; i++) {
         $(selectCondicionMigratoria[i]).empty();
@@ -173,19 +189,7 @@ function validarPaisPasaporte(pasaportes) {
                 selectPaisPasaporte[0].disabled = false;
             } else {
                 selectPaisPasaporte[0].disabled = true;
-                $(selectPaisPasaporte[0]).empty();
-                $(selectPaisPasaporte[0]).append(
-                    '<option value="" disabled selected>Selecciona</option>'
-                );
-                getPaises(function (paises) {
-                    paises.forEach(function (pais) {
-                        for (let i = 0; i < selectPaisPasaporte.length; i++) {
-                            $(selectPaisPasaporte[i]).append(
-                                `<option value=${pais.codigoPais}> ${pais.nombrePais} </option>`
-                            );
-                        }
-                    });
-                });
+                cargarPaisPorCodigo(selectPaisPasaporte);
             }
         });
     }
@@ -984,10 +988,16 @@ function AgregarTitular() {
             "select.condicionMigratoriaCliente"
         );
         cargarLiCondicionMigratoria(liConMigratoria);
+
         let selectValidaPaisPasaporte = divTitularActual.find(
             "select.validaPaisPasaporte"
         );
         validarPaisPasaporte(selectValidaPaisPasaporte);
+
+        let paisPasaporte = divTitularActual.find(
+            "select.emicionPasaporteCliente"
+        );
+        cargarPaisPorCodigo(paisPasaporte);
     });
 }
 
