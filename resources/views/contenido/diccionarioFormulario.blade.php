@@ -50,8 +50,8 @@
                                         <label for="siActuaCliente_1">Sí</label>
                                     </div>
                                     <div class="icheck-primary d-inline">
-                                        <input type="radio" id="noActuaCLiente_1" class="actuaNombrePropio" name="tipoActuacionCliente_1" value="R" required />
-                                        <label for="noActuaCLiente_1">No</label>
+                                        <input type="radio" id="noActuaCliente_1" class="actuaNombrePropio" name="tipoActuacionCliente_1" value="R" required />
+                                        <label for="noActuaCliente_1">No</label>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>País</label>
-                                    <select name="paisCaMiCliente_1" id="paisCaMiCliente_1" class="form-control paisCaMiCliente deshabilitaDepartamentoMunicipio" style="width: 100%" required>
+                                    <select name="paisCaMiCliente_1" id="paisCaMiCliente_1" class="form-control paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                         @foreach($paises as $pais)
                                         <option value="{{$pais->idPais}}">
                                             {{$pais->nombrePais}}
@@ -203,7 +203,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>País nacimiento</label>
-                                    <select name="paisNacimientoCliente_1" id="paisNacimientoCliente_1" class="pais form-control paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                    <select name="paisNacimientoCliente_1" id="paisNacimientoCliente_1" class="form-control paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                         @foreach($paises as $pais)
                                         <option value="{{$pais->idPais}}">
                                             {{$pais->nombrePais}}
@@ -217,7 +217,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Departamento nacimiento</label>
-                                    <select name="deptoNacimientoCliente" id="deptoNacimientoCliente" class="paisNacimientoCliente departamento form-control" style="width: 100%">
+                                    <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control deptoNacimientoCliente getMunicipio" style="width: 100%">
                                         <option value="" disabled selected>
                                             Selecciona
                                         </option>
@@ -234,7 +234,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio nacimiento</label>
-                                    <select name="muniNaciminentoCliente" id="muniNaciminentoCliente" class="paisNacimientoCliente form-control" style="width: 100%">
+                                    <select name="muniNaciminentoCliente_1" id="muniNaciminentoCliente_1" class="form-control muniNaciminentoCliente setMunicipio" style="width: 100%">
                                         <option value="" disabled selected>
                                             Selecciona
                                         </option>
@@ -245,7 +245,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Condición migratoria</label>
-                                    <select name="condicionMigratoriaCliente" id="condicionMigratoriaCliente" class="paisNacimientoCliente form-control" style="width: 100%" disabled required>
+                                    <select name="condicionMigratoriaCliente_1" id="condicionMigratoriaCliente_1" class="form-control condicionMigratoriaCliente" style="width: 100%" disabled required>
                                         <option value="" disabled selected>
                                             Selecciona
                                         </option>
@@ -347,7 +347,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Profesión u oficio</label>
-                                    <input name="profecionOficioCLiente" type="text" class="form-control" placeholder="Profesión u oficio ..." maxlength="100" />
+                                    <input name="profecionOficioCliente" type="text" class="form-control" placeholder="Profesión u oficio ..." maxlength="100" />
                                 </div>
                             </div>
                             <div class="col-sm">
@@ -536,7 +536,7 @@
                     </div>
                     <!-- /.card-body -->
                 </div>
-
+                
                 <div class="card card-primary" id="titular_2">
                     <div class="card-header">
                         <h3 class="card-title">Titular 2</h3>
@@ -600,7 +600,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>País</label>
-                                    <select name="paisCaMiCliente_2" id="paisCaMiCliente_2" class="form-control paisCaMiCliente deshabilitaDepartamentoMunicipio" style="width: 100%" required>
+                                    <select name="paisCaMiCliente_2" id="paisCaMiCliente_2" class="form-control paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                         @foreach($paises as $pais)
                                         <option value="{{$pais->idPais}}">
                                             {{$pais->nombrePais}}
@@ -670,38 +670,37 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Primer Apellido</label>
-                                    <input name="primerApellidoCliente_2" type="text" class="form-control primerApellidoCliente" placeholder="Primer Apellido ..." maxlength="15" required />
+                                    <input name="primerApellidoCliente_2" id="primerApellidoCliente_2" type="text" class="form-control primerApellidoCliente" placeholder="Primer Apellido ..." maxlength="15" required />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Segundo apellido</label>
-                                    <input name="segundoApellidoCliente_2" type="text" class="form-control segundoApellidoCliente" placeholder="Segundo apellido ..." maxlength="15" />
+                                    <input name="segundoApellidoCliente_2" id="segundoApellidoCliente_2" type="text" class="form-control segundoApellidoCliente" placeholder="Segundo apellido ..." maxlength="15" />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Apellido casada</label>
-                                    <!-- no anteponer de al apellido -->
-                                    <input name="apellidoCasadaCliente_2" type="text" class="form-control" placeholder="Apellido casada ..." maxlength="15" />
+                                    <input name="apellidoCasadaCliente_2" id="apellidoCasadaCliente_2" type="text" class="form-control apellidoCasadaCliente" placeholder="Apellido casada ..." maxlength="15" />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Primer nombre</label>
-                                    <input name="primerNombreCliente_2" type="text" class="form-control" placeholder="Primer nombre ..." maxlength="15" required />
+                                    <input name="primerNombreCliente_2" id="primerNombreCliente_2" type="text" class="form-control primerNombreCliente" placeholder="Primer nombre ..." maxlength="15" required />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Segundo nombre</label>
-                                    <input name="segundoNombreCliente_2" type="text" class="form-control" placeholder="Segundo nombre ..." maxlength="15" />
+                                    <input name="segundoNombreCliente_2" id="segundoNombreCliente_2" type="text" class="form-control segundoNombreCliente" placeholder="Segundo nombre ..." maxlength="15" />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Otros nombre</label>
-                                    <input name="otrosNombresCliente_2" type="text" class="form-control" placeholder="Otros nombres ..." maxlength="30" />
+                                    <input name="otrosNombresCliente_2" id="otrosNombresCliente_2" type="text" class="form-control otrosNombresCliente" placeholder="Otros nombres ..." maxlength="30" />
                                 </div>
                             </div>
                         </div>
@@ -711,7 +710,7 @@
                                 <div class="form-group">
                                     <label>Fecha nacimiento</label>
                                     <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
-                                        <input name="fechaNacimientoCliente" type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento" required />
+                                        <input name="fechaNacimientoCliente_2" id="fechaNacimientoCliente_2" type="text" class="form-control datetimepicker-input fechaNacimientoCliente" data-target="#fechaNacimiento" required />
                                         <div class="input-group-append" data-target="#fechaNacimiento" data-toggle="datetimepicker">
                                             <div class="input-group-text">
                                                 <i class="fa fa-calendar"></i>
@@ -721,11 +720,10 @@
                                 </div>
                             </div>
 
-                            <!-- select pais nacimiento Cliente -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>País nacimiento</label>
-                                    <select name="paisNacimientoCliente" id="paisNacimientoCliente" class="pais form-control" style="width: 100%">
+                                    <select name="paisNacimientoCliente_2" id="paisNacimientoCliente_2" class="form-control paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                         @foreach($paises as $pais)
                                         <option value="{{$pais->idPais}}">
                                             {{$pais->nombrePais}}
@@ -739,7 +737,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Departamento nacimiento</label>
-                                    <select name="deptoNacimientoCliente" id="deptoNacimientoCliente" class="paisNacimientoCliente departamento form-control" style="width: 100%">
+                                    <select name="deptoNacimientoCliente_2" id="deptoNacimientoCliente_2" class="form-control deptoNacimientoCliente getMunicipio" style="width: 100%">
                                         <option value="" disabled selected>
                                             Selecciona
                                         </option>
@@ -756,7 +754,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio nacimiento</label>
-                                    <select name="muniNaciminentoCliente" id="muniNaciminentoCliente" class="paisNacimientoCliente form-control" style="width: 100%">
+                                    <select name="muniNaciminentoCliente_2" id="muniNaciminentoCliente_2" class="form-control muniNaciminentoCliente setMunicipio" style="width: 100%">
                                         <option value="" disabled selected>
                                             Selecciona
                                         </option>
@@ -767,7 +765,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Condición migratoria</label>
-                                    <select name="condicionMigratoriaCliente" id="condicionMigratoriaCliente" class="paisNacimientoCliente form-control" style="width: 100%" disabled required>
+                                    <select name="condicionMigratoriaCliente_2" id="condicionMigratoriaCliente_2" class="form-control condicionMigratoriaCliente" style="width: 100%" disabled required>
                                         <option value="" disabled selected>
                                             Selecciona
                                         </option>
@@ -869,7 +867,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Profesión u oficio</label>
-                                    <input name="profecionOficioCLiente" type="text" class="form-control" placeholder="Profesión u oficio ..." maxlength="100" />
+                                    <input name="profecionOficioCliente" type="text" class="form-control" placeholder="Profesión u oficio ..." maxlength="100" />
                                 </div>
                             </div>
                             <div class="col-sm">
@@ -1058,6 +1056,8 @@
                     </div>
                     <!-- /.card-body -->
                 </div>
+
+
             </div>
             <div class="row">
                 <div class="col clearfix">
