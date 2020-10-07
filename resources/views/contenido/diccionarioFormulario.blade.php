@@ -262,7 +262,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Especifique</label>
-                                    <input name="otraCondicionMigratoriacliente" type="text" class="form-control" placeholder="Otra condición migratoria ..." />
+                                    <input name="otraCoMiCliente_1" id="otraCoMiCliente_1" type="text" class="form-control otraCoMiCliente" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
                                 </div>
                             </div>
                         </div>
@@ -536,7 +536,7 @@
                     </div>
                     <!-- /.card-body -->
                 </div>
-                
+
                 <div class="card card-primary" id="titular_2">
                     <div class="card-header">
                         <h3 class="card-title">Titular 2</h3>
@@ -782,7 +782,8 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Especifique</label>
-                                    <input name="otraCondicionMigratoriacliente" type="text" class="form-control" placeholder="Otra condición migratoria ..." />
+                                    <input name="otraCoMiCliente_2" id="otraCoMiCliente_2" type="text" class="form-control otraCoMiCliente" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
+
                                 </div>
                             </div>
                         </div>
