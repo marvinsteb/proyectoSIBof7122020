@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CondicionMigratoriaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InformacionClienteController;
 use App\Http\Controllers\MunicipioController;
@@ -22,9 +23,10 @@ Route::get('/', function () {
 });
 
 
-Route::get('oficios/7122020',[InformacionClienteController::class, 'index']);
+Route::get('oficios/7122020', [InformacionClienteController::class, 'index']);
 Route::get('oficios/7122020/crear', [InformacionClienteController::class, 'create']);
 Route::post('oficios/7122020/guardarActualizar', [InformacionClienteController::class, 'store']);
-Route::get('departamentos/municipios/{id}',[MunicipioController::class, 'getMunicipio']);
-Route::get('pais/obtenerpaises',[PaisController::class, 'getPais']);
-Route::get('departamento/obtenerdepartamento',[DepartamentoController::class, 'getDepartamento']);
+Route::get('departamentos/municipios/{id}', [MunicipioController::class, 'getMunicipio']);
+Route::get('pais/obtenerpaises', [PaisController::class, 'getPais']);
+Route::get('departamento/obtenerdepartamento', [DepartamentoController::class, 'getDepartamento']);
+Route::get('listacondicionmigratoria', [CondicionMigratoriaController::class, 'getgetCondicionMigratoria']);
