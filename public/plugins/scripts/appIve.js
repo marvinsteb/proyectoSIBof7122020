@@ -997,12 +997,25 @@ function AgregarTitular() {
     });
 }
 
-function guardar() {
+function guardarFormulario() {
     $("#btnGuardar").click(function (event) {
         event.preventDefault();
+        /*
+            se expanden todos los cards, antes de validar cada input
+        */
+        let titulares = $("#titulares>div");
+        for (let i = 0; i < titulares.length; i++) {
+            $(titulares[i]).CardWidget("expand");
+        }
     });
 }
-
+function eliminarTemplateTitular(titulares) {
+    for (let i = 0; i < titulares.length; i++) {
+        $(titulares[i]).on("removed.lte.cardwidget", function () {
+            console.log($(this).remove());
+        });
+    }
+}
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
     configurarAjax();
@@ -1018,4 +1031,7 @@ $(document).ready(function () {
     verificarAsoPep();
 
     AgregarTitular();
+    guardarFormulario();
+
+    eliminarTemplateTitular($("#titulares>div"));
 });
