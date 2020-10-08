@@ -1,63 +1,200 @@
 function setFormatoFecha(divInputFecha) {
-for (let i = 0; i < divInputFecha.length; i++) { $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" }); } } function configurarAjax() { $.ajaxSetup({ headers: { "X-CSRF-TOKEN" : $('meta[name="csrf-token" ]').attr("content"), }, }); } function verificaActuaNombrePropio(elementoActuaNomprePropio) { for (let i=0; i < elementoActuaNomprePropio.length; i++) { $(elementoActuaNomprePropio[i]).change(function () { let inputCalidadActua=$(this) .parent() .parent() .parent() .parent() .find("input.calidadActuaCliente"); if (this.value==="C" ) { inputCalidadActua[0].disabled=true; $(inputCalidadActua[0]).prop("required", false); } else if (this.value==="R" ) { inputCalidadActua[0].disabled=false; $(inputCalidadActua[0]).prop("required", true); } }); } } function habilitaDepartamentoMunicipio(selectPais) { for (let i=0; i < selectPais.length; i++) { $(selectPais[i]).change(function () { let divPadre=$(this).parent().parent().parent(); let condicionMigratoria=$(divPadre).find( "select.condicionMigratoriaCliente" ); let departamento=$(divPadre).find("select.getMunicipio"); let municipio=$(divPadre).find("select.setMunicipio"); if (this.value==1) { departamento[0].disabled=false; municipio[0].disabled=false; if (condicionMigratoria.length) { condicionMigratoria[0].disabled=true; } console.log(condicionMigratoria.length); } else { departamento[0].disabled=true; municipio[0].disabled=true; $(municipio[0]).empty(); $(municipio[0]).append( '<option value="" disabled selected>Selecciona</option>' ); cargarDepartamentos(departamento); if (condicionMigratoria.length) { condicionMigratoria[0].disabled=false; } } }); } } function cargarMunicipios(selectDeptos) { for (let i=0; i < selectDeptos.length; i++) { $(selectDeptos[i]).change(function (event) { let selectMuniActual=$(this) .parent() .parent() .parent() .find("select.setMunicipio"); $(selectMuniActual[0]).empty(); $(selectMuniActual[0]).append( '<option value="" disabled selected>Selecciona</option>' ); getMunicipios(function (municipios) { municipios.forEach(function (muni) { $(selectMuniActual[0]).append( `<option value=${muni.idMunicipio}> ${muni.nombreMunicipio} </option>`
-    );
-    });
-    }, event.target.value);
-    });
+    for (let i = 0; i < divInputFecha.length; i++) {
+        $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
     }
+}
+function configurarAjax() {
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token" ]').attr("content"),
+        },
+    });
+}
+function verificaActuaNombrePropio(elementoActuaNomprePropio) {
+    for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
+        $(elementoActuaNomprePropio[i]).change(function () {
+            let inputCalidadActua = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .parent()
+                .find("input.calidadActuaCliente");
+            if (this.value === "C") {
+                inputCalidadActua[0].disabled = true;
+                $(inputCalidadActua[0]).prop("required", false);
+            } else if (this.value === "R") {
+                inputCalidadActua[0].disabled = false;
+                $(inputCalidadActua[0]).prop("required", true);
+            }
+        });
     }
-
-    function cargarDepartamentos(selectDepartamentos) {
-    for (let i = 0; i < selectDepartamentos.length; i++) { $(selectDepartamentos[i]).empty(); $(selectDepartamentos[i]).append( '<option value="" disabled selected>Selecciona</option>' ); getDepartamentos(function (departamentos) { departamentos.forEach(function (depto) { $(selectDepartamentos[i]).append( `<option value=${depto.codigoDepartamento}> ${depto.nombreDepartamento} </option>`
-        );
-        });
-        });
-        }
-        }
-
-        function cargarPaisPorCodigo(selectPais) {
-        for (let i = 0; i < selectPais.length; i++) { $(selectPais[i]).empty(); $(selectPais[i]).append( '<option value="" disabled selected>Selecciona</option>' ); getPaises(function (paises) { paises.forEach(function (pais) { $(selectPais[i]).append( `<option value=${pais.codigoPais}> ${pais.nombrePais} </option>`
+}
+function habilitaDepartamentoMunicipio(selectPais) {
+    for (let i = 0; i < selectPais.length; i++) {
+        $(selectPais[i]).change(function () {
+            let divPadre = $(this).parent().parent().parent();
+            let condicionMigratoria = $(divPadre).find(
+                "select.condicionMigratoriaCliente"
             );
-            });
-            });
-            }
-            }
-
-            function cargarLiCondicionMigratoria(selectCondicionMigratoria) {
-            for (let i = 0; i < selectCondicionMigratoria.length; i++) { $(selectCondicionMigratoria[i]).empty(); $(selectCondicionMigratoria[i]).append( '<option value="" disabled selected>Selecciona</option>' ); getCondicionMigratoria(function (listaCoMi) { listaCoMi.forEach(function (CoMi) { $(selectCondicionMigratoria[i]).append( `<option value=${CoMi.idListaCondicionMigratoria}> ${CoMi.descripcion} </option>`
+            let departamento = $(divPadre).find("select.getMunicipio");
+            let municipio = $(divPadre).find("select.setMunicipio");
+            if (this.value == 1) {
+                departamento[0].disabled = false;
+                municipio[0].disabled = false;
+                if (condicionMigratoria.length) {
+                    condicionMigratoria[0].disabled = true;
+                }
+                console.log(condicionMigratoria.length);
+            } else {
+                departamento[0].disabled = true;
+                municipio[0].disabled = true;
+                $(municipio[0]).empty();
+                $(municipio[0]).append(
+                    '<option value="" disabled selected>Selecciona</option>'
                 );
-                });
-                });
-                verificaOtraCondicionMigratoria($(selectCondicionMigratoria[i]));
+                cargarDepartamentos(departamento);
+                if (condicionMigratoria.length) {
+                    condicionMigratoria[0].disabled = false;
                 }
-                }
+            }
+        });
+    }
+}
+function cargarMunicipios(selectDeptos) {
+    for (let i = 0; i < selectDeptos.length; i++) {
+        $(selectDeptos[i]).change(function (event) {
+            let selectMuniActual = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .find("select.setMunicipio");
+            $(selectMuniActual[0]).empty();
+            $(selectMuniActual[0]).append(
+                '<option value="" disabled selected>Selecciona</option>'
+            );
+            getMunicipios(function (municipios) {
+                municipios.forEach(function (muni) {
+                    $(selectMuniActual[0]).append(
+                        `<option value=${muni.idMunicipio}> ${muni.nombreMunicipio} </option>`
+                    );
+                });
+            }, event.target.value);
+        });
+    }
+}
 
-                function getMunicipios(callback, idDepto) {
-                $.get(`/departamentos/municipios/${idDepto}`, function (res, sta) {
-                callback(res);
-                });
-                }
+function cargarDepartamentos(selectDepartamentos) {
+    for (let i = 0; i < selectDepartamentos.length; i++) {
+        $(selectDepartamentos[i]).empty();
+        $(selectDepartamentos[i]).append(
+            '<option value="" disabled selected>Selecciona</option>'
+        );
+        getDepartamentos(function (departamentos) {
+            departamentos.forEach(function (depto) {
+                $(selectDepartamentos[i]).append(
+                    `<option value=${depto.codigoDepartamento}> ${depto.nombreDepartamento} </option>`
+                );
+            });
+        });
+    }
+}
 
-                function getPaises(callbak) {
-                $.get(`/pais/obtenerpaises`, function (res, sta) {
-                callbak(res);
-                });
-                }
+function cargarPaisPorCodigo(selectPais) {
+    for (let i = 0; i < selectPais.length; i++) {
+        $(selectPais[i]).empty();
+        $(selectPais[i]).append(
+            '<option value="" disabled selected>Selecciona</option>'
+        );
+        getPaises(function (paises) {
+            paises.forEach(function (pais) {
+                $(selectPais[i]).append(
+                    `<option value=${pais.codigoPais}> ${pais.nombrePais} </option>`
+                );
+            });
+        });
+    }
+}
 
-                function getCondicionMigratoria(callback) {
-                $.get(`/listacondicionmigratoria`, function (res, sta) {
-                callback(res);
-                });
-                }
+function cargarLiCondicionMigratoria(selectCondicionMigratoria) {
+    for (let i = 0; i < selectCondicionMigratoria.length; i++) {
+        $(selectCondicionMigratoria[i]).empty();
+        $(selectCondicionMigratoria[i]).append(
+            '<option value="" disabled selected>Selecciona</option>'
+        );
+        getCondicionMigratoria(function (listaCoMi) {
+            listaCoMi.forEach(function (CoMi) {
+                $(selectCondicionMigratoria[i]).append(
+                    `<option value=${CoMi.idListaCondicionMigratoria}> ${CoMi.descripcion} </option>`
+                );
+            });
+        });
+        verificaOtraCondicionMigratoria($(selectCondicionMigratoria[i]));
+    }
+}
 
-                function getDepartamentos(callback) {
-                $.get(`/departamento/obtenerdepartamento`, function (res, sta) {
-                callback(res);
-                });
-                }
+function getMunicipios(callback, idDepto) {
+    $.get(`/departamentos/municipios/${idDepto}`, function (res, sta) {
+        callback(res);
+    });
+}
 
-                function verificaOtraCondicionMigratoria(condicionMigratoria) {
-                for (let i = 0; i < condicionMigratoria.length; i++) { $(condicionMigratoria[i]).change(function (event) { let otraCondicionMigratoria=$(this) .parent() .parent() .parent() .find("input.otraCoMiCliente"); if (event.target.value==8) { otraCondicionMigratoria[0].disabled=false; } else { otraCondicionMigratoria[0].disabled=true; } }); } } function validarPaisPasaporte(pasaportes) { for (let i=0; i < pasaportes.length; i++) { $(pasaportes[i]).change(function (event) { let selectPaisPasaporte=$(this) .parent() .parent() .parent() .find("select.emicionPasaporteCliente"); if (event.target.value=="P" ) { selectPaisPasaporte[0].disabled=false; } else { selectPaisPasaporte[0].disabled=true; cargarPaisPorCodigo(selectPaisPasaporte); } }); } } function verificarClientePep() { var radioClientePep=$(".pepCliente"); for (let i=0; i < radioClientePep.length; i++) { $(radioClientePep[i]).change(function () { if (this.value !="N" ) { var filasDatosPepCliente=`<div class="row">
+function getPaises(callbak) {
+    $.get(`/pais/obtenerpaises`, function (res, sta) {
+        callbak(res);
+    });
+}
+
+function getCondicionMigratoria(callback) {
+    $.get(`/listacondicionmigratoria`, function (res, sta) {
+        callback(res);
+    });
+}
+
+function getDepartamentos(callback) {
+    $.get(`/departamento/obtenerdepartamento`, function (res, sta) {
+        callback(res);
+    });
+}
+
+function verificaOtraCondicionMigratoria(condicionMigratoria) {
+    for (let i = 0; i < condicionMigratoria.length; i++) {
+        $(condicionMigratoria[i]).change(function (event) {
+            let otraCondicionMigratoria = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .find("input.otraCoMiCliente");
+            if (event.target.value == 8) {
+                otraCondicionMigratoria[0].disabled = false;
+            } else {
+                otraCondicionMigratoria[0].disabled = true;
+            }
+        });
+    }
+}
+function validarPaisPasaporte(pasaportes) {
+    for (let i = 0; i < pasaportes.length; i++) {
+        $(pasaportes[i]).change(function (event) {
+            let selectPaisPasaporte = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .find("select.emicionPasaporteCliente");
+            if (event.target.value == "P") {
+                selectPaisPasaporte[0].disabled = false;
+            } else {
+                selectPaisPasaporte[0].disabled = true;
+                cargarPaisPorCodigo(selectPaisPasaporte);
+            }
+        });
+    }
+}
+function verificarClientePep() {
+    var radioClientePep = $(".pepCliente");
+    for (let i = 0; i < radioClientePep.length; i++) {
+        $(radioClientePep[i]).change(function () {
+            if (this.value != "N") {
+                var filasDatosPepCliente = `<div class="row">
                     <div class="col-sm">
                         <div class="form-group">
                             <label>Entidad</label>
@@ -103,26 +240,26 @@ for (let i = 0; i < divInputFecha.length; i++) { $(divInputFecha[i]).datetimepic
                             </div>
                         </div>
                     </div>`;
-                    $(".datosPepCliente").append(filasDatosPepCliente);
-                    getPaises(function (element) {
+                $(".datosPepCliente").append(filasDatosPepCliente);
+                getPaises(function (element) {
                     element.forEach(function (pais) {
-                    $("#paisEntidadPepCliente").append(
-                    `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
-                    );
+                        $("#paisEntidadPepCliente").append(
+                            `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
+                        );
                     });
-                    });
-                    } else {
-                    $(".datosPepCliente div").remove();
-                    }
-                    });
-                    }
-                    }
+                });
+            } else {
+                $(".datosPepCliente div").remove();
+            }
+        });
+    }
+}
 
-                    function agregaNacionalidadCliente() {
-                    $("#agregarNacionalidaCliente").click(function () {
-                    var idPare = $(this).parent().parent().attr("id");
-                    $(`#${idPare}>div:nth-last-child(2)`).after(
-                    `<div class='form-group'>
+function agregaNacionalidadCliente() {
+    $("#agregarNacionalidaCliente").click(function () {
+        var idPare = $(this).parent().parent().attr("id");
+        $(`#${idPare}>div:nth-last-child(2)`).after(
+            `<div class='form-group'>
                         <div class="row">
                             <div class="col-sm">
                                 <select name="nacionalidadCliente" class="form-control setPais" style="width: 100%" required>
@@ -134,27 +271,27 @@ for (let i = 0; i < divInputFecha.length; i++) { $(divInputFecha[i]).datetimepic
                             </div>
                         </div>
                     </div>`
-                    );
-                    $(`#${idPare}>div.form-group>div.row`)
-                    .find("button")
-                    .click(function () {
-                    $(this).parent().parent().parent().remove();
-                    });
-                    getPaises(function (reqPais) {
-                    reqPais.forEach(function (pais) {
-                    $(".setPais").append(
+        );
+        $(`#${idPare}>div.form-group>div.row`)
+            .find("button")
+            .click(function () {
+                $(this).parent().parent().parent().remove();
+            });
+        getPaises(function (reqPais) {
+            reqPais.forEach(function (pais) {
+                $(".setPais").append(
                     `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
-                    );
-                    });
-                    $(".setPais").removeClass("setPais");
-                    });
-                    });
-                    }
+                );
+            });
+            $(".setPais").removeClass("setPais");
+        });
+    });
+}
 
-                    function agregarNumeroCliente() {
-                    $("#agregarTelefonoCliente").click(function () {
-                    var idDivPare = $(this).parent().parent().attr("id");
-                    $(`#${idDivPare}>div:nth-last-child(2)`).after(`
+function agregarNumeroCliente() {
+    $("#agregarTelefonoCliente").click(function () {
+        var idDivPare = $(this).parent().parent().attr("id");
+        $(`#${idDivPare}>div:nth-last-child(2)`).after(`
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm">
@@ -166,18 +303,22 @@ for (let i = 0; i < divInputFecha.length; i++) { $(divInputFecha[i]).datetimepic
                                 </button>
                             </div>
                         </div>
-                    </div `); $(`#${idDivPare}>div.form-group>div.row`)
-                    .find("button")
-                    .click(function () {
-                    console.log($(this).parent().parent().parent().remove());
-                    });
-                    });
-                    }
+                    </div `);
+        $(`#${idDivPare}>div.form-group>div.row`)
+            .find("button")
+            .click(function () {
+                console.log($(this).parent().parent().parent().remove());
+            });
+    });
+}
 
-                    function verificarAsoPep() {
-                    var asoPepCliente = $(".asoPepCliente");
+function verificarAsoPep() {
+    var asoPepCliente = $(".asoPepCliente");
 
-                    for (let i = 0; i < asoPepCliente.length; i++) { $(asoPepCliente[i]).change(function () { let divActual=$(asoPepCliente[i]); var camposAsocPep=` <div class="card card-primary">
+    for (let i = 0; i < asoPepCliente.length; i++) {
+        $(asoPepCliente[i]).change(function () {
+            let divActual = $(asoPepCliente[i]);
+            var camposAsocPep = ` <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Familiar Asociado 1</h3>
                         </div>
@@ -302,7 +443,7 @@ for (let i = 0; i < divInputFecha.length; i++) { $(divInputFecha[i]).datetimepic
                         </div>
                         </div>`;
 
-                        var buttonAgregarParienteAsociado = `
+            var buttonAgregarParienteAsociado = `
                         <div class="row">
                             <div class="col-sm">
                                 <div class="form-group">
@@ -313,26 +454,26 @@ for (let i = 0; i < divInputFecha.length; i++) { $(divInputFecha[i]).datetimepic
                             </div>
                         </div>`;
 
-                        if (this.value != "N") {
-                        $(".datosAsoPep").append(buttonAgregarParienteAsociado);
-                        $(".datosAsoPep>div.row")
-                        .find("button.agregarFamiliarAsociado")
-                        .click(function () {
+            if (this.value != "N") {
+                $(".datosAsoPep").append(buttonAgregarParienteAsociado);
+                $(".datosAsoPep>div.row")
+                    .find("button.agregarFamiliarAsociado")
+                    .click(function () {
                         console.log("agregar nuevo");
-                        });
-                        } else {
-                        $(".datosAsoPep>div").remove();
-                        }
-                        });
-                        }
-                        }
+                    });
+            } else {
+                $(".datosAsoPep>div").remove();
+            }
+        });
+    }
+}
 
-                        function AgregarTitular() {
-                        $("#btnAgregarTitular").click(function (event) {
-                        event.preventDefault();
-                        let cantActualTitulares = $("#titulares").children().length;
-                        let id = cantActualTitulares + 1;
-                        let templateTitular = `
+function AgregarTitular() {
+    $("#btnAgregarTitular").click(function (event) {
+        event.preventDefault();
+        let cantActualTitulares = $("#titulares").children().length;
+        let id = cantActualTitulares + 1;
+        let templateTitular = `
                         <div class="card card-primary" id="titular_${id}">
                             <div class="card-header">
                                 <h3 class="card-title">Titular ${id}</h3>
@@ -644,7 +785,7 @@ for (let i = 0; i < divInputFecha.length; i++) { $(divInputFecha[i]).datetimepic
                                     <div class="col-sm">
                                         <div class="form-group">
                                             <label>País residencia</label>
-                                            <select name="paisRecidenciaCliente" id="paisRecidenciaCliente" class="pais form-control" style="width: 100%" required>
+                                            <select name="paisRecidenciaCliente_${id}" id="paisRecidenciaCliente_${id}" class="form-control paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                             </select>
                                         </div>
                                     </div>
@@ -653,16 +794,8 @@ for (let i = 0; i < divInputFecha.length; i++) { $(divInputFecha[i]).datetimepic
                                     <div class="col-sm">
                                         <div class="form-group">
                                             <label>Departamento residencia</label>
-                                            <select name="deptoRecidenciaCliente" id="deptoRecidenciaCliente" class="paisRecidenciaCliente departamento form-control" style="width: 100%">
-                                                <option value="" disabled selected>
-                                                    Selecciona
-                                                </option>
-                                                @foreach($departamentos as
-                                                $departamento)
-                                                <option value="{{$departamento->codigoDepartamento}}">
-                                                    {{$departamento->nombreDepartamento}}
-                                                </option>
-                                                @endforeach
+                                            <select name="deptoRecidenciaCliente_${id}" id="deptoRecidenciaCliente_${id}" class="form-control deptoRecidenciaCliente getMunicipio" style="width: 100%" requied>
+                                                <option value="" disabled selected>Selecciona</option>
                                             </select>
                                         </div>
                                     </div>
@@ -670,10 +803,8 @@ for (let i = 0; i < divInputFecha.length; i++) { $(divInputFecha[i]).datetimepic
                                     <div class="col-sm">
                                         <div class="form-group">
                                             <label>Municipio residencia</label>
-                                            <select name="muniRecidenciaCliente" id="muniRecidenciaCliente" class="paisRecidenciaCliente form-control" style="width: 100%">
-                                                <option value="" disabled selected>
-                                                    Selecciona
-                                                </option>
+                                            <select name="muniRecidenciaCliente_${id}" id="muniRecidenciaCliente_${id}" class="form-control muniRecidenciaCliente setMunicipio" style="width: 100%" required>
+                                                <option value="" disabled selected>Selecciona</option>
                                             </select>
                                         </div>
                                     </div>
@@ -793,62 +924,89 @@ for (let i = 0; i < divInputFecha.length; i++) { $(divInputFecha[i]).datetimepic
                             <!-- /.card-body -->
                         </div>
                         `;
-                        $("#titulares").append(templateTitular);
-                        /*agregado validadciones para el nuevo titular*/
-                        let divTitularActual = $(`#titulares>div#titular_${id}`);
+        $("#titulares").append(templateTitular);
+        /*agregado validadciones para el nuevo titular*/
+        let divTitularActual = $(`#titulares>div#titular_${id}`);
 
-                        let inputActuaNombrePropio = divTitularActual.find(
-                        "input.actuaNombrePropio"
-                        );
-                        inputActuaNombrePropio.focus();
-                        verificaActuaNombrePropio(inputActuaNombrePropio);
+        let inputActuaNombrePropio = divTitularActual.find(
+            "input.actuaNombrePropio"
+        );
+        inputActuaNombrePropio.focus();
+        verificaActuaNombrePropio(inputActuaNombrePropio);
 
-                        let selectPaisActual = divTitularActual.find("select.setPais");
-                        habilitaDepartamentoMunicipio(selectPaisActual);
-                        getPaises(function (paises) {
-                        paises.forEach(function (pais) {
-                        for (let i = 0; i < selectPaisActual.length; i++) { $(selectPaisActual[i]).append( `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
-                            );
-                            }
-                            });
-                            });
+        let selectPaisActual = divTitularActual.find("select.setPais");
+        habilitaDepartamentoMunicipio(selectPaisActual);
+        getPaises(function (paises) {
+            paises.forEach(function (pais) {
+                for (let i = 0; i < selectPaisActual.length; i++) {
+                    $(selectPaisActual[i]).append(
+                        `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
+                    );
+                }
+            });
+        });
 
-                            let selectDepartamentoActual = divTitularActual.find(
-                            "select.setDepartamento"
-                            );
-                            cargarDepartamentos(selectDepartamentoActual);
+        let selectDepartamentoActual = divTitularActual.find(
+            "select.setDepartamento"
+        );
+        cargarDepartamentos(selectDepartamentoActual);
 
-                            let selectChangeMunicpio = divTitularActual.find("select.getMunicipio");
-                            cargarMunicipios(selectChangeMunicpio);
+        let selectChangeMunicpio = divTitularActual.find("select.getMunicipio");
+        cargarMunicipios(selectChangeMunicpio);
 
-                            let fechas = divTitularActual.find("div.date");
-                            setFormatoFecha(fechas);
+        let fechas = divTitularActual.find("div.date");
+        setFormatoFecha(fechas);
 
-                            let liConMigratoria = divTitularActual.find(
-                            "select.condicionMigratoriaCliente"
-                            );
-                            cargarLiCondicionMigratoria(liConMigratoria);
+        let liConMigratoria = divTitularActual.find(
+            "select.condicionMigratoriaCliente"
+        );
+        cargarLiCondicionMigratoria(liConMigratoria);
 
-                            let selectValidaPaisPasaporte = divTitularActual.find(
-                            "select.validaPaisPasaporte"
-                            );
-                            validarPaisPasaporte(selectValidaPaisPasaporte);
+        let selectValidaPaisPasaporte = divTitularActual.find(
+            "select.validaPaisPasaporte"
+        );
+        validarPaisPasaporte(selectValidaPaisPasaporte);
 
-                            let paisPasaporte = divTitularActual.find(
-                            "select.emicionPasaporteCliente"
-                            );
-                            cargarPaisPorCodigo(paisPasaporte);
-                            });
-                            }
+        let paisPasaporte = divTitularActual.find(
+            "select.emicionPasaporteCliente"
+        );
+        cargarPaisPorCodigo(paisPasaporte);
+    });
+}
 
-                            function guardarFormulario() {
-                            $("#btnGuardar").click(function (event) {
-                            event.preventDefault();
-                            /*
+function guardarFormulario() {
+    $("#btnGuardar").click(function (event) {
+        event.preventDefault();
+        /*
                             se expanden todos los cards, antes de validar cada input
                             */
-                            let titulares = $("#titulares>div");
-                            for (let i = 0; i < titulares.length; i++) { $(titulares[i]).CardWidget("expand"); } }); } function eliminarTemplateTitular(titulares) { for (let i=0; i < titulares.length; i++) { $(titulares[i]).on("removed.lte.cardwidget", function () { console.log($(this).remove()); }); } } $(document).ready(function () { console.log("Esperando a que la pagina cargue completamente ");
+        let titulares = $("#titulares>div");
+        for (let i = 0; i < titulares.length; i++) {
+            $(titulares[i]).CardWidget("expand");
+        }
+    });
+}
+function eliminarTemplateTitular(titulares) {
+    for (let i = 0; i < titulares.length; i++) {
+        $(titulares[i]).on("removed.lte.cardwidget", function () {
+            console.log($(this).remove());
+        });
+    }
+}
+$(document).ready(function () {
+    console.log("Esperando a que la pagina cargue completamente ");
     configurarAjax();
-    setFormatoFecha($(" .date")); verificaActuaNombrePropio($(".actuaNombrePropio")); habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio")); cargarMunicipios($(".getMunicipio")); verificaOtraCondicionMigratoria($(".condicionMigratoriaCliente")); validarPaisPasaporte($(".validaPaisPasaporte")); agregaNacionalidadCliente(); agregarNumeroCliente(); verificarClientePep(); verificarAsoPep(); AgregarTitular(); guardarFormulario(); eliminarTemplateTitular($("#titulares>div"));
-                                });
+    setFormatoFecha($(" .date"));
+    verificaActuaNombrePropio($(".actuaNombrePropio"));
+    habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
+    cargarMunicipios($(".getMunicipio"));
+    verificaOtraCondicionMigratoria($(".condicionMigratoriaCliente"));
+    validarPaisPasaporte($(".validaPaisPasaporte"));
+    agregaNacionalidadCliente();
+    agregarNumeroCliente();
+    verificarClientePep();
+    verificarAsoPep();
+    AgregarTitular();
+    guardarFormulario();
+    eliminarTemplateTitular($("#titulares>div"));
+});

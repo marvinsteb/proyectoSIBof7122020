@@ -41,8 +41,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <div class="icheck-primary d-inline">
-                                        <label>El cliente actúa en nombre
-                                            propio</label>
+                                        <label>El cliente actúa en nombre propio</label>
                                     </div>
 
                                     <div class="icheck-primary d-inline">
@@ -92,14 +91,9 @@
                                 <div class="form-group">
                                     <label>Departamento</label>
                                     <select name="deptoCaMiCliente_1" id="deptoCaMiCliente_1" class="form-control deptoCaMiCliente getMunicipio" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($departamentos as
-                                        $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">
-                                            {{$departamento->nombreDepartamento}}
-                                        </option>
+                                        <option value="" disabled selected>Selecciona</option>
+                                        @foreach($departamentos as $departamento)
+                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -109,9 +103,7 @@
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select name="muniCaMiCliente_1" id="muniCaMiCliente_1" class="form-control muniCaMiCliente setMunicipio" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                        <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
                             </div>
@@ -367,15 +359,10 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Departamento residencia</label>
-                                    <select name="deptoRecidenciaCliente" id="deptoRecidenciaCliente" class="paisRecidenciaCliente departamento form-control" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($departamentos as
-                                        $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">
-                                            {{$departamento->nombreDepartamento}}
-                                        </option>
+                                    <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control deptoRecidenciaCliente getMunicipio" style="width: 100%" requied>
+                                        <option value="" disabled selected>Selecciona</option>
+                                        @foreach($departamentos as $departamento)
+                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -384,10 +371,8 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio residencia</label>
-                                    <select name="muniRecidenciaCliente" id="muniRecidenciaCliente" class="paisRecidenciaCliente form-control" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="muniRecidenciaCliente_1" id="muniRecidenciaCliente_1" class="form-control muniRecidenciaCliente setMunicipio" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
                             </div>
