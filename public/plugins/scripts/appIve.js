@@ -99,7 +99,7 @@ function cargarDepartamentos(selectDepartamentos) {
     }
 }
 
-function cargarPaisPorCodigo(selectPais) {
+function cargarPais(selectPais) {
     for (let i = 0; i < selectPais.length; i++) {
         $(selectPais[i]).empty();
         $(selectPais[i]).append(
@@ -108,7 +108,7 @@ function cargarPaisPorCodigo(selectPais) {
         getPaises(function (paises) {
             paises.forEach(function (pais) {
                 $(selectPais[i]).append(
-                    `<option value=${pais.codigoPais}> ${pais.nombrePais} </option>`
+                    `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
                 );
             });
         });
@@ -184,7 +184,7 @@ function validarPaisPasaporte(pasaportes) {
                 selectPaisPasaporte[0].disabled = false;
             } else {
                 selectPaisPasaporte[0].disabled = true;
-                cargarPaisPorCodigo(selectPaisPasaporte);
+                cargarPais(selectPaisPasaporte);
             }
         });
     }
@@ -256,17 +256,17 @@ function verificarClientePep() {
 }
 
 function agregaNacionalidadCliente(arrBtnsAgregarNacionalidad) {
-    //".agregarNacionalidaCliente"
     for (let i = 0; i < arrBtnsAgregarNacionalidad.length; i++) {
         $(arrBtnsAgregarNacionalidad[i]).click(function () {
             var divPadre = $(this).parent().parent();
             var idPadre = $(divPadre).attr("id");
             let id = $(divPadre).children().length;
+            let idSelect = `${idPadre}_${id}`;
             $(`#${idPadre}>div:nth-last-child(2)`).after(
                 `<div class='form-group'>
                         <div class="row">
                             <div class="col-sm">
-                                <select name="${idPadre}" id="${idPadre}_${id}" class="form-control nacionalidadCliente" style="width: 100%" required>
+                                <select name="${idPadre}" id="${idSelect}" class="form-control nacionalidadCliente" style="width: 100%" required>
                                     <option value="" disabled selected>Selecciona</option>
                                 </select>
                             </div>
@@ -276,19 +276,17 @@ function agregaNacionalidadCliente(arrBtnsAgregarNacionalidad) {
                         </div>
                     </div>`
             );
+
             $(`#${idPadre}>div.form-group>div.row`)
                 .find("button")
                 .click(function () {
                     $(this).parent().parent().parent().remove();
                 });
-            getPaises(function (reqPais) {
-                reqPais.forEach(function (pais) {
-                    $(".setPais").append(
-                        `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
-                    );
-                });
-                $(".setPais").removeClass("setPais");
-            });
+            let selectPaisActual = $(`#${idPadre}>div.form-group>div.row`).find(
+                `select#${idSelect}`
+            );
+            cargarPais(selectPaisActual);
+            // revisa donde se esta usando la clas .setPais
         });
     }
 }
@@ -816,27 +814,20 @@ function AgregarTitular() {
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-sm" id="nacionalidadCliente">
+                                    <div class="col-sm" id="nacionalidadCliente_${id}">
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-sm">
                                                     <label>Nacionalidad</label>
-                                                    <select name="nacionalidadCliente" id="nacionalida1Cliente" class="form-control" style="width: 100%" required>
-                                                        <option value="" disabled selected>
-                                                            Selecciona
-                                                        </option>
-                                                        @foreach($paises as $pais)
-                                                        <option value="{{$pais->codigoPais}}">
-                                                            {{$pais->nombrePais}}
-                                                        </option>
-                                                        @endforeach
+                                                    <select name="nacionalidadCliente_${id}" id="nacionalidadCliente_${id}_1" class="form-control nacionalidadCliente" style="width: 100%" required>
+                                                        <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-sm my-auto pt-2"></div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-primary" id="agregarNacionalidaCliente">
+                                            <button type="button" class="btn btn-primary agregarNacionalidaCliente" >
                                                 Agregar Nacionalidad
                                             </button>
                                         </div>
@@ -975,7 +966,16 @@ function AgregarTitular() {
         let paisPasaporte = divTitularActual.find(
             "select.emicionPasaporteCliente"
         );
-        cargarPaisPorCodigo(paisPasaporte);
+        cargarPais(paisPasaporte);
+
+        let paisNacionalidad = divTitularActual.find(
+            "select.nacionalidadCliente"
+        );
+        cargarPais(paisNacionalidad);
+        let btnsAddNacionalidad = divTitularActual.find(
+            "button.agregarNacionalidaCliente"
+        );
+        agregaNacionalidadCliente(btnsAddNacionalidad);
     });
 }
 

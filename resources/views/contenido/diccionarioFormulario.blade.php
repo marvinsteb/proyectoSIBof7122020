@@ -93,7 +93,7 @@
                                     <select name="deptoCaMiCliente_1" id="deptoCaMiCliente_1" class="form-control deptoCaMiCliente getMunicipio" style="width: 100%" required>
                                         <option value="" disabled selected>Selecciona</option>
                                         @foreach($departamentos as $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
+                                        <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -210,7 +210,7 @@
                                     <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control deptoNacimientoCliente getMunicipio" style="width: 100%" required>
                                         <option value="" disabled selected>Selecciona</option>
                                         @foreach($departamentos as $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
+                                        <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -301,7 +301,7 @@
                                     <select name="emicionPasaporteCliente_1" id="emicionPasaporteCliente_1" class="form-control emicionPasaporteCliente" style="width: 100%" disabled required>
                                         <option value="" disabled selected>Selecciona</option>
                                         @foreach($paises as $pais)
-                                        <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                                        <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -362,7 +362,7 @@
                                     <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control deptoRecidenciaCliente getMunicipio" style="width: 100%" requied>
                                         <option value="" disabled selected>Selecciona</option>
                                         @foreach($departamentos as $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
+                                        <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -564,7 +564,7 @@
                                     <select name="deptoCaMiCliente_2" id="deptoCaMiCliente_2" class="form-control deptoCaMiCliente getMunicipio" style="width: 100%" required>
                                         <option value="" disabled selected>Selecciona</option>
                                         @foreach($departamentos as $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
+                                        <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -681,7 +681,7 @@
                                     <select name="deptoNacimientoCliente_2" id="deptoNacimientoCliente_2" class="form-control deptoNacimientoCliente getMunicipio" style="width: 100%" required>
                                         <option value="" disabled selected>Selecciona</option>
                                         @foreach($departamentos as $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
+                                        <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -772,7 +772,7 @@
                                     <select name="emicionPasaporteCliente_2" id="emicionPasaporteCliente_2" class="form-control emicionPasaporteCliente" style="width: 100%" disabled required>
                                         <option value="" disabled selected>Selecciona</option>
                                         @foreach($paises as $pais)
-                                        <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                                        <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -833,7 +833,7 @@
                                     <select name="deptoRecidenciaCliente_2" id="deptoRecidenciaCliente_2" class="form-control deptoRecidenciaCliente getMunicipio" style="width: 100%" requied>
                                         <option value="" disabled selected>Selecciona</option>
                                         @foreach($departamentos as $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
+                                        <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -866,7 +866,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" id="agregarNacionalidaCliente_2" class="btn btn-primary agregarNacionalidaCliente" >
+                                    <button type="button" class="btn btn-primary agregarNacionalidaCliente" >
                                         Agregar Nacionalidad
                                     </button>
                                 </div>
