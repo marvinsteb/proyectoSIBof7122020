@@ -255,17 +255,18 @@ function verificarClientePep() {
     }
 }
 
-function agregaNacionalidadCliente() {
-    $("#agregarNacionalidaCliente").click(function () {
-        var divPadre = $(this).parent().parent();
-        var idPadre = $(divPadre).attr("id");
-        let id = $(divPadre).children().length;
-        $(`#${idPadre}>div:nth-last-child(2)`).after(
-            `<div class='form-group'>
+function agregaNacionalidadCliente(arrBtnsAgregarNacionalidad) {
+    //".agregarNacionalidaCliente"
+    for (let i = 0; i < arrBtnsAgregarNacionalidad.length; i++) {
+        $(arrBtnsAgregarNacionalidad[i]).click(function () {
+            var divPadre = $(this).parent().parent();
+            var idPadre = $(divPadre).attr("id");
+            let id = $(divPadre).children().length;
+            $(`#${idPadre}>div:nth-last-child(2)`).after(
+                `<div class='form-group'>
                         <div class="row">
                             <div class="col-sm">
                                 <select name="${idPadre}" id="${idPadre}_${id}" class="form-control nacionalidadCliente" style="width: 100%" required>
-
                                     <option value="" disabled selected>Selecciona</option>
                                 </select>
                             </div>
@@ -274,21 +275,22 @@ function agregaNacionalidadCliente() {
                             </div>
                         </div>
                     </div>`
-        );
-        $(`#${idPadre}>div.form-group>div.row`)
-            .find("button")
-            .click(function () {
-                $(this).parent().parent().parent().remove();
+            );
+            $(`#${idPadre}>div.form-group>div.row`)
+                .find("button")
+                .click(function () {
+                    $(this).parent().parent().parent().remove();
+                });
+            getPaises(function (reqPais) {
+                reqPais.forEach(function (pais) {
+                    $(".setPais").append(
+                        `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
+                    );
+                });
+                $(".setPais").removeClass("setPais");
             });
-        getPaises(function (reqPais) {
-            reqPais.forEach(function (pais) {
-                $(".setPais").append(
-                    `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
-                );
-            });
-            $(".setPais").removeClass("setPais");
         });
-    });
+    }
 }
 
 function agregarNumeroCliente() {
@@ -1005,7 +1007,7 @@ $(document).ready(function () {
     cargarMunicipios($(".getMunicipio"));
     verificaOtraCondicionMigratoria($(".condicionMigratoriaCliente"));
     validarPaisPasaporte($(".validaPaisPasaporte"));
-    agregaNacionalidadCliente();
+    agregaNacionalidadCliente($(".agregarNacionalidaCliente"));
     agregarNumeroCliente();
     verificarClientePep();
     verificarAsoPep();
