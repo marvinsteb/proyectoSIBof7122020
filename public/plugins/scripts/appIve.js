@@ -257,12 +257,15 @@ function verificarClientePep() {
 
 function agregaNacionalidadCliente() {
     $("#agregarNacionalidaCliente").click(function () {
-        var idPare = $(this).parent().parent().attr("id");
-        $(`#${idPare}>div:nth-last-child(2)`).after(
+        var divPadre = $(this).parent().parent();
+        var idPadre = $(divPadre).attr("id");
+        let id = $(divPadre).children().length;
+        $(`#${idPadre}>div:nth-last-child(2)`).after(
             `<div class='form-group'>
                         <div class="row">
                             <div class="col-sm">
-                                <select name="nacionalidadCliente" class="form-control setPais" style="width: 100%" required>
+                                <select name="${idPadre}" id="${idPadre}_${id}" class="form-control nacionalidadCliente" style="width: 100%" required>
+
                                     <option value="" disabled selected>Selecciona</option>
                                 </select>
                             </div>
@@ -272,7 +275,7 @@ function agregaNacionalidadCliente() {
                         </div>
                     </div>`
         );
-        $(`#${idPare}>div.form-group>div.row`)
+        $(`#${idPadre}>div.form-group>div.row`)
             .find("button")
             .click(function () {
                 $(this).parent().parent().parent().remove();

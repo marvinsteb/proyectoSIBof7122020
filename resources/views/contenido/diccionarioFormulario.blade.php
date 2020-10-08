@@ -379,19 +379,15 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm" id="nacionalidadCliente">
+                            <div class="col-sm" id="nacionalidadCliente_1">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm">
                                             <label>Nacionalidad</label>
-                                            <select name="nacionalidadCliente" id="nacionalida1Cliente" class="form-control" style="width: 100%" required>
-                                                <option value="" disabled selected>
-                                                    Selecciona
-                                                </option>
+                                            <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control nacionalidadCliente" style="width: 100%" required>
+                                                <option value="" disabled selected>Selecciona</option>
                                                 @foreach($paises as $pais)
-                                                <option value="{{$pais->codigoPais}}">
-                                                    {{$pais->nombrePais}}
-                                                </option>
+                                                <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
