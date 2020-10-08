@@ -672,13 +672,10 @@ function AgregarTitular() {
                                     <div class="form-group">
                                         <label>Municipio nacimiento</label>
                                         <select name="muniNaciminentoCliente_${id}" id="muniNaciminentoCliente_${id}" class="form-control muniNaciminentoCliente setMunicipio" style="width: 100%" required>
-                                            <option value="" disabled selected>
-                                                Selecciona
-                                            </option>
+                                            <option value="" disabled selected>Selecciona</option>
                                         </select>
                                     </div>
                                 </div>
-                                <!-- select condicion Migratoria -->
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Condición migratoria</label>
@@ -691,7 +688,6 @@ function AgregarTitular() {
                                     <div class="form-group">
                                         <label>Especifique</label>
                                         <input name="otraCoMiCliente_${id}" id="otraCoMiCliente_${id}" type="text" class="form-control otraCoMiCliente" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
-
                                     </div>
                                 </div>
                             </div>
@@ -761,13 +757,13 @@ function AgregarTitular() {
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Profesión u oficio</label>
-                                        <input name="profecionOficioCliente" type="text" class="form-control" placeholder="Profesión u oficio ..." maxlength="100" />
+                                        <input name="profecionOficioCliente_${id}" id="profecionOficioCliente_${id}" type="text" class="form-control profecionOficioCliente" placeholder="Profesión u oficio ..." maxlength="100" required/>
                                     </div>
                                 </div>
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Correo electrónico</label>
-                                        <input name="emailCliente" type="email" class="form-control" placeholder="Correo electrónico ..." maxlength="100" />
+                                    <input name="emailCliente_${id}" id="emailCliente_${id}" type="email" class="form-control emailCliente" placeholder="Correo electrónico ..." maxlength="100" />
                                     </div>
                                 </div>
                             </div>

@@ -217,15 +217,10 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Departamento nacimiento</label>
-                                    <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control deptoNacimientoCliente getMunicipio" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($departamentos as
-                                        $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">
-                                            {{$departamento->nombreDepartamento}}
-                                        </option>
+                                    <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control deptoNacimientoCliente getMunicipio" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
+                                        @foreach($departamentos as $departamento)
+                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -234,26 +229,18 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio nacimiento</label>
-                                    <select name="muniNaciminentoCliente_1" id="muniNaciminentoCliente_1" class="form-control muniNaciminentoCliente setMunicipio" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="muniNaciminentoCliente_1" id="muniNaciminentoCliente_1" class="form-control muniNaciminentoCliente setMunicipio" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
                             </div>
-                            <!-- select condicion Migratoria -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Condición migratoria</label>
                                     <select name="condicionMigratoriaCliente_1" id="condicionMigratoriaCliente_1" class="form-control condicionMigratoriaCliente" style="width: 100%" disabled required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($listaCondicionMigratoria as
-                                        $condicionMigratoria)
-                                        <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">
-                                            {{$condicionMigratoria->descripcion}}
-                                        </option>
+                                        <option value="" disabled selected>Selecciona</option>
+                                        @foreach($listaCondicionMigratoria as $condicionMigratoria)
+                                        <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">{{$condicionMigratoria->descripcion}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -336,13 +323,13 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Profesión u oficio</label>
-                                    <input name="profecionOficioCliente" type="text" class="form-control" placeholder="Profesión u oficio ..." maxlength="100" />
+                                    <input name="profecionOficioCliente_1" id="profecionOficioCliente_1" type="text" class="form-control profecionOficioCliente" placeholder="Profesión u oficio ..." maxlength="100" required />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Correo electrónico</label>
-                                    <input name="emailCliente" type="email" class="form-control" placeholder="Correo electrónico ..." maxlength="100" />
+                                    <input name="emailCliente_1" id="emailCliente_1" type="email" class="form-control emailCliente" placeholder="Correo electrónico ..." maxlength="100" />
                                 </div>
                             </div>
                         </div>
@@ -845,7 +832,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Profesión u oficio</label>
-                                    <input name="profecionOficioCliente" type="text" class="form-control" placeholder="Profesión u oficio ..." maxlength="100" />
+                                    <input name="profecionOficioCliente_2" id="profecionOficioCliente_2" type="text" class="form-control" placeholder="Profesión u oficio ..." maxlength="100" />
                                 </div>
                             </div>
                             <div class="col-sm">
