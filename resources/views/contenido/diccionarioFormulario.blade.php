@@ -82,9 +82,7 @@
                                     <label>País</label>
                                     <select name="paisCaMiCliente_1" id="paisCaMiCliente_1" class="form-control paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                         @foreach($paises as $pais)
-                                        <option value="{{$pais->idPais}}">
-                                            {{$pais->nombrePais}}
-                                        </option>
+                                        <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -346,10 +344,8 @@
 
                         <div class="row">
                             <div class="col-sm">
-                                <label>Dirección de residencia completa (calle o
-                                    avenida, número de casa, colonia, sector,
-                                    lote, manzana, otros)</label>
-                                <input name="direccionRecidenciaCliente" type="text" class="form-control" placeholder="Dirección de residencia completa ..." maxlength="400" />
+                                <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
+                                <input name="direccionRecidenciaCliente_1" id="direccionRecidenciaCliente_1" type="text" class="form-control direccionRecidenciaCliente" placeholder="Dirección de residencia completa ..." maxlength="400" required />
                             </div>
                         </div>
                         <!-- .row -->
@@ -359,11 +355,9 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>País residencia</label>
-                                    <select name="paisRecidenciaCliente" id="paisRecidenciaCliente" class="pais form-control" style="width: 100%" required>
+                                    <select name="paisRecidenciaCliente_1" id="paisRecidenciaCliente_1" class="form-control paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                         @foreach($paises as $pais)
-                                        <option value="{{$pais->idPais}}">
-                                            {{$pais->nombrePais}}
-                                        </option>
+                                        <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                                         @endforeach
                                     </select>
                                 </div>
