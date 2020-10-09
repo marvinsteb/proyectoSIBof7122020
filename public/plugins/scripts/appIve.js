@@ -989,6 +989,10 @@ function guardarFormulario() {
         for (let i = 0; i < titulares.length; i++) {
             $(titulares[i]).CardWidget("expand");
         }
+        console.log(
+            $("input:radio[name=tipoActuacionCliente_2]:checked").val()
+        );
+        console.log($(".nacionalidadCliente"));
     });
 }
 function eliminarTemplateTitular(titulares) {
