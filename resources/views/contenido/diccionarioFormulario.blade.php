@@ -41,8 +41,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <div class="icheck-primary d-inline">
-                                        <label>El cliente actúa en nombre
-                                            propio</label>
+                                        <label>El cliente actúa en nombre propio</label>
                                     </div>
 
                                     <div class="icheck-primary d-inline">
@@ -92,14 +91,9 @@
                                 <div class="form-group">
                                     <label>Departamento</label>
                                     <select name="deptoCaMiCliente_1" id="deptoCaMiCliente_1" class="form-control deptoCaMiCliente getMunicipio" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($departamentos as
-                                        $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">
-                                            {{$departamento->nombreDepartamento}}
-                                        </option>
+                                        <option value="" disabled selected>Selecciona</option>
+                                        @foreach($departamentos as $departamento)
+                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -109,9 +103,7 @@
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select name="muniCaMiCliente_1" id="muniCaMiCliente_1" class="form-control muniCaMiCliente setMunicipio" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                        <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
                             </div>
@@ -367,15 +359,10 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Departamento residencia</label>
-                                    <select name="deptoRecidenciaCliente" id="deptoRecidenciaCliente" class="paisRecidenciaCliente departamento form-control" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($departamentos as
-                                        $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">
-                                            {{$departamento->nombreDepartamento}}
-                                        </option>
+                                    <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control deptoRecidenciaCliente getMunicipio" style="width: 100%" requied>
+                                        <option value="" disabled selected>Selecciona</option>
+                                        @foreach($departamentos as $departamento)
+                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -384,29 +371,23 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio residencia</label>
-                                    <select name="muniRecidenciaCliente" id="muniRecidenciaCliente" class="paisRecidenciaCliente form-control" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="muniRecidenciaCliente_1" id="muniRecidenciaCliente_1" class="form-control muniRecidenciaCliente setMunicipio" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-sm" id="nacionalidadCliente">
+                            <div class="col-sm" id="nacionalidadCliente_1">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm">
                                             <label>Nacionalidad</label>
-                                            <select name="nacionalidadCliente" id="nacionalida1Cliente" class="form-control" style="width: 100%" required>
-                                                <option value="" disabled selected>
-                                                    Selecciona
-                                                </option>
+                                            <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control nacionalidadCliente" style="width: 100%" required>
+                                                <option value="" disabled selected>Selecciona</option>
                                                 @foreach($paises as $pais)
-                                                <option value="{{$pais->codigoPais}}">
-                                                    {{$pais->nombrePais}}
-                                                </option>
+                                                <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -414,7 +395,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary" id="agregarNacionalidaCliente">
+                                    <button type="button" id="agregarNacionalidaCliente_1" class="btn btn-primary agregarNacionalidaCliente" >
                                         Agregar Nacionalidad
                                     </button>
                                 </div>
@@ -531,8 +512,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <div class="icheck-primary d-inline">
-                                        <label>El cliente actúa en nombre
-                                            propio</label>
+                                        <label>El cliente actúa en nombre propio</label>
                                     </div>
 
                                     <div class="icheck-primary d-inline">
@@ -572,9 +552,7 @@
                                     <label>País</label>
                                     <select name="paisCaMiCliente_2" id="paisCaMiCliente_2" class="form-control paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                         @foreach($paises as $pais)
-                                        <option value="{{$pais->idPais}}">
-                                            {{$pais->nombrePais}}
-                                        </option>
+                                        <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -584,14 +562,9 @@
                                 <div class="form-group">
                                     <label>Departamento</label>
                                     <select name="deptoCaMiCliente_2" id="deptoCaMiCliente_2" class="form-control deptoCaMiCliente getMunicipio" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($departamentos as
-                                        $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">
-                                            {{$departamento->nombreDepartamento}}
-                                        </option>
+                                        <option value="" disabled selected>Selecciona</option>
+                                        @foreach($departamentos as $departamento)
+                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -601,9 +574,7 @@
                                 <div class="form-group">
                                     <label>Municipio</label>
                                     <select name="muniCaMiCliente_2" id="muniCaMiCliente_2" class="form-control muniCaMiCliente setMunicipio" style="width: 100%" required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                        <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
                             </div>
@@ -707,15 +678,10 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Departamento nacimiento</label>
-                                    <select name="deptoNacimientoCliente_2" id="deptoNacimientoCliente_2" class="form-control deptoNacimientoCliente getMunicipio" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($departamentos as
-                                        $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">
-                                            {{$departamento->nombreDepartamento}}
-                                        </option>
+                                    <select name="deptoNacimientoCliente_2" id="deptoNacimientoCliente_2" class="form-control deptoNacimientoCliente getMunicipio" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
+                                        @foreach($departamentos as $departamento)
+                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -724,26 +690,18 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio nacimiento</label>
-                                    <select name="muniNaciminentoCliente_2" id="muniNaciminentoCliente_2" class="form-control muniNaciminentoCliente setMunicipio" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="muniNaciminentoCliente_2" id="muniNaciminentoCliente_2" class="form-control muniNaciminentoCliente setMunicipio" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
                             </div>
-                            <!-- select condicion Migratoria -->
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Condición migratoria</label>
                                     <select name="condicionMigratoriaCliente_2" id="condicionMigratoriaCliente_2" class="form-control condicionMigratoriaCliente" style="width: 100%" disabled required>
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($listaCondicionMigratoria as
-                                        $condicionMigratoria)
-                                        <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">
-                                            {{$condicionMigratoria->descripcion}}
-                                        </option>
+                                        <option value="" disabled selected>Selecciona</option>
+                                        @foreach($listaCondicionMigratoria as $condicionMigratoria)
+                                        <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">{{$condicionMigratoria->descripcion}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -804,7 +762,7 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Número identificación</label>
-                                    <input name="noDocIdentificacionCliente_2" id="noDocIdentificacionCliente_2" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" />
+                                    <input name="noDocIdentificacionCliente_2" id="noDocIdentificacionCliente_2" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required />
                                 </div>
                             </div>
 
@@ -826,13 +784,13 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Profesión u oficio</label>
-                                    <input name="profecionOficioCliente_2" id="profecionOficioCliente_2" type="text" class="form-control" placeholder="Profesión u oficio ..." maxlength="100" />
+                                    <input name="profecionOficioCliente_2" id="profecionOficioCliente_2" type="text" class="form-control profecionOficioCliente" placeholder="Profesión u oficio ..." maxlength="100" required />
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Correo electrónico</label>
-                                    <input name="emailCliente" type="email" class="form-control" placeholder="Correo electrónico ..." maxlength="100" />
+                                    <input name="emailCliente_2" id="emailCliente_2" type="email" class="form-control emailCliente" placeholder="Correo electrónico ..." maxlength="100" />
                                 </div>
                             </div>
                         </div>
@@ -849,10 +807,8 @@
 
                         <div class="row">
                             <div class="col-sm">
-                                <label>Dirección de residencia completa (calle o
-                                    avenida, número de casa, colonia, sector,
-                                    lote, manzana, otros)</label>
-                                <input name="direccionRecidenciaCliente" type="text" class="form-control" placeholder="Dirección de residencia completa ..." maxlength="400" />
+                                <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
+                                <input name="direccionRecidenciaCliente_2" id="direccionRecidenciaCliente_2" type="text" class="form-control direccionRecidenciaCliente" placeholder="Dirección de residencia completa ..." maxlength="400" required />
                             </div>
                         </div>
                         <!-- .row -->
@@ -862,11 +818,9 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>País residencia</label>
-                                    <select name="paisRecidenciaCliente" id="paisRecidenciaCliente" class="pais form-control" style="width: 100%" required>
+                                    <select name="paisRecidenciaCliente_2" id="paisRecidenciaCliente_2" class="form-control paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                         @foreach($paises as $pais)
-                                        <option value="{{$pais->idPais}}">
-                                            {{$pais->nombrePais}}
-                                        </option>
+                                        <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -876,15 +830,10 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Departamento residencia</label>
-                                    <select name="deptoRecidenciaCliente" id="deptoRecidenciaCliente" class="paisRecidenciaCliente departamento form-control" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
-                                        @foreach($departamentos as
-                                        $departamento)
-                                        <option value="{{$departamento->codigoDepartamento}}">
-                                            {{$departamento->nombreDepartamento}}
-                                        </option>
+                                    <select name="deptoRecidenciaCliente_2" id="deptoRecidenciaCliente_2" class="form-control deptoRecidenciaCliente getMunicipio" style="width: 100%" requied>
+                                        <option value="" disabled selected>Selecciona</option>
+                                        @foreach($departamentos as $departamento)
+                                        <option value="{{$departamento->codigoDepartamento}}">{{$departamento->nombreDepartamento}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -893,29 +842,23 @@
                             <div class="col-sm">
                                 <div class="form-group">
                                     <label>Municipio residencia</label>
-                                    <select name="muniRecidenciaCliente" id="muniRecidenciaCliente" class="paisRecidenciaCliente form-control" style="width: 100%">
-                                        <option value="" disabled selected>
-                                            Selecciona
-                                        </option>
+                                    <select name="muniRecidenciaCliente_2" id="muniRecidenciaCliente_2" class="form-control muniRecidenciaCliente setMunicipio" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-sm" id="nacionalidadCliente">
+                            <div class="col-sm" id="nacionalidadCliente_2">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm">
                                             <label>Nacionalidad</label>
-                                            <select name="nacionalidadCliente" id="nacionalida1Cliente" class="form-control" style="width: 100%" required>
-                                                <option value="" disabled selected>
-                                                    Selecciona
-                                                </option>
+                                            <select name="nacionalidadCliente_2" id="nacionalidadCliente_2_1" class="form-control nacionalidadCliente" style="width: 100%" required>
+                                                <option value="" disabled selected>Selecciona</option>
                                                 @foreach($paises as $pais)
-                                                <option value="{{$pais->codigoPais}}">
-                                                    {{$pais->nombrePais}}
-                                                </option>
+                                                <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -923,7 +866,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary" id="agregarNacionalidaCliente">
+                                    <button type="button" id="agregarNacionalidaCliente_2" class="btn btn-primary agregarNacionalidaCliente" >
                                         Agregar Nacionalidad
                                     </button>
                                 </div>
