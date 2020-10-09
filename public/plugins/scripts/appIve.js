@@ -3,13 +3,7 @@ function setFormatoFecha(divInputFecha) {
         $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
     }
 }
-function configurarAjax() {
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token" ]').attr("content"),
-        },
-    });
-}
+
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
         $(elementoActuaNomprePropio[i]).change(function () {
@@ -992,7 +986,65 @@ function guardarFormulario() {
         console.log(
             $("input:radio[name=tipoActuacionCliente_2]:checked").val()
         );
-        console.log($(".nacionalidadCliente"));
+
+        function crearCamposMinimos(
+            tipoActuacion,
+            calidadActua,
+            diccionarioLugar,
+            fecha,
+            titulares,
+            representante,
+            infoEconomicaInical
+        ) {
+            this.tipoActuacion = tipoActuacion;
+            this.calidadActua = calidadActua;
+            this.lugar = diccionarioLugar;
+            this.fecha = fecha;
+            this.cliente = titulares;
+            this.representante = representante;
+            this.infoEconomica = infoEconomicaInical;
+        }
+
+        function crearDicPerfilEconomico(actualizacion, fecha, negocioPropio) {
+            this.actualizacion = actualizacion;
+            this.fecha = fecha;
+            this.negocioPropio = negocioPropio;
+        }
+
+        function crearDiccionarioFormlario(
+            dicCamposMinimos,
+            dicProductosServicios,
+            nuevoPerfil
+        ) {
+            this.titulares = dicCamposMinimos;
+            this.productos = dicProductosServicios;
+            this.perfilEconomico = nuevoPerfil;
+        }
+
+        
+        let titular1 = new crearCamposMinimos("C", "siactua");
+        let titular2 = new crearCamposMinimos("N", "noactua");
+        let arrTitulares = [];
+        
+        arrTitulares.push(titular1);
+        arrTitulares.push(titular2);
+        arrTitulares.push;
+        let datos = new crearDiccionarioFormlario(arrTitulares, "a", "c");
+
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+        $.ajax({
+            type: "POST",
+            url: "/oficios/7122020/guardarActualizar",
+            data: datos,
+            dataType: "json",
+            success: function (res) {
+                console.log(res);
+            },
+        });
     });
 }
 function eliminarTemplateTitular(titulares) {
@@ -1004,7 +1056,6 @@ function eliminarTemplateTitular(titulares) {
 }
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
-    configurarAjax();
     setFormatoFecha($(" .date"));
     verificaActuaNombrePropio($(".actuaNombrePropio"));
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
