@@ -973,6 +973,50 @@ function AgregarTitular() {
     });
 }
 
+class diccionarioFormulario {
+    constructor() {
+        this.titular = new Array();
+        this.productos = new Array();
+        this.perfilEconomico = new Object();
+    }
+    agregarTitular(titular) {
+        this.titular.push(titular);
+    }
+    agregarPoductoServicio(servicio) {
+        this.productos.push(servicio);
+    }
+    agregarPerfilEconomico(pEconomico) {
+        this.perfilEconomico = pEconomico;
+    }
+}
+
+class camposMinimos {
+    constructor(tActuacion, cActua) {
+        if (tActuacion === "C" || tActuacion === "R") {
+            this.tipoActuacion = tActuacion;
+        } else {
+            throw new Error(
+                "¡error en la asignacion del tipo de actuacion, valores permitidos C,R!"
+            );
+        }
+
+        if (tActuacion === "C" && cActua != null) {
+            this.calidadActua = null;
+            throw new Error(
+                "¡error calidad actua, solo se perimite cuando el tipo de actuacion es R!"
+            );
+        } else {
+            this.calidadActua = cActua;
+        }
+
+        this.diccionarioLugar = null;
+        this.fecha = "";
+        this.titulares = "";
+        this.representante = "";
+        this.infoEconomicaInical = "";
+    }
+}
+
 function guardarFormulario() {
     $("#btnGuardar").click(function (event) {
         event.preventDefault();
@@ -1010,26 +1054,16 @@ function guardarFormulario() {
             this.fecha = fecha;
             this.negocioPropio = negocioPropio;
         }
+        let miDiccionarioFormulario = new diccionarioFormulario();
+        try {
+            let titular1 = new camposMinimos("C", null);
+            let titular2 = new camposMinimos("R", "Actua Nombre Propio");
 
-        function crearDiccionarioFormlario(
-            dicCamposMinimos,
-            dicProductosServicios,
-            nuevoPerfil
-        ) {
-            this.titulares = dicCamposMinimos;
-            this.productos = dicProductosServicios;
-            this.perfilEconomico = nuevoPerfil;
+            miDiccionarioFormulario.agregarTitular(titular1);
+            miDiccionarioFormulario.agregarTitular(titular2);
+        } catch (error) {
+            console.log(error);
         }
-
-        
-        let titular1 = new crearCamposMinimos("C", "siactua");
-        let titular2 = new crearCamposMinimos("N", "noactua");
-        let arrTitulares = [];
-        
-        arrTitulares.push(titular1);
-        arrTitulares.push(titular2);
-        arrTitulares.push;
-        let datos = new crearDiccionarioFormlario(arrTitulares, "a", "c");
 
         $.ajaxSetup({
             headers: {
@@ -1039,7 +1073,7 @@ function guardarFormulario() {
         $.ajax({
             type: "POST",
             url: "/oficios/7122020/guardarActualizar",
-            data: datos,
+            data: miDiccionarioFormulario,
             dataType: "json",
             success: function (res) {
                 console.log(res);
