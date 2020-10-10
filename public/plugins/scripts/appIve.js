@@ -1,3 +1,5 @@
+const { times } = require("lodash");
+
 function setFormatoFecha(divInputFecha) {
     for (let i = 0; i < divInputFecha.length; i++) {
         $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
@@ -991,79 +993,67 @@ class diccionarioFormulario {
 }
 
 class camposMinimos {
-    constructor(tActuacion, cActua) {
-        if (tActuacion === "C" || tActuacion === "R") {
-            this.tipoActuacion = tActuacion;
-        } else {
-            throw new Error(
-                "¡error en la asignacion del tipo de actuacion, valores permitidos C,R!"
-            );
-        }
-
-        if (tActuacion === "C" && cActua != null) {
-            this.calidadActua = null;
-            throw new Error(
-                "¡error calidad actua, solo se perimite cuando el tipo de actuacion es R!"
-            );
-        } else {
-            this.calidadActua = cActua;
-        }
-
-        this.diccionarioLugar = null;
-        this.fecha = "";
-        this.titulares = "";
-        this.representante = "";
-        this.infoEconomicaInical = "";
+    constructor(
+        tipoActuacion,
+        calidadActua,
+        lugar,
+        fecha,
+        titulares,
+        representante,
+        infoEconomicaInical
+    ) {
+        this.tipoActuacion = tipoActuacion;
+        this.calidadActua = calidadActua;
+        this.lugar = lugar;
+        this.fecha = fecha;
+        this.titulares = titulares;
+        this.representante = representante;
+        this.infoEconomicaInical = infoEconomicaInical;
     }
 }
 
+class lugar {
+    constructor(pais, departamento, municipio) {
+        this.pais = pais;
+        this.departamento = departamento;
+        this.municipio = municipio;
+    }
+}
+
+class datosPersonales {
+    constructor() {
+        this.primerApellido = "";
+        this.segundoApellido = "";
+        this.apellidoCasada = "";
+        this.primerNombre = "";
+        this.segundoNombre = "";
+        this.otrosNombres = "";
+    }
+}
+
+function expandirCard() {
+    /*
+                    se expanden todos los cards, antes de validar cada input
+                    */
+    let titulares = $("#titulares>div");
+    for (let i = 0; i < titulares.length; i++) {
+        $(titulares[i]).CardWidget("expand");
+    }
+}
 function guardarFormulario() {
     $("#btnGuardar").click(function (event) {
         event.preventDefault();
-        /*
-                            se expanden todos los cards, antes de validar cada input
-                            */
-        let titulares = $("#titulares>div");
-        for (let i = 0; i < titulares.length; i++) {
-            $(titulares[i]).CardWidget("expand");
-        }
+        expandirCard();
+
         console.log(
             $("input:radio[name=tipoActuacionCliente_2]:checked").val()
         );
 
-        function crearCamposMinimos(
-            tipoActuacion,
-            calidadActua,
-            diccionarioLugar,
-            fecha,
-            titulares,
-            representante,
-            infoEconomicaInical
-        ) {
-            this.tipoActuacion = tipoActuacion;
-            this.calidadActua = calidadActua;
-            this.lugar = diccionarioLugar;
-            this.fecha = fecha;
-            this.cliente = titulares;
-            this.representante = representante;
-            this.infoEconomica = infoEconomicaInical;
-        }
+        let nuevoDiccionarioFormulario = new diccionarioFormulario();
 
-        function crearDicPerfilEconomico(actualizacion, fecha, negocioPropio) {
-            this.actualizacion = actualizacion;
-            this.fecha = fecha;
-            this.negocioPropio = negocioPropio;
-        }
-        let miDiccionarioFormulario = new diccionarioFormulario();
-        try {
-            let titular1 = new camposMinimos("C", null);
-            let titular2 = new camposMinimos("R", "Actua Nombre Propio");
-
-            miDiccionarioFormulario.agregarTitular(titular1);
-            miDiccionarioFormulario.agregarTitular(titular2);
-        } catch (error) {
-            console.log(error);
-        }
+        let lugarCamposMinimos = new lugar("GT", "01", "0101");
+        let titular1 = new camposMinimos("R", "holo", lugarCamposMinimos);
+        nuevoDiccionarioFormulario.agregarTitular(titular1);
 
         $.ajaxSetup({
             headers: {
@@ -1073,7 +1063,7 @@ function guardarFormulario() {
         $.ajax({
             type: "POST",
             url: "/oficios/7122020/guardarActualizar",
-            data: miDiccionarioFormulario,
+            data: nuevoDiccionarioFormulario,
             dataType: "json",
             success: function (res) {
                 console.log(res);
