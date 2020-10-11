@@ -1,5 +1,3 @@
-const { times } = require("lodash");
-
 function setFormatoFecha(divInputFecha) {
     for (let i = 0; i < divInputFecha.length; i++) {
         $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
@@ -975,6 +973,86 @@ function AgregarTitular() {
     });
 }
 
+class dicLugar {
+    constructor(pais, departamento, municipio) {
+        this.pais = pais;
+        this.departamento = departamento;
+        this.municipio = municipio;
+    }
+}
+
+class datosPep {
+    constructor() {
+        this.entidad = null;
+        this.puestoDesempenia = null;
+        this.paisEntidad = null;
+        this.origenRiqueza = null;
+        this.otroOrigenRiqueza = null;
+    }
+}
+
+class dicParienteAsociadoPep {
+    constructor() {
+        this.parentesco = null;
+        this.otroParentesco = null;
+        this.motivoAsociacion = null;
+        this.otroMotivoAsociacion = null;
+        this.primerApellido = null;
+        this.segundoApellido = null;
+        this.apellidoCasada = null;
+        this.primerNombre = null;
+        this.segundoNombre = null;
+        this.otrosNombres = null;
+        this.sexo = null;
+        this.condicion = null;
+        this.entidad = null;
+        this.puestoDesempenia = null;
+        this.paisEntidad = null;
+    }
+}
+
+class dicDatosPersonales {
+    constructor() {
+        this.primerApellido = null;
+        this.segundoApellido = null;
+        this.apellidoCasada = null;
+        this.primerNombre = null;
+        this.segundoNombre = null;
+        this.otrosNombres = null;
+        this.fechaNacimiento = null;
+        this.nacionalidades = new Array();
+        this.nacimiento = new dicLugar();
+        this.condicionMigratoria = null;
+        this.otraCondicionMigratoria = null;
+        this.sexo = null;
+        this.estadoCivil = null;
+        this.profesionOficio = null;
+        this.tipoDocumentoIdentificacion = null;
+        this.numeroDocumentoIdentificacion = null;
+        this.emisionPasaporte = null;
+        this.nit = null;
+        this.telefonos = new Array();
+        this.email = null;
+        this.direccionResidencia = null;
+        this.pep = null;
+        this.datospep = new datosPep();
+        this.parienteAsociadoPep = null;
+        this.datosParienteAsociadoPep = new dicParienteAsociadoPep();
+    }
+}
+
+class dicCamposMinimos {
+    constructor() {
+        this.tipoActuacion = null;
+        this.calidadActua = null;
+        this.lugar = new dicLugar();
+        this.fecha = null;
+        this.cliente = new dicDatosPersonales();
+        this.representante = null;
+        this.infoEconomicaInical = null;
+    }
+}
+
 class diccionarioFormulario {
     constructor() {
         this.titular = new Array();
@@ -989,45 +1067,6 @@ class diccionarioFormulario {
     }
     agregarPerfilEconomico(pEconomico) {
         this.perfilEconomico = pEconomico;
-    }
-}
-
-class camposMinimos {
-    constructor(
-        tipoActuacion,
-        calidadActua,
-        lugar,
-        fecha,
-        titulares,
-        representante,
-        infoEconomicaInical
-    ) {
-        this.tipoActuacion = tipoActuacion;
-        this.calidadActua = calidadActua;
-        this.lugar = lugar;
-        this.fecha = fecha;
-        this.titulares = titulares;
-        this.representante = representante;
-        this.infoEconomicaInical = infoEconomicaInical;
-    }
-}
-
-class lugar {
-    constructor(pais, departamento, municipio) {
-        this.pais = pais;
-        this.departamento = departamento;
-        this.municipio = municipio;
-    }
-}
-
-class datosPersonales {
-    constructor() {
-        this.primerApellido = "";
-        this.segundoApellido = "";
-        this.apellidoCasada = "";
-        this.primerNombre = "";
-        this.segundoNombre = "";
-        this.otrosNombres = "";
     }
 }
 
@@ -1049,12 +1088,11 @@ function guardarFormulario() {
             $("input:radio[name=tipoActuacionCliente_2]:checked").val()
         );
 
+        let titular = new dicCamposMinimos();
+        titular.tipoActuacion = "C";
+        titular.cliente.primerApellido = "primerApellido";
         let nuevoDiccionarioFormulario = new diccionarioFormulario();
-
-        let lugarCamposMinimos = new lugar("GT", "01", "0101");
-        let titular1 = new camposMinimos("R", "holo", lugarCamposMinimos);
-        nuevoDiccionarioFormulario.agregarTitular(titular1);
-
+        nuevoDiccionarioFormulario.agregarTitular(titular);
         $.ajaxSetup({
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
