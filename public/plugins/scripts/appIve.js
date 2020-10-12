@@ -252,8 +252,8 @@ function verificarClientePep() {
 function agregaNacionalidadCliente(arrBtnsAgregarNacionalidad) {
     for (let i = 0; i < arrBtnsAgregarNacionalidad.length; i++) {
         $(arrBtnsAgregarNacionalidad[i]).click(function () {
-            var divPadre = $(this).parent().parent();
-            var idPadre = $(divPadre).attr("id");
+            let divPadre = $(this).parent().parent();
+            let idPadre = $(divPadre).attr("id");
             let id = $(divPadre).children().length;
             let idSelect = `${idPadre}_${id}`;
             $(`#${idPadre}>div:nth-last-child(2)`).after(
@@ -276,23 +276,28 @@ function agregaNacionalidadCliente(arrBtnsAgregarNacionalidad) {
                 .click(function () {
                     $(this).parent().parent().parent().remove();
                 });
+
             let selectPaisActual = $(`#${idPadre}>div.form-group>div.row`).find(
                 `select#${idSelect}`
             );
             cargarPais(selectPaisActual);
-            // revisa donde se esta usando la clas .setPais
         });
     }
 }
 
-function agregarNumeroCliente() {
-    $("#agregarTelefonoCliente").click(function () {
-        var idDivPare = $(this).parent().parent().attr("id");
-        $(`#${idDivPare}>div:nth-last-child(2)`).after(`
+function agregarNumeroCliente(arrBtnAgregarTelefono) {
+    console.log(arrBtnAgregarTelefono);
+    for (let i = 0; i < arrBtnAgregarTelefono.length; i++) {
+        $(arrBtnAgregarTelefono[i]).click(function () {
+            let divPadre = $(this).parent().parent();
+            let idDivPadre = $(divPadre).attr("id");
+            let idSelect = $(divPadre).children().length;
+            let idInput = `${idDivPadre}_${idSelect}`;
+            $(`#${idDivPadre}>div:nth-last-child(2)`).after(`
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm">
-                                <input name="telefonoCliente" type="text" class="form-control" placeholder="telefono ..." maxlength="30" required />
+                                <input name="${idDivPadre}" id="${idInput}" type="text" class="form-control" placeholder="telefono ..." maxlength="30" required />
                             </div>
                             <div class="col-sm my-auto">
                                 <button type="button" class="btn btn-danger">
@@ -301,12 +306,13 @@ function agregarNumeroCliente() {
                             </div>
                         </div>
                     </div `);
-        $(`#${idDivPare}>div.form-group>div.row`)
-            .find("button")
-            .click(function () {
-                console.log($(this).parent().parent().parent().remove());
-            });
-    });
+            $(`#${idDivPadre}>div.form-group>div.row`)
+                .find("button")
+                .click(function () {
+                    console.log($(this).parent().parent().parent().remove());
+                });
+        });
+    }
 }
 
 function verificarAsoPep() {
@@ -1125,7 +1131,7 @@ $(document).ready(function () {
     verificaOtraCondicionMigratoria($(".condicionMigratoriaCliente"));
     validarPaisPasaporte($(".validaPaisPasaporte"));
     agregaNacionalidadCliente($(".agregarNacionalidaCliente"));
-    agregarNumeroCliente();
+    agregarNumeroCliente($(".agregarTelefonoCliente"));
     verificarClientePep();
     verificarAsoPep();
     AgregarTitular();
