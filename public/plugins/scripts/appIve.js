@@ -518,7 +518,7 @@ function AgregarTitular() {
                                     <div class="col-sm-8">
                                         <div class="form-group">
                                             <label>Calidad con que actúa</label>
-                                            <input name="calidadActuaCliente_${id}" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
+                                            <input name="calidadActuaCliente_${id}" id="calidadActuaCliente_${id}" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -1126,6 +1126,10 @@ function obtenerDatos() {
 
         titular.tipoActuacion = $(divTitularActual)
             .find(`input:radio[name=tipoActuacionCliente_${id}]:checked`)
+            .val();
+
+        titular.calidadActua = $(divTitularActual)
+            .find(`input:text[id=calidadActuaCliente_${id}]`)
             .val();
 
         df.agregarTitular(titular);
