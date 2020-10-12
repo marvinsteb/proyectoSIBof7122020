@@ -1131,6 +1131,15 @@ function obtenerDatos() {
         titular.calidadActua = $(divTitularActual)
             .find(`input:text[id=calidadActuaCliente_${id}]`)
             .val();
+        titular.lugar.pais = $(divTitularActual)
+            .find(`select[id=paisCaMiCliente_${id}] option:selected`)
+            .val();
+        titular.lugar.departamento = $(divTitularActual)
+            .find(`select[id=deptoCaMiCliente_${id}] option:selected`)
+            .val();
+        titular.lugar.municipio = $(divTitularActual)
+            .find(`select[id=muniCaMiCliente_${id}] option:selected`)
+            .val();
 
         df.agregarTitular(titular);
     }
