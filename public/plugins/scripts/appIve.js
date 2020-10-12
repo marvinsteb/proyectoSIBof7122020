@@ -286,7 +286,6 @@ function agregaNacionalidadCliente(arrBtnsAgregarNacionalidad) {
 }
 
 function agregarNumeroCliente(arrBtnAgregarTelefono) {
-    console.log(arrBtnAgregarTelefono);
     for (let i = 0; i < arrBtnAgregarTelefono.length; i++) {
         $(arrBtnAgregarTelefono[i]).click(function () {
             let divPadre = $(this).parent().parent();
@@ -474,10 +473,10 @@ function verificarAsoPep() {
 function AgregarTitular() {
     $("#btnAgregarTitular").click(function (event) {
         event.preventDefault();
-        let cantActualTitulares = $("#titulares").children().length;
+        let cantActualTitulares = $("#titulares>div").length;
         let id = cantActualTitulares + 1;
         let templateTitular = `
-                        <div class="card card-primary" id="titular_${id}">
+                        <div class="card card-primary" id="${id}">
                             <div class="card-header">
                                 <h3 class="card-title">Titular ${id}</h3>
                                 <div class="card-tools">
@@ -922,7 +921,7 @@ function AgregarTitular() {
                         `;
         $("#titulares").append(templateTitular);
         /*agregado validadciones para el nuevo titular*/
-        let divTitularActual = $(`#titulares>div#titular_${id}`);
+        let divTitularActual = $(`#titulares>div#${id}`);
 
         let inputActuaNombrePropio = divTitularActual.find(
             "input.actuaNombrePropio"
@@ -976,6 +975,8 @@ function AgregarTitular() {
             "button.agregarNacionalidaCliente"
         );
         agregaNacionalidadCliente(btnsAddNacionalidad);
+
+        eliminarTemplateTitular($("#titulares>div"));
     });
 }
 
@@ -1089,16 +1090,8 @@ function guardarFormulario() {
     $("#btnGuardar").click(function (event) {
         event.preventDefault();
         expandirCard();
+        let nuevoDiccionarioFormulario = obtenerDatos();
 
-        console.log(
-            $("input:radio[name=tipoActuacionCliente_2]:checked").val()
-        );
-
-        let titular = new dicCamposMinimos();
-        titular.tipoActuacion = "C";
-        titular.cliente.primerApellido = "primerApellido";
-        let nuevoDiccionarioFormulario = new diccionarioFormulario();
-        nuevoDiccionarioFormulario.agregarTitular(titular);
         $.ajaxSetup({
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -1110,6 +1103,7 @@ function guardarFormulario() {
             data: nuevoDiccionarioFormulario,
             dataType: "json",
             success: function (res) {
+                console.log("respuesta del servidor");
                 console.log(res);
             },
         });
@@ -1118,9 +1112,25 @@ function guardarFormulario() {
 function eliminarTemplateTitular(titulares) {
     for (let i = 0; i < titulares.length; i++) {
         $(titulares[i]).on("removed.lte.cardwidget", function () {
-            console.log($(this).remove());
+            $(this).remove();
         });
     }
+}
+function obtenerDatos() {
+    let df = new diccionarioFormulario();
+    let titulares = $("#titulares>div");
+    for (let i = 0; i < titulares.length; i++) {
+        let id = $(titulares[i]).attr("id");
+        let divTitularActual = $(`#titulares>div#${id}`);
+        let titular = new dicCamposMinimos();
+
+        titular.tipoActuacion = $(divTitularActual)
+            .find(`input:radio[name=tipoActuacionCliente_${id}]:checked`)
+            .val();
+
+        df.agregarTitular(titular);
+    }
+    return df;
 }
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
