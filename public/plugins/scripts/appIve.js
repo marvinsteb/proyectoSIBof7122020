@@ -568,7 +568,7 @@ function AgregarTitular() {
                                         <div class="form-group">
                                             <label>Fecha</label>
                                             <div class="input-group date" id="fechaDoc_${id}" data-target-input="nearest">
-                                                <input name="fechaCaMiCliente_${id}" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_${id}" required />
+                                                <input name="fechaDocCaMiCliente_${id}" id="fechaDocCaMiCliente_${id}" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_${id}" required />
                                                 <div class="input-group-append" data-target="#fechaDoc_${id}" data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
@@ -1139,6 +1139,9 @@ function obtenerDatos() {
             .val();
         titular.lugar.municipio = $(divTitularActual)
             .find(`select[id=muniCaMiCliente_${id}] option:selected`)
+            .val();
+        titular.fecha = $(divTitularActual)
+            .find(`input:text[id=fechaDocCaMiCliente_${id}]`)
             .val();
 
         df.agregarTitular(titular);
