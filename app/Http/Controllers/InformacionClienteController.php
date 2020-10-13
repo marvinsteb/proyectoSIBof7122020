@@ -66,39 +66,79 @@ class InformacionClienteController extends Controller
             ]);
 
             for ($i = 0; $i < count($request->titulares); $i++) {
+                //cliente
+                $idClienteCamposMinimos = DB::table('datosPersonales')->insertGetID([
+                    'primerApellido' => $request->titulares[$i]["cliente"]["primerApellido"],
+                    'segundoApellido' => $request->titulares[$i]["cliente"]["segundoApellido"],
+                    'apellidoCasada' => $request->titulares[$i]["cliente"]["apellidoCasada"],
+                    'primerNombre' => $request->titulares[$i]["cliente"]["primerNombre"],
+                    'segundoNombre' => $request->titulares[$i]["cliente"]["segundoNombre"],
+                    'otrosNombres' => $request->titulares[$i]["cliente"]["otrosNombres"],
+                    'fechaNacimiento' => $this->formatoFechaDB(
+                        $request->titulares[$i]["cliente"]["fechaNacimiento"]
+                    ),
+                    // inplementar una tabla para guardar el arreglo de las nacionalidades
+                    'nacionalidades' => 1,
+                    'nacimiento' => DB::table('lugar')->insertGetId([
+                        "pais" => $request->titulares[$i]["cliente"]["nacimiento"]["pais"],
+                        "departamento" => $request->titulares[$i]["cliente"]["nacimiento"]["departamento"],
+                        "municipio" => $request->titulares[$i]["cliente"]["nacimiento"]["municipio"],
+                    ]),
 
-
-                $idLugarCamposMinimos = DB::table('lugar')->insertGetId([
-                    "pais" => $respuesta =  $request->titulares[$i]["lugar"]["pais"],
-                    "departamento" => $respuesta =  $request->titulares[$i]["lugar"]["departamento"],
-                    "municipio" => $respuesta =  $request->titulares[$i]["lugar"]["municipio"]
+                    'condicionMigratoria' => $request->titulares[$i]["cliente"]["condicionMigratoria"],
+                    'otraCondicionMigratoria' => $request->titulares[$i]["cliente"]["otraCondicionMigratoria"],
+                    'sexo' => $request->titulares[$i]["cliente"]["sexo"],
+                    'estadoCivil' => $request->titulares[$i]["cliente"]["estadoCivil"],
+                    'nit' => $request->titulares[$i]["cliente"]["nit"],
+                    'profesionOficio' => $request->titulares[$i]["cliente"]["profesionOficio"],
+                    'tipoDocumentoIdentificacion' => $request->titulares[$i]["cliente"]["tipoDocumentoIdentificacion"],
+                    'numeroDocumentoIdentificacion' => $request->titulares[$i]["cliente"]["numeroDocumentoIdentificacion"],
+                    'emisionPasaporte' => $request->titulares[$i]["cliente"]["emisionPasaporte"],
+                    /*implementar una tabla para guardar los valores del arreglo telefono,
+                que se envia desde la vista diccionarFormulario.
+                ,por el momento enviamos null, pero la llave es obligatoria para generar el json*/
+                    'telefonos'  => null,
+                    'email' => $request->titulares[$i]["cliente"]["email"],
+                    'direccionResidencia' => $request->titulares[$i]["cliente"]["direccionResidencia"],
+                    'residencia' => DB::table('lugar')->insertGetId([
+                        "pais" => $request->titulares[$i]["cliente"]["residencia"]["pais"],
+                        "departamento" => $request->titulares[$i]["cliente"]["residencia"]["departamento"],
+                        "municipio" => $request->titulares[$i]["cliente"]["residencia"]["municipio"],
+                    ]),
+                    //datos por default, implementa en la vista los inputs para los siguientes campos
+                    'pep' => 'S',
+                    'datosPep' => null,
+                    'parienteAsociadoPep' => 'S',
+                    'datosParienteAsociadoPep' => null,
+                    'cpe' => 'S'
                 ]);
 
+
+                // campos minimos
                 $idCamposMinimos = DB::table('camposMinimos')->insertGetId([
                     'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
                     'calidadActua' => $request->titulares[$i]["calidadActua"],
-                    'lugar' => $idLugarCamposMinimos,
+                    'lugar' =>  DB::table('lugar')->insertGetId([
+                        "pais" => $request->titulares[$i]["lugar"]["pais"],
+                        "departamento" => $request->titulares[$i]["lugar"]["departamento"],
+                        "municipio" => $request->titulares[$i]["lugar"]["municipio"]
+                    ]),
                     'fecha' => $this->formatoFechaDB($request->titulares[$i]["fecha"]),
-                    // 'cliente' => null,
-                    // 'representante' => null,
-                    // 'infoEconomica' => null,
+                    'cliente' => $idClienteCamposMinimos,
+                    'representante' => null,
+                    'infoEconomica' => null,
                     'diccionarioFormulario' => $idDiccionarioFormulario,
-
                 ]);
             }
 
-            //ipoActuacion: "C", calidadActua: null, lugar: {…}, fecha: null, cliente: {…}, …}
-
             $respuesta = $request;
+
             DB::commit();
             // all good
         } catch (\Exception $e) {
-            DB::rollback();
-            // something went wrong
             $respuesta = $e;
+            DB::rollback();
         }
-
-
         return Response()->json(
             $respuesta,
             200,
