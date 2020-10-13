@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-use DB;
+
 use Illuminate\Http\Request;
 use App\Models\CamposMinimos;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class InformacionClienteController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -16,7 +17,7 @@ class InformacionClienteController extends Controller
 
     public function formatoFechaDB($fecha)
     {
-         $fechaFormateada = Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
+        $fechaFormateada = Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
         return $fechaFormateada;
     }
     public function index()
@@ -40,8 +41,8 @@ class InformacionClienteController extends Controller
         $listaCondicionMigratoria = DB::table('listaCondicionMigratoria');
         $listaCondicionMigratoria = $listaCondicionMigratoria->get();
 
-        return view('contenido.diccionarioFormulario',[
-            'paises'=> $paises,
+        return view('contenido.diccionarioFormulario', [
+            'paises' => $paises,
             'departamentos' => $departamentos,
             'listaCondicionMigratoria' => $listaCondicionMigratoria
         ]);
@@ -55,86 +56,43 @@ class InformacionClienteController extends Controller
      */
     public function store(Request $request)
     {
+
         DB::beginTransaction();
         try {
-            // datos pep
-            $idDatosPepCliente;
-            if($request->pepCliente == 'S'){
-                $datosPepCliente = array();
+            // diccionario formulario 
 
-                $datosPepCliente['entidad'] =  $request->entidadClientePep;
-                $datosPepCliente['puestoDesempenia'] =  $request->puestoDesepenia;
-                $datosPepCliente['pais'] =  $request->paisEntidadPepCliente;
-                $datosPepCliente['origenRiqueza'] =  $request->origenRiquezaPepCliente;
-                $datosPepCliente['otroOrigenRiqueza'] =  $request->otroOrigenRiquezaPepCliente;
-                $idDatosPepCliente = DB::table('datospep')->insertGetID($datosPepCliente);
-            } else {
-                $idDatosPepCliente = null;
-            }
+            $idDiccionarioFormulario = DB::table('diccionarioformulario')->insertGetId([
+                "estado" => "A"
+            ]);
 
-         
-            //insertar lugar
+            for ($i = 0; $i < count($request->titulares); $i++) {
 
-            $idLugarCamposMinimos = DB::table('lugar')->insertGetId([
-                "pais" => $request->paisCamposMinimosCliente,
-                "departamento" => $request->departamentoCamposMinimosCliente,
-                "municipio" => $request->municipioCamposMinimosCliente
+
+                $idLugarCamposMinimos = DB::table('lugar')->insertGetId([
+                    "pais" => $respuesta =  $request->titulares[$i]["lugar"]["pais"],
+                    "departamento" => $respuesta =  $request->titulares[$i]["lugar"]["departamento"],
+                    "municipio" => $respuesta =  $request->titulares[$i]["lugar"]["municipio"]
                 ]);
 
-            $idLugarNacimientoCliente = DB::table('lugar')->insertGetId([
-                    "pais" => $request->paisNacimientoCliente,
-                    "departamento" => $request->departamentoNacimientoCliente,
-                    "municipio" => $request->municipioNaciminentoCliente
-                    ]);
-            $idlugarRecidenciaCliente = DB::table('lugar')->insertGetId([
-                "pais" => $request->paisRecidenciaCliente,
-                "departamento" => $request->departamentoRecidenciaCliente,
-                "municipio" => $request->municipioRecidenciaCliente
-            ]);
-            $idClienteCamposMinimos = DB::table('datosPersonales')->insertGetID([
-                'primerApellido' => $request->primerApellidoCliente,
-                'segundoApellido' => $request->segundoApellidoCliente,
-                'apellidoCasada' => $request->apellidoCasadaCliente,
-                'primerNombre' => $request->primerNombreCliente,
-                'segundoNombre' => $request->segundoNombreCliente,
-                'otrosNombres' => $request->otrosNombresCliente,
-                'fechaNacimiento' => $this->formatoFechaDB($request->fechaNacimientoCliente),
-                // inplementar una tabla para guardar el arreglo de las nacionalidades
-                'nacionalidades' => 1,
-                'nacimiento' =>  $idLugarNacimientoCliente,
-                'condicionMigratoria' => $request->condicionMigratoriaCliente,
-                'otraCondicionMigratoria' => $request->otraCondicionMigratoriacliente,
-                'sexo' => $request->sexoCliente,
-                'estadoCivil' => $request->estadoCivilCliente,
-                'profesionOficio' => $request->nitCliente,
-                'tipoDocumentoIdentificacion' => $request->tipoDoctoIdentificacionCliente,
-                'numeroDocumentoIdentificacion' =>$request->numeroDocumentoIdentificacionCliente,
-                'emisionPasaporte' => $request->emicionPasaporteCliente,
-                'nit' => $request->nitCliente,
-                /*implementar una tabla para guardar los valores del arreglo telefono,
-                 que se envia desde la vista diccionarFormulario.
-                 ,por el momento enviamos null, pero la llave es obligatoria para generar el json*/
-                'telefonos'  => null,
-                'email' => $request->emailCliente,
-                'direccionResidencia' => $request->direccionRecidenciaCliente,
-                'residencia' => $idlugarRecidenciaCliente ,
-                //datos por default, implementa en la vista los inputs para los siguientes campos
-                'pep' => $request->pepCliente,
-                'datosPep' => $idDatosPepCliente,
-                'parienteAsociadoPep' => $request->asoPepCliente,
-                'datosParienteAsociadoPep' => null,
-                'cpe' => $request->cpeCliente
-            ]);
 
-            $idCamposMinimos = DB::table('camposMinimos')->insertGetId([
-                'tipoActuacion' => $request->tipoActuacionCliente,
-                'calidadActua' => $request->calidadActuaCliente,
-                'lugar' => $idLugarCamposMinimos,
-                'fecha' => $this->formatoFechaDB($request->fechaCamposMinimosCliente),
-                'cliente' => $idClienteCamposMinimos,
-                'representante' => null,
-                'infoEconomica' => null,
-            ]);
+
+                //;
+
+                $idCamposMinimos = DB::table('camposMinimos')->insertGetId([
+                    'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
+                    'calidadActua' => $request->titulares[$i]["calidadActua"],
+                    'lugar' => $idLugarCamposMinimos,
+                    'fecha' => $this->formatoFechaDB($request->titulares[$i]["fecha"]),
+                    // 'cliente' => null,
+                    // 'representante' => null,
+                    // 'infoEconomica' => null,
+                    'diccionarioFormulario' => $idDiccionarioFormulario,
+
+                ]);
+            }
+
+            //ipoActuacion: "C", calidadActua: null, lugar: {…}, fecha: null, cliente: {…}, …}
+
             $respuesta = $request;
             DB::commit();
             // all good
@@ -144,10 +102,13 @@ class InformacionClienteController extends Controller
             $respuesta = $e;
         }
 
-        
 
-       return Response()->json($request, 200 ,['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-       JSON_UNESCAPED_UNICODE);
+        return Response()->json(
+            $respuesta,
+            200,
+            ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+            JSON_UNESCAPED_UNICODE
+        );
     }
 
     /**

@@ -1061,13 +1061,14 @@ class dicCamposMinimos {
 }
 
 class diccionarioFormulario {
-    constructor() {
-        this.titular = new Array();
+    constructor(id) {
+        this.id = id;
+        this.titulares = new Array();
         this.productos = new Array();
         this.perfilEconomico = new Object();
     }
     agregarTitular(titular) {
-        this.titular.push(titular);
+        this.titulares.push(titular);
     }
     agregarPoductoServicio(servicio) {
         this.productos.push(servicio);
@@ -1117,7 +1118,9 @@ function eliminarTemplateTitular(titulares) {
     }
 }
 function obtenerDatos() {
-    let df = new diccionarioFormulario();
+    let df = new diccionarioFormulario(
+        $(".diccionarioFormulario").attr("idDiccionario")
+    );
     let titulares = $("#titulares>div");
     for (let i = 0; i < titulares.length; i++) {
         let id = $(titulares[i]).attr("id");
@@ -1146,6 +1149,8 @@ function obtenerDatos() {
 
         df.agregarTitular(titular);
     }
+
+    console.log(df);
     return df;
 }
 $(document).ready(function () {
