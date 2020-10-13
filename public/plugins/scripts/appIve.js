@@ -1051,6 +1051,7 @@ class dicDatosPersonales {
         this.telefonos = new Array();
         this.email = null;
         this.direccionResidencia = null;
+        this.residencia = new dicLugar();
         this.pep = null;
         this.datospep = new datosPep();
         this.parienteAsociadoPep = null;
@@ -1193,9 +1194,48 @@ function obtenerDatos() {
         titular.cliente.otraCondicionMigratoria = $(divTitularActual)
             .find(`input:text[id=otraCoMiCliente_${id}]`)
             .val();
+        titular.cliente.sexo = $(divTitularActual)
+            .find(`select[id=sexoCliente_${id}] option:selected`)
+            .val();
+        titular.cliente.estadoCivil = $(divTitularActual)
+            .find(`select[id=estadoCivilCliente_${id}] option:selected`)
+            .val();
+        titular.cliente.nit = $(divTitularActual)
+            .find(`input:text[id=nitCliente_${id}]`)
+            .val();
+        //tipoDoctoIdentificacionCliente_
+        titular.cliente.tipoDocumentoIdentificacion = $(divTitularActual)
+            .find(
+                `select[id=tipoDoctoIdentificacionCliente_${id}] option:selected`
+            )
+            .val();
+        titular.cliente.numeroDocumentoIdentificacion = $(divTitularActual)
+            .find(`input:text[id=noDocIdentificacionCliente_${id}]`)
+            .val();
+        //emicionPasaporteCliente_1
+        titular.cliente.emisionPasaporte = $(divTitularActual)
+            .find(`select[id=emicionPasaporteCliente_${id}] option:selected`)
+            .val();
+        titular.cliente.profesionOficio = $(divTitularActual)
+            .find(`input:text[id=profecionOficioCliente_${id}]`)
+            .val();
+        titular.cliente.email = $(divTitularActual)
+            .find(`input[id=emailCliente_${id}]`)
+            .val();
+        titular.cliente.direccionResidencia = $(divTitularActual)
+            .find(`input:text[id=direccionRecidenciaCliente_${id}]`)
+            .val();
+        titular.cliente.residencia.pais = $(divTitularActual)
+            .find(`select[id=paisRecidenciaCliente_${id}] option:selected`)
+            .val();
+        titular.cliente.residencia.departamento = $(divTitularActual)
+            .find(`select[id=deptoRecidenciaCliente_${id}] option:selected`)
+            .val();
+        titular.cliente.residencia.municipio = $(divTitularActual)
+            .find(`select[id=muniRecidenciaCliente_${id}] option:selected`)
+            .val();
         df.agregarTitular(titular);
     }
-
     console.log(df);
     return df;
 }
