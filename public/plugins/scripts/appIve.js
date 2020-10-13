@@ -30,6 +30,9 @@ function habilitaDepartamentoMunicipio(selectPais) {
             let condicionMigratoria = $(divPadre).find(
                 "select.condicionMigratoriaCliente"
             );
+            let otraCondicionMigratoria = $(divPadre).find(
+                "input.otraCoMiCliente"
+            );
             let departamento = $(divPadre).find("select.getMunicipio");
             let municipio = $(divPadre).find("select.setMunicipio");
             if (this.value == 1) {
@@ -37,8 +40,14 @@ function habilitaDepartamentoMunicipio(selectPais) {
                 municipio[0].disabled = false;
                 if (condicionMigratoria.length) {
                     condicionMigratoria[0].disabled = true;
+                    $(otraCondicionMigratoria[0]).val(null);
+                    otraCondicionMigratoria[0].disabled = true;
+                    $(condicionMigratoria[0]).empty();
+                    $(condicionMigratoria[0]).append(
+                        '<option value="" disabled selected>Selecciona</option>'
+                    );
+                    cargarLiCondicionMigratoria($(condicionMigratoria[0]));
                 }
-                console.log(condicionMigratoria.length);
             } else {
                 departamento[0].disabled = true;
                 municipio[0].disabled = true;
@@ -162,6 +171,7 @@ function verificaOtraCondicionMigratoria(condicionMigratoria) {
                 otraCondicionMigratoria[0].disabled = false;
             } else {
                 otraCondicionMigratoria[0].disabled = true;
+                $(otraCondicionMigratoria[0]).val(null);
             }
         });
     }
@@ -636,7 +646,7 @@ function AgregarTitular() {
                                         <div class="form-group">
                                             <label>Fecha nacimiento</label>
                                             <div class="input-group date" id="fechaNacimiento_${id}" data-target-input="nearest">
-                                                <input name="fechaNacimientoCliente_${id}" type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento_${id}" required />
+                                                <input name="fechaNacimientoCliente_${id}" id="fechaNacimientoCliente_${id}" type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento_${id}" required />
                                                 <div class="input-group-append" data-target="#fechaNacimiento_${id}" data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
@@ -1146,7 +1156,43 @@ function obtenerDatos() {
         titular.fecha = $(divTitularActual)
             .find(`input:text[id=fechaDocCaMiCliente_${id}]`)
             .val();
-
+        titular.cliente.primerApellido = $(divTitularActual)
+            .find(`input:text[id=primerApellidoCliente_${id}]`)
+            .val();
+        titular.cliente.segundoApellido = $(divTitularActual)
+            .find(`input:text[id=segundoApellidoCliente_${id}]`)
+            .val();
+        titular.cliente.apellidoCasada = $(divTitularActual)
+            .find(`input:text[id=apellidoCasadaCliente_${id}]`)
+            .val();
+        titular.cliente.primerNombre = $(divTitularActual)
+            .find(`input:text[id=primerNombreCliente_${id}]`)
+            .val();
+        titular.cliente.segundoNombre = $(divTitularActual)
+            .find(`input:text[id=segundoNombreCliente_${id}]`)
+            .val();
+        titular.cliente.otrosNombres = $(divTitularActual)
+            .find(`input:text[id=segundoNombreCliente_${id}]`)
+            .val();
+        titular.cliente.fechaNacimiento = $(divTitularActual)
+            .find(`input:text[id=fechaNacimientoCliente_${id}]`)
+            .val();
+        titular.cliente.nacimiento.pais = $(divTitularActual)
+            //
+            .find(`select[id=paisNacimientoCliente_${id}] option:selected`)
+            .val();
+        titular.cliente.nacimiento.departamento = $(divTitularActual)
+            .find(`select[id=deptoNacimientoCliente_${id}] option:selected`)
+            .val();
+        titular.cliente.nacimiento.municipio = $(divTitularActual)
+            .find(`select[id=muniNaciminentoCliente_${id}] option:selected`)
+            .val();
+        titular.cliente.condicionMigratoria = $(divTitularActual)
+            .find(`select[id=condicionMigratoriaCliente_${id}] option:selected`)
+            .val();
+        titular.cliente.otraCondicionMigratoria = $(divTitularActual)
+            .find(`input:text[id=otraCoMiCliente_${id}]`)
+            .val();
         df.agregarTitular(titular);
     }
 

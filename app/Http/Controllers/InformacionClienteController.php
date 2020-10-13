@@ -74,10 +74,6 @@ class InformacionClienteController extends Controller
                     "municipio" => $respuesta =  $request->titulares[$i]["lugar"]["municipio"]
                 ]);
 
-
-
-                //;
-
                 $idCamposMinimos = DB::table('camposMinimos')->insertGetId([
                     'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
                     'calidadActua' => $request->titulares[$i]["calidadActua"],
