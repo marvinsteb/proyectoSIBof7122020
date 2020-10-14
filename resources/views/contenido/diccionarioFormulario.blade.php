@@ -13,11 +13,9 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <form action="guardarActualizar" method="post">
+        <form action="guardarActualizar" id="formDiccionarioFormulario" method="post">
             <div class="diccionarioFormulario" idDiccionario="20">
                 @csrf
-
-
                 <!-- datos titular -->
                 <div class="titulares" id="titulares">
                     <div class="card card-primary" id="1">
