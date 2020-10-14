@@ -17,8 +17,6 @@
         <form action="guardarActualizar" class="needs-validation" method="post" novalidate>
             <div class="diccionarioFormulario" idDiccionario="20">
                 @csrf
-
-
                 <!-- datos titular -->
                 <div class="titulares" id="titulares">
                     <div class="card card-primary" id="1">
