@@ -69,10 +69,10 @@ class InformacionClienteController extends Controller
                 //cliente
                 $idClienteCamposMinimos = DB::table('datosPersonales')->insertGetID([
                     'primerApellido' => $request->titulares[$i]["cliente"]["primerApellido"],
-                    'segundoApellido' => $request->titulares[$i]["cliente"]["segundoApellido"],
+                    'segundoApellido' => empty($request->titulares[$i]["cliente"]["segundoApellido"]) ? 'SOA' : $request->titulares[$i]["cliente"]["segundoApellido"],
                     'apellidoCasada' => $request->titulares[$i]["cliente"]["apellidoCasada"],
                     'primerNombre' => $request->titulares[$i]["cliente"]["primerNombre"],
-                    'segundoNombre' => $request->titulares[$i]["cliente"]["segundoNombre"],
+                    'segundoNombre' => empty($request->titulares[$i]["cliente"]["segundoNombre"]) ? 'SON' : $request->titulares[$i]["cliente"]["segundoNombre"],
                     'otrosNombres' => $request->titulares[$i]["cliente"]["otrosNombres"],
                     'fechaNacimiento' => $this->formatoFechaDB(
                         $request->titulares[$i]["cliente"]["fechaNacimiento"]
