@@ -13,11 +13,10 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <form action="guardarActualizar" method="post">
+
+        <form action="guardarActualizar" class="needs-validation" method="post" novalidate>
             <div class="diccionarioFormulario" idDiccionario="20">
                 @csrf
-
-
                 <!-- datos titular -->
                 <div class="titulares" id="titulares">
                     <div class="card card-primary" id="1">
@@ -82,7 +81,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>País</label>
-                                        <select name="paisCaMiCliente_1" id="paisCaMiCliente_1" class="form-control paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                        <select name="paisCaMiCliente_1" id="paisCaMiCliente_1" class="form-control  custom-select paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                             @foreach($paises as $pais)
                                             <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                                             @endforeach
@@ -93,7 +92,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Departamento</label>
-                                        <select name="deptoCaMiCliente_1" id="deptoCaMiCliente_1" class="form-control deptoCaMiCliente getMunicipio" style="width: 100%" required>
+                                        <select name="deptoCaMiCliente_1" id="deptoCaMiCliente_1" class="form-control custom-select deptoCaMiCliente getMunicipio" style="width: 100%" required>
                                             <option value="" disabled selected>Selecciona</option>
                                             @foreach($departamentos as $departamento)
                                             <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
@@ -362,7 +361,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Departamento residencia</label>
-                                        <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control deptoRecidenciaCliente getMunicipio" style="width: 100%" requied>
+                                        <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control deptoRecidenciaCliente getMunicipio" style="width: 100%" required>
                                             <option value="" disabled selected>Selecciona</option>
                                             @foreach($departamentos as $departamento)
                                             <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
@@ -1025,5 +1024,6 @@
     <!--/.container-fluid -->
 </section>
 <!-- /.content -->
+
 
 @endsection
