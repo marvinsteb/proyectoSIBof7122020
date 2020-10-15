@@ -1259,7 +1259,7 @@ function obtenerDatos() {
 }
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
-    setFormatoFecha($(" .date"));
+    setFormatoFecha($(".date"));
     verificaActuaNombrePropio($(".actuaNombrePropio"));
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     cargarMunicipios($(".getMunicipio"));
