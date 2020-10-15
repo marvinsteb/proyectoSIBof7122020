@@ -1015,7 +1015,7 @@
                         <!-- /.card-body -->
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary form-control mt-5" id="btnGuardar">
+                <button type="submit" class="btn btn-primary mt-5" id="btnGuardar">
                     Guardar formulario
                 </button>
             </div>

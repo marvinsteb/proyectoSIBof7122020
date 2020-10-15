@@ -1090,53 +1090,52 @@ class diccionarioFormulario {
 }
 
 function expandirCard() {
-    /*
-                    se expanden todos los cards, antes de validar cada input
-                    */
     let titulares = $("#titulares>div");
     for (let i = 0; i < titulares.length; i++) {
         $(titulares[i]).CardWidget("expand");
     }
 }
-function validarFormulario(){
-            var forms = $('.needs-validation');
-            let respuesta = false;
-            for (let i = 0; i < forms.length; i++) {
-            $(forms[i]).submit(function(event){
-                if (this.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        this.classList.add('was-validated');
-                        console.log("faltanCampos");
-                     }
-            });
-            }
-            return respuesta;
+function validarFormulario() {
+    var forms = document.getElementsByClassName("needs-validation");
+    var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener(
+            "submit",
+            function (event) {
+                expandirCard();
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    form.classList.add("was-validated");
+                } else {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    console.log("enviando formulario");
+                    enviarDatos();
+                }
+            },
+            false
+        );
+    });
+    console.log(validation);
 }
 
-function enviarDatos(){
-            let nuevoDiccionarioFormulario = obtenerDatos();
-                    $.ajaxSetup({
-                        headers: {
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                        },
-                    });
-                    $.ajax({
-                        type: "POST",
-                        url: "/oficios/7122020/guardarActualizar",
-                        data: nuevoDiccionarioFormulario,
-                        dataType: "json",
-                        success: function (res) {
-                            console.log("respuesta del servidor");
-                            console.log(res);
-                        },
-                    });
-}
-function guardarFormulario() {
-    $("#btnGuardar").click(function (event) {
-        expandirCard();
-        validarFormulario()
-        });
+function enviarDatos() {
+    let nuevoDiccionarioFormulario = obtenerDatos();
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+    });
+    $.ajax({
+        type: "POST",
+        url: "/oficios/7122020/guardarActualizar",
+        data: nuevoDiccionarioFormulario,
+        dataType: "json",
+        success: function (res) {
+            console.log("respuesta del servidor");
+            console.log(res);
+        },
+    });
 }
 
 function eliminarTemplateTitular(titulares) {
@@ -1259,7 +1258,7 @@ function obtenerDatos() {
 }
 $(document).ready(function () {
     console.log("Esperando a que la pagina cargue completamente ");
-    setFormatoFecha($(" .date"));
+    setFormatoFecha($(".date"));
     verificaActuaNombrePropio($(".actuaNombrePropio"));
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     cargarMunicipios($(".getMunicipio"));
@@ -1270,6 +1269,6 @@ $(document).ready(function () {
     verificarClientePep();
     verificarAsoPep();
     AgregarTitular();
-    guardarFormulario();
     eliminarTemplateTitular($("#titulares>div"));
+    validarFormulario();
 });
