@@ -104,7 +104,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Municipio</label>
-                                        <select name="muniCaMiCliente_1" id="muniCaMiCliente_1" class="form-control custom-select muniCaMiCliente setMunicipio" style="width: 100%" required>
+                                        <select name="muniCaMiCliente_1" id="muniCaMiCliente_1" class="form-control custom-select muniCaMiCliente setMunicipio" style="width: 100%" required disabled>
                                             <option value="" disabled selected>Selecciona</option>
                                         </select>
                                     </div>
@@ -221,7 +221,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Municipio nacimiento</label>
-                                        <select name="muniNaciminentoCliente_1" id="muniNaciminentoCliente_1" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required>
+                                        <select name="muniNaciminentoCliente_1" id="muniNaciminentoCliente_1" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required disabled>
                                             <option value="" disabled selected>Selecciona</option>
                                         </select>
                                     </div>
@@ -373,7 +373,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Municipio residencia</label>
-                                        <select name="muniRecidenciaCliente_1" id="muniRecidenciaCliente_1" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required>
+                                        <select name="muniRecidenciaCliente_1" id="muniRecidenciaCliente_1" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required disabled>
                                             <option value="" disabled selected>Selecciona</option>
                                         </select>
                                     </div>

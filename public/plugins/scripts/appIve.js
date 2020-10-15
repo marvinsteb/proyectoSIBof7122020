@@ -37,7 +37,7 @@ function habilitaDepartamentoMunicipio(selectPais) {
             let municipio = $(divPadre).find("select.setMunicipio");
             if (this.value == 1) {
                 departamento[0].disabled = false;
-                municipio[0].disabled = false;
+                // verifica si existe el campo CondicionMigratoria
                 if (condicionMigratoria.length) {
                     condicionMigratoria[0].disabled = true;
                     $(otraCondicionMigratoria[0]).val(null);
@@ -71,6 +71,7 @@ function cargarMunicipios(selectDeptos) {
                 .parent()
                 .parent()
                 .find("select.setMunicipio");
+            selectMuniActual[0].disabled = true;
             $(selectMuniActual[0]).empty();
             $(selectMuniActual[0]).append(
                 '<option value="" disabled selected>Selecciona</option>'
@@ -82,6 +83,7 @@ function cargarMunicipios(selectDeptos) {
                     );
                 });
             }, event.target.value);
+            selectMuniActual[0].disabled = false;
         });
     }
 }
