@@ -511,19 +511,18 @@ function AgregarTitular() {
 
                                         <div class="row">
                                             <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <div class="icheck-primary d-inline">
-                                                        <label>El cliente actúa en nombre
-                                                            propio</label>
+                                                <div class="form-check">
+                                                    <div>
+                                                        <label>El cliente actúa en nombre propio</label>
                                                     </div>
-
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="siActuaCliente_${id}" class="actuaNombrePropio" name="tipoActuacionCliente_${id}" value="C" required checked />
+                                                        <input type="radio" id="siActuaCliente_${id}" class="actuaNombrePropio" name="tipoActuacionCliente_${id}" value="C" required/>
                                                         <label for="siActuaCliente_${id}">Sí</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
                                                         <input type="radio" id="noActuaCliente_${id}" class="actuaNombrePropio" name="tipoActuacionCliente_${id}" value="R" required />
                                                         <label for="noActuaCliente_${id}">No</label>
+                                                        <div class="invalid-tooltip">Indica el tipo de actuación</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -809,7 +808,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Departamento residencia</label>
-                                                    <select name="deptoRecidenciaCliente_${id}" id="deptoRecidenciaCliente_${id}" class="form-control custom-select deptoRecidenciaCliente getMunicipio" style="width: 100%" requied>
+                                                    <select name="deptoRecidenciaCliente_${id}" id="deptoRecidenciaCliente_${id}" class="form-control custom-select deptoRecidenciaCliente getMunicipio" style="width: 100%" required>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -944,16 +943,7 @@ function AgregarTitular() {
 
         let selectPaisActual = divTitularActual.find("select.setPais");
         habilitaDepartamentoMunicipio(selectPaisActual);
-        getPaises(function (paises) {
-            paises.forEach(function (pais) {
-                for (let i = 0; i < selectPaisActual.length; i++) {
-                    $(selectPaisActual[i]).append(
-                        `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
-                    );
-                }
-            });
-        });
-
+        cargarPais(selectPaisActual);
         let selectDepartamentoActual = divTitularActual.find(
             "select.setDepartamento"
         );

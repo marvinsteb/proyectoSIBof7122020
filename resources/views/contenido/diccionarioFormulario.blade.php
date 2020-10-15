@@ -41,18 +41,18 @@
 
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <div class="icheck-primary d-inline">
+                                    <div class="form-check">
+                                        <div>
                                             <label>El cliente actúa en nombre propio</label>
                                         </div>
-
                                         <div class="icheck-primary d-inline">
-                                            <input type="radio" id="siActuaCliente_1" class="actuaNombrePropio" name="tipoActuacionCliente_1" value="C" required checked />
+                                            <input type="radio" id="siActuaCliente_1" class="actuaNombrePropio" name="tipoActuacionCliente_1" value="C" required/>
                                             <label for="siActuaCliente_1">Sí</label>
                                         </div>
                                         <div class="icheck-primary d-inline">
                                             <input type="radio" id="noActuaCliente_1" class="actuaNombrePropio" name="tipoActuacionCliente_1" value="R" required />
                                             <label for="noActuaCliente_1">No</label>
+                                            <div class="invalid-tooltip">Indica el tipo de actuación</div>
                                         </div>
                                     </div>
                                 </div>
@@ -82,6 +82,7 @@
                                     <div class="form-group">
                                         <label>País</label>
                                         <select name="paisCaMiCliente_1" id="paisCaMiCliente_1" class="form-control custom-select paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                            <option value="" disabled selected>Selecciona</option>
                                             @foreach($paises as $pais)
                                             <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                                             @endforeach
@@ -176,6 +177,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- .row -->
 
                             <div class="row">
                                 <div class="col-sm">
@@ -196,6 +198,7 @@
                                     <div class="form-group">
                                         <label>País nacimiento</label>
                                         <select name="paisNacimientoCliente_1" id="paisNacimientoCliente_1" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                            <option value="" disabled selected>Selecciona</option>
                                             @foreach($paises as $pais)
                                             <option value="{{$pais->idPais}}">
                                                 {{$pais->nombrePais}}
