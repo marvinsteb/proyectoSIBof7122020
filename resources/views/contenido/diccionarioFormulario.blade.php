@@ -59,8 +59,9 @@
 
                                 <div class="col-sm-8">
                                     <div class="form-group">
-                                        <label>Calidad con que actúa</label>
+                                        <label for ="calidadActuaCliente_1">Calidad con que actúa</label>
                                         <input name="calidadActuaCliente_1" id="calidadActuaCliente_1" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
+                                        <div class="invalid-tooltip">Por Ejemplo: Mandatario, Patria potestad, Tutor, Otros.</div>
                                     </div>
                                 </div>
                             </div>
