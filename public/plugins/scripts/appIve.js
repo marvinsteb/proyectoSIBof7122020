@@ -10,10 +10,8 @@ function setFormatoFecha(divInputFecha) {
             let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
             let fechaActual = dateMomentObject.toDate();
             if (fechaActual <= hoy) {
-                console.log("se permite la fecha");
                 $(this).find("input").removeClass("is-invalid");
             } else {
-                console.log("no se permite la fecha");
                 $(this).find("input").val(null);
                 $(this).find("input").addClass("is-invalid");
             }
@@ -134,6 +132,27 @@ function cargarPais(selectPais) {
                     `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
                 );
             });
+        });
+    }
+}
+
+function validarApellidoCasada(apeCasada) {
+    for (let i = 0; i < apeCasada.length; i++) {
+        $(apeCasada[i]).on("focusout", function () {
+            let ac = $(this).val().trim();
+            if (
+                (ac[0] == "D" && ac[1] == "E" && ac[2] === " ") ||
+                (ac[0] == "d" && ac[1] == "e" && ac[2] === " ") ||
+                (ac[0] == "D" && ac[1] == "e" && ac[2] === " ") ||
+                (ac[0] == "d" && ac[1] == "E" && ac[2] === " ")
+            ) {
+                console.log("empiesacon DE");
+                $(this).val(null);
+                $(this).addClass("is-invalid");
+            } else {
+                console.log("apellido permitido ");
+                $(this).removeClass("is-invalid");
+            }
         });
     }
 }
@@ -426,8 +445,8 @@ function verificarAsoPep() {
                                         <div class="col-sm">
                                             <div class="form-group">
                                                 <label>Apellido casada</label>
-                                                <!-- no anteponer de al apellido -->
                                                 <input name="apellidoCasadaPaAsPepCliente" type="text" class="form-control" placeholder="Apellido casada ..." maxlength="15" />
+                                                <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
                                             </div>
                                         </div>
                                         <div class="col-sm">
@@ -638,8 +657,9 @@ function AgregarTitular() {
                                             </div>
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Apellido casada</label>
+                                                    <label for="apellidoCasadaCliente_1">Apellido casada</label>
                                                     <input name="apellidoCasadaCliente_${id}" id="apellidoCasadaCliente_${id}" type="text" class="form-control apellidoCasadaCliente" placeholder="Apellido casada ..." maxlength="15" />
+                                                    <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm">
@@ -955,46 +975,53 @@ function AgregarTitular() {
         /*agregado validadciones para el nuevo titular*/
         let divTitularActual = $(`#titulares>div#${id}`);
 
-        let inputActuaNombrePropio = divTitularActual.find(
+        let inputActuaNombrePropio = $(divTitularActual).find(
             "input.actuaNombrePropio"
         );
         inputActuaNombrePropio.focus();
         verificaActuaNombrePropio(inputActuaNombrePropio);
 
-        let selectPaisActual = divTitularActual.find("select.setPais");
+        let selectPaisActual = $(divTitularActual).find("select.setPais");
         habilitaDepartamentoMunicipio(selectPaisActual);
         cargarPais(selectPaisActual);
-        let selectDepartamentoActual = divTitularActual.find(
+        let selectDepartamentoActual = $(divTitularActual).find(
             "select.setDepartamento"
         );
         cargarDepartamentos(selectDepartamentoActual);
 
-        let selectChangeMunicpio = divTitularActual.find("select.getMunicipio");
+        let selectChangeMunicpio = $(divTitularActual).find(
+            "select.getMunicipio"
+        );
         cargarMunicipios(selectChangeMunicpio);
 
-        let fechas = divTitularActual.find("div.date");
+        let fechas = $(divTitularActual).find("div.date");
         setFormatoFecha(fechas);
 
-        let liConMigratoria = divTitularActual.find(
+        let apesCasada = $(divTitularActual).find(
+            "input.apellidoCasadaCliente"
+        );
+        validarApellidoCasada(apesCasada);
+
+        let liConMigratoria = $(divTitularActual).find(
             "select.condicionMigratoriaCliente"
         );
         cargarLiCondicionMigratoria(liConMigratoria);
 
-        let selectValidaPaisPasaporte = divTitularActual.find(
+        let selectValidaPaisPasaporte = $(divTitularActual).find(
             "select.validaPaisPasaporte"
         );
         validarPaisPasaporte(selectValidaPaisPasaporte);
 
-        let paisPasaporte = divTitularActual.find(
+        let paisPasaporte = $(divTitularActual).find(
             "select.emicionPasaporteCliente"
         );
         cargarPais(paisPasaporte);
 
-        let paisNacionalidad = divTitularActual.find(
+        let paisNacionalidad = $(divTitularActual).find(
             "select.nacionalidadCliente"
         );
         cargarPais(paisNacionalidad);
-        let btnsAddNacionalidad = divTitularActual.find(
+        let btnsAddNacionalidad = $(divTitularActual).find(
             "button.agregarNacionalidaCliente"
         );
         agregaNacionalidadCliente(btnsAddNacionalidad);
@@ -1275,6 +1302,7 @@ $(document).ready(function () {
     verificaActuaNombrePropio($(".actuaNombrePropio"));
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     cargarMunicipios($(".getMunicipio"));
+    validarApellidoCasada($(".apellidoCasadaCliente"));
     verificaOtraCondicionMigratoria($(".condicionMigratoriaCliente"));
     validarPaisPasaporte($(".validaPaisPasaporte"));
     agregaNacionalidadCliente($(".agregarNacionalidaCliente"));

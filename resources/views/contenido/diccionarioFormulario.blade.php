@@ -117,7 +117,7 @@
                                         <label>Fecha</label>
                                         <div class="input-group date" id="fechaDoc_1" data-target-input="nearest">
                                             <input name="fechaDocCaMiCliente_1" id="fechaDocCaMiCliente_1" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_1" required />
-                                                  <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
+                                            <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                                             <div class="input-group-append" data-target="#fechaDoc_1" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
                                                     <i class="fa fa-calendar"></i>
@@ -156,8 +156,9 @@
                                 </div>
                                 <div class="col-sm">
                                     <div class="form-group">
-                                        <label>Apellido casada</label>
+                                        <label for="apellidoCasadaCliente_1">Apellido casada</label>
                                         <input name="apellidoCasadaCliente_1" id="apellidoCasadaCliente_1" type="text" class="form-control apellidoCasadaCliente" placeholder="Apellido casada ..." maxlength="15" />
+                                        <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
                                     </div>
                                 </div>
                                 <div class="col-sm">
