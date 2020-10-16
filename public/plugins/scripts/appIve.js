@@ -1,6 +1,23 @@
 function setFormatoFecha(divInputFecha) {
     for (let i = 0; i < divInputFecha.length; i++) {
         $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
+
+        $(divInputFecha[i]).on("focusout", function () {
+            let fechaString = $(this).find("input").val();
+            let hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
+            let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
+            let fechaActual = dateMomentObject.toDate();
+            if (fechaActual <= hoy) {
+                console.log("se permite la fecha");
+                $(this).find("input").removeClass("is-invalid");
+            } else {
+                console.log("no se permite la fecha");
+                $(this).find("input").val(null);
+                $(this).find("input").addClass("is-invalid");
+            }
+        });
     }
 }
 
@@ -582,6 +599,7 @@ function AgregarTitular() {
                                                     <label>Fecha</label>
                                                     <div class="input-group date" id="fechaDoc_${id}" data-target-input="nearest">
                                                         <input name="fechaDocCaMiCliente_${id}" id="fechaDocCaMiCliente_${id}" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_${id}" required />
+                                                        <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                                                         <div class="input-group-append" data-target="#fechaDoc_${id}" data-toggle="datetimepicker">
                                                             <div class="input-group-text">
                                                                 <i class="fa fa-calendar"></i>
@@ -650,6 +668,7 @@ function AgregarTitular() {
                                                     <label>Fecha nacimiento</label>
                                                     <div class="input-group date" id="fechaNacimiento_${id}" data-target-input="nearest">
                                                         <input name="fechaNacimientoCliente_${id}" id="fechaNacimientoCliente_${id}" type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento_${id}" required />
+                                                        <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                                                         <div class="input-group-append" data-target="#fechaNacimiento_${id}" data-toggle="datetimepicker">
                                                             <div class="input-group-text">
                                                                 <i class="fa fa-calendar"></i>

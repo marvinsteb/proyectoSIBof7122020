@@ -94,7 +94,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Departamento</label>
-                                        <select name="deptoCaMiCliente_1" id="deptoCaMiCliente_1" class="form-control custom-select deptoCaMiCliente getMunicipio" style="width: 100%" required>
+                                        <select name="deptoCaMiCliente_1" id="deptoCaMiCliente_1" class="form-control custom-select deptoCaMiCliente getMunicipio" style="width: 100%" required disabled>
                                             <option value="" disabled selected>Selecciona</option>
                                             @foreach($departamentos as $departamento)
                                             <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
@@ -117,6 +117,7 @@
                                         <label>Fecha</label>
                                         <div class="input-group date" id="fechaDoc_1" data-target-input="nearest">
                                             <input name="fechaDocCaMiCliente_1" id="fechaDocCaMiCliente_1" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_1" required />
+                                                  <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                                             <div class="input-group-append" data-target="#fechaDoc_1" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
                                                     <i class="fa fa-calendar"></i>
@@ -186,6 +187,7 @@
                                         <label>Fecha nacimiento</label>
                                         <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
                                             <input name="fechaNacimientoCliente_1" id="fechaNacimientoCliente_1" type="text" class="form-control datetimepicker-input fechaNacimientoCliente" data-target="#fechaNacimiento" required />
+                                            <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                                             <div class="input-group-append" data-target="#fechaNacimiento" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
                                                     <i class="fa fa-calendar"></i>
@@ -213,7 +215,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Departamento nacimiento</label>
-                                        <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control custom-select deptoNacimientoCliente getMunicipio" style="width: 100%" required>
+                                        <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control custom-select deptoNacimientoCliente getMunicipio" style="width: 100%" required disabled>
                                             <option value="" disabled selected>Selecciona</option>
                                             @foreach($departamentos as $departamento)
                                             <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
@@ -354,6 +356,7 @@
                                     <div class="form-group">
                                         <label>País residencia</label>
                                         <select name="paisRecidenciaCliente_1" id="paisRecidenciaCliente_1" class="form-control custom-select paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                            <option value="" disabled selected>Selecciona</option>
                                             @foreach($paises as $pais)
                                             <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                                             @endforeach
@@ -365,7 +368,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Departamento residencia</label>
-                                        <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control custom-select deptoRecidenciaCliente getMunicipio" style="width: 100%" required>
+                                        <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control custom-select deptoRecidenciaCliente getMunicipio" style="width: 100%" required disabled>
                                             <option value="" disabled selected>Selecciona</option>
                                             @foreach($departamentos as $departamento)
                                             <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
