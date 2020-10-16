@@ -300,7 +300,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Número identificación</label>
-                                        <input name="noDocIdentificacionCliente_1" id="noDocIdentificacionCliente_1" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required />
+                                        <input name="noDocIdentificacionCliente_1" id="noDocIdentificacionCliente_1" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required disabled/>
                                     </div>
                                 </div>
 

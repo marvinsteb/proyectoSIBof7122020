@@ -152,7 +152,6 @@ function validarApellidoCasada(apeCasada) {
         });
     }
 }
-
 function validarNit(listaNit) {
     for (let i = 0; i < listaNit.length; i++) {
         $(listaNit[i]).on("focusout", function (event) {
@@ -167,7 +166,6 @@ function validarNit(listaNit) {
         });
     }
 }
-
 function nitIsValid(nit) {
     if (!nit) {
         return true;
@@ -200,7 +198,6 @@ function nitIsValid(nit) {
 
     return expectedCheker === computedChecker;
 }
-
 function cargarCondicionMigratoria(selectCondicionMigratoria) {
     for (let i = 0; i < selectCondicionMigratoria.length; i++) {
         $(selectCondicionMigratoria[i]).empty();
@@ -257,15 +254,19 @@ function habilitaOtraCondicionMigratoria(condicionMigratoria) {
 function habilitaPaisPasaporte(pasaportes) {
     for (let i = 0; i < pasaportes.length; i++) {
         $(pasaportes[i]).change(function (event) {
-            let selectPaisPasaporte = $(this)
-                .parent()
-                .parent()
-                .parent()
-                .find("select.emicionPasaporteCliente");
+            let divPadre = $(this).parent().parent().parent();
+            let selectPaisPasaporte = $(divPadre).find(
+                "select.emicionPasaporteCliente"
+            );
+            let inputDocumento = $(divPadre).find(
+                "input.noDocIdentificacionCliente"
+            );
             if (event.target.value == "P") {
                 selectPaisPasaporte[0].disabled = false;
+                inputDocumento[0].disabled = false;
             } else {
                 selectPaisPasaporte[0].disabled = true;
+                inputDocumento[0].disabled = false;
                 cargarPais(selectPaisPasaporte);
             }
         });
@@ -822,7 +823,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Número identificación</label>
-                                                    <input name="noDocIdentificacionCliente_${id}" id="noDocIdentificacionCliente_${id}" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required />
+                                                    <input name="noDocIdentificacionCliente_${id}" id="noDocIdentificacionCliente_${id}" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required disabled/>
                                                 </div>
                                             </div>
                                             <div class="col-sm">
@@ -1286,7 +1287,6 @@ function obtenerDatos() {
         titular.cliente.nit = $(divTitularActual)
             .find(`input:text[id=nitCliente_${id}]`)
             .val();
-        //tipoDoctoIdentificacionCliente_
         titular.cliente.tipoDocumentoIdentificacion = $(divTitularActual)
             .find(
                 `select[id=tipoDoctoIdentificacionCliente_${id}] option:selected`
@@ -1295,7 +1295,6 @@ function obtenerDatos() {
         titular.cliente.numeroDocumentoIdentificacion = $(divTitularActual)
             .find(`input:text[id=noDocIdentificacionCliente_${id}]`)
             .val();
-        //emicionPasaporteCliente_1
         titular.cliente.emisionPasaporte = $(divTitularActual)
             .find(`select[id=emicionPasaporteCliente_${id}] option:selected`)
             .val();
