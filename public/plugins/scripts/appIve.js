@@ -18,7 +18,6 @@ function setFormatoFecha(divInputFecha) {
         });
     }
 }
-
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
         $(elementoActuaNomprePropio[i]).change(function () {
@@ -62,7 +61,7 @@ function habilitaDepartamentoMunicipio(selectPais) {
                     $(condicionMigratoria[0]).append(
                         '<option value="" disabled selected>Selecciona</option>'
                     );
-                    cargarLiCondicionMigratoria($(condicionMigratoria[0]));
+                    cargarCondicionMigratoria($(condicionMigratoria[0]));
                 }
             } else {
                 departamento[0].disabled = true;
@@ -103,7 +102,6 @@ function cargarMunicipios(selectDeptos) {
         });
     }
 }
-
 function cargarDepartamentos(selectDepartamentos) {
     for (let i = 0; i < selectDepartamentos.length; i++) {
         $(selectDepartamentos[i]).empty();
@@ -119,7 +117,6 @@ function cargarDepartamentos(selectDepartamentos) {
         });
     }
 }
-
 function cargarPais(selectPais) {
     for (let i = 0; i < selectPais.length; i++) {
         $(selectPais[i]).empty();
@@ -135,7 +132,6 @@ function cargarPais(selectPais) {
         });
     }
 }
-
 function validarApellidoCasada(apeCasada) {
     for (let i = 0; i < apeCasada.length; i++) {
         $(apeCasada[i]).on("focusout", function () {
@@ -157,7 +153,55 @@ function validarApellidoCasada(apeCasada) {
     }
 }
 
-function cargarLiCondicionMigratoria(selectCondicionMigratoria) {
+function validarNit(listaNit) {
+    for (let i = 0; i < listaNit.length; i++) {
+        $(listaNit[i]).on("focusout", function (event) {
+            let nit = $(this).val().trim();
+            if (nitIsValid(nit)) {
+                console.log("nit valido");
+                $(this).removeClass("is-invalid");
+            } else {
+                console.log("el nit no es validdo");
+                $(this).addClass("is-invalid");
+            }
+        });
+    }
+}
+
+function nitIsValid(nit) {
+    if (!nit) {
+        return true;
+    }
+
+    let nitRegExp = new RegExp("^[0-9]+(-?[0-9kK])?$");
+
+    if (!nitRegExp.test(nit)) {
+        return false;
+    }
+
+    nit = nit.replace(/-/, "");
+    let lastChar = nit.length - 1;
+    let number = nit.substring(0, lastChar);
+    let expectedCheker = nit.substring(lastChar, lastChar + 1).toLowerCase();
+
+    let factor = number.length + 1;
+    let total = 0;
+
+    for (let i = 0; i < number.length; i++) {
+        let character = number.substring(i, i + 1);
+        let digit = parseInt(character, 10);
+
+        total += digit * factor;
+        factor = factor - 1;
+    }
+
+    let modulus = (11 - (total % 11)) % 11;
+    let computedChecker = modulus == 10 ? "k" : modulus.toString();
+
+    return expectedCheker === computedChecker;
+}
+
+function cargarCondicionMigratoria(selectCondicionMigratoria) {
     for (let i = 0; i < selectCondicionMigratoria.length; i++) {
         $(selectCondicionMigratoria[i]).empty();
         $(selectCondicionMigratoria[i]).append(
@@ -170,35 +214,30 @@ function cargarLiCondicionMigratoria(selectCondicionMigratoria) {
                 );
             });
         });
-        verificaOtraCondicionMigratoria($(selectCondicionMigratoria[i]));
+        habilitaOtraCondicionMigratoria($(selectCondicionMigratoria[i]));
     }
 }
-
 function getMunicipios(callback, idDepto) {
     $.get(`/departamentos/municipios/${idDepto}`, function (res, sta) {
         callback(res);
     });
 }
-
 function getPaises(callbak) {
     $.get(`/pais/obtenerpaises`, function (res, sta) {
         callbak(res);
     });
 }
-
 function getCondicionMigratoria(callback) {
     $.get(`/listacondicionmigratoria`, function (res, sta) {
         callback(res);
     });
 }
-
 function getDepartamentos(callback) {
     $.get(`/departamento/obtenerdepartamento`, function (res, sta) {
         callback(res);
     });
 }
-
-function verificaOtraCondicionMigratoria(condicionMigratoria) {
+function habilitaOtraCondicionMigratoria(condicionMigratoria) {
     for (let i = 0; i < condicionMigratoria.length; i++) {
         $(condicionMigratoria[i]).change(function (event) {
             let otraCondicionMigratoria = $(this)
@@ -215,7 +254,7 @@ function verificaOtraCondicionMigratoria(condicionMigratoria) {
         });
     }
 }
-function validarPaisPasaporte(pasaportes) {
+function habilitaPaisPasaporte(pasaportes) {
     for (let i = 0; i < pasaportes.length; i++) {
         $(pasaportes[i]).change(function (event) {
             let selectPaisPasaporte = $(this)
@@ -297,7 +336,6 @@ function verificarClientePep() {
         });
     }
 }
-
 function agregaNacionalidadCliente(arrBtnsAgregarNacionalidad) {
     for (let i = 0; i < arrBtnsAgregarNacionalidad.length; i++) {
         $(arrBtnsAgregarNacionalidad[i]).click(function () {
@@ -333,7 +371,6 @@ function agregaNacionalidadCliente(arrBtnsAgregarNacionalidad) {
         });
     }
 }
-
 function agregarNumeroCliente(arrBtnAgregarTelefono) {
     for (let i = 0; i < arrBtnAgregarTelefono.length; i++) {
         $(arrBtnAgregarTelefono[i]).click(function () {
@@ -362,7 +399,6 @@ function agregarNumeroCliente(arrBtnAgregarTelefono) {
         });
     }
 }
-
 function verificarAsoPep() {
     var asoPepCliente = $(".asoPepCliente");
 
@@ -518,7 +554,6 @@ function verificarAsoPep() {
         });
     }
 }
-
 function AgregarTitular() {
     $("#btnAgregarTitular").click(function (event) {
         event.preventDefault();
@@ -1005,12 +1040,12 @@ function AgregarTitular() {
         let liConMigratoria = $(divTitularActual).find(
             "select.condicionMigratoriaCliente"
         );
-        cargarLiCondicionMigratoria(liConMigratoria);
+        cargarCondicionMigratoria(liConMigratoria);
 
         let selectValidaPaisPasaporte = $(divTitularActual).find(
             "select.validaPaisPasaporte"
         );
-        validarPaisPasaporte(selectValidaPaisPasaporte);
+        habilitaPaisPasaporte(selectValidaPaisPasaporte);
 
         let paisPasaporte = $(divTitularActual).find(
             "select.emicionPasaporteCliente"
@@ -1029,7 +1064,6 @@ function AgregarTitular() {
         eliminarTemplateTitular($("#titulares>div"));
     });
 }
-
 class dicLugar {
     constructor(pais, departamento, municipio) {
         this.pais = pais;
@@ -1037,7 +1071,6 @@ class dicLugar {
         this.municipio = municipio;
     }
 }
-
 class datosPep {
     constructor() {
         this.entidad = null;
@@ -1047,7 +1080,6 @@ class datosPep {
         this.otroOrigenRiqueza = null;
     }
 }
-
 class dicParienteAsociadoPep {
     constructor() {
         this.parentesco = null;
@@ -1067,7 +1099,6 @@ class dicParienteAsociadoPep {
         this.paisEntidad = null;
     }
 }
-
 class dicDatosPersonales {
     constructor() {
         this.primerApellido = null;
@@ -1098,7 +1129,6 @@ class dicDatosPersonales {
         this.datosParienteAsociadoPep = new dicParienteAsociadoPep();
     }
 }
-
 class dicCamposMinimos {
     constructor() {
         this.tipoActuacion = null;
@@ -1110,7 +1140,6 @@ class dicCamposMinimos {
         this.infoEconomicaInical = null;
     }
 }
-
 class diccionarioFormulario {
     constructor(id) {
         this.id = id;
@@ -1128,7 +1157,6 @@ class diccionarioFormulario {
         this.perfilEconomico = pEconomico;
     }
 }
-
 function expandirCard() {
     let titulares = $("#titulares>div");
     for (let i = 0; i < titulares.length; i++) {
@@ -1158,7 +1186,6 @@ function validarFormulario() {
     });
     console.log(validation);
 }
-
 function enviarDatos() {
     let nuevoDiccionarioFormulario = obtenerDatos();
     $.ajaxSetup({
@@ -1177,7 +1204,6 @@ function enviarDatos() {
         },
     });
 }
-
 function eliminarTemplateTitular(titulares) {
     for (let i = 0; i < titulares.length; i++) {
         $(titulares[i]).on("removed.lte.cardwidget", function () {
@@ -1303,8 +1329,9 @@ $(document).ready(function () {
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     cargarMunicipios($(".getMunicipio"));
     validarApellidoCasada($(".apellidoCasadaCliente"));
-    verificaOtraCondicionMigratoria($(".condicionMigratoriaCliente"));
-    validarPaisPasaporte($(".validaPaisPasaporte"));
+    habilitaOtraCondicionMigratoria($(".condicionMigratoriaCliente"));
+    validarNit($(".validarNit"));
+    habilitaPaisPasaporte($(".validaPaisPasaporte"));
     agregaNacionalidadCliente($(".agregarNacionalidaCliente"));
     agregarNumeroCliente($(".agregarTelefonoCliente"));
     verificarClientePep();
