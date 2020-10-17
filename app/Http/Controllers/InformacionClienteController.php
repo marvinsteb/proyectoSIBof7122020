@@ -117,6 +117,15 @@ class InformacionClienteController extends Controller
                       ]);
                   }
 
+                 $nacionalidadTitulares = $request->titulares[$i]["cliente"]["nacionalidades"];
+                 foreach ($nacionalidadTitulares as $nacionalidad) { 
+                     $idNacionalidad = DB::table('nacionalidad')->insertGetId([
+                         'idDatosPersonales' => $idClienteCamposMinimos,
+                         'idPais' => $nacionalidad
+                         ]);
+                 }
+
+
 
                 // campos minimos
                 $idCamposMinimos = DB::table('camposMinimos')->insertGetId([
