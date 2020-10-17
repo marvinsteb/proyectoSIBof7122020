@@ -1153,6 +1153,9 @@ class dicDatosPersonales {
     agregarTelefono(telefono) {
         this.telefonos.push(telefono);
     }
+    agregarNacionalidad(nacionalidad) {
+        this.nacionalidades.push(nacionalidad);
+    }
 }
 class dicCamposMinimos {
     constructor() {
@@ -1343,6 +1346,13 @@ function obtenerDatos() {
         let telefonos = $(divTitularActual).find(`input.telefonoCliente`);
         for (let i = 0; i < telefonos.length; i++) {
             titular.cliente.agregarTelefono($(telefonos[i]).val());
+        }
+
+        let nacionalidades = $(divTitularActual).find(
+            `select.nacionalidadCliente`
+        );
+        for (let a = 0; a < nacionalidades.length; a++) {
+            titular.cliente.agregarNacionalidad($(nacionalidades[a]).val());
         }
         df.agregarTitular(titular);
     }

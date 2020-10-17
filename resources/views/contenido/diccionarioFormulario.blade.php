@@ -397,7 +397,7 @@
                                                 <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
                                                     <option value="" disabled selected>Selecciona</option>
                                                     @foreach($paises as $pais)
-                                                    <option value="{{$pais->codigoPais}}">{{$pais->nombrePais}}</option>
+                                                    <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
