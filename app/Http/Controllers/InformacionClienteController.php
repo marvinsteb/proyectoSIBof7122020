@@ -94,10 +94,6 @@ class InformacionClienteController extends Controller
                     'tipoDocumentoIdentificacion' => $request->titulares[$i]["cliente"]["tipoDocumentoIdentificacion"],
                     'numeroDocumentoIdentificacion' => $request->titulares[$i]["cliente"]["numeroDocumentoIdentificacion"],
                     'emisionPasaporte' => $request->titulares[$i]["cliente"]["emisionPasaporte"],
-                    /*implementar una tabla para guardar los valores del arreglo telefono,
-                que se envia desde la vista diccionarFormulario.
-                ,por el momento enviamos null, pero la llave es obligatoria para generar el json*/
-                    'telefonos'  => null,
                     'email' => $request->titulares[$i]["cliente"]["email"],
                     'direccionResidencia' => $request->titulares[$i]["cliente"]["direccionResidencia"],
                     'residencia' => DB::table('lugar')->insertGetId([
@@ -112,6 +108,14 @@ class InformacionClienteController extends Controller
                     'datosParienteAsociadoPep' => null,
                     'cpe' => 'S'
                 ]);
+
+                 $telefonosTitulares = $request->titulares[$i]["cliente"]["telefonos"];
+                  for ($a = 0; $a < count($telefonosTitulares); $a++) {
+                      $idTelefonos = DB::table('telefono')->insertGetId([
+                          'idDatosPersonales' => $idClienteCamposMinimos,
+                          'numTelefono' => $telefonosTitulares[$a]
+                      ]);
+                  }
 
 
                 // campos minimos
