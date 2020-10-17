@@ -381,7 +381,7 @@ function agregaNacionalidadCliente(arrBtnsAgregarNacionalidad) {
         });
     }
 }
-function agregarNumeroCliente(arrBtnAgregarTelefono) {
+function agregarTemplateTelefono(arrBtnAgregarTelefono) {
     for (let i = 0; i < arrBtnAgregarTelefono.length; i++) {
         $(arrBtnAgregarTelefono[i]).click(function () {
             let divPadre = $(this).parent().parent();
@@ -392,7 +392,7 @@ function agregarNumeroCliente(arrBtnAgregarTelefono) {
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm">
-                                        <input name="${idDivPadre}" id="${idInput}" type="text" class="form-control" placeholder="telefono ..." maxlength="30" required />
+                                        <input name="${idDivPadre}" id="${idInput}" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
                                     </div>
                                     <div class="col-sm my-auto">
                                         <button type="button" class="btn btn-danger">
@@ -404,7 +404,7 @@ function agregarNumeroCliente(arrBtnAgregarTelefono) {
             $(`#${idDivPadre}>div.form-group>div.row`)
                 .find("button")
                 .click(function () {
-                    console.log($(this).parent().parent().parent().remove());
+                    $(this).parent().parent().parent().remove();
                 });
         });
     }
@@ -1150,6 +1150,9 @@ class dicDatosPersonales {
         this.parienteAsociadoPep = null;
         this.datosParienteAsociadoPep = new dicParienteAsociadoPep();
     }
+    agregarTelefono(telefono) {
+        this.telefonos.push(telefono);
+    }
 }
 class dicCamposMinimos {
     constructor() {
@@ -1337,6 +1340,10 @@ function obtenerDatos() {
         titular.cliente.residencia.municipio = $(divTitularActual)
             .find(`select[id=muniRecidenciaCliente_${id}] option:selected`)
             .val();
+        let telefonos = $(divTitularActual).find(`input.telefonoCliente`);
+        for (let i = 0; i < telefonos.length; i++) {
+            titular.cliente.agregarTelefono($(telefonos[i]).val());
+        }
         df.agregarTitular(titular);
     }
     console.log(df);
@@ -1353,7 +1360,7 @@ $(document).ready(function () {
     validarNit($(".validarNit"));
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
     agregaNacionalidadCliente($(".agregarNacionalidaCliente"));
-    agregarNumeroCliente($(".agregarTelefonoCliente"));
+    agregarTemplateTelefono($(".agregarTelefonoCliente"));
     verificarClientePep();
     verificarAsoPep();
     AgregarTitular();

@@ -416,7 +416,7 @@
                                         <div class="row">
                                             <div class="col-sm">
                                                 <label>Telefonos:</label>
-                                                <input name="telefonoCliente_1" id="telefonoCliente_1" type="text" class="form-control" placeholder="telefono ..." maxlength="30" required />
+                                                <input name="telefonoCliente_1" id="telefonoCliente_1" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
                                             </div>
                                             <div class="col-sm"></div>
                                         </div>

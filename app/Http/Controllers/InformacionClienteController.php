@@ -61,7 +61,7 @@ class InformacionClienteController extends Controller
         try {
             // diccionario formulario 
 
-            $idDiccionarioFormulario = DB::table('diccionarioformulario')->insertGetId([
+            $idDiccionarioFormulario = DB::table('diccionarioFormulario')->insertGetId([
                 "estado" => "A"
             ]);
 
