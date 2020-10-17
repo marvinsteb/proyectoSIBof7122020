@@ -77,14 +77,11 @@ class InformacionClienteController extends Controller
                     'fechaNacimiento' => $this->formatoFechaDB(
                         $request->titulares[$i]["cliente"]["fechaNacimiento"]
                     ),
-                    // inplementar una tabla para guardar el arreglo de las nacionalidades
-                    'nacionalidades' => 1,
                     'nacimiento' => DB::table('lugar')->insertGetId([
                         "pais" => $request->titulares[$i]["cliente"]["nacimiento"]["pais"],
                         "departamento" => $request->titulares[$i]["cliente"]["nacimiento"]["departamento"],
                         "municipio" => $request->titulares[$i]["cliente"]["nacimiento"]["municipio"],
                     ]),
-
                     'condicionMigratoria' => $request->titulares[$i]["cliente"]["condicionMigratoria"],
                     'otraCondicionMigratoria' => $request->titulares[$i]["cliente"]["otraCondicionMigratoria"],
                     'sexo' => $request->titulares[$i]["cliente"]["sexo"],
