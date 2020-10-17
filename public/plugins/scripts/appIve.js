@@ -152,16 +152,25 @@ function validarApellidoCasada(apeCasada) {
         });
     }
 }
+function templateInvalidTooltip(mensaje) {
+    return `<div class="invalid-tooltip">${mensaje}</div>`;
+}
 function validarNit(listaNit) {
     for (let i = 0; i < listaNit.length; i++) {
         $(listaNit[i]).on("focusout", function (event) {
             let nit = $(this).val().trim();
+            let divinvalidTooltip = templateInvalidTooltip(
+                "Ingresa un NIT valido"
+            );
             if (nitIsValid(nit)) {
-                console.log("nit valido");
+                // el nit es valido
                 $(this).removeClass("is-invalid");
+                $(this).parent().find(divinvalidTooltip).remove();
             } else {
-                console.log("el nit no es validdo");
+                // el nit no es valido
                 $(this).addClass("is-invalid");
+                $(this).parent().append(divinvalidTooltip);
+                $(this).val(null);
             }
         });
     }
@@ -558,8 +567,18 @@ function verificarAsoPep() {
 function AgregarTitular() {
     $("#btnAgregarTitular").click(function (event) {
         event.preventDefault();
+
         let cantActualTitulares = $("#titulares>div").length;
+        let tipo = "Cliente";
         let id = cantActualTitulares + 1;
+
+        /*
+         * variables para los id de los campos
+         * se utiliza el tipo y el id para crear un id unico para cada campo
+         */
+        let idNit = `nit${tipo}_${id}`;
+        console.log(idNit);
+
         let templateTitular = `
                                 <div class="card card-primary" id="${id}">
                                     <div class="card-header">
@@ -805,7 +824,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Nit</label>
-                                                    <input name="nitCliente_${id}" id="nitCliente_${id}" type="text" class="form-control nitCliente" placeholder="Nit ..." maxlength="20" />
+                                                    <input name="${idNit}" id="${idNit}" type="text" class="form-control nitCliente" placeholder="Nit ..." maxlength="20" />
                                                 </div>
                                             </div>
 
@@ -1042,6 +1061,8 @@ function AgregarTitular() {
             "select.condicionMigratoriaCliente"
         );
         cargarCondicionMigratoria(liConMigratoria);
+        let nit = $(divTitularActual).find(`input:text[id=${idNit}]`);
+        validarNit($(nit));
 
         let selectValidaPaisPasaporte = $(divTitularActual).find(
             "select.validaPaisPasaporte"
