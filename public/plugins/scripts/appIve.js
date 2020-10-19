@@ -281,67 +281,84 @@ function habilitaPaisPasaporte(pasaportes) {
         });
     }
 }
-function verificarClientePep() {
-    var radioClientePep = $(".pepCliente");
+function verificarClientePep(radioClientePep) {
     for (let i = 0; i < radioClientePep.length; i++) {
         $(radioClientePep[i]).change(function () {
+            /**
+             * utilizo el atributo name, del input radio pepCliente para establecer el id unicao para cada campo id
+             * cuando el titular el id sera entidadpepCliente_1 entidad${id}
+             */
+            let id = $(this).attr("name");
             if (this.value != "N") {
-                var filasDatosPepCliente = `<div class="row">
+                var templateDatosPep = `<div class="row">
                     <div class="col-sm">
                         <div class="form-group">
-                            <label>Entidad</label>
-                            <input name="entidadClientePep" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required>
+                            <label for="entidad${id}">Entidad</label>
+                            <input name="entidad${id}" id="entidad${id}" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required>
                         </div>
                     </div>
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="">Puesto que desempeña</label>
-                            <input name="puestoDesepenia" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required>
+                            <label for="puestoDesepenia${id}">Puesto que desempeña</label>
+                            <input name="puestoDesepenia${id}" id="puestoDesepenia${id}" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required>
                         </div>
                     </div>
                     </div>
                     <div class="row">
                         <div class="col-sm">
                             <div class="form-group">
-                                <label>País entidad</label>
-                                <select name="paisEntidadPepCliente" id="paisEntidadPepCliente" class="form-control custom-select" style="width: 100%;">
+                                <label for ="paisEntidad${id}">País entidad</label>
+                                <select name="paisEntidad${id}" id="paisEntidad${id}" class="form-control custom-select" style="width: 100%;" required>
                                     <option value="" disabled selected>Selecciona</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm">
                             <div class="form-group">
-                                <label>Origen o procedencia de su riqueza</label>
-                                <select name="origenRiquezaPepCliente" id="origenRiquezaPepCliente" class="form-control custom-select" style="width: 100%;">
+                                <label for= "origenRiqueza${id}">Origen o procedencia de su riqueza</label>
+                                <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select" style="width: 100%;" required>
                                     <option value="" disabled selected>Selecciona</option>
-                                    <option value="1"> Bienes muebles e inmuebles por herencia</option>
-                                    <option value="2"> Bienes muebles e inmuebles</option>
-                                    <option value="3"> Negocio propio</option>
-                                    <option value="4"> Servicios profesionales</option>
-                                    <option value="5"> Préstamos bancarios</option>
-                                    <option value="6"> Trabajos anteriores</option>
-                                    <option value="7"> Trabajo actual</option>
-                                    <option value="8"> otro</option>
+                                    <option value="1">Bienes muebles e inmuebles por herencia</option>
+                                    <option value="2">Bienes muebles e inmuebles</option>
+                                    <option value="3">Negocio propio</option>
+                                    <option value="4">Servicios profesionales</option>
+                                    <option value="5">Préstamos bancarios</option>
+                                    <option value="6">Trabajos anteriores</option>
+                                    <option value="7">Trabajo actual</option>
+                                    <option value="8">otro</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm">
                             <div class="form-group">
-                                <label>Especifique</label>
-                                <input name="otroOrigenRiquezaPepCliente" type="text" class="form-control" placeholder="Origen o procedencia de su riqueza ..." maxlength="100" required>
+                                <label id="otroOrigenRiqueza${id}">Especifique</label>
+                                <input name="otroOrigenRiqueza${id}" id="otroOrigenRiqueza${id}" type="text" class="form-control otroOrigenRiqueza" placeholder="Origen o procedencia de su riqueza ..." maxlength="100" required disabled>
                             </div>
                         </div>
                     </div>`;
-                $(".datosPepCliente_1").append(filasDatosPepCliente);
-                getPaises(function (element) {
-                    element.forEach(function (pais) {
-                        $("#paisEntidadPepCliente").append(
-                            `<option value=${pais.idPais}> ${pais.nombrePais} </option>`
-                        );
-                    });
-                });
+                $(`.datos${id}`).append(templateDatosPep);
+                cargarPais($(`#paisEntidad${id}`));
+                habilitaOtroOrigenriqueza($(`#origenRiqueza${id}`));
             } else {
-                $(".datosPepCliente_1 div").remove();
+                $(`.datos${id} div`).remove();
+            }
+        });
+    }
+}
+
+function habilitaOtroOrigenriqueza(selectOrigenRiqueza) {
+    for (let i = 0; i < selectOrigenRiqueza.length; i++) {
+        $(selectOrigenRiqueza[i]).change(function (event) {
+            let otraselectOrigenRiqueza = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .find("input.otroOrigenRiqueza");
+            if (event.target.value == 8) {
+                otraselectOrigenRiqueza[0].disabled = false;
+            } else {
+                otraselectOrigenRiqueza[0].disabled = true;
+                $(otraselectOrigenRiqueza[0]).val(null);
             }
         });
     }
@@ -1374,7 +1391,7 @@ $(document).ready(function () {
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
     agregarTemplateNacionalidad($(".agregarNacionalidaCliente"));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
-    verificarClientePep();
+    verificarClientePep($(".pepCliente"));
     verificarAsoPep();
     AgregarTitular();
     eliminarTemplateTitular($("#titulares>div"));
