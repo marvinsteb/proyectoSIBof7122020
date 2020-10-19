@@ -332,7 +332,7 @@ function verificarClientePep() {
                             </div>
                         </div>
                     </div>`;
-                $(".datosPepCliente").append(filasDatosPepCliente);
+                $(".datosPepCliente_1").append(filasDatosPepCliente);
                 getPaises(function (element) {
                     element.forEach(function (pais) {
                         $("#paisEntidadPepCliente").append(
@@ -341,7 +341,7 @@ function verificarClientePep() {
                     });
                 });
             } else {
-                $(".datosPepCliente div").remove();
+                $(".datosPepCliente_1 div").remove();
             }
         });
     }
@@ -651,7 +651,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Departamento</label>
-                                                    <select name="deptoCaMiCliente_${id}" id="deptoCaMiCliente_${id}" class="form-control custom-select deptoCaMiCliente getMunicipio setDepartamento" style="width: 100%" required>
+                                                    <select name="deptoCaMiCliente_${id}" id="deptoCaMiCliente_${id}" class="form-control custom-select deptoCaMiCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -660,10 +660,8 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Municipio</label>
-                                                    <select name="muniCaMiCliente_${id}" id="muniCaMiCliente_${id}" class="form-control custom-select muniCaMiCliente setMunicipio" style="width: 100%" required>
-                                                        <option value="" disabled selected>
-                                                            Selecciona
-                                                        </option>
+                                                    <select name="muniCaMiCliente_${id}" id="muniCaMiCliente_${id}" class="form-control custom-select muniCaMiCliente setMunicipio" style="width: 100%" required disabled>
+                                                        <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -756,7 +754,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>País nacimiento</label>
-                                                    <select name="paisNacimientoCliente_${id}" id="paisNacimientoCliente_${id}" class="pais form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                                    <select name="paisNacimientoCliente_${id}" id="paisNacimientoCliente_${id}" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                                     </select>
                                                 </div>
                                             </div>
@@ -765,7 +763,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Departamento nacimiento</label>
-                                                    <select name="deptoNacimientoCliente_${id}" id="deptoNacimientoCliente_${id}" class="form-control custom-select deptoNacimientoCliente getMunicipio setDepartamento" style="width: 100%" required>
+                                                    <select name="deptoNacimientoCliente_${id}" id="deptoNacimientoCliente_${id}" class="form-control custom-select deptoNacimientoCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -774,7 +772,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Municipio nacimiento</label>
-                                                    <select name="muniNaciminentoCliente_${id}" id="muniNaciminentoCliente_${id}" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required>
+                                                    <select name="muniNaciminentoCliente_${id}" id="muniNaciminentoCliente_${id}" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -903,7 +901,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Departamento residencia</label>
-                                                    <select name="deptoRecidenciaCliente_${id}" id="deptoRecidenciaCliente_${id}" class="form-control custom-select deptoRecidenciaCliente getMunicipio" style="width: 100%" required>
+                                                    <select name="deptoRecidenciaCliente_${id}" id="deptoRecidenciaCliente_${id}" class="form-control custom-select deptoRecidenciaCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -912,7 +910,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Municipio residencia</label>
-                                                    <select name="muniRecidenciaCliente_${id}" id="muniRecidenciaCliente_${id}" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required>
+                                                    <select name="muniRecidenciaCliente_${id}" id="muniRecidenciaCliente_${id}" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -1068,7 +1066,8 @@ function AgregarTitular() {
             "select.validaPaisPasaporte"
         );
         habilitaPaisPasaporte(selectValidaPaisPasaporte);
-
+        // se carga el pais, no se necestia verificar departamentos,
+        // los demas paises se cargan con la clase set Pais
         let paisPasaporte = $(divTitularActual).find(
             "select.emicionPasaporteCliente"
         );
