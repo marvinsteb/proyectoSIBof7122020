@@ -114,15 +114,13 @@ class InformacionClienteController extends Controller
                       ]);
                   }
 
-                 $nacionalidadTitulares = $request->titulares[$i]["cliente"]["nacionalidades"];
-                 foreach ($nacionalidadTitulares as $nacionalidad) { 
-                     $idNacionalidad = DB::table('nacionalidad')->insertGetId([
-                         'idDatosPersonales' => $idClienteCamposMinimos,
-                         'idPais' => $nacionalidad
-                         ]);
-                 }
-
-
+                  $nacionalidadTitulares = $request->titulares[$i]["cliente"]["nacionalidades"];
+                  foreach ($nacionalidadTitulares as $nacionalidad) { 
+                      $idNacionalidad = DB::table('nacionalidad')->insertGetId([
+                          'idDatosPersonales' => $idClienteCamposMinimos,
+                          'idPais' => $nacionalidad
+                          ]);
+                  }
 
                 // campos minimos
                 $idCamposMinimos = DB::table('camposMinimos')->insertGetId([
@@ -142,6 +140,8 @@ class InformacionClienteController extends Controller
             }
 
             $respuesta = $request;
+            
+     
 
             DB::commit();
             // all good
@@ -152,9 +152,11 @@ class InformacionClienteController extends Controller
             ];
             DB::rollback();
         }
-
         return Response()->json(
-            $respuesta
+        $respuesta,
+        200,
+        ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+        JSON_UNESCAPED_UNICODE
         );
     }
 

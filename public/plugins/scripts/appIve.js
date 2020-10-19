@@ -346,7 +346,7 @@ function verificarClientePep() {
         });
     }
 }
-function agregaNacionalidadCliente(arrBtnsAgregarNacionalidad) {
+function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
     for (let i = 0; i < arrBtnsAgregarNacionalidad.length; i++) {
         $(arrBtnsAgregarNacionalidad[i]).click(function () {
             let divPadre = $(this).parent().parent();
@@ -944,13 +944,13 @@ function AgregarTitular() {
                                                     <div class="row">
                                                         <div class="col-sm">
                                                             <label>Telefonos:</label>
-                                                            <input name="telefonoCliente" type="text" class="form-control" placeholder="telefono ..." maxlength="30" required />
+                                                            <input name="telefonoCliente" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
                                                         </div>
                                                         <div class="col-sm"></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button type="button" class="btn btn-primary" id="agregarTelefonoCliente">
+                                                    <button type="button" class="btn btn-primary agregarTelefono">
                                                         Agregar teléfono
                                                     </button>
                                                 </div>
@@ -1081,7 +1081,10 @@ function AgregarTitular() {
         let btnsAddNacionalidad = $(divTitularActual).find(
             "button.agregarNacionalidaCliente"
         );
-        agregaNacionalidadCliente(btnsAddNacionalidad);
+        agregarTemplateNacionalidad(btnsAddNacionalidad);
+
+        let btnAddTelefono = $(divTitularActual).find("button.agregarTelefono");
+        agregarTemplateTelefono(btnAddTelefono);
 
         eliminarTemplateTitular($("#titulares>div"));
     });
@@ -1344,6 +1347,7 @@ function obtenerDatos() {
             .find(`select[id=muniRecidenciaCliente_${id}] option:selected`)
             .val();
         let telefonos = $(divTitularActual).find(`input.telefonoCliente`);
+        console.log(telefonos);
         for (let i = 0; i < telefonos.length; i++) {
             titular.cliente.agregarTelefono($(telefonos[i]).val());
         }
@@ -1369,7 +1373,7 @@ $(document).ready(function () {
     habilitaOtraCondicionMigratoria($(".condicionMigratoriaCliente"));
     validarNit($(".validarNit"));
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
-    agregaNacionalidadCliente($(".agregarNacionalidaCliente"));
+    agregarTemplateNacionalidad($(".agregarNacionalidaCliente"));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
     verificarClientePep();
     verificarAsoPep();
