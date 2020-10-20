@@ -103,7 +103,7 @@ class InformacionClienteController extends Controller
                     'datosPep' => null,
                     'parienteAsociadoPep' => 'S',
                     'datosParienteAsociadoPep' => null,
-                    'cpe' => 'S'
+                    'cpe' => $request->titulares[$i] ["cliente"] ["cpe"]
                 ]);
 
                  $telefonosTitulares = $request->titulares[$i]["cliente"]["telefonos"];
