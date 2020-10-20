@@ -432,18 +432,18 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="icheck-primary d-inline">
-                                            <label for="">¿El cliente es Contratista y
-                                                Proveedor del Estado (CPE)?</label>
+                                    <div class="form-check">
+                                        <div>
+                                            <label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label>
                                         </div>
                                         <div class="icheck-primary d-inline">
                                             <input type="radio" id="primaryCpeClienteSi_1" class="cpeCliente" name="cpeCliente_1" value="S" required />
                                             <label for="primaryCpeClienteSi_1">Sí</label>
                                         </div>
                                         <div class="icheck-primary d-inline">
-                                            <input type="radio" id="primaryCpeClienteNo_2" class="cpeCliente" name="cpeCliente_1" value="N" required />
-                                            <label for="primaryCpeClienteNo_2">No</label>
+                                            <input type="radio" id="primaryCpeClienteNo_1" class="cpeCliente" name="cpeCliente_1" value="N" required />
+                                            <label for="primaryCpeClienteNo_1">No</label>
+                                            <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
                                         </div>
                                     </div>
                                 </div>

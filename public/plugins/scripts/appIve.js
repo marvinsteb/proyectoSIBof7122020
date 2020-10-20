@@ -975,18 +975,18 @@ function AgregarTitular() {
 
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <div class="icheck-primary d-inline">
-                                                        <label for="">¿El cliente es Contratista y
-                                                            Proveedor del Estado (CPE)?</label>
+                                                <div class="form-check">
+                                                    <div>
+                                                        <label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryCpeCliente1" class="cpeCliente" name="cpeCliente" value="S" required />
-                                                        <label for="primaryCpeCliente1">Sí</label>
+                                                        <input type="radio" id="primaryCpeClienteSi_${id}" class="cpeCliente" name="cpeCliente_${id}" value="S" required />
+                                                        <label for="primaryCpeClienteSi_${id}">Sí</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryCpeCliente2" class="cpeCliente" name="cpeCliente" value="N" required />
-                                                        <label for="primaryCpeCliente2">No</label>
+                                                        <input type="radio" id="primaryCpeClienteNo_${id}" class="cpeCliente" name="cpeCliente_${id}" value="N" required />
+                                                        <label for="primaryCpeClienteNo_${id}">No</label>
+                                                        <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -996,10 +996,8 @@ function AgregarTitular() {
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <div class="icheck-primary d-inline">
-                                                        <label>¿El cliente es una Persona Expuesta
-                                                            Políticamente (PEP)?</label>
+                                                        <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
                                                     </div>
-
                                                     <div class="icheck-primary d-inline">
                                                         <input type="radio" id="primaryPep1" class="pepCliente" name="pepCliente" value="S" required />
                                                         <label for="primaryPep1">Sí</label>
@@ -1168,6 +1166,7 @@ class dicDatosPersonales {
         this.datospep = new datosPep();
         this.parienteAsociadoPep = null;
         this.datosParienteAsociadoPep = new dicParienteAsociadoPep();
+        this.cpe = null;
     }
     agregarTelefono(telefono) {
         this.telefonos.push(telefono);
@@ -1217,6 +1216,7 @@ function validarFormulario() {
             "submit",
             function (event) {
                 expandirCard();
+                obtenerDatos();
                 if (form.checkValidity() === false) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -1231,7 +1231,6 @@ function validarFormulario() {
             false
         );
     });
-    console.log(validation);
 }
 function enviarDatos() {
     let nuevoDiccionarioFormulario = obtenerDatos();
@@ -1374,6 +1373,16 @@ function obtenerDatos() {
         for (let a = 0; a < nacionalidades.length; a++) {
             titular.cliente.agregarNacionalidad($(nacionalidades[a]).val());
         }
+        let escpe = (titular.cliente.cpe = $(divTitularActual)
+            .find(`input:radio[name=cpeCliente_${id}]:checked`)
+            .val());
+
+        if (escpe === "S") {
+            console.log("el Cliente es cpe");
+        } else {
+            console.log("el cliente no es cpe");
+        }
+
         df.agregarTitular(titular);
     }
     console.log(df);
