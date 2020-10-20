@@ -994,23 +994,24 @@ function AgregarTitular() {
 
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <div class="icheck-primary d-inline">
+                                                <div class="form-check">
+                                                    <div>
                                                         <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryPep1" class="pepCliente" name="pepCliente" value="S" required />
-                                                        <label for="primaryPep1">Sí</label>
+                                                        <input type="radio" id="primaryPepSi_1" class="pepCliente" name="pepCliente_1" value="S" required />
+                                                        <label for="primaryPepSi_1">Sí</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryPep2" class="pepCliente" name="pepCliente" value="N" required />
-                                                        <label for="primaryPep2">No</label>
+                                                        <input type="radio" id="primaryPepNo_1" class="pepCliente" name="pepCliente_1" value="N" required />
+                                                        <label for="primaryPepNo_1">No</label>
+                                                        <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="datosPepCliente"></div>
+                                        <div class="datospepCliente_${id}"></div>
 
                                         <div class="row">
                                             <div class="col-sm">

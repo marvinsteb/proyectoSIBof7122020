@@ -451,12 +451,10 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="icheck-primary d-inline">
-                                            <label>¿El cliente es una Persona Expuesta
-                                                Políticamente (PEP)?</label>
+                                    <div class="form-check">
+                                        <div>
+                                            <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
                                         </div>
-
                                         <div class="icheck-primary d-inline">
                                             <input type="radio" id="primaryPepSi_1" class="pepCliente" name="pepCliente_1" value="S" required />
                                             <label for="primaryPepSi_1">Sí</label>
@@ -464,6 +462,7 @@
                                         <div class="icheck-primary d-inline">
                                             <input type="radio" id="primaryPepNo_1" class="pepCliente" name="pepCliente_1" value="N" required />
                                             <label for="primaryPepNo_1">No</label>
+                                            <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
                                         </div>
                                     </div>
                                 </div>
