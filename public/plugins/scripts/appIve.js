@@ -1382,9 +1382,32 @@ function obtenerDatos() {
         titular.cliente.cpe = $(divTitularActual)
             .find(`input:radio[name=cpeCliente_${id}]:checked`)
             .val();
-        titular.cliente.pep = $(divTitularActual)
+        let esPep = (titular.cliente.pep = $(divTitularActual)
             .find(`input:radio[name=pepCliente_${id}]:checked`)
-            .val();
+            .val());
+        if (esPep === "S") {
+            titular.cliente.datospep.entidad = $(divTitularActual)
+                .find(`input[id=entidadpepCliente_${id}]`)
+                .val();
+            titular.cliente.datospep.puestoDesempenia = $(divTitularActual)
+                .find(`input[id=puestoDesepeniapepCliente_${id}]`)
+                .val();
+            titular.cliente.datospep.paisEntidad = $(divTitularActual)
+                .find(`select[id=paisEntidadpepCliente_${id}] option:selected`)
+                .val();
+            let esOtroRiqueza = (titular.cliente.datospep.origenRiqueza = $(
+                divTitularActual
+            )
+                .find(
+                    `select[id=origenRiquezapepCliente_${id}] option:selected`
+                )
+                .val());
+            if (esOtroRiqueza == 8) {
+                titular.cliente.datospep.otroOrigenRiqueza = $(divTitularActual)
+                    .find(`input[id=otroOrigenRiquezapepCliente_${id}]`)
+                    .val();
+            }
+        }
 
         df.agregarTitular(titular);
     }
