@@ -999,12 +999,12 @@ function AgregarTitular() {
                                                         <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryPepSi_1" class="pepCliente" name="pepCliente_1" value="S" required />
-                                                        <label for="primaryPepSi_1">Sí</label>
+                                                        <input type="radio" id="primaryPepSi_${id}" class="pepCliente" name="pepCliente_${id}" value="S" required />
+                                                        <label for="primaryPepSi_${id}">Sí</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryPepNo_1" class="pepCliente" name="pepCliente_1" value="N" required />
-                                                        <label for="primaryPepNo_1">No</label>
+                                                        <input type="radio" id="primaryPepNo_${id}" class="pepCliente" name="pepCliente_${id}" value="N" required />
+                                                        <label for="primaryPepNo_${id}">No</label>
                                                         <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
                                                     </div>
                                                 </div>
@@ -1100,6 +1100,11 @@ function AgregarTitular() {
 
         let btnAddTelefono = $(divTitularActual).find("button.agregarTelefono");
         agregarTemplateTelefono(btnAddTelefono);
+
+        let radioButtonClientePep = $(divTitularActual).find(
+            "input.pepCliente"
+        );
+        verificarClientePep(radioButtonClientePep);
 
         eliminarTemplateTitular($("#titulares>div"));
     });
@@ -1374,15 +1379,12 @@ function obtenerDatos() {
         for (let a = 0; a < nacionalidades.length; a++) {
             titular.cliente.agregarNacionalidad($(nacionalidades[a]).val());
         }
-        let escpe = (titular.cliente.cpe = $(divTitularActual)
+        titular.cliente.cpe = $(divTitularActual)
             .find(`input:radio[name=cpeCliente_${id}]:checked`)
-            .val());
-
-        if (escpe === "S") {
-            console.log("el Cliente es cpe");
-        } else {
-            console.log("el cliente no es cpe");
-        }
+            .val();
+        titular.cliente.pep = $(divTitularActual)
+            .find(`input:radio[name=pepCliente_${id}]:checked`)
+            .val();
 
         df.agregarTitular(titular);
     }
