@@ -1405,7 +1405,7 @@ function obtenerDatos() {
             .find(`input:text[id=segundoNombreCliente_${id}]`)
             .val();
         titular.cliente.otrosNombres = $(divTitularActual)
-            .find(`input:text[id=segundoNombreCliente_${id}]`)
+            .find(`input:text[id=otrosNombresCliente_${id}]`)
             .val();
         titular.cliente.fechaNacimiento = $(divTitularActual)
             .find(`input:text[id=fechaNacimientoCliente_${id}]`)
