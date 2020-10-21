@@ -41,6 +41,20 @@ function templateCamposNommbres(id) {
                                         </div>`;
     return templateNombres;
 }
+function templateSexo(id) {
+    let templatesexo = `
+    <div class="col-sm-2">
+        <div class="form-group">
+           <label for="sexo${id}">Sexo</label>
+            <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo" style="width: 100%" required>
+                <option value="" disabled selected>Selecciona</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+        </div>
+    </div>`;
+    return templatesexo;
+}
 // funciones para configuracion del formulario
 function setFormatoFecha(divInputFecha) {
     for (let i = 0; i < divInputFecha.length; i++) {
@@ -506,7 +520,8 @@ function agregaAsoPep(idAsoPep) {
     // al concatenar queda asoPepCliente_1_1 en el siguiente asoPepCliente_1_2 susesivamente se asignara a la variable id
     let id = `${idAsoPep}_${indiceAsociadosAgregados}`;
     // recuerda implementar las validaciones en los campos, ya  que los templates solo debuelven la estructura de html
-    let camposNombres = templateCamposNommbres(id);
+    let rowCamposNombresAsoPep = templateCamposNommbres(id);
+    let componenteSexo = templateSexo(id);
     let templateAsocPep = ` 
                             <div class="card card-primary">
                                 <div class="card-header">
@@ -534,7 +549,7 @@ function agregaAsoPep(idAsoPep) {
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm">
                                             <div class="form-group">
                                                 <label for="otroParentesco${id}">Especifique</label>
                                                 <input name="otroParentesco${id}" id="otroParentesco${id}" type="text" class="form-control otroParentesco" placeholder="Especifique ..." maxlength="100" required disabled />
@@ -554,29 +569,17 @@ function agregaAsoPep(idAsoPep) {
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm">
                                             <div class="form-group">
-                                                <label for="otroMotivoAsociacion${id}">Otro Motivo de asociación</label>
+                                                <label for="otroMotivoAsociacion${id}">Especifique</label>
                                                 <input name="otroMotivoAsociacion${id}" id="otroMotivoAsociacion${id}" type="text" class="form-control otroMotivoAsociacion" placeholder="Especifique ..." maxlength="100" required disabled />
                                             </div>
                                         </div>
-
+                                        ${componenteSexo}
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label for="sexoPaAsPepCliente">Sexo</label>
-                                                <select name="sexoPaAsPepCliente" id="sexoPaAsPepCliente" class="form-control custom-select" style="width: 100%" required>
-                                                    <option value="" disabled selected>
-                                                        Selecciona
-                                                    </option>
-                                                    <option value="M">Masculino</option>
-                                                    <option value="F">Femenino</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col sm-2">
-                                            <div class="form-group">
-                                                <label for="condicionPaAsPepCliente">Condición</label>
-                                                <select name="condicionPaAsPepCliente" id="condicionPaAsPepCliente" class="form-control custom-select" style="width: 100%" required>
+                                                <label for="condicion${id}">Condición</label>
+                                                <select name="condicion${id}" id="condicion${id}" class="form-control custom-select" style="width: 100%" required>
                                                     <option value="">Selecciona</option>
                                                     <option value="N">Nacional</option>
                                                     <option value="E">Extranjero</option>
@@ -584,7 +587,7 @@ function agregaAsoPep(idAsoPep) {
                                             </div>
                                         </div>
                                     </div>
-                                    ${camposNombres}
+                                    ${rowCamposNombresAsoPep}
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="form-group">
@@ -611,6 +614,7 @@ function agregaAsoPep(idAsoPep) {
                                 </div>`;
     $(`.datos${idAsoPep}>div.info`).append(templateAsocPep);
 
+    validarApellidoCasada($(`input#apellidoCasada${id}`));
     habilitaOtroCampoDesdeSelect(
         $(`select#parentesco${id}`),
         6,
