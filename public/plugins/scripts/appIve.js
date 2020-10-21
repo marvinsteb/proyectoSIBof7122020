@@ -426,33 +426,57 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
         });
     }
 }
-function verificarAsoPep() {
-    var asoPepCliente = $(".asoPepCliente");
 
-    for (let i = 0; i < asoPepCliente.length; i++) {
-        $(asoPepCliente[i]).change(function () {
-            let divActual = $(asoPepCliente[i]);
-            var camposAsocPep = ` <div class="card card-primary">
+function habilitaOtroParentesco(selectOtroParentesco) {
+    for (let a = 0; a < selectOtroParentesco.length; a++) {
+        $(selectOtroParentesco[a]).change(function (event) {
+            let otraselectOrigenRiqueza = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .find("input.otroParentesco");
+            if (event.target.value == 6) {
+                otraselectOrigenRiqueza[0].disabled = false;
+            } else {
+                otraselectOrigenRiqueza[0].disabled = true;
+                $(otraselectOrigenRiqueza[0]).val(null);
+            }
+        });
+    }
+}
+function agregaAsoPep(idAsoPep) {
+    let id = $(`.datos${idAsoPep}>div.info`).children().length + 1;
+    let camposAsocPep = ` 
+                            <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Familiar Asociado 1</h3>
+                                    <h3 class="card-title">Familiar Asociado ${id}</h3>
+                                    <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label for="parentescoPaAsPepCliente">Parentesco</label>
-                                                <select name="parentescoPaAsPepCliente" id="parentescoPaAsPepCliente" class="form-control custom-select setPaAsPep" style="width: 100%" required>
-                                                    <option value="" disabled selected>
-                                                        Selecciona
-                                                    </option>
+                                                <label for="parentesco${idAsoPep}_${id}">Parentesco</label>
+                                                <select name="parentesco${idAsoPep}_${id}" id="parentesco${idAsoPep}_${id}" class="form-control custom-select parentesco" style="width: 100%" required>
+                                                    <option value="" disabled selected>Selecciona</option>
+                                                    <option value="1">Padre</option>
+                                                    <option value="2">Madre</option>
+                                                    <option value="3">Hijo</option>
+                                                    <option value="4">Hermano</option>
+                                                    <option value="5">Cónyuge</option>
+                                                    <option value="6">Otro</option>
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label for="otroParentescoPaAsPepCliente">Especifique</label>
-                                                <input name="otroParentescoPaAsPepCliente" id="otroParentescoPaAsPepCliente" type="text" class="form-control" placeholder="Especifique ..." maxlength="100" required />
+                                                <label for="otroParentesco${idAsoPep}_${id}">Especifique</label>
+                                                <input name="otroParentesco${idAsoPep}_${id}" id="otroParentesco${idAsoPep}_${id}" type="text" class="form-control otroParentesco" placeholder="Especifique ..." maxlength="100" required disabled />
                                             </div>
                                         </div>
 
@@ -556,8 +580,24 @@ function verificarAsoPep() {
                                     </div>
                                 </div>
                                 </div>`;
+    $(`.datos${idAsoPep}>div.info`).append(camposAsocPep);
 
-            var buttonAgregarParienteAsociado = `
+    let selectOtroParentesco = $(`.datos${idAsoPep}>div.info`).find(
+        "select.parentesco"
+    );
+    habilitaOtroParentesco(selectOtroParentesco);
+
+    //establecemos el foco en el primer campo, para no perderse en el formulario
+    $(`.datos${idAsoPep}>div.info`)
+        .find(`select#parentesco${idAsoPep}_${id}`)
+        .focus();
+}
+function verificarAsoPep(asoPepCliente) {
+    for (let i = 0; i < asoPepCliente.length; i++) {
+        $(asoPepCliente[i]).change(function () {
+            let idAsoPep = $(this).attr("name");
+            if (this.value != "N") {
+                let buttonAgregarParienteAsociado = `
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="form-group">
@@ -567,16 +607,18 @@ function verificarAsoPep() {
                                         </div>
                                     </div>
                                 </div>`;
-
-            if (this.value != "N") {
-                $(".datosAsoPep").append(buttonAgregarParienteAsociado);
-                $(".datosAsoPep>div.row")
+                $(`.datos${idAsoPep}>div.btnadd`).append(
+                    buttonAgregarParienteAsociado
+                );
+                agregaAsoPep(idAsoPep);
+                $(`.datos${idAsoPep}`)
                     .find("button.agregarFamiliarAsociado")
                     .click(function () {
-                        console.log("agregar nuevo");
+                        agregaAsoPep(idAsoPep);
                     });
             } else {
-                $(".datosAsoPep>div").remove();
+                $(`.datos${idAsoPep}>div.btnadd`).children().remove();
+                $(`.datos${idAsoPep}>div.info`).children().remove();
             }
         });
     }
@@ -1258,8 +1300,11 @@ function enviarDatos() {
 }
 function eliminarTemplateTitular(titulares) {
     for (let i = 0; i < titulares.length; i++) {
-        $(titulares[i]).on("removed.lte.cardwidget", function () {
-            $(this).remove();
+        $(titulares[i]).on("removed.lte.cardwidget", function (event) {
+            let cardActual = $(event.target).parent().parent().parent();
+            if ($(cardActual).index() > 0) {
+                $(cardActual).remove();
+            }
         });
     }
 }
@@ -1427,7 +1472,7 @@ $(document).ready(function () {
     agregarTemplateNacionalidad($(".agregarNacionalidaCliente"));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
     verificarClientePep($(".pepCliente"));
-    verificarAsoPep();
+    verificarAsoPep($(".asoPepCliente"));
     AgregarTitular();
     eliminarTemplateTitular($("#titulares>div"));
     validarFormulario();
