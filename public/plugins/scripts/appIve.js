@@ -243,6 +243,33 @@ function getDepartamentos(callback) {
         callback(res);
     });
 }
+
+function habilitaOtroCampoDesdeSelect(
+    inputSelect,
+    opcionSelect,
+    inputHabilitar
+) {
+    // la funcion recibe uno o varios objetos select select.nombreclase  o select#id
+    // opcionSelect, es la opcion que habilita el campo otroCondicionmigratoria, otroParentesco, etc. recibe el value otro del select
+    // input habilitar puede recibir input.nommbreClase o input#id
+    for (let a = 0; a < inputSelect.length; a++) {
+        $(inputSelect[a]).change(function (event) {
+            // la variable inputActual se utiliza, cuando se envia una input.nombreClase
+            let inputActual = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .find(inputHabilitar);
+            if (event.target.value == opcionSelect) {
+                $(inputActual).prop("disabled", false);
+            } else {
+                $(inputActual).prop("disabled", true);
+                $(inputActual).val(null);
+            }
+        });
+    }
+}
+// remplaza esta funcion por la funcion habilitarotrocampo
 function habilitaOtraCondicionMigratoria(condicionMigratoria) {
     for (let i = 0; i < condicionMigratoria.length; i++) {
         $(condicionMigratoria[i]).change(function (event) {
@@ -427,23 +454,6 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
     }
 }
 
-function habilitaOtroParentesco(selectOtroParentesco) {
-    for (let a = 0; a < selectOtroParentesco.length; a++) {
-        $(selectOtroParentesco[a]).change(function (event) {
-            let otraselectOrigenRiqueza = $(this)
-                .parent()
-                .parent()
-                .parent()
-                .find("input.otroParentesco");
-            if (event.target.value == 6) {
-                otraselectOrigenRiqueza[0].disabled = false;
-            } else {
-                otraselectOrigenRiqueza[0].disabled = true;
-                $(otraselectOrigenRiqueza[0]).val(null);
-            }
-        });
-    }
-}
 function agregaAsoPep(idAsoPep) {
     let id = $(`.datos${idAsoPep}>div.info`).children().length + 1;
     let templateAsocPep = ` 
@@ -491,6 +501,12 @@ function agregaAsoPep(idAsoPep) {
                                                     <option value="4">Negocios</option>
                                                     <option value="5">Otros</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label for="otroMotivoAsociacion${idAsoPep}_${id}">Otro Motivo de asociación</label>
+                                                <input name="otroMotivoAsociacion${idAsoPep}_${id}" id="otroMotivoAsociacion${idAsoPep}_${id}" type="text" class="form-control otroMotivoAsociacion" placeholder="Especifique ..." maxlength="100" required disabled />
                                             </div>
                                         </div>
 
@@ -585,10 +601,16 @@ function agregaAsoPep(idAsoPep) {
                                 </div>`;
     $(`.datos${idAsoPep}>div.info`).append(templateAsocPep);
 
-    let selectOtroParentesco = $(`.datos${idAsoPep}>div.info`).find(
-        "select.parentesco"
+    habilitaOtroCampoDesdeSelect(
+        $(`select#parentesco${idAsoPep}_${id}`),
+        6,
+        `input#otroParentesco${idAsoPep}_${id}`
     );
-    habilitaOtroParentesco(selectOtroParentesco);
+    habilitaOtroCampoDesdeSelect(
+        $(`select#motivoAsociacion${idAsoPep}_${id}`),
+        5,
+        `input#otroMotivoAsociacion${idAsoPep}_${id}`
+    );
 
     //establecemos el foco en el primer campo, para no perderse en el formulario
     $(`.datos${idAsoPep}>div.info`)
