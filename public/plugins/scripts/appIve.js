@@ -531,7 +531,7 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
 
 function agregaAsoPep(idAsoPep) {
     let indiceAsociadosAgregados =
-        $(`.datos${idAsoPep}>div.info`).children().length + 1;
+        $(`#datos${idAsoPep}>div.info`).children().length + 1;
     // para el id unico del pariente asociado pep se utiliza el paramento idAsopep, obtenido del atributo name del radio button
     // eje: asoPepCliente_1 concatenado con el numero de asocado obtenido en la variable indiceAsociadosAgregados
     // al concatenar queda asoPepCliente_1_1 en el siguiente asoPepCliente_1_2 susesivamente se asignara a la variable id
@@ -545,7 +545,7 @@ function agregaAsoPep(idAsoPep) {
         false
     );
     let templateAsocPep = ` 
-                            <div class="card card-primary">
+                            <div class="card card-primary" id=${id}>
                                 <div class="card-header">
                                     <h3 class="card-title">Familiar Asociado ${indiceAsociadosAgregados}</h3>
                                     <div class="card-tools">
@@ -627,7 +627,7 @@ function agregaAsoPep(idAsoPep) {
                                     </div>
                                 </div>
                                 </div>`;
-    $(`.datos${idAsoPep}>div.info`).append(templateAsocPep);
+    $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
 
     validarApellidoCasada($(`input#apellidoCasada${id}`));
     habilitaOtroCampoDesdeSelect(
@@ -642,7 +642,7 @@ function agregaAsoPep(idAsoPep) {
     );
 
     //establecemos el foco en el primer campo, para no perderse en el formulario
-    $(`.datos${idAsoPep}>div.info`).find(`select#parentesco${id}`).focus();
+    $(`#datos${idAsoPep}>div.info`).find(`select#parentesco${id}`).focus();
 }
 function verificarAsoPep(asoPepCliente) {
     for (let i = 0; i < asoPepCliente.length; i++) {
@@ -659,18 +659,18 @@ function verificarAsoPep(asoPepCliente) {
                                         </div>
                                     </div>
                                 </div>`;
-                $(`.datos${idAsoPep}>div.btnadd`).append(
+                $(`#datos${idAsoPep}>div.btnadd`).append(
                     buttonAgregarParienteAsociado
                 );
                 agregaAsoPep(idAsoPep);
-                $(`.datos${idAsoPep}`)
+                $(`#datos${idAsoPep}`)
                     .find("button.agregarFamiliarAsociado")
                     .click(function () {
                         agregaAsoPep(idAsoPep);
                     });
             } else {
-                $(`.datos${idAsoPep}>div.btnadd`).children().remove();
-                $(`.datos${idAsoPep}>div.info`).children().remove();
+                $(`#datos${idAsoPep}>div.btnadd`).children().remove();
+                $(`#datos${idAsoPep}>div.info`).children().remove();
             }
         });
     }
@@ -1464,6 +1464,24 @@ function obtenerDatos() {
                     .find(`input[id=otroOrigenRiquezapepCliente_${id}]`)
                     .val();
             }
+        } else {
+            titular.cliente.datospep = null;
+        }
+
+        let esAsoPep = (titular.cliente.parienteAsociadoPep = $(
+            divTitularActual
+        )
+            .find(`input:radio[name=asoPepCliente_${id}]:checked`)
+            .val());
+
+        if (esAsoPep == "S") {
+            let asociados = $(`#datosasoPepCliente_${id}>div.info`).children();
+            for (let a = 0; a < asociados.length; a++) {
+                let id = $(asociados[a]).attr("id");
+                console.log(id);
+            }
+        } else {
+            titular.cliente.datosParienteAsociadoPep = null;
         }
 
         df.agregarTitular(titular);
