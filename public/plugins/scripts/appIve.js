@@ -446,7 +446,7 @@ function habilitaOtroParentesco(selectOtroParentesco) {
 }
 function agregaAsoPep(idAsoPep) {
     let id = $(`.datos${idAsoPep}>div.info`).children().length + 1;
-    let camposAsocPep = ` 
+    let templateAsocPep = ` 
                             <div class="card card-primary">
                                 <div class="card-header">
                                     <h3 class="card-title">Familiar Asociado ${id}</h3>
@@ -482,11 +482,14 @@ function agregaAsoPep(idAsoPep) {
 
                                         <div class="col-sm">
                                             <div class="form-group">
-                                                <label for="motivoAsociacion">Motivo asociación</label>
-                                                <select name="motivoAsociacionPaAsPepCliente" id="motivoAsociacionPaPepCliente" class="form-control custom-select setPaAsPep " style="width: 100%" required>
-                                                    <option value="" disabled selected>
-                                                        Selecciona
-                                                    </option>
+                                                <label for="motivoAsociacion${idAsoPep}_${id}">Motivo asociación</label>
+                                                <select name="motivoAsociacion${idAsoPep}_${id}" id="motivoAsociacion${idAsoPep}_${id}" class="form-control custom-select motivoAsociacion" style="width: 100%" required>
+                                                    <option value="" disabled selected>Selecciona</option>
+                                                    <option value="1">Profesionales</option>
+                                                    <option value="2">Políticos</option>
+                                                    <option value="3">Comerciales</option>
+                                                    <option value="4">Negocios</option>
+                                                    <option value="5">Otros</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -580,7 +583,7 @@ function agregaAsoPep(idAsoPep) {
                                     </div>
                                 </div>
                                 </div>`;
-    $(`.datos${idAsoPep}>div.info`).append(camposAsocPep);
+    $(`.datos${idAsoPep}>div.info`).append(templateAsocPep);
 
     let selectOtroParentesco = $(`.datos${idAsoPep}>div.info`).find(
         "select.parentesco"
