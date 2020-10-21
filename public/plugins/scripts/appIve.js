@@ -43,7 +43,7 @@ function templateCamposNommbres(id) {
 }
 function templateSexo(id) {
     let templatesexo = `
-    <div class="col-sm-2">
+    <div class="col-sm">
         <div class="form-group">
            <label for="sexo${id}">Sexo</label>
             <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo" style="width: 100%" required>
@@ -54,6 +54,23 @@ function templateSexo(id) {
         </div>
     </div>`;
     return templatesexo;
+}
+function templatePais(id, textolabel, desabilitadeptomuni) {
+    let claseDeptoMuni = "";
+    if (desabilitadeptomuni == true) {
+        claseDeptoMuni = "deshabilitaDepartamentoMunicipio";
+    }
+    let templatepais = `
+    <div class="col-sm">
+        <div class="form-group">
+            <label for="pais${id}">${textolabel}</label>
+            <select name="pais${id}" id="pais${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais" style="width: 100%" required>
+            <option value="" disabled selected>Selecciona</option>
+            </select>
+        </div>
+    </div>
+    `;
+    return templatepais;
 }
 // funciones para configuracion del formulario
 function setFormatoFecha(divInputFecha) {
@@ -521,7 +538,12 @@ function agregaAsoPep(idAsoPep) {
     let id = `${idAsoPep}_${indiceAsociadosAgregados}`;
     // recuerda implementar las validaciones en los campos, ya  que los templates solo debuelven la estructura de html
     let rowCamposNombresAsoPep = templateCamposNommbres(id);
-    let componenteSexo = templateSexo(id);
+    let componenteSexoAsoPep = templateSexo(id);
+    let componentePais = templatePais(
+        id,
+        "País de la institución o entidad",
+        false
+    );
     let templateAsocPep = ` 
                             <div class="card card-primary">
                                 <div class="card-header">
@@ -575,7 +597,7 @@ function agregaAsoPep(idAsoPep) {
                                                 <input name="otroMotivoAsociacion${id}" id="otroMotivoAsociacion${id}" type="text" class="form-control otroMotivoAsociacion" placeholder="Especifique ..." maxlength="100" required disabled />
                                             </div>
                                         </div>
-                                        ${componenteSexo}
+                                        ${componenteSexoAsoPep}
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label for="condicion${id}">Condición</label>
@@ -601,14 +623,7 @@ function agregaAsoPep(idAsoPep) {
                                                 <input name="puestoDesempeniaPaAsPepCliente" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required />
                                             </div>
                                         </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="paisEntidadPaAsPepCliente">País de la institución o entidad</label>
-                                                <select name="paisEntidadPaAsPepCliente" id="paisEntidadPaAsPepCliente" class="form-control custom-select" style="width: 100%">
-                                                    <option value="">Selecciona</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        ${componentePais}
                                     </div>
                                 </div>
                                 </div>`;
