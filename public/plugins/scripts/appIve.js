@@ -613,14 +613,14 @@ function agregaAsoPep(idAsoPep) {
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="form-group">
-                                                <label for="">Entidad</label>
-                                                <input name="entidadPaAsPepCliente" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required />
+                                                <label for="entidad${id}">Entidad</label>
+                                                <input name="entidad${id}" id="entidad${id}" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required />
                                             </div>
                                         </div>
                                         <div class="col-sm">
                                             <div class="form-group">
-                                                <label for="">Puesto que desempeña</label>
-                                                <input name="puestoDesempeniaPaAsPepCliente" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required />
+                                                <label for="puestoDesempenia${id}">Puesto que desempeña</label>
+                                                <input name="puestoDesempenia${id}" id="puestoDesempenia${id}" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required />
                                             </div>
                                         </div>
                                         ${componentePais}
@@ -630,6 +630,7 @@ function agregaAsoPep(idAsoPep) {
     $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
 
     validarApellidoCasada($(`input#apellidoCasada${id}`));
+    cargarPais($(`select#pais${id}`));
     habilitaOtroCampoDesdeSelect(
         $(`select#parentesco${id}`),
         6,
@@ -1225,7 +1226,7 @@ class dicDatosPersonales {
         this.pep = null;
         this.datospep = new datosPep();
         this.parienteAsociadoPep = null;
-        this.datosParienteAsociadoPep = new dicParienteAsociadoPep();
+        this.datosParienteAsociadoPep = new Array();
         this.cpe = null;
     }
     agregarTelefono(telefono) {
@@ -1233,6 +1234,9 @@ class dicDatosPersonales {
     }
     agregarNacionalidad(nacionalidad) {
         this.nacionalidades.push(nacionalidad);
+    }
+    agregarParienteAsociadoPep(asociado) {
+        this.datosParienteAsociadoPep.push(asociado);
     }
 }
 class dicCamposMinimos {
@@ -1478,7 +1482,52 @@ function obtenerDatos() {
             let asociados = $(`#datosasoPepCliente_${id}>div.info`).children();
             for (let a = 0; a < asociados.length; a++) {
                 let id = $(asociados[a]).attr("id");
-                console.log(id);
+                let datosAsoPep = new dicParienteAsociadoPep();
+                let divactual = `div#${id}`;
+                datosAsoPep.parentesco = $(divactual)
+                    .find(`select#parentesco${id}`)
+                    .val();
+                datosAsoPep.otroParentesco = $(divactual)
+                    .find(`input#otroParentesco${id}`)
+                    .val();
+                datosAsoPep.motivoAsociacion = $(divactual)
+                    .find(`select#motivoAsociacion${id}`)
+                    .val();
+                datosAsoPep.otroMotivoAsociacion = $(divactual)
+                    .find(`input#otroMotivoAsociacion${id}`)
+                    .val();
+                datosAsoPep.sexo = $(divactual).find(`select#sexo${id}`).val();
+                datosAsoPep.condicion = $(divactual)
+                    .find(`select#condicion${id}`)
+                    .val();
+                datosAsoPep.primerApellido = $(divactual)
+                    .find(`input#primerApellido${id}`)
+                    .val();
+                datosAsoPep.segundoApellido = $(divactual)
+                    .find(`input#segundoApellido${id}`)
+                    .val();
+                datosAsoPep.apellidoCasada = $(divactual)
+                    .find(`input#apellidoCasada${id}`)
+                    .val();
+                datosAsoPep.primerNombre = $(divactual)
+                    .find(`input#primerNombre${id}`)
+                    .val();
+                datosAsoPep.segundoNombre = $(divactual)
+                    .find(`input#segundoNombre${id}`)
+                    .val();
+                datosAsoPep.otrosNombres = $(divactual)
+                    .find(`input#otrosNombres${id}`)
+                    .val();
+                datosAsoPep.entidad = $(divactual)
+                    .find(`input#entidad${id}`)
+                    .val();
+                datosAsoPep.puestoDesempenia = $(divTitularActual)
+                    .find(`input#puestoDesempenia${id}`)
+                    .val();
+                datosAsoPep.paisEntidad = $(divTitularActual)
+                    .find(`select#pais${id}`)
+                    .val();
+                titular.cliente.agregarParienteAsociadoPep(datosAsoPep);
             }
         } else {
             titular.cliente.datosParienteAsociadoPep = null;
