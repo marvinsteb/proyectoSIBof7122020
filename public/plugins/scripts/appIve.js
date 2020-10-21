@@ -688,7 +688,9 @@ function AgregarTitular() {
          * se utiliza el tipo y el id para crear un id unico para cada campo
          */
         let idNit = `nit${tipo}_${id}`;
-        console.log(idNit);
+
+        let idTitular = `${tipo}_${id}`;
+        let camposNombresTitulares = templateCamposNommbres(idTitular);
 
         let templateTitular = `
                                 <div class="card card-primary" id="${id}">
@@ -805,47 +807,7 @@ function AgregarTitular() {
                                             <br />
                                         </div>
                                         <!-- .row -->
-// agregar aqui campos nombres
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Primer Apellido</label>
-                                                    <input name="primerApellidoCliente_${id}" id="primerApellidoCliente_${id}" type="text" class="form-control primerApellidoCliente" placeholder="Primer Apellido ..." maxlength="15" required />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Segundo apellido</label>
-                                                    <input name="segundoApellidoCliente_${id}" id="segundoApellidoCliente_${id}" type="text" class="form-control segundoApellidoCliente" placeholder="Segundo apellido ..." maxlength="15" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="apellidoCasadaCliente_1">Apellido casada</label>
-                                                    <input name="apellidoCasadaCliente_${id}" id="apellidoCasadaCliente_${id}" type="text" class="form-control apellidoCasadaCliente" placeholder="Apellido casada ..." maxlength="15" />
-                                                    <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Primer nombre</label>
-                                                    <input name="primerNombreCliente_${id}" id="primerNombreCliente_${id}" type="text" class="form-control primerNombreCliente" placeholder="Primer nombre ..." maxlength="15" required />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Segundo nombre</label>
-                                                    <input name="segundoNombreCliente_${id}" id="segundoNombreCliente_${id}" type="text" class="form-control segundoNombreCliente" placeholder="Segundo nombre ..." maxlength="15" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Otros nombre</label>
-                                                    <input name="otrosNombresCliente_${id}" id="otrosNombresCliente_${id}" type="text" class="form-control otrosNombresCliente" placeholder="Otros nombres ..." maxlength="30" />
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        ${camposNombresTitulares}
                                         <div class="row">
                                             <div class="col-sm">
                                                 <div class="form-group">
@@ -1160,10 +1122,8 @@ function AgregarTitular() {
         let fechas = $(divTitularActual).find("div.date");
         setFormatoFecha(fechas);
 
-        let apesCasada = $(divTitularActual).find(
-            "input.apellidoCasadaCliente"
-        );
-        validarApellidoCasada(apesCasada);
+        //cuando se usa template, se puede utilizar un id exacto para localizar el elemento
+        validarApellidoCasada($(`input#apellidoCasada${idTitular}`));
 
         let liConMigratoria = $(divTitularActual).find(
             "select.condicionMigratoriaCliente"
