@@ -67,7 +67,7 @@ class InformacionClienteController extends Controller
 
             for ($i = 0; $i < count($request->titulares); $i++) {
                 //cliente
-                $idClienteCamposMinimos = DB::table('datosPersonales')->insertGetID([
+                $camposMinimos = [
                     'primerApellido' => $request->titulares[$i]["cliente"]["primerApellido"],
                     'segundoApellido' => empty($request->titulares[$i]["cliente"]["segundoApellido"]) ? 'SOA' : $request->titulares[$i]["cliente"]["segundoApellido"],
                     'apellidoCasada' => $request->titulares[$i]["cliente"]["apellidoCasada"],
@@ -98,13 +98,23 @@ class InformacionClienteController extends Controller
                         "departamento" => $request->titulares[$i]["cliente"]["residencia"]["departamento"],
                         "municipio" => $request->titulares[$i]["cliente"]["residencia"]["municipio"],
                     ]),
-                    //datos por default, implementa en la vista los inputs para los siguientes campos
-                    'pep' => 'S',
-                    'datosPep' => null,
+                    'pep' => $request->titulares[$i]["cliente"]["pep"],
                     'parienteAsociadoPep' => 'S',
                     'datosParienteAsociadoPep' => null,
-                    'cpe' => 'S'
-                ]);
+                    'cpe' => $request->titulares[$i]["cliente"]["cpe"]
+                    ];
+                if($camposMinimos["pep"]== "S"){
+                    $camposMinimos['datosPep']  = DB::table("datosPep")->insertGetID([
+                        'entidad'=> $request->titulares[$i]["cliente"]["datospep"]["entidad"],
+                        'puestoDesempenia' => $request->titulares[$i]["cliente"]["datospep"]["puestoDesempenia"],
+                        'paisEntidad' => $request->titulares[$i]["cliente"]["datospep"]["paisEntidad"],
+                        'origenRiqueza'=> $request->titulares[$i]["cliente"]["datospep"]["origenRiqueza"],
+                        'otroOrigenRiqueza'=> $request->titulares[$i]["cliente"]["datospep"]["otroOrigenRiqueza"],
+                    ]);
+
+                };
+
+                $idClienteCamposMinimos = DB::table('datosPersonales')->insertGetID($camposMinimos);
 
                  $telefonosTitulares = $request->titulares[$i]["cliente"]["telefonos"];
                   for ($a = 0; $a < count($telefonosTitulares); $a++) {
