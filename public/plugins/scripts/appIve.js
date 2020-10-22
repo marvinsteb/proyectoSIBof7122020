@@ -1,3 +1,78 @@
+// templates
+function templateCamposNommbres(id) {
+    let templateNombres = ` <div class="row">
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label>Primer Apellido</label>
+                                                    <input name="primerApellido${id}" id="primerApellido${id}" type="text" class="form-control primerApellido" placeholder="Primer Apellido ..." maxlength="15" required />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label>Segundo apellido</label>
+                                                    <input name="segundoApellido${id}" id="segundoApellido${id}" type="text" class="form-control segundoApellido" placeholder="Segundo apellido ..." maxlength="15" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label for="apellidoCasada${id}">Apellido casada</label>
+                                                    <input name="apellidoCasada${id}" id="apellidoCasada${id}" type="text" class="form-control apellidoCasada" placeholder="Apellido casada ..." maxlength="15" />
+                                                    <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label>Primer nombre</label>
+                                                    <input name="primerNombre${id}" id="primerNombre${id}" type="text" class="form-control primerNombre" placeholder="Primer nombre ..." maxlength="15" required />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label>Segundo nombre</label>
+                                                    <input name="segundoNombre${id}" id="segundoNombre${id}" type="text" class="form-control segundoNombre" placeholder="Segundo nombre ..." maxlength="15" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label>Otros nombre</label>
+                                                    <input name="otrosNombres${id}" id="otrosNombres${id}" type="text" class="form-control otrosNombres" placeholder="Otros nombres ..." maxlength="30" />
+                                                </div>
+                                            </div>
+                                        </div>`;
+    return templateNombres;
+}
+function templateSexo(id) {
+    let templatesexo = `
+    <div class="col-sm">
+        <div class="form-group">
+           <label for="sexo${id}">Sexo</label>
+            <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo" style="width: 100%" required>
+                <option value="" disabled selected>Selecciona</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+        </div>
+    </div>`;
+    return templatesexo;
+}
+function templatePais(id, textolabel, desabilitadeptomuni) {
+    let claseDeptoMuni = "";
+    if (desabilitadeptomuni == true) {
+        claseDeptoMuni = "deshabilitaDepartamentoMunicipio";
+    }
+    let templatepais = `
+    <div class="col-sm">
+        <div class="form-group">
+            <label for="pais${id}">${textolabel}</label>
+            <select name="pais${id}" id="pais${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais" style="width: 100%" required>
+            <option value="" disabled selected>Selecciona</option>
+            </select>
+        </div>
+    </div>
+    `;
+    return templatepais;
+}
+// funciones para configuracion del formulario
 function setFormatoFecha(divInputFecha) {
     for (let i = 0; i < divInputFecha.length; i++) {
         $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
@@ -243,6 +318,33 @@ function getDepartamentos(callback) {
         callback(res);
     });
 }
+
+function habilitaOtroCampoDesdeSelect(
+    inputSelect,
+    opcionSelect,
+    inputHabilitar
+) {
+    // la funcion recibe uno o varios objetos select select.nombreclase  o select#id
+    // opcionSelect, es la opcion que habilita el campo otroCondicionmigratoria, otroParentesco, etc. recibe el value otro del select
+    // input habilitar puede recibir input.nommbreClase o input#id
+    for (let a = 0; a < inputSelect.length; a++) {
+        $(inputSelect[a]).change(function (event) {
+            // la variable inputActual se utiliza, cuando se envia una input.nombreClase
+            let inputActual = $(this)
+                .parent()
+                .parent()
+                .parent()
+                .find(inputHabilitar);
+            if (event.target.value == opcionSelect) {
+                $(inputActual).prop("disabled", false);
+            } else {
+                $(inputActual).prop("disabled", true);
+                $(inputActual).val(null);
+            }
+        });
+    }
+}
+// remplaza esta funcion por la funcion habilitarotrocampo
 function habilitaOtraCondicionMigratoria(condicionMigratoria) {
     for (let i = 0; i < condicionMigratoria.length; i++) {
         $(condicionMigratoria[i]).change(function (event) {
@@ -426,64 +528,80 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
         });
     }
 }
-function verificarAsoPep() {
-    var asoPepCliente = $(".asoPepCliente");
 
-    for (let i = 0; i < asoPepCliente.length; i++) {
-        $(asoPepCliente[i]).change(function () {
-            let divActual = $(asoPepCliente[i]);
-            var camposAsocPep = ` <div class="card card-primary">
+function agregaAsoPep(idAsoPep) {
+    let indiceAsociadosAgregados =
+        $(`#datos${idAsoPep}>div.info`).children().length + 1;
+    // para el id unico del pariente asociado pep se utiliza el paramento idAsopep, obtenido del atributo name del radio button
+    // eje: asoPepCliente_1 concatenado con el numero de asocado obtenido en la variable indiceAsociadosAgregados
+    // al concatenar queda asoPepCliente_1_1 en el siguiente asoPepCliente_1_2 susesivamente se asignara a la variable id
+    let id = `${idAsoPep}_${indiceAsociadosAgregados}`;
+    // recuerda implementar las validaciones en los campos, ya  que los templates solo debuelven la estructura de html
+    let rowCamposNombresAsoPep = templateCamposNommbres(id);
+    let componenteSexoAsoPep = templateSexo(id);
+    let componentePais = templatePais(
+        id,
+        "País de la institución o entidad",
+        false
+    );
+    let templateAsocPep = ` 
+                            <div class="card card-primary" id=${id}>
                                 <div class="card-header">
-                                    <h3 class="card-title">Familiar Asociado 1</h3>
+                                    <h3 class="card-title">Familiar Asociado ${indiceAsociadosAgregados}</h3>
+                                    <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label for="parentescoPaAsPepCliente">Parentesco</label>
-                                                <select name="parentescoPaAsPepCliente" id="parentescoPaAsPepCliente" class="form-control custom-select setPaAsPep" style="width: 100%" required>
-                                                    <option value="" disabled selected>
-                                                        Selecciona
-                                                    </option>
+                                                <label for="parentesco${id}">Parentesco</label>
+                                                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco" style="width: 100%" required>
+                                                    <option value="" disabled selected>Selecciona</option>
+                                                    <option value="1">Padre</option>
+                                                    <option value="2">Madre</option>
+                                                    <option value="3">Hijo</option>
+                                                    <option value="4">Hermano</option>
+                                                    <option value="5">Cónyuge</option>
+                                                    <option value="6">Otro</option>
                                                 </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label for="otroParentescoPaAsPepCliente">Especifique</label>
-                                                <input name="otroParentescoPaAsPepCliente" id="otroParentescoPaAsPepCliente" type="text" class="form-control" placeholder="Especifique ..." maxlength="100" required />
                                             </div>
                                         </div>
 
                                         <div class="col-sm">
                                             <div class="form-group">
-                                                <label for="motivoAsociacion">Motivo asociación</label>
-                                                <select name="motivoAsociacionPaAsPepCliente" id="motivoAsociacionPaPepCliente" class="form-control custom-select setPaAsPep " style="width: 100%" required>
-                                                    <option value="" disabled selected>
-                                                        Selecciona
-                                                    </option>
-                                                </select>
+                                                <label for="otroParentesco${id}">Especifique</label>
+                                                <input name="otroParentesco${id}" id="otroParentesco${id}" type="text" class="form-control otroParentesco" placeholder="Especifique ..." maxlength="100" required disabled />
                                             </div>
                                         </div>
 
+                                        <div class="col-sm">
+                                            <div class="form-group">
+                                                <label for="motivoAsociacion${id}">Motivo asociación</label>
+                                                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion" style="width: 100%" required>
+                                                    <option value="" disabled selected>Selecciona</option>
+                                                    <option value="1">Profesionales</option>
+                                                    <option value="2">Políticos</option>
+                                                    <option value="3">Comerciales</option>
+                                                    <option value="4">Negocios</option>
+                                                    <option value="5">Otros</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm">
+                                            <div class="form-group">
+                                                <label for="otroMotivoAsociacion${id}">Especifique</label>
+                                                <input name="otroMotivoAsociacion${id}" id="otroMotivoAsociacion${id}" type="text" class="form-control otroMotivoAsociacion" placeholder="Especifique ..." maxlength="100" required disabled />
+                                            </div>
+                                        </div>
+                                        ${componenteSexoAsoPep}
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label for="sexoPaAsPepCliente">Sexo</label>
-                                                <select name="sexoPaAsPepCliente" id="sexoPaAsPepCliente" class="form-control custom-select" style="width: 100%" required>
-                                                    <option value="" disabled selected>
-                                                        Selecciona
-                                                    </option>
-                                                    <option value="M">Masculino</option>
-                                                    <option value="F">Femenino</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col sm-2">
-                                            <div class="form-group">
-                                                <label for="condicionPaAsPepCliente">Condición</label>
-                                                <select name="condicionPaAsPepCliente" id="condicionPaAsPepCliente" class="form-control custom-select" style="width: 100%" required>
+                                                <label for="condicion${id}">Condición</label>
+                                                <select name="condicion${id}" id="condicion${id}" class="form-control custom-select" style="width: 100%" required>
                                                     <option value="">Selecciona</option>
                                                     <option value="N">Nacional</option>
                                                     <option value="E">Extranjero</option>
@@ -491,73 +609,48 @@ function verificarAsoPep() {
                                             </div>
                                         </div>
                                     </div>
+                                    ${rowCamposNombresAsoPep}
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="form-group">
-                                                <label>Primer Apellido</label>
-                                                <input name="primerApellidoPaAsPepCliente" type="text" class="form-control" placeholder="Primer Apellido ..." maxlength="15" required />
+                                                <label for="entidad${id}">Entidad</label>
+                                                <input name="entidad${id}" id="entidad${id}" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required />
                                             </div>
                                         </div>
                                         <div class="col-sm">
                                             <div class="form-group">
-                                                <label>Segundo apellido</label>
-                                                <!-- la llave es obligatoria, pero consignar SOA si no aplica -->
-                                                <input name="segundoApellidoPaAsPepCliente" type="text" class="form-control" placeholder="Segundo apellido ..." maxlength="15" />
+                                                <label for="puestoDesempenia${id}">Puesto que desempeña</label>
+                                                <input name="puestoDesempenia${id}" id="puestoDesempenia${id}" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required />
                                             </div>
                                         </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label>Apellido casada</label>
-                                                <input name="apellidoCasadaPaAsPepCliente" type="text" class="form-control" placeholder="Apellido casada ..." maxlength="15" />
-                                                <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label>Primer nombre</label>
-                                                <input name="primerNombrePaAsPepCliente" type="text" class="form-control" placeholder="Primer nombre ..." maxlength="15" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label>Segundo nombre</label>
-                                                <!-- la llave es obligatoria, si no aplica consignar SON -->
-                                                <input name="segundoNombrePaAsPepCliente" type="text" class="form-control" placeholder="Segundo nombre ..." maxlength="15" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label>Otros nombre</label>
-                                                <input name="otrosNombresPaAsPepCliente " type="text" class="form-control" placeholder="Otros nombres ..." maxlength="30" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="">Entidad</label>
-                                                <input name="entidadPaAsPepCliente" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="">Puesto que desempeña</label>
-                                                <input name="puestoDesempeniaPaAsPepCliente" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="paisEntidadPaAsPepCliente">País de la institución o entidad</label>
-                                                <select name="paisEntidadPaAsPepCliente" id="paisEntidadPaAsPepCliente" class="form-control custom-select" style="width: 100%">
-                                                    <option value="">Selecciona</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        ${componentePais}
                                     </div>
                                 </div>
                                 </div>`;
+    $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
 
-            var buttonAgregarParienteAsociado = `
+    validarApellidoCasada($(`input#apellidoCasada${id}`));
+    cargarPais($(`select#pais${id}`));
+    habilitaOtroCampoDesdeSelect(
+        $(`select#parentesco${id}`),
+        6,
+        `input#otroParentesco${id}`
+    );
+    habilitaOtroCampoDesdeSelect(
+        $(`select#motivoAsociacion${id}`),
+        5,
+        `input#otroMotivoAsociacion${id}`
+    );
+
+    //establecemos el foco en el primer campo, para no perderse en el formulario
+    $(`#datos${idAsoPep}>div.info`).find(`select#parentesco${id}`).focus();
+}
+function verificarAsoPep(asoPepCliente) {
+    for (let i = 0; i < asoPepCliente.length; i++) {
+        $(asoPepCliente[i]).change(function () {
+            let idAsoPep = $(this).attr("name");
+            if (this.value != "N") {
+                let buttonAgregarParienteAsociado = `
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="form-group">
@@ -567,16 +660,18 @@ function verificarAsoPep() {
                                         </div>
                                     </div>
                                 </div>`;
-
-            if (this.value != "N") {
-                $(".datosAsoPep").append(buttonAgregarParienteAsociado);
-                $(".datosAsoPep>div.row")
+                $(`#datos${idAsoPep}>div.btnadd`).append(
+                    buttonAgregarParienteAsociado
+                );
+                agregaAsoPep(idAsoPep);
+                $(`#datos${idAsoPep}`)
                     .find("button.agregarFamiliarAsociado")
                     .click(function () {
-                        console.log("agregar nuevo");
+                        agregaAsoPep(idAsoPep);
                     });
             } else {
-                $(".datosAsoPep>div").remove();
+                $(`#datos${idAsoPep}>div.btnadd`).children().remove();
+                $(`#datos${idAsoPep}>div.info`).children().remove();
             }
         });
     }
@@ -594,7 +689,9 @@ function AgregarTitular() {
          * se utiliza el tipo y el id para crear un id unico para cada campo
          */
         let idNit = `nit${tipo}_${id}`;
-        console.log(idNit);
+
+        let idTitular = `${tipo}_${id}`;
+        let camposNombresTitulares = templateCamposNommbres(idTitular);
 
         let templateTitular = `
                                 <div class="card card-primary" id="${id}">
@@ -711,47 +808,7 @@ function AgregarTitular() {
                                             <br />
                                         </div>
                                         <!-- .row -->
-
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Primer Apellido</label>
-                                                    <input name="primerApellidoCliente_${id}" id="primerApellidoCliente_${id}" type="text" class="form-control primerApellidoCliente" placeholder="Primer Apellido ..." maxlength="15" required />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Segundo apellido</label>
-                                                    <input name="segundoApellidoCliente_${id}" id="segundoApellidoCliente_${id}" type="text" class="form-control segundoApellidoCliente" placeholder="Segundo apellido ..." maxlength="15" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="apellidoCasadaCliente_1">Apellido casada</label>
-                                                    <input name="apellidoCasadaCliente_${id}" id="apellidoCasadaCliente_${id}" type="text" class="form-control apellidoCasadaCliente" placeholder="Apellido casada ..." maxlength="15" />
-                                                    <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Primer nombre</label>
-                                                    <input name="primerNombreCliente_${id}" id="primerNombreCliente_${id}" type="text" class="form-control primerNombreCliente" placeholder="Primer nombre ..." maxlength="15" required />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Segundo nombre</label>
-                                                    <input name="segundoNombreCliente_${id}" id="segundoNombreCliente_${id}" type="text" class="form-control segundoNombreCliente" placeholder="Segundo nombre ..." maxlength="15" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Otros nombre</label>
-                                                    <input name="otrosNombresCliente_${id}" id="otrosNombresCliente_${id}" type="text" class="form-control otrosNombresCliente" placeholder="Otros nombres ..." maxlength="30" />
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        ${camposNombresTitulares}
                                         <div class="row">
                                             <div class="col-sm">
                                                 <div class="form-group">
@@ -1066,10 +1123,8 @@ function AgregarTitular() {
         let fechas = $(divTitularActual).find("div.date");
         setFormatoFecha(fechas);
 
-        let apesCasada = $(divTitularActual).find(
-            "input.apellidoCasadaCliente"
-        );
-        validarApellidoCasada(apesCasada);
+        //cuando se usa template, se puede utilizar un id exacto para localizar el elemento
+        validarApellidoCasada($(`input#apellidoCasada${idTitular}`));
 
         let liConMigratoria = $(divTitularActual).find(
             "select.condicionMigratoriaCliente"
@@ -1171,7 +1226,7 @@ class dicDatosPersonales {
         this.pep = null;
         this.datospep = new datosPep();
         this.parienteAsociadoPep = null;
-        this.datosParienteAsociadoPep = new dicParienteAsociadoPep();
+        this.datosParienteAsociadoPep = new Array();
         this.cpe = null;
     }
     agregarTelefono(telefono) {
@@ -1179,6 +1234,9 @@ class dicDatosPersonales {
     }
     agregarNacionalidad(nacionalidad) {
         this.nacionalidades.push(nacionalidad);
+    }
+    agregarParienteAsociadoPep(asociado) {
+        this.datosParienteAsociadoPep.push(asociado);
     }
 }
 class dicCamposMinimos {
@@ -1258,8 +1316,11 @@ function enviarDatos() {
 }
 function eliminarTemplateTitular(titulares) {
     for (let i = 0; i < titulares.length; i++) {
-        $(titulares[i]).on("removed.lte.cardwidget", function () {
-            $(this).remove();
+        $(titulares[i]).on("removed.lte.cardwidget", function (event) {
+            let cardActual = $(event.target).parent().parent().parent();
+            if ($(cardActual).index() > 0) {
+                $(cardActual).remove();
+            }
         });
     }
 }
@@ -1308,7 +1369,7 @@ function obtenerDatos() {
             .find(`input:text[id=segundoNombreCliente_${id}]`)
             .val();
         titular.cliente.otrosNombres = $(divTitularActual)
-            .find(`input:text[id=segundoNombreCliente_${id}]`)
+            .find(`input:text[id=otrosNombresCliente_${id}]`)
             .val();
         titular.cliente.fechaNacimiento = $(divTitularActual)
             .find(`input:text[id=fechaNacimientoCliente_${id}]`)
@@ -1407,6 +1468,69 @@ function obtenerDatos() {
                     .find(`input[id=otroOrigenRiquezapepCliente_${id}]`)
                     .val();
             }
+        } else {
+            titular.cliente.datospep = null;
+        }
+
+        let esAsoPep = (titular.cliente.parienteAsociadoPep = $(
+            divTitularActual
+        )
+            .find(`input:radio[name=asoPepCliente_${id}]:checked`)
+            .val());
+
+        if (esAsoPep == "S") {
+            let asociados = $(`#datosasoPepCliente_${id}>div.info`).children();
+            for (let a = 0; a < asociados.length; a++) {
+                let id = $(asociados[a]).attr("id");
+                let datosAsoPep = new dicParienteAsociadoPep();
+                let divactual = `div#${id}`;
+                datosAsoPep.parentesco = $(divactual)
+                    .find(`select#parentesco${id}`)
+                    .val();
+                datosAsoPep.otroParentesco = $(divactual)
+                    .find(`input#otroParentesco${id}`)
+                    .val();
+                datosAsoPep.motivoAsociacion = $(divactual)
+                    .find(`select#motivoAsociacion${id}`)
+                    .val();
+                datosAsoPep.otroMotivoAsociacion = $(divactual)
+                    .find(`input#otroMotivoAsociacion${id}`)
+                    .val();
+                datosAsoPep.sexo = $(divactual).find(`select#sexo${id}`).val();
+                datosAsoPep.condicion = $(divactual)
+                    .find(`select#condicion${id}`)
+                    .val();
+                datosAsoPep.primerApellido = $(divactual)
+                    .find(`input#primerApellido${id}`)
+                    .val();
+                datosAsoPep.segundoApellido = $(divactual)
+                    .find(`input#segundoApellido${id}`)
+                    .val();
+                datosAsoPep.apellidoCasada = $(divactual)
+                    .find(`input#apellidoCasada${id}`)
+                    .val();
+                datosAsoPep.primerNombre = $(divactual)
+                    .find(`input#primerNombre${id}`)
+                    .val();
+                datosAsoPep.segundoNombre = $(divactual)
+                    .find(`input#segundoNombre${id}`)
+                    .val();
+                datosAsoPep.otrosNombres = $(divactual)
+                    .find(`input#otrosNombres${id}`)
+                    .val();
+                datosAsoPep.entidad = $(divactual)
+                    .find(`input#entidad${id}`)
+                    .val();
+                datosAsoPep.puestoDesempenia = $(divTitularActual)
+                    .find(`input#puestoDesempenia${id}`)
+                    .val();
+                datosAsoPep.paisEntidad = $(divTitularActual)
+                    .find(`select#pais${id}`)
+                    .val();
+                titular.cliente.agregarParienteAsociadoPep(datosAsoPep);
+            }
+        } else {
+            titular.cliente.datosParienteAsociadoPep = null;
         }
 
         df.agregarTitular(titular);
@@ -1427,7 +1551,7 @@ $(document).ready(function () {
     agregarTemplateNacionalidad($(".agregarNacionalidaCliente"));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
     verificarClientePep($(".pepCliente"));
-    verificarAsoPep();
+    verificarAsoPep($(".asoPepCliente"));
     AgregarTitular();
     eliminarTemplateTitular($("#titulares>div"));
     validarFormulario();

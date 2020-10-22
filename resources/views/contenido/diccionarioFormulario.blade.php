@@ -472,8 +472,8 @@
 
                             <div class="row">
                                 <div class="col-sm">
-                                    <div class="form-group">
-                                        <div class="icheck-primary d-inline">
+                                    <div class="form-check">
+                                        <div>
                                             <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
                                         </div>
                                         <div class="icheck-primary d-inline">
@@ -483,12 +483,18 @@
                                         <div class="icheck-primary d-inline">
                                             <input type="radio" id="primaryAsoPepClienteNo_1" class="asoPepCliente" name="asoPepCliente_1" value="N" required />
                                             <label for="primaryAsoPepClienteNo_1">No</label>
+                                            <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="datosAsoPep" id="datosAsoCliente1"></div>
+                            <div id="datosasoPepCliente_1">
+                                <div class="info">
+                                </div>
+                                <div class="btnadd">
+                                </div>
+                            </div>
                             <!-- .datosPaAsPep -->
                         </div>
                         <!-- /.card-body -->
