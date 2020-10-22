@@ -99,8 +99,7 @@ class InformacionClienteController extends Controller
                         "municipio" => $request->titulares[$i]["cliente"]["residencia"]["municipio"],
                     ]),
                     'pep' => $request->titulares[$i]["cliente"]["pep"],
-                    'parienteAsociadoPep' => 'S',
-                    'datosParienteAsociadoPep' => null,
+                    'parienteAsociadoPep' => $request->titulares[$i]["cliente"]["parienteAsociadoPep"],
                     'cpe' => $request->titulares[$i]["cliente"]["cpe"]
                     ];
                 if($camposMinimos["pep"]== "S"){
@@ -113,8 +112,23 @@ class InformacionClienteController extends Controller
                     ]);
 
                 };
-
                 $idClienteCamposMinimos = DB::table('datosPersonales')->insertGetID($camposMinimos);
+                
+                if($camposMinimos["parienteAsociadoPep"]=='S'){
+                    $arrayDatosParienteAsociadoPep = $request->titulares[$i]["cliente"]["datosParienteAsociadoPep"];
+                  foreach ($arrayDatosParienteAsociadoPep as $parienteAsociadoPep) {
+                      $datos = $parienteAsociadoPep;
+                      $datos["segundoApellido"] = empty($datos["segundoApellido"]) ? 'SOA':$datos["segundoApellido"];
+                      $datos["segundoNombre"] = empty($datos["segundoNombre"]) ? 'SON':$datos["segundoNombre"];
+                      $idDatosParAsoPep = DB::table('datosParienteAsociadoPep')->insertGetId($datos);
+                      DB::table('parienteAsociadoPep')->insertGetId([
+                            'idDatosPersonales' => $idClienteCamposMinimos,
+                            'idDatosParienteAsociadoPep' => $idDatosParAsoPep
+                      ]);
+
+                  } 
+                }
+
 
                  $telefonosTitulares = $request->titulares[$i]["cliente"]["telefonos"];
                   for ($a = 0; $a < count($telefonosTitulares); $a++) {
