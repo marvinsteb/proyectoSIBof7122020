@@ -692,6 +692,8 @@ function AgregarTitular() {
 
         let idTitular = `${tipo}_${id}`;
         let camposNombresTitulares = templateCamposNommbres(idTitular);
+        let idSexo = `sexo${tipo}_${id}`;
+        let componenteSexoCamposMinimos = templateSexo(idSexo);
 
         let templateTitular = `
                                 <div class="card card-primary" id="${id}">
@@ -870,16 +872,7 @@ function AgregarTitular() {
 
                                         <div class="row">
                                             <!-- sexo cliente -->
-                                            <div class="col-sm-2">
-                                                <div class="form-group">
-                                                    <label>Sexo</label>
-                                                    <select name="sexoCliente_${id}" id="sexoCliente_${id}" class="form-control custom-select sexoCliente" style="width: 100%" required>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                        <option value="M">Masculino</option>
-                                                        <option value="F">Femenino</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                         ${componenteSexoCamposMinimos}
                                             <!-- .col-sm -->
                                             <div class="col-sm">
                                                 <div class="form-group">
