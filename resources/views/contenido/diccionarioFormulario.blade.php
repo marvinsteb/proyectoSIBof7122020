@@ -19,7 +19,7 @@
                 @csrf
                 <!-- datos titular -->
                 <div class="titulares" id="titulares">
-                    <div class="card card-primary" id="1">
+                    <div class="card card-primary" id="Cliente_1">
                         <div class="card-header">
                             <h3 class="card-title">Titular 1</h3>
                             <div class="card-tools">

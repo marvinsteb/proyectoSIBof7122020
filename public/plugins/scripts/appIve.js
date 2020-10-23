@@ -692,9 +692,10 @@ function AgregarTitular() {
 
         let idTitular = `${tipo}_${id}`;
         let camposNombresTitulares = templateCamposNommbres(idTitular);
+        let componenteSexoCamposMinimos = templateSexo(idTitular);
 
         let templateTitular = `
-                                <div class="card card-primary" id="${id}">
+                                <div class="card card-primary" id="${idTitular}">
                                     <div class="card-header">
                                         <h3 class="card-title">Titular ${id}</h3>
                                         <div class="card-tools">
@@ -721,12 +722,12 @@ function AgregarTitular() {
                                                         <label>El cliente actúa en nombre propio</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="siActuaCliente_${id}" class="actuaNombrePropio" name="tipoActuacionCliente_${id}" value="C" required/>
-                                                        <label for="siActuaCliente_${id}">Sí</label>
+                                                        <input type="radio" id="siActua${idTitular}" class="actuaNombrePropio" name="tipoActuacion${idTitular}" value="C" required/>
+                                                        <label for="siActua${idTitular}">Sí</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="noActuaCliente_${id}" class="actuaNombrePropio" name="tipoActuacionCliente_${id}" value="R" required />
-                                                        <label for="noActuaCliente_${id}">No</label>
+                                                        <input type="radio" id="noActua${idTitular}" class="actuaNombrePropio" name="tipoActuacion${idTitular}" value="R" required />
+                                                        <label for="noActua${idTitular}">No</label>
                                                         <div class="invalid-tooltip">Indica el tipo de actuación</div>
                                                     </div>
                                                 </div>
@@ -734,8 +735,8 @@ function AgregarTitular() {
 
                                             <div class="col-sm-8">
                                                 <div class="form-group">
-                                                    <label for ="calidadActuaCliente_${id}" >Calidad con que actúa</label>
-                                                    <input name="calidadActuaCliente_${id}" id="calidadActuaCliente_${id}" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
+                                                    <label for ="calidadActua${idTitular}" >Calidad con que actúa</label>
+                                                    <input name="calidadActua${idTitular}" id="calidadActua${idTitular}" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
                                                     <div class="invalid-tooltip">Por Ejemplo: Mandatario, Patria potestad, Tutor, Otros.</div>
                                                 </div>
                                             </div>
@@ -757,7 +758,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>País</label>
-                                                    <select name="paisCaMiCliente_${id}" id="paisCaMiCliente_${id}" class="form-control custom-select paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                                    <select name="paisCaMi${idTitular}" id="paisCaMi${idTitular}" class="form-control custom-select paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                                     </select>
                                                 </div>
                                             </div>
@@ -765,7 +766,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Departamento</label>
-                                                    <select name="deptoCaMiCliente_${id}" id="deptoCaMiCliente_${id}" class="form-control custom-select deptoCaMiCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
+                                                    <select name="deptoCaMi${idTitular}" id="deptoCaMi${idTitular}" class="form-control custom-select deptoCaMiCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -774,7 +775,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Municipio</label>
-                                                    <select name="muniCaMiCliente_${id}" id="muniCaMiCliente_${id}" class="form-control custom-select muniCaMiCliente setMunicipio" style="width: 100%" required disabled>
+                                                    <select name="muniCaMi${idTitular}" id="muniCaMi${idTitular}" class="form-control custom-select muniCaMiCliente setMunicipio" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -783,10 +784,10 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Fecha</label>
-                                                    <div class="input-group date" id="fechaDoc_${id}" data-target-input="nearest">
-                                                        <input name="fechaDocCaMiCliente_${id}" id="fechaDocCaMiCliente_${id}" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_${id}" required />
+                                                    <div class="input-group date" id="fechaDoc_${idTitular}" data-target-input="nearest">
+                                                        <input name="fechaDocCaMi${idTitular}" id="fechaDocCaMi${idTitular}" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_${idTitular}" required />
                                                         <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
-                                                        <div class="input-group-append" data-target="#fechaDoc_${id}" data-toggle="datetimepicker">
+                                                        <div class="input-group-append" data-target="#fechaDoc_${idTitular}" data-toggle="datetimepicker">
                                                             <div class="input-group-text">
                                                                 <i class="fa fa-calendar"></i>
                                                             </div>
@@ -813,10 +814,10 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Fecha nacimiento</label>
-                                                    <div class="input-group date" id="fechaNacimiento_${id}" data-target-input="nearest">
-                                                        <input name="fechaNacimientoCliente_${id}" id="fechaNacimientoCliente_${id}" type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento_${id}" required />
+                                                    <div class="input-group date" id="fechaNacimiento_${idTitular}" data-target-input="nearest">
+                                                        <input name="fechaNacimiento${idTitular}" id="fechaNacimiento${idTitular}" type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento_${idTitular}" required />
                                                         <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
-                                                        <div class="input-group-append" data-target="#fechaNacimiento_${id}" data-toggle="datetimepicker">
+                                                        <div class="input-group-append" data-target="#fechaNacimiento_${idTitular}" data-toggle="datetimepicker">
                                                             <div class="input-group-text">
                                                                 <i class="fa fa-calendar"></i>
                                                             </div>
@@ -828,7 +829,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>País nacimiento</label>
-                                                    <select name="paisNacimientoCliente_${id}" id="paisNacimientoCliente_${id}" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                                    <select name="paisNacimiento${idTitular}" id="paisNacimiento${idTitular}" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                                     </select>
                                                 </div>
                                             </div>
@@ -837,7 +838,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Departamento nacimiento</label>
-                                                    <select name="deptoNacimientoCliente_${id}" id="deptoNacimientoCliente_${id}" class="form-control custom-select deptoNacimientoCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
+                                                    <select name="deptoNacimiento${idTitular}" id="deptoNacimiento${idTitular}" class="form-control custom-select deptoNacimientoCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -846,7 +847,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Municipio nacimiento</label>
-                                                    <select name="muniNaciminentoCliente_${id}" id="muniNaciminentoCliente_${id}" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required disabled>
+                                                    <select name="muniNaciminento${idTitular}" id="muniNaciminento${idTitular}" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -854,7 +855,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Condición migratoria</label>
-                                                    <select name="condicionMigratoriaCliente_${id}" id="condicionMigratoriaCliente_${id}" class="form-control custom-select condicionMigratoriaCliente" style="width: 100%" disabled required>
+                                                    <select name="condicionMigratoria${idTitular}" id="condicionMigratoria${idTitular}" class="form-control custom-select condicionMigratoriaCliente" style="width: 100%" disabled required>
                                                     </select>
                                                 </div>
                                             </div>
@@ -862,7 +863,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Especifique</label>
-                                                    <input name="otraCoMiCliente_${id}" id="otraCoMiCliente_${id}" type="text" class="form-control otraCoMiCliente" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
+                                                    <input name="otraCoMi${idTitular}" id="otraCoMi${idTitular}" type="text" class="form-control otraCoMiCliente" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
                                                 </div>
                                             </div>
                                         </div>
@@ -870,21 +871,12 @@ function AgregarTitular() {
 
                                         <div class="row">
                                             <!-- sexo cliente -->
-                                            <div class="col-sm-2">
-                                                <div class="form-group">
-                                                    <label>Sexo</label>
-                                                    <select name="sexoCliente_${id}" id="sexoCliente_${id}" class="form-control custom-select sexoCliente" style="width: 100%" required>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                        <option value="M">Masculino</option>
-                                                        <option value="F">Femenino</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                         ${componenteSexoCamposMinimos}
                                             <!-- .col-sm -->
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Estado civil</label>
-                                                    <select name="estadoCivilCliente_${id}" id="estadoCivilCliente_${id}" class="form-control custom-select estadoCivilCliente" style="width: 100%" required>
+                                                    <select name="estadoCivil${idTitular}" id="estadoCivil${idTitular}" class="form-control custom-select estadoCivilCliente" style="width: 100%" required>
                                                         <option value="" disabled selected>Selecciona</option>
                                                         <option value="S">Soltero</option>
                                                         <option value="C">Casado</option>
@@ -903,7 +895,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Docto. identificación</label>
-                                                    <select name="tipoDoctoIdentificacionCliente_${id}" id="tipoDoctoIdentificacionCliente_${id}" class="form-control custom-select tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
+                                                    <select name="tipoDoctoIdentificacion${idTitular}" id="tipoDoctoIdentificacion${idTitular}" class="form-control custom-select tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
                                                         <option value="" disabled selected>Selecciona</option>
                                                         <option value="D">DPI</option>
                                                         <option value="P">Pasaporte</option>
@@ -914,13 +906,13 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Número identificación</label>
-                                                    <input name="noDocIdentificacionCliente_${id}" id="noDocIdentificacionCliente_${id}" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required disabled/>
+                                                    <input name="noDocIdentificacion${idTitular}" id="noDocIdentificacion${idTitular}" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required disabled/>
                                                 </div>
                                             </div>
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>País (Pasaporte)</label>
-                                                    <select name="emicionPasaporteCliente_${id}" id="emicionPasaporteCliente_${id}" class="form-control custom-select emicionPasaporteCliente" style="width: 100%" disabled required>
+                                                    <select name="emicionPasaporte${idTitular}" id="emicionPasaporte${idTitular}" class="form-control custom-select emicionPasaporteCliente" style="width: 100%" disabled required>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -932,13 +924,13 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Profesión u oficio</label>
-                                                    <input name="profecionOficioCliente_${id}" id="profecionOficioCliente_${id}" type="text" class="form-control profecionOficioCliente" placeholder="Profesión u oficio ..." maxlength="100" required />
+                                                    <input name="profecionOficio${idTitular}" id="profecionOficio${idTitular}" type="text" class="form-control profecionOficioCliente" placeholder="Profesión u oficio ..." maxlength="100" required />
                                                 </div>
                                             </div>
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Correo electrónico</label>
-                                                    <input name="emailCliente_${id}" id="emailCliente_${id}" type="email" class="form-control emailCliente" placeholder="Correo electrónico ..." maxlength="100" />
+                                                    <input name="email${idTitular}" id="email${idTitular}" type="email" class="form-control emailCliente" placeholder="Correo electrónico ..." maxlength="100" />
                                                 </div>
                                             </div>
                                         </div>
@@ -956,7 +948,7 @@ function AgregarTitular() {
                                         <div class="row">
                                             <div class="col-sm">
                                                 <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
-                                                <input name="direccionRecidenciaCliente_${id}" id="direccionRecidenciaCliente_${id}" type="text" class="form-control direccionRecidenciaCliente" placeholder="Dirección de residencia completa ..." maxlength="400" required />
+                                                <input name="direccionRecidencia${idTitular}" id="direccionRecidencia${idTitular}" type="text" class="form-control direccionRecidenciaCliente" placeholder="Dirección de residencia completa ..." maxlength="400" required />
                                             </div>
                                         </div>
                                         <!-- .row -->
@@ -966,7 +958,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>País residencia</label>
-                                                    <select name="paisRecidenciaCliente_${id}" id="paisRecidenciaCliente_${id}" class="form-control custom-select paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                                    <select name="paisRecidencia${idTitular}" id="paisRecidencia${idTitular}" class="form-control custom-select paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
                                                     </select>
                                                 </div>
                                             </div>
@@ -975,7 +967,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Departamento residencia</label>
-                                                    <select name="deptoRecidenciaCliente_${id}" id="deptoRecidenciaCliente_${id}" class="form-control custom-select deptoRecidenciaCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
+                                                    <select name="deptoRecidencia${idTitular}" id="deptoRecidencia${idTitular}" class="form-control custom-select deptoRecidenciaCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -984,7 +976,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Municipio residencia</label>
-                                                    <select name="muniRecidenciaCliente_${id}" id="muniRecidenciaCliente_${id}" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required disabled>
+                                                    <select name="muniRecidencia${idTitular}" id="muniRecidencia${idTitular}" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
@@ -992,12 +984,12 @@ function AgregarTitular() {
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm" id="nacionalidadCliente_${id}">
+                                            <div class="col-sm" id="nacionalidad${idTitular}">
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-sm">
                                                             <label>Nacionalidad</label>
-                                                            <select name="nacionalidadCliente_${id}" id="nacionalidadCliente_${id}_1" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
+                                                            <select name="nacionalidad${idTitular}" id="nacionalidad${idTitular}_1" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                             </select>
                                                         </div>
@@ -1037,12 +1029,12 @@ function AgregarTitular() {
                                                         <label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryCpeClienteSi_${id}" class="cpeCliente" name="cpeCliente_${id}" value="S" required />
-                                                        <label for="primaryCpeClienteSi_${id}">Sí</label>
+                                                        <input type="radio" id="primaryCpeClienteSi_${idTitular}" class="cpeCliente" name="cpe${idTitular}" value="S" required />
+                                                        <label for="primaryCpeClienteSi_${idTitular}">Sí</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryCpeClienteNo_${id}" class="cpeCliente" name="cpeCliente_${id}" value="N" required />
-                                                        <label for="primaryCpeClienteNo_${id}">No</label>
+                                                        <input type="radio" id="primaryCpeClienteNo_${idTitular}" class="cpeCliente" name="cpe${idTitular}" value="N" required />
+                                                        <label for="primaryCpeClienteNo_${idTitular}">No</label>
                                                         <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
                                                     </div>
                                                 </div>
@@ -1056,42 +1048,45 @@ function AgregarTitular() {
                                                         <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryPepSi_${id}" class="pepCliente" name="pepCliente_${id}" value="S" required />
-                                                        <label for="primaryPepSi_${id}">Sí</label>
+                                                        <input type="radio" id="primaryPepSi_${idTitular}" class="pepCliente" name="pep${idTitular}" value="S" required />
+                                                        <label for="primaryPepSi_${idTitular}">Sí</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryPepNo_${id}" class="pepCliente" name="pepCliente_${id}" value="N" required />
-                                                        <label for="primaryPepNo_${id}">No</label>
+                                                        <input type="radio" id="primaryPepNo_${idTitular}" class="pepCliente" name="pep${idTitular}" value="N" required />
+                                                        <label for="primaryPepNo_${idTitular}">No</label>
                                                         <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="datospepCliente_${id}"></div>
+                                        <div class="datospep${idTitular}"></div>
 
                                         <div class="row">
                                             <div class="col-sm">
-                                                <div class="form-group">
-                                                    <div class="icheck-primary d-inline">
-                                                        <label>¿El cliente tiene parentesco o es
-                                                            asociado cercano a una Persona
-                                                            Expuesta Políticamente (PEP)?</label>
-                                                    </div>
-
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryAsoPepCliente1" class="asoPepCliente" name="asoPepCliente" value="S" required />
-                                                        <label for="primaryAsoPepCliente1">Sí</label>
+                                                <div class="form-check">
+                                                    <div>
+                                                        <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryAsoPepCliente2" class="asoPepCliente" name="asoPepCliente" value="N" required />
-                                                        <label for="primaryAsoPepCliente2">No</label>
+                                                        <input type="radio" id="primaryAsoPepSi${idTitular}" class="asoPep" name="asoPep${idTitular}" value="S" required />
+                                                        <label for="primaryAsoPepSi${idTitular}">Sí</label>
+                                                    </div>
+                                                    <div class="icheck-primary d-inline">
+                                                        <input type="radio" id="primaryAsoPepNo${idTitular}" class="asoPep" name="asoPep${idTitular}" value="N" required />
+                                                        <label for="primaryAsoPepNo${idTitular}">No</label>
+                                                        <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="datosAsoPep" id="datosAsoCliente1"></div>
+                                        <div id="datosasoPep${idTitular}">
+                                            <div class="info">
+                                            </div>
+                                            <div class="btnadd">
+                                            </div>
+                                        </div>
                                         <!-- .datosPaAsPep -->
                                     </div>
                                     <!-- /.card-body -->
@@ -1099,7 +1094,7 @@ function AgregarTitular() {
                                 `;
         $("#titulares").append(templateTitular);
         /*agregado validadciones para el nuevo titular*/
-        let divTitularActual = $(`#titulares>div#${id}`);
+        let divTitularActual = $(`#titulares>div#${idTitular}`);
 
         let inputActuaNombrePropio = $(divTitularActual).find(
             "input.actuaNombrePropio"
@@ -1160,6 +1155,11 @@ function AgregarTitular() {
             "input.pepCliente"
         );
         verificarClientePep(radioButtonClientePep);
+        let radioEsAsoPep = $(divTitularActual).find(
+            `input:radio[name=asoPep${idTitular}]`
+        );
+        console.log(radioEsAsoPep);
+        verificarAsoPep(radioEsAsoPep);
 
         eliminarTemplateTitular($("#titulares>div"));
     });
@@ -1332,104 +1332,100 @@ function obtenerDatos() {
     for (let i = 0; i < titulares.length; i++) {
         let id = $(titulares[i]).attr("id");
         let divTitularActual = $(`#titulares>div#${id}`);
+        console.log(divTitularActual);
         let titular = new dicCamposMinimos();
-
         titular.tipoActuacion = $(divTitularActual)
-            .find(`input:radio[name=tipoActuacionCliente_${id}]:checked`)
+            .find(`input:radio[name=tipoActuacion${id}]:checked`)
             .val();
-
         titular.calidadActua = $(divTitularActual)
-            .find(`input:text[id=calidadActuaCliente_${id}]`)
+            .find(`input:text[id=calidadActua${id}]`)
             .val();
         titular.lugar.pais = $(divTitularActual)
-            .find(`select[id=paisCaMiCliente_${id}] option:selected`)
+            .find(`select[id=paisCaMi${id}] option:selected`)
             .val();
         titular.lugar.departamento = $(divTitularActual)
-            .find(`select[id=deptoCaMiCliente_${id}] option:selected`)
+            .find(`select[id=deptoCaMi${id}] option:selected`)
             .val();
         titular.lugar.municipio = $(divTitularActual)
-            .find(`select[id=muniCaMiCliente_${id}] option:selected`)
+            .find(`select[id=muniCaMi${id}] option:selected`)
             .val();
         titular.fecha = $(divTitularActual)
-            .find(`input:text[id=fechaDocCaMiCliente_${id}]`)
+            .find(`input:text[id=fechaDocCaMi${id}]`)
             .val();
         titular.cliente.primerApellido = $(divTitularActual)
-            .find(`input:text[id=primerApellidoCliente_${id}]`)
+            .find(`input:text[id=primerApellido${id}]`)
             .val();
         titular.cliente.segundoApellido = $(divTitularActual)
-            .find(`input:text[id=segundoApellidoCliente_${id}]`)
+            .find(`input:text[id=segundoApellido${id}]`)
             .val();
         titular.cliente.apellidoCasada = $(divTitularActual)
-            .find(`input:text[id=apellidoCasadaCliente_${id}]`)
+            .find(`input:text[id=apellidoCasada${id}]`)
             .val();
         titular.cliente.primerNombre = $(divTitularActual)
-            .find(`input:text[id=primerNombreCliente_${id}]`)
+            .find(`input:text[id=primerNombre${id}]`)
             .val();
         titular.cliente.segundoNombre = $(divTitularActual)
-            .find(`input:text[id=segundoNombreCliente_${id}]`)
+            .find(`input:text[id=segundoNombre${id}]`)
             .val();
         titular.cliente.otrosNombres = $(divTitularActual)
-            .find(`input:text[id=otrosNombresCliente_${id}]`)
+            .find(`input:text[id=otrosNombres${id}]`)
             .val();
         titular.cliente.fechaNacimiento = $(divTitularActual)
-            .find(`input:text[id=fechaNacimientoCliente_${id}]`)
+            .find(`input:text[id=fechaNacimiento${id}]`)
             .val();
         titular.cliente.nacimiento.pais = $(divTitularActual)
             //
-            .find(`select[id=paisNacimientoCliente_${id}] option:selected`)
+            .find(`select[id=paisNacimiento${id}] option:selected`)
             .val();
         titular.cliente.nacimiento.departamento = $(divTitularActual)
-            .find(`select[id=deptoNacimientoCliente_${id}] option:selected`)
+            .find(`select[id=deptoNacimiento${id}] option:selected`)
             .val();
         titular.cliente.nacimiento.municipio = $(divTitularActual)
-            .find(`select[id=muniNaciminentoCliente_${id}] option:selected`)
+            .find(`select[id=muniNaciminento${id}] option:selected`)
             .val();
         titular.cliente.condicionMigratoria = $(divTitularActual)
-            .find(`select[id=condicionMigratoriaCliente_${id}] option:selected`)
+            .find(`select[id=condicionMigratoria${id}] option:selected`)
             .val();
         titular.cliente.otraCondicionMigratoria = $(divTitularActual)
-            .find(`input:text[id=otraCoMiCliente_${id}]`)
+            .find(`input:text[id=otraCoMi${id}]`)
             .val();
         titular.cliente.sexo = $(divTitularActual)
-            .find(`select[id=sexoCliente_${id}] option:selected`)
+            .find(`select[id=sexo${id}] option:selected`)
             .val();
         titular.cliente.estadoCivil = $(divTitularActual)
-            .find(`select[id=estadoCivilCliente_${id}] option:selected`)
+            .find(`select[id=estadoCivil${id}] option:selected`)
             .val();
         titular.cliente.nit = $(divTitularActual)
-            .find(`input:text[id=nitCliente_${id}]`)
+            .find(`input:text[id=nit${id}]`)
             .val();
         titular.cliente.tipoDocumentoIdentificacion = $(divTitularActual)
-            .find(
-                `select[id=tipoDoctoIdentificacionCliente_${id}] option:selected`
-            )
+            .find(`select[id=tipoDoctoIdentificacion${id}] option:selected`)
             .val();
         titular.cliente.numeroDocumentoIdentificacion = $(divTitularActual)
-            .find(`input:text[id=noDocIdentificacionCliente_${id}]`)
+            .find(`input:text[id=noDocIdentificacion${id}]`)
             .val();
         titular.cliente.emisionPasaporte = $(divTitularActual)
-            .find(`select[id=emicionPasaporteCliente_${id}] option:selected`)
+            .find(`select[id=emicionPasaporte${id}] option:selected`)
             .val();
         titular.cliente.profesionOficio = $(divTitularActual)
-            .find(`input:text[id=profecionOficioCliente_${id}]`)
+            .find(`input:text[id=profecionOficio${id}]`)
             .val();
         titular.cliente.email = $(divTitularActual)
-            .find(`input[id=emailCliente_${id}]`)
+            .find(`input[id=email${id}]`)
             .val();
         titular.cliente.direccionResidencia = $(divTitularActual)
-            .find(`input:text[id=direccionRecidenciaCliente_${id}]`)
+            .find(`input:text[id=direccionRecidencia${id}]`)
             .val();
         titular.cliente.residencia.pais = $(divTitularActual)
-            .find(`select[id=paisRecidenciaCliente_${id}] option:selected`)
+            .find(`select[id=paisRecidencia${id}] option:selected`)
             .val();
         titular.cliente.residencia.departamento = $(divTitularActual)
-            .find(`select[id=deptoRecidenciaCliente_${id}] option:selected`)
+            .find(`select[id=deptoRecidencia${id}] option:selected`)
             .val();
         titular.cliente.residencia.municipio = $(divTitularActual)
-            .find(`select[id=muniRecidenciaCliente_${id}] option:selected`)
+            .find(`select[id=muniRecidencia${id}] option:selected`)
             .val();
         let telefonos = $(divTitularActual).find(`input.telefonoCliente`);
-        console.log(telefonos);
         for (let i = 0; i < telefonos.length; i++) {
             titular.cliente.agregarTelefono($(telefonos[i]).val());
         }
@@ -1441,31 +1437,29 @@ function obtenerDatos() {
             titular.cliente.agregarNacionalidad($(nacionalidades[a]).val());
         }
         titular.cliente.cpe = $(divTitularActual)
-            .find(`input:radio[name=cpeCliente_${id}]:checked`)
+            .find(`input:radio[name=cpe${id}]:checked`)
             .val();
         let esPep = (titular.cliente.pep = $(divTitularActual)
-            .find(`input:radio[name=pepCliente_${id}]:checked`)
+            .find(`input:radio[name=pep${id}]:checked`)
             .val());
         if (esPep === "S") {
             titular.cliente.datospep.entidad = $(divTitularActual)
-                .find(`input[id=entidadpepCliente_${id}]`)
+                .find(`input[id=entidadpep${id}]`)
                 .val();
             titular.cliente.datospep.puestoDesempenia = $(divTitularActual)
-                .find(`input[id=puestoDesepeniapepCliente_${id}]`)
+                .find(`input[id=puestoDesepeniapep${id}]`)
                 .val();
             titular.cliente.datospep.paisEntidad = $(divTitularActual)
-                .find(`select[id=paisEntidadpepCliente_${id}] option:selected`)
+                .find(`select[id=paisEntidadpep${id}] option:selected`)
                 .val();
             let esOtroRiqueza = (titular.cliente.datospep.origenRiqueza = $(
                 divTitularActual
             )
-                .find(
-                    `select[id=origenRiquezapepCliente_${id}] option:selected`
-                )
+                .find(`select[id=origenRiquezapep${id}] option:selected`)
                 .val());
             if (esOtroRiqueza == 8) {
                 titular.cliente.datospep.otroOrigenRiqueza = $(divTitularActual)
-                    .find(`input[id=otroOrigenRiquezapepCliente_${id}]`)
+                    .find(`input[id=otroOrigenRiquezapep${id}]`)
                     .val();
             }
         } else {
@@ -1475,11 +1469,11 @@ function obtenerDatos() {
         let esAsoPep = (titular.cliente.parienteAsociadoPep = $(
             divTitularActual
         )
-            .find(`input:radio[name=asoPepCliente_${id}]:checked`)
+            .find(`input:radio[name=asoPep${id}]:checked`)
             .val());
 
         if (esAsoPep == "S") {
-            let asociados = $(`#datosasoPepCliente_${id}>div.info`).children();
+            let asociados = $(`#datosasoPep${id}>div.info`).children();
             for (let a = 0; a < asociados.length; a++) {
                 let id = $(asociados[a]).attr("id");
                 let datosAsoPep = new dicParienteAsociadoPep();
