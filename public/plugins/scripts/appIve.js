@@ -691,7 +691,7 @@ function AgregarTitular() {
         let idNit = `nit${tipo}_${id}`;
 
         let idTitular = `${tipo}_${id}`;
-        let camposNombresTitulares = templateCamposNommbres(idTitular); 
+        let camposNombresTitulares = templateCamposNommbres(idTitular);
         let componenteSexoCamposMinimos = templateSexo(idTitular);
 
         let templateTitular = `
@@ -1155,6 +1155,11 @@ function AgregarTitular() {
             "input.pepCliente"
         );
         verificarClientePep(radioButtonClientePep);
+        let radioEsAsoPep = $(divTitularActual).find(
+            `input:radio[name=asoPep${idTitular}]`
+        );
+        console.log(radioEsAsoPep);
+        verificarAsoPep(radioEsAsoPep);
 
         eliminarTemplateTitular($("#titulares>div"));
     });
