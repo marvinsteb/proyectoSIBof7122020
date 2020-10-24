@@ -72,19 +72,37 @@ function templatePais(id, textolabel, desabilitadeptomuni) {
     `;
     return templatepais;
 }
-function agregarRepresentante(divDatosRepresentante, idTitular) {
-    console.log("agregado informacion del representante");
-    let templateRepresentante = templateCamposMinimos(
-        `Representante${idTitular}`,
-        "Información del representante"
-    );
-    console.log($(divDatosRepresentante));
-    $(divDatosRepresentante).append(templateRepresentante);
+function templateFecha(id, nombre) {
+    let temCampoFecha = `
+    <div class="col-sm">
+        <div class="form-group">
+            <label>Fecha ${nombre}</label>
+            <div class="input-group date" id="fecha_${id}" data-target-input="nearest">
+                <input name="fecha${id}" id="fecha${id}" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fecha_${id}" required />
+                <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
+                <div class="input-group-append" data-target="#fecha_${id}" data-toggle="datetimepicker">
+                    <div class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+    return temCampoFecha;
+}
+function templateCamposNacimiento(id) {
+    //fechaNacimiento
+    let cmFechaNacimiento = templateFecha(id, "nacimiento");
+    let temCampoNac = `
+    <div class="row">
+        ${cmFechaNacimiento}
+    </div>
+`;
+    return temCampoNac;
 }
 function templateCamposMinimos(id, titulo) {
-    this.id = id;
-    this.titulo = titulo;
-    let tcamposNombres = templateCamposNommbres(this.id);
+    let tcamposNombres = templateCamposNommbres(id);
+    let tcamposNacimiento = templateCamposNacimiento(id);
     let tcamposMinimos = `
     <div class="card card-info mt-3" id=${id}>
         <div class="card-header">
@@ -97,11 +115,23 @@ function templateCamposMinimos(id, titulo) {
         </div>
         <div class="card-body">
             ${tcamposNombres}
+            ${tcamposNacimiento}
         </div>
 
      </div>`;
     return tcamposMinimos;
 }
+
+function agregarRepresentante(divDatosRepresentante, idTitular) {
+    console.log("agregado informacion del representante");
+    let templateRepresentante = templateCamposMinimos(
+        `Representante${idTitular}`,
+        "Información del representante"
+    );
+
+    $(divDatosRepresentante).append(templateRepresentante);
+}
+
 // funciones para configuracion del formulario
 function setFormatoFecha(divInputFecha) {
     for (let i = 0; i < divInputFecha.length; i++) {
