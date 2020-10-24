@@ -75,18 +75,31 @@ function templatePais(id, textolabel, desabilitadeptomuni) {
 function agregarRepresentante(divDatosRepresentante, idTitular) {
     console.log("agregado informacion del representante");
     let templateRepresentante = templateCamposMinimos(
-        `Representante${idTitular}`
+        `Representante${idTitular}`,
+        "Información del representante"
     );
     console.log($(divDatosRepresentante));
     $(divDatosRepresentante).append(templateRepresentante);
 }
-function templateCamposMinimos(id) {
+function templateCamposMinimos(id, titulo) {
     this.id = id;
+    this.titulo = titulo;
     let tcamposNombres = templateCamposNommbres(this.id);
     let tcamposMinimos = `
-    <h4>Información del representante</h4>
-    ${tcamposNombres}
-    `;
+    <div class="card card-info mt-3" id=${id}>
+        <div class="card-header">
+            <h3 class="card-title">${titulo}</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            ${tcamposNombres}
+        </div>
+
+     </div>`;
     return tcamposMinimos;
 }
 // funciones para configuracion del formulario
