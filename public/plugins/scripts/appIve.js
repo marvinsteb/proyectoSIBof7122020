@@ -1,25 +1,7 @@
-// funciones para configuracion del formulario
-function setFormatoFecha(divInputFecha) {
-    for (let i = 0; i < divInputFecha.length; i++) {
-        $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
-
-        $(divInputFecha[i]).on("focusout", function () {
-            let fechaString = $(this).find("input").val();
-            let hoy = new Date();
-            hoy.setHours(0, 0, 0, 0);
-
-            let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
-            let fechaActual = dateMomentObject.toDate();
-            if (fechaActual <= hoy) {
-                $(this).find("input").removeClass("is-invalid");
-            } else {
-                $(this).find("input").val(null);
-                $(this).find("input").addClass("is-invalid");
-            }
-        });
-    }
-}
 // templates
+function templateInvalidTooltip(mensaje) {
+    return `<div class="invalid-tooltip">${mensaje}</div>`;
+}
 function templateCamposNommbres(id) {
     let templateNombres = ` <div class="row">
                                             <div class="col-sm">
@@ -115,9 +97,15 @@ function templateFecha(id, nombre) {
 function templateCamposNacimiento(id) {
     //fechaNacimiento
     let cmFechaNacimiento = templateFecha(id, "nacimiento");
+    let cmPaisNacimiento = templatePais(
+        `Nacimiento${id}`,
+        "País nacimiento",
+        true
+    );
     let temCampoNac = `
     <div class="row">
         ${cmFechaNacimiento}
+        ${cmPaisNacimiento}
     </div>
 `;
     return temCampoNac;
@@ -143,7 +131,27 @@ function templateCamposMinimos(id, titulo) {
      </div>`;
     return tcamposMinimos;
 }
+// funciones para configuracion del formulario
+function setFormatoFecha(divInputFecha) {
+    for (let i = 0; i < divInputFecha.length; i++) {
+        $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
 
+        $(divInputFecha[i]).on("focusout", function () {
+            let fechaString = $(this).find("input").val();
+            let hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
+            let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
+            let fechaActual = dateMomentObject.toDate();
+            if (fechaActual <= hoy) {
+                $(this).find("input").removeClass("is-invalid");
+            } else {
+                $(this).find("input").val(null);
+                $(this).find("input").addClass("is-invalid");
+            }
+        });
+    }
+}
 function agregarRepresentante(divDatosRepresentante, idTitular) {
     console.log(`agregado informacion del representante ${idTitular}`);
     let templateRepresentante = templateCamposMinimos(
@@ -153,8 +161,11 @@ function agregarRepresentante(divDatosRepresentante, idTitular) {
     $(divDatosRepresentante).append(templateRepresentante);
     validarApellidoCasada($(`input#apellidoCasadaRepresentante${idTitular}`));
     setFormatoFecha($(`div.date`));
+    habilitaDepartamentoMunicipio(
+        $(`select#paisNacimientoRepresentante${idTitular}`)
+    );
+    cargarPais($(`select.setPais`));
 }
-
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
         $(elementoActuaNomprePropio[i]).change(function () {
@@ -292,9 +303,7 @@ function validarApellidoCasada(apeCasada) {
         });
     }
 }
-function templateInvalidTooltip(mensaje) {
-    return `<div class="invalid-tooltip">${mensaje}</div>`;
-}
+
 function validarNit(listaNit) {
     for (let i = 0; i < listaNit.length; i++) {
         $(listaNit[i]).on("focusout", function (event) {
