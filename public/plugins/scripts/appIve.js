@@ -72,6 +72,22 @@ function templatePais(id, textolabel, desabilitadeptomuni) {
     `;
     return templatepais;
 }
+function agregarRepresentante(divDatosRepresentante, idTitular) {
+    console.log("agregado informacion del representante");
+    let templateRepresentante = templateCamposMinimos(
+        `Representante${idTitular}`
+    );
+    console.log($(divDatosRepresentante));
+    $(divDatosRepresentante).append(templateRepresentante);
+}
+function templateCamposMinimos(id) {
+    this.id = id;
+    let tcamposNombres = templateCamposNommbres(this.id);
+    let tcamposMinimos = `
+    ${tcamposNombres}
+    `;
+    return tcamposMinimos;
+}
 // funciones para configuracion del formulario
 function setFormatoFecha(divInputFecha) {
     for (let i = 0; i < divInputFecha.length; i++) {
@@ -109,6 +125,7 @@ function verificaActuaNombrePropio(elementoActuaNomprePropio) {
             } else if (this.value === "R") {
                 inputCalidadActua[0].disabled = false;
                 $(inputCalidadActua[0]).prop("required", true);
+                agregarRepresentante("#representanteCliente_1", "Cliente_1");
             }
         });
     }
