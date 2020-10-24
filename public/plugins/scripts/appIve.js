@@ -1,3 +1,24 @@
+// funciones para configuracion del formulario
+function setFormatoFecha(divInputFecha) {
+    for (let i = 0; i < divInputFecha.length; i++) {
+        $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
+
+        $(divInputFecha[i]).on("focusout", function () {
+            let fechaString = $(this).find("input").val();
+            let hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
+            let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
+            let fechaActual = dateMomentObject.toDate();
+            if (fechaActual <= hoy) {
+                $(this).find("input").removeClass("is-invalid");
+            } else {
+                $(this).find("input").val(null);
+                $(this).find("input").addClass("is-invalid");
+            }
+        });
+    }
+}
 // templates
 function templateCamposNommbres(id) {
     let templateNombres = ` <div class="row">
@@ -76,18 +97,19 @@ function templateFecha(id, nombre) {
     let temCampoFecha = `
     <div class="col-sm">
         <div class="form-group">
-            <label>Fecha ${nombre}</label>
-            <div class="input-group date" id="fecha_${id}" data-target-input="nearest">
-                <input name="fecha${id}" id="fecha${id}" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fecha_${id}" required />
+            <label>Fecha nacimiento</label>
+            <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
+                <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
                 <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
-                <div class="input-group-append" data-target="#fecha_${id}" data-toggle="datetimepicker">
+                <div class="input-group-append" data-target="#fecha${nombre}_${id}" data-toggle="datetimepicker">
                     <div class="input-group-text">
                         <i class="fa fa-calendar"></i>
                     </div>
                 </div>
             </div>
         </div>
-    </div>`;
+    </div>
+    `;
     return temCampoFecha;
 }
 function templateCamposNacimiento(id) {
@@ -123,36 +145,16 @@ function templateCamposMinimos(id, titulo) {
 }
 
 function agregarRepresentante(divDatosRepresentante, idTitular) {
-    console.log("agregado informacion del representante");
+    console.log(`agregado informacion del representante ${idTitular}`);
     let templateRepresentante = templateCamposMinimos(
         `Representante${idTitular}`,
         "Información del representante"
     );
-
     $(divDatosRepresentante).append(templateRepresentante);
+    validarApellidoCasada($(`input#apellidoCasadaRepresentante${idTitular}`));
+    setFormatoFecha($(`div.date`));
 }
 
-// funciones para configuracion del formulario
-function setFormatoFecha(divInputFecha) {
-    for (let i = 0; i < divInputFecha.length; i++) {
-        $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
-
-        $(divInputFecha[i]).on("focusout", function () {
-            let fechaString = $(this).find("input").val();
-            let hoy = new Date();
-            hoy.setHours(0, 0, 0, 0);
-
-            let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
-            let fechaActual = dateMomentObject.toDate();
-            if (fechaActual <= hoy) {
-                $(this).find("input").removeClass("is-invalid");
-            } else {
-                $(this).find("input").val(null);
-                $(this).find("input").addClass("is-invalid");
-            }
-        });
-    }
-}
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
         $(elementoActuaNomprePropio[i]).change(function () {
