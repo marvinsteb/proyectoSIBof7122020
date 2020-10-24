@@ -84,6 +84,7 @@ function templateCamposMinimos(id) {
     this.id = id;
     let tcamposNombres = templateCamposNommbres(this.id);
     let tcamposMinimos = `
+    <h4>Información del representante</h4>
     ${tcamposNombres}
     `;
     return tcamposMinimos;
@@ -112,6 +113,7 @@ function setFormatoFecha(divInputFecha) {
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
         $(elementoActuaNomprePropio[i]).change(function () {
+            let divDatosRepresentante = `#representanteCliente_1`;
             let inputCalidadActua = $(this)
                 .parent()
                 .parent()
@@ -122,10 +124,11 @@ function verificaActuaNombrePropio(elementoActuaNomprePropio) {
                 inputCalidadActua[0].disabled = true;
                 $(inputCalidadActua[0]).val(null);
                 $(inputCalidadActua[0]).prop("required", false);
+                $(divDatosRepresentante).children().remove();
             } else if (this.value === "R") {
                 inputCalidadActua[0].disabled = false;
                 $(inputCalidadActua[0]).prop("required", true);
-                agregarRepresentante("#representanteCliente_1", "Cliente_1");
+                agregarRepresentante(divDatosRepresentante, "Cliente_1");
             }
         });
     }
