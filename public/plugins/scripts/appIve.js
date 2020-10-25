@@ -88,6 +88,19 @@ function templateDepartamento(id, textolabel) {
     `;
     return temDepartamento;
 }
+function templateMunicipio(id, textolabel) {
+    let temMunicipio = `
+    <div class="col-sm">
+        <div class="form-group">
+            <label>${textolabel}</label>
+            <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio" style="width: 100%" required disabled>
+                <option value="" disabled selected>Selecciona</option>
+            </select>
+        </div>
+    </div>
+    `;
+    return temMunicipio;
+}
 function templateFecha(id, nombre) {
     let temCampoFecha = `
     <div class="col-sm">
@@ -119,11 +132,16 @@ function templateCamposNacimiento(id) {
         `Nacimiento${id}`,
         "Departamento nacimiento"
     );
+    let cmMunicipio = templateMunicipio(
+        `Nacimiento${id}`,
+        "Municipio nacimiento"
+    );
     let temCampoNac = `
     <div class="row">
         ${cmFechaNacimiento}
         ${cmPaisNacimiento}
         ${cmDepartamentoNacimiento}
+        ${cmMunicipio}
     </div>
 `;
     return temCampoNac;
@@ -184,6 +202,7 @@ function agregarRepresentante(divDatosRepresentante, idTitular) {
     );
     cargarPais($(`select#paisNacimientoRepresentante${idTitular}`));
     cargarDepartamentos($(`select#deptoNacimientoRepresentante${idTitular}`));
+    cargarMunicipios($(`select#deptoNacimientoRepresentante${idTitular}`));
 }
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
