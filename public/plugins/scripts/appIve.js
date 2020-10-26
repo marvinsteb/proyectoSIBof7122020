@@ -167,9 +167,19 @@ function templateCamposNacimiento(id) {
 `;
     return temCampoNac;
 }
+function templateCamposDocumentos(id) {
+    let comSexo = templateSexo(id);
+    let temCamDoc = `
+    <div class="row">
+    ${comSexo}
+    </div>
+    `;
+    return temCamDoc;
+}
 function templateCamposMinimos(id, titulo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
+    let tCamposDoc = templateCamposDocumentos(id);
     let tcamposMinimos = `
     <div class="card card-info mt-3" id=${id}>
         <div class="card-header">
@@ -183,6 +193,7 @@ function templateCamposMinimos(id, titulo) {
         <div class="card-body">
             ${tcamposNombres}
             ${tcamposNacimiento}
+            ${tCamposDoc}
         </div>
 
      </div>`;
