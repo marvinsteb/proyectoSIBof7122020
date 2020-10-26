@@ -117,8 +117,8 @@ function templatePais(id, textolabel, desabilitadeptomuni) {
     let templatepais = `
     <div class="col-sm">
         <div class="form-group">
-            <label for="pais${id}">${textolabel}</label>
-            <select name="pais${id}" id="pais${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais" style="width: 100%" required>
+            <label for="${id}">${textolabel}</label>
+            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
             </select>
         </div>
@@ -194,7 +194,7 @@ function templateCamposNacimiento(id) {
     //fechaNacimiento
     let cmFechaNacimiento = templateFecha(id, "nacimiento");
     let cmPaisNacimiento = templatePais(
-        `Nacimiento${id}`,
+        `paisNacimiento${id}`,
         "País nacimiento",
         true
     );
@@ -224,6 +224,11 @@ function templateCamposDocumentos(id) {
     let comNit = templateNit(id);
     let comDocIdentificacion = templateDoctoIdentificacion(id);
     let comNumDoctoIdentifica = templateNumDocumento(id);
+    let paisPasaporte = templatePais(
+        `emicionPasaporte${id}`,
+        "País (Pasaporte)",
+        false
+    );
     let temCamDoc = `
     <div class="row">
     ${comSexo}
@@ -231,6 +236,7 @@ function templateCamposDocumentos(id) {
     ${comNit}
     ${comDocIdentificacion}
     ${comNumDoctoIdentifica}
+    ${paisPasaporte}
     </div>
     `;
     return temCamDoc;
@@ -742,7 +748,7 @@ function agregaAsoPep(idAsoPep) {
     let rowCamposNombresAsoPep = templateCamposNommbres(id);
     let componenteSexoAsoPep = templateSexo(id);
     let componentePais = templatePais(
-        id,
+        `pais${id}`,
         "País de la institución o entidad",
         false
     );
