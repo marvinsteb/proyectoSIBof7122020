@@ -110,7 +110,14 @@ function templateCondicionMigratoria(id) {
                 <option value="" disabled selected>Selecciona</option>
                 </select>
             </div>
-        </div>`;
+        </div>
+        <div class="col-sm">
+            <div class="form-group">
+                <label>Especifique</label>
+                <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
+            </div>
+        </div>
+        `;
     return temCondicionMigratoria;
 }
 function templateFecha(id, nombre) {
