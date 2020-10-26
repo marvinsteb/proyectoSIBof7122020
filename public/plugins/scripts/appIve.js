@@ -84,6 +84,16 @@ function templateDoctoIdentificacion(id) {
     `;
     return temDoctoIdent;
 }
+function templateNumDocumento(id) {
+    let temNumDoc = `
+    <div class="col-sm">
+        <div class="form-group">
+            <label>Número identificación</label>
+            <input name="noDocIdentificacion${id}" id="noDocIdentificacion${id}" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required disabled/>
+        </div>
+    </div>`;
+    return temNumDoc;
+}
 function templateEstadoCivil(id) {
     let temEs = `
     <div class="col-sm">
@@ -213,12 +223,14 @@ function templateCamposDocumentos(id) {
     let comEstadoCivil = templateEstadoCivil(id);
     let comNit = templateNit(id);
     let comDocIdentificacion = templateDoctoIdentificacion(id);
+    let comNumDoctoIdentifica = templateNumDocumento(id);
     let temCamDoc = `
     <div class="row">
     ${comSexo}
     ${comEstadoCivil}
     ${comNit}
     ${comDocIdentificacion}
+    ${comNumDoctoIdentifica}
     </div>
     `;
     return temCamDoc;
