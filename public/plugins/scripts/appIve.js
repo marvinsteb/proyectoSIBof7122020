@@ -58,6 +58,17 @@ function templateSexo(id) {
     </div>`;
     return templatesexo;
 }
+function templateNit(id) {
+    let temNit = `
+    <div class="col-sm">
+        <div class="form-group">
+            <label>Nit</label>
+            <input name="nit${id}" id="nit${id}" type="text" class="form-control nit" placeholder="Nit ..." maxlength="20" />
+        </div>
+    </div>
+    `;
+    return temNit;
+}
 function templateEstadoCivil(id) {
     let temEs = `
     <div class="col-sm">
@@ -185,10 +196,12 @@ function templateCamposNacimiento(id) {
 function templateCamposDocumentos(id) {
     let comSexo = templateSexo(id);
     let comEstadoCivil = templateEstadoCivil(id);
+    let comNit = templateNit(id);
     let temCamDoc = `
     <div class="row">
     ${comSexo}
     ${comEstadoCivil}
+    ${comNit}
     </div>
     `;
     return temCamDoc;
@@ -252,6 +265,7 @@ function agregarRepresentante(divDatosRepresentante, idTitular) {
     cargarPais($(`select#paisNacimientoRepresentante${idTitular}`));
     cargarDepartamentos($(`select#deptoNacimientoRepresentante${idTitular}`));
     cargarMunicipios($(`select#deptoNacimientoRepresentante${idTitular}`));
+    validarNit($(`input#nitRepresentante${idTitular}`));
 }
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
