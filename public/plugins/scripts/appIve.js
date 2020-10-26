@@ -58,6 +58,21 @@ function templateSexo(id) {
     </div>`;
     return templatesexo;
 }
+function templateEstadoCivil(id) {
+    let temEs = `
+    <div class="col-sm">
+        <div class="form-group">
+            <label>Estado civil</label>
+            <select name="estadoCivil${id}" id="estadoCivil${id}" class="form-control custom-select estadoCivil" style="width: 100%" required>
+                <option value="" disabled selected>Selecciona</option>
+                <option value="S">Soltero</option>
+                <option value="C">Casado</option>
+            </select>
+        </div>
+    </div>
+    `;
+    return temEs;
+}
 function templatePais(id, textolabel, desabilitadeptomuni) {
     let claseDeptoMuni = "";
     if (desabilitadeptomuni == true) {
@@ -169,9 +184,11 @@ function templateCamposNacimiento(id) {
 }
 function templateCamposDocumentos(id) {
     let comSexo = templateSexo(id);
+    let comEstadoCivil = templateEstadoCivil(id);
     let temCamDoc = `
     <div class="row">
     ${comSexo}
+    ${comEstadoCivil}
     </div>
     `;
     return temCamDoc;
