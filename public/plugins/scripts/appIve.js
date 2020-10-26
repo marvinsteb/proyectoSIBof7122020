@@ -104,6 +104,16 @@ function templateProfecionOficio(id) {
         </div>`;
     return temProfOfici;
 }
+function templateEmail(id) {
+    let temcorreo = `
+        <div class="col-sm">
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <input name="email${id}" id="email${id}" type="email" class="form-control email" placeholder="Correo electrónico ..." maxlength="100" />
+            </div>
+        </div>`;
+    return temcorreo;
+}
 function templateEstadoCivil(id) {
     let temEs = `
     <div class="col-sm">
@@ -253,9 +263,11 @@ function templateCamposDocumentos(id) {
 }
 function templateCamposProfecion(id) {
     let comProfOficio = templateProfecionOficio(id);
+    let comEmail = templateEmail(id);
     let temCamposProf = `
     <div class="row">
         ${comProfOficio}
+        ${comEmail}
     </div>`;
     return temCamposProf;
 }
