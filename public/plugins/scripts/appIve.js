@@ -69,6 +69,21 @@ function templateNit(id) {
     `;
     return temNit;
 }
+function templateDoctoIdentificacion(id) {
+    let temDoctoIdent = `
+<div class="col-sm">
+    <div class="form-group">
+        <label>Docto. identificación</label>
+        <select name="tipoDoctoIdentificacion${id}" id="tipoDoctoIdentificacion${id}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte" style="width: 100%" required>
+            <option value="" disabled selected>Selecciona</option>
+            <option value="D">DPI</option>
+            <option value="P">Pasaporte</option>
+        </select>
+    </div>
+</div>
+    `;
+    return temDoctoIdent;
+}
 function templateEstadoCivil(id) {
     let temEs = `
     <div class="col-sm">
@@ -197,11 +212,13 @@ function templateCamposDocumentos(id) {
     let comSexo = templateSexo(id);
     let comEstadoCivil = templateEstadoCivil(id);
     let comNit = templateNit(id);
+    let comDocIdentificacion = templateDoctoIdentificacion(id);
     let temCamDoc = `
     <div class="row">
     ${comSexo}
     ${comEstadoCivil}
     ${comNit}
+    ${comDocIdentificacion}
     </div>
     `;
     return temCamDoc;
