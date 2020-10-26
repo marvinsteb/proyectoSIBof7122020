@@ -94,6 +94,16 @@ function templateNumDocumento(id) {
     </div>`;
     return temNumDoc;
 }
+function templateProfecionOficio(id) {
+    let temProfOfici = `
+        <div class="col-sm">
+            <div class="form-group">
+                <label>Profesión u oficio</label>
+                <input name="profecionOficio${id}" id="profecionOficio${id}" type="text" class="form-control profecionOficio" placeholder="Profesión u oficio ..." maxlength="100" required />
+            </div>
+        </div>`;
+    return temProfOfici;
+}
 function templateEstadoCivil(id) {
     let temEs = `
     <div class="col-sm">
@@ -241,10 +251,19 @@ function templateCamposDocumentos(id) {
     `;
     return temCamDoc;
 }
+function templateCamposProfecion(id) {
+    let comProfOficio = templateProfecionOficio(id);
+    let temCamposProf = `
+    <div class="row">
+        ${comProfOficio}
+    </div>`;
+    return temCamposProf;
+}
 function templateCamposMinimos(id, titulo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
     let tCamposDoc = templateCamposDocumentos(id);
+    let tCamposProf = templateCamposProfecion(id);
     let tcamposMinimos = `
     <div class="card card-info mt-3" id=${id}>
         <div class="card-header">
@@ -259,6 +278,7 @@ function templateCamposMinimos(id, titulo) {
             ${tcamposNombres}
             ${tcamposNacimiento}
             ${tCamposDoc}
+            ${tCamposProf}
         </div>
 
      </div>`;
