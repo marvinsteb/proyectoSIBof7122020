@@ -101,6 +101,17 @@ function templateMunicipio(id, textolabel) {
     `;
     return temMunicipio;
 }
+function templateCondicionMigratoria(id) {
+    let temCondicionMigratoria = `
+        <div class="col-sm">
+            <div class="form-group">
+                <label>Condición migratoria</label>
+                <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
+                </select>
+            </div>
+        </div>`;
+    return temCondicionMigratoria;
+}
 function templateFecha(id, nombre) {
     let temCampoFecha = `
     <div class="col-sm">
@@ -136,12 +147,14 @@ function templateCamposNacimiento(id) {
         `Nacimiento${id}`,
         "Municipio nacimiento"
     );
+    let cmCondicionMigratoria = templateCondicionMigratoria(id);
     let temCampoNac = `
     <div class="row">
         ${cmFechaNacimiento}
         ${cmPaisNacimiento}
         ${cmDepartamentoNacimiento}
         ${cmMunicipio}
+        ${cmCondicionMigratoria}
     </div>
 `;
     return temCampoNac;
@@ -464,7 +477,7 @@ function habilitaOtraCondicionMigratoria(condicionMigratoria) {
                 .parent()
                 .parent()
                 .parent()
-                .find("input.otraCoMiCliente");
+                .find("input.otraCoMi");
             if (event.target.value == 8) {
                 otraCondicionMigratoria[0].disabled = false;
             } else {
