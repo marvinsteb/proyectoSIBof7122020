@@ -329,22 +329,20 @@ function setFormatoFecha(divInputFecha) {
         });
     }
 }
-function agregarRepresentante(divDatosRepresentante, idTitular) {
-    console.log(`agregado informacion del representante ${idTitular}`);
+function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
+    console.log(`agregado informacion del  ${idCamposMinimos}`);
     let templateRepresentante = templateCamposMinimos(
-        `Representante${idTitular}`,
-        "Información del representante"
+        `${idCamposMinimos}`,
+        `Información del ${tipo}`
     );
-    $(divDatosRepresentante).append(templateRepresentante);
-    validarApellidoCasada($(`input#apellidoCasadaRepresentante${idTitular}`));
+    $(divDatos).append(templateRepresentante);
+    validarApellidoCasada($(`input#apellidoCasada${idCamposMinimos}`));
     setFormatoFecha($(`div.date`));
-    habilitaDepartamentoMunicipio(
-        $(`select#paisNacimientoRepresentante${idTitular}`)
-    );
-    cargarPais($(`select#paisNacimientoRepresentante${idTitular}`));
-    cargarDepartamentos($(`select#deptoNacimientoRepresentante${idTitular}`));
-    cargarMunicipios($(`select#deptoNacimientoRepresentante${idTitular}`));
-    validarNit($(`input#nitRepresentante${idTitular}`));
+    habilitaDepartamentoMunicipio($(`select#paisNacimiento${idCamposMinimos}`));
+    cargarPais($(`select#paisNacimiento${idCamposMinimos}`));
+    cargarDepartamentos($(`select#deptoNacimiento${idCamposMinimos}`));
+    cargarMunicipios($(`select#deptoNacimiento${idCamposMinimos}`));
+    validarNit($(`input#nit${idCamposMinimos}`));
 }
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
@@ -364,7 +362,11 @@ function verificaActuaNombrePropio(elementoActuaNomprePropio) {
             } else if (this.value === "R") {
                 inputCalidadActua[0].disabled = false;
                 $(inputCalidadActua[0]).prop("required", true);
-                agregarRepresentante(divDatosRepresentante, "Cliente_1");
+                agregarCamposMinimos(
+                    divDatosRepresentante,
+                    "RepresentanteCliente_1",
+                    "representante"
+                );
             }
         });
     }
