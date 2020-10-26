@@ -220,7 +220,7 @@ function templateCamposNacimiento(id) {
     );
     let cmDepartamentoNacimiento = templateDepartamento(
         `Nacimiento${id}`,
-        "Departamento nacimiento"
+        "Depto. nacimiento"
     );
     let cmMunicipio = templateMunicipio(
         `Nacimiento${id}`,
@@ -237,6 +237,21 @@ function templateCamposNacimiento(id) {
     </div>
 `;
     return temCampoNac;
+}
+function templateCamposResidencia(id) {
+    let comPais = templatePais(`paisRecidencia${id}`, "País residencia", true);
+    let comDepartamento = templateDepartamento(
+        `Recidencia${id}`,
+        "Departamento residencia"
+    );
+    let comMunicipio = templateMunicipio(id, "Municipio residencia");
+    let tempCamResidencia = `
+    <div class="row">
+        ${comPais}
+        ${comDepartamento}
+        ${comMunicipio}
+    </div>`;
+    return tempCamResidencia;
 }
 function templateCamposDocumentos(id) {
     let comSexo = templateSexo(id);
@@ -287,6 +302,7 @@ function templateCamposMinimos(id, titulo) {
     let tCamposDoc = templateCamposDocumentos(id);
     let tCamposProf = templateCamposProfecion(id);
     let tCampoDireccion = templateDireccion(id);
+    let tCamposResidencia = templateCamposResidencia(id);
     let tcamposMinimos = `
     <div class="card card-info mt-3" id=${id}>
         <div class="card-header">
@@ -303,6 +319,7 @@ function templateCamposMinimos(id, titulo) {
             ${tCamposDoc}
             ${tCamposProf}
             ${tCampoDireccion}
+            ${tCamposResidencia}
         </div>
 
      </div>`;
@@ -341,7 +358,11 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     habilitaDepartamentoMunicipio($(`select#paisNacimiento${idCamposMinimos}`));
     cargarPais($(`select#paisNacimiento${idCamposMinimos}`));
     cargarDepartamentos($(`select#deptoNacimiento${idCamposMinimos}`));
-    cargarMunicipios($(`select#deptoNacimiento${idCamposMinimos}`));
+
+    habilitaDepartamentoMunicipio($(`select#paisRecidencia${idCamposMinimos}`));
+    cargarPais($(`select#paisRecidencia${idCamposMinimos}`));
+    cargarDepartamentos($(`select#deptoRecidencia${idCamposMinimos}`));
+
     validarNit($(`input#nit${idCamposMinimos}`));
 }
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
@@ -395,12 +416,12 @@ function habilitaDepartamentoMunicipio(selectPais) {
                 }
             } else {
                 departamento[0].disabled = true;
+                cargarDepartamentos($(departamento[0]));
                 municipio[0].disabled = true;
                 $(municipio[0]).empty();
                 $(municipio[0]).append(
                     '<option value="" disabled selected>Selecciona</option>'
                 );
-                cargarDepartamentos(departamento);
                 if (selectCondicionMig.length) {
                     selectCondicionMig[0].disabled = false;
                     cargarCondicionMigratoria($(selectCondicionMig[0]));
@@ -447,6 +468,7 @@ function cargarDepartamentos(selectDepartamentos) {
             });
         });
     }
+    cargarMunicipios(selectDepartamentos);
 }
 function cargarPais(selectPais) {
     for (let i = 0; i < selectPais.length; i++) {
@@ -1364,11 +1386,6 @@ function AgregarTitular() {
             "select.setDepartamento"
         );
         cargarDepartamentos(selectDepartamentoActual);
-
-        let selectChangeMunicpio = $(divTitularActual).find(
-            "select.getMunicipio"
-        );
-        cargarMunicipios(selectChangeMunicpio);
 
         let fechas = $(divTitularActual).find("div.date");
         setFormatoFecha(fechas);
