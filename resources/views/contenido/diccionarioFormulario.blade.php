@@ -236,7 +236,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Condición migratoria</label>
-                                        <select name="condicionMigratoriaCliente_1" id="condicionMigratoriaCliente_1" class="form-control custom-select condicionMigratoriaCliente" style="width: 100%" disabled required>
+                                        <select name="condicionMigratoriaCliente_1" id="condicionMigratoriaCliente_1" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
                                             <option value="" disabled selected>Selecciona</option>
                                             @foreach($listaCondicionMigratoria as $condicionMigratoria)
                                             <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">{{$condicionMigratoria->descripcion}}</option>
@@ -248,7 +248,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Especifique</label>
-                                        <input name="otraCoMiCliente_1" id="otraCoMiCliente_1" type="text" class="form-control otraCoMiCliente" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
+                                        <input name="otraCoMiCliente_1" id="otraCoMiCliente_1" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
                                     </div>
                                 </div>
                             </div>
