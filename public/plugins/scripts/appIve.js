@@ -271,11 +271,22 @@ function templateCamposProfecion(id) {
     </div>`;
     return temCamposProf;
 }
+function templateDireccion(id) {
+    let temDirec = `
+        <div class="row">
+            <div class="col-sm">
+                <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
+                <input name="direccionRecidencia${id}" id="direccionRecidencia${id}" type="text" class="form-control direccionRecidencia" placeholder="Dirección de residencia completa ..." maxlength="400" required />
+            </div>
+        </div>`;
+    return temDirec;
+}
 function templateCamposMinimos(id, titulo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
     let tCamposDoc = templateCamposDocumentos(id);
     let tCamposProf = templateCamposProfecion(id);
+    let tCampoDireccion = templateDireccion(id);
     let tcamposMinimos = `
     <div class="card card-info mt-3" id=${id}>
         <div class="card-header">
@@ -291,6 +302,7 @@ function templateCamposMinimos(id, titulo) {
             ${tcamposNacimiento}
             ${tCamposDoc}
             ${tCamposProf}
+            ${tCampoDireccion}
         </div>
 
      </div>`;
