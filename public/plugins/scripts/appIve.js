@@ -107,6 +107,7 @@ function templateCondicionMigratoria(id) {
             <div class="form-group">
                 <label>Condición migratoria</label>
                 <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
+                <option value="" disabled selected>Selecciona</option>
                 </select>
             </div>
         </div>`;
@@ -244,26 +245,23 @@ function habilitaDepartamentoMunicipio(selectPais) {
     for (let i = 0; i < selectPais.length; i++) {
         $(selectPais[i]).change(function () {
             let divPadre = $(this).parent().parent().parent();
-            let condicionMigratoria = $(divPadre).find(
-                "select.condicionMigratoriaCliente"
+            let selectCondicionMig = $(divPadre).find(
+                "select.condicionMigratoria"
             );
-            let otraCondicionMigratoria = $(divPadre).find(
-                "input.otraCoMiCliente"
-            );
+            let otraCondicionMigratoria = $(divPadre).find("input.otraCoMi");
             let departamento = $(divPadre).find("select.getMunicipio");
             let municipio = $(divPadre).find("select.setMunicipio");
             if (this.value == 1) {
                 departamento[0].disabled = false;
                 // verifica si existe el campo CondicionMigratoria
-                if (condicionMigratoria.length) {
-                    condicionMigratoria[0].disabled = true;
-                    $(otraCondicionMigratoria[0]).val(null);
-                    otraCondicionMigratoria[0].disabled = true;
-                    $(condicionMigratoria[0]).empty();
-                    $(condicionMigratoria[0]).append(
+                if (selectCondicionMig.length) {
+                    selectCondicionMig[0].disabled = true;
+                    $(selectCondicionMig[0]).empty();
+                    $(selectCondicionMig[0]).append(
                         '<option value="" disabled selected>Selecciona</option>'
                     );
-                    cargarCondicionMigratoria($(condicionMigratoria[0]));
+                    $(otraCondicionMigratoria[0]).val(null);
+                    otraCondicionMigratoria[0].disabled = true;
                 }
             } else {
                 departamento[0].disabled = true;
@@ -273,8 +271,9 @@ function habilitaDepartamentoMunicipio(selectPais) {
                     '<option value="" disabled selected>Selecciona</option>'
                 );
                 cargarDepartamentos(departamento);
-                if (condicionMigratoria.length) {
-                    condicionMigratoria[0].disabled = false;
+                if (selectCondicionMig.length) {
+                    selectCondicionMig[0].disabled = false;
+                    cargarCondicionMigratoria($(selectCondicionMig[0]));
                 }
             }
         });
@@ -980,7 +979,8 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Condición migratoria</label>
-                                                    <select name="condicionMigratoria${idTitular}" id="condicionMigratoria${idTitular}" class="form-control custom-select condicionMigratoriaCliente" style="width: 100%" disabled required>
+                                                    <select name="condicionMigratoria${idTitular}" id="condicionMigratoria${idTitular}" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
+                                                        <option value="" disabled selected>Selecciona</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -988,7 +988,7 @@ function AgregarTitular() {
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label>Especifique</label>
-                                                    <input name="otraCoMi${idTitular}" id="otraCoMi${idTitular}" type="text" class="form-control otraCoMiCliente" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
+                                                    <input name="otraCoMi${idTitular}" id="otraCoMi${idTitular}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
                                                 </div>
                                             </div>
                                         </div>
@@ -1664,7 +1664,6 @@ $(document).ready(function () {
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     cargarMunicipios($(".getMunicipio"));
     validarApellidoCasada($(".apellidoCasadaCliente"));
-    habilitaOtraCondicionMigratoria($(".condicionMigratoriaCliente"));
     validarNit($(".validarNit"));
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
     agregarTemplateNacionalidad($(".agregarNacionalidaCliente"));
