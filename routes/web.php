@@ -17,7 +17,9 @@ use App\Http\Controllers\DepartamentoController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::view('home', 'home')->name('home');
+});
 Route::get('/', function () {
     return view('welcome');
 });
