@@ -19,16 +19,15 @@ use App\Http\Controllers\DepartamentoController;
 */
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('home', 'home')->name('home');
-});
-Route::get('/', function () {
-    return view('welcome');
+    Route::get('/', function () {
+        return view('welcome');
+    });
+    Route::get('oficios/7122020', [InformacionClienteController::class, 'index']);
+    Route::get('oficios/7122020/crear', [InformacionClienteController::class, 'create']);
+    Route::post('oficios/7122020/guardarActualizar', [InformacionClienteController::class, 'store']);
+    Route::get('departamentos/municipios/{id}', [MunicipioController::class, 'getMunicipio']);
+    Route::get('pais/obtenerpaises', [PaisController::class, 'getPais']);
+    Route::get('departamento/obtenerdepartamento', [DepartamentoController::class, 'getDepartamento']);
+    Route::get('listacondicionmigratoria', [CondicionMigratoriaController::class, 'getCondicionMigratoria']);
 });
 
-
-Route::get('oficios/7122020', [InformacionClienteController::class, 'index']);
-Route::get('oficios/7122020/crear', [InformacionClienteController::class, 'create']);
-Route::post('oficios/7122020/guardarActualizar', [InformacionClienteController::class, 'store']);
-Route::get('departamentos/municipios/{id}', [MunicipioController::class, 'getMunicipio']);
-Route::get('pais/obtenerpaises', [PaisController::class, 'getPais']);
-Route::get('departamento/obtenerdepartamento', [DepartamentoController::class, 'getDepartamento']);
-Route::get('listacondicionmigratoria', [CondicionMigratoriaController::class, 'getCondicionMigratoria']);
