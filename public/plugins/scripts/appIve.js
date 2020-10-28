@@ -210,6 +210,45 @@ function templateFecha(id, nombre) {
     `;
     return temCampoFecha;
 }
+function templateNacionalidad(id) {
+    let temNacionalidad = `
+        <div class="col-sm" id="nacionalidad${id}" cantidad="1">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm">
+                        <label>Nacionalidad</label>
+                        <select name="nacionalidad${id}" id="nacionalidad${id}_1" class="form-control custom-select nacionalidad" style="width: 100%" required>
+                            <option value="" disabled selected>Selecciona</option>
+                        </select>
+                    </div>
+                    <div class="col-sm my-auto pt-2"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" id="agregarNacionalidad${id}" class="btn btn-primary agregarNacionalidad">Agregar Nacionalidad</button>
+            </div>
+        </div>
+    `;
+    return temNacionalidad;
+}
+function templateTelefono(id) {
+    let temTelefono = `
+    <div class="col-sm" id="telefonos${id}" cantidad="1">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm">
+                    <label for="telefono${id}_1">Telefonos:</label>
+                    <input name="telefono${id}_1" id="telefono${id}_1" type="text" class="form-control telefono" placeholder="telefono ..." maxlength="30" required />
+                </div>
+                <div class="col-sm"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="button" id="agregarTelefono${id}" class="btn btn-primary agregarTelefono">Agregar teléfono</button>
+        </div>
+    </div>`;
+    return temTelefono;
+}
 function templateCamposNacimiento(id) {
     //fechaNacimiento
     let cmFechaNacimiento = templateFecha(id, "nacimiento");
@@ -296,6 +335,17 @@ function templateDireccion(id) {
         </div>`;
     return temDirec;
 }
+function templateCamposNacionalidadTelefono(id) {
+    let cmNacionalidad = templateNacionalidad(id);
+    let cmTelefono = templateTelefono(id);
+    let temCNT = `
+    <div class="row">
+        ${cmNacionalidad}
+        ${cmTelefono}
+    </div>
+    `;
+    return temCNT;
+}
 function templateCamposMinimos(id, titulo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
@@ -303,6 +353,7 @@ function templateCamposMinimos(id, titulo) {
     let tCamposProf = templateCamposProfecion(id);
     let tCampoDireccion = templateDireccion(id);
     let tCamposResidencia = templateCamposResidencia(id);
+    let tCamposNumTel = templateCamposNacionalidadTelefono(id);
     let tcamposMinimos = `
     <div class="card card-info mt-3" id=${id}>
         <div class="card-header">
@@ -320,6 +371,7 @@ function templateCamposMinimos(id, titulo) {
             ${tCamposProf}
             ${tCampoDireccion}
             ${tCamposResidencia}
+            ${tCamposNumTel}
         </div>
 
      </div>`;
@@ -355,13 +407,21 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     $(divDatos).append(templateRepresentante);
     validarApellidoCasada($(`input#apellidoCasada${idCamposMinimos}`));
     setFormatoFecha($(`div.date`));
+    // campos nacimiento
     habilitaDepartamentoMunicipio($(`select#paisNacimiento${idCamposMinimos}`));
     cargarPais($(`select#paisNacimiento${idCamposMinimos}`));
     cargarDepartamentos($(`select#deptoNacimiento${idCamposMinimos}`));
-
+    //campos nacimiento
     habilitaDepartamentoMunicipio($(`select#paisRecidencia${idCamposMinimos}`));
     cargarPais($(`select#paisRecidencia${idCamposMinimos}`));
     cargarDepartamentos($(`select#deptoRecidencia${idCamposMinimos}`));
+
+    //
+    cargarPais($(`select#nacionalidad${idCamposMinimos}_1`));
+    agregarTemplateNacionalidad(
+        $(`button#agregarNacionalidad${idCamposMinimos}`)
+    );
+    agregarTemplateTelefono($(`button#agregarTelefono${idCamposMinimos}`));
 
     validarNit($(`input#nit${idCamposMinimos}`));
 }
@@ -746,7 +806,8 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
         $(arrBtnsAgregarNacionalidad[i]).click(function () {
             let divPadre = $(this).parent().parent();
             let idPadre = $(divPadre).attr("id");
-            let id = $(divPadre).children().length;
+            let id = $(divPadre).attr("cantidad");
+            id++;
             let idSelect = `${idPadre}_${id}`;
             $(`#${idPadre}>div:nth-last-child(2)`).after(
                 `<div class='form-group'>
@@ -762,7 +823,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
                             </div>
                         </div>`
             );
-
+            $(divPadre).attr("cantidad", id);
             $(`#${idPadre}>div.form-group>div.row`)
                 .find("button")
                 .click(function () {
@@ -781,7 +842,8 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
         $(arrBtnAgregarTelefono[i]).click(function () {
             let divPadre = $(this).parent().parent();
             let idDivPadre = $(divPadre).attr("id");
-            let idSelect = $(divPadre).children().length;
+            let idSelect = $(divPadre).attr("cantidad");
+            idSelect++;
             let idInput = `${idDivPadre}_${idSelect}`;
             $(`#${idDivPadre}>div:nth-last-child(2)`).after(`
                             <div class="form-group">
@@ -796,6 +858,7 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
                                     </div>
                                 </div>
                             </div `);
+            $(divPadre).attr("cantidad", idSelect);
             $(`#${idDivPadre}>div.form-group>div.row`)
                 .find("button")
                 .click(function () {
@@ -1261,7 +1324,7 @@ function AgregarTitular() {
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm" id="nacionalidad${idTitular}">
+                                            <div class="col-sm" id="nacionalidad${idTitular}" cantidad="1">
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-sm">
@@ -1274,13 +1337,13 @@ function AgregarTitular() {
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button type="button" class="btn btn-primary agregarNacionalidaCliente">
+                                                    <button type="button" class="btn btn-primary agregarNacionalidadCliente">
                                                         Agregar Nacionalidad
                                                     </button>
                                                 </div>
                                             </div>
                                             <!-- .nacionalidad -->
-                                            <div class="col-sm" id="telefonosCliente">
+                                            <div class="col-sm" id="telefonosCliente" cantidad="1">
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-sm">
@@ -1416,7 +1479,7 @@ function AgregarTitular() {
         );
         cargarPais(paisNacionalidad);
         let btnsAddNacionalidad = $(divTitularActual).find(
-            "button.agregarNacionalidaCliente"
+            "button.agregarNacionalidadCliente"
         );
         agregarTemplateNacionalidad(btnsAddNacionalidad);
 
@@ -1813,7 +1876,7 @@ $(document).ready(function () {
     validarApellidoCasada($(".apellidoCasadaCliente"));
     validarNit($(".validarNit"));
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
-    agregarTemplateNacionalidad($(".agregarNacionalidaCliente"));
+    agregarTemplateNacionalidad($(".agregarNacionalidadCliente"));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
     verificarClientePep($(".pepCliente"));
     verificarAsoPep($(".asoPepCliente"));
