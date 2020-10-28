@@ -249,6 +249,7 @@ function templateTelefono(id) {
     </div>`;
     return temTelefono;
 }
+// div row
 function templateCamposNacimiento(id) {
     //fechaNacimiento
     let cmFechaNacimiento = templateFecha(id, "nacimiento");
@@ -346,6 +347,26 @@ function templateCamposNacionalidadTelefono(id) {
     `;
     return temCNT;
 }
+function templateCpe(id) {
+    let temCpe = `
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-check">
+                    <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label></div>
+                    <div class="icheck-primary d-inline">
+                        <input type="radio" id="cpeSi${id}" class="cpe" name="cpe${id}" value="S" required />
+                        <label for="cpeSi${id}">Sí</label>
+                    </div>
+                    <div class="icheck-primary d-inline">
+                        <input type="radio" id="cpeNo${id}" class="cpe" name="cpe${id}" value="N" required />
+                        <label for="cpeNo${id}">No</label>
+                        <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    return temCpe;
+}
 function templateCamposMinimos(id, titulo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
@@ -354,6 +375,7 @@ function templateCamposMinimos(id, titulo) {
     let tCampoDireccion = templateDireccion(id);
     let tCamposResidencia = templateCamposResidencia(id);
     let tCamposNumTel = templateCamposNacionalidadTelefono(id);
+    let tCpe = templateCpe(id);
     let tcamposMinimos = `
     <div class="card card-info mt-3" id=${id}>
         <div class="card-header">
@@ -372,6 +394,7 @@ function templateCamposMinimos(id, titulo) {
             ${tCampoDireccion}
             ${tCamposResidencia}
             ${tCamposNumTel}
+            ${tCpe}
         </div>
 
      </div>`;
