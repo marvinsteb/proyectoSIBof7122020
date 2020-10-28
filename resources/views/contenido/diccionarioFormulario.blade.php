@@ -405,13 +405,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <button type="button" id="agregarNacionalidaCliente_1" class="btn btn-primary agregarNacionalidaCliente">
+                                        <button type="button" id="agregarNacionalidadCliente_1" class="btn btn-primary agregarNacionalidadCliente">
                                             Agregar Nacionalidad
                                         </button>
                                     </div>
                                 </div>
                                 <!-- .nacionalidad -->
-                                <div class="col-sm" id="telefonoCliente_1">
+                                <div class="col-sm" id="telefonoCliente_1" cantidad="1">
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-sm">

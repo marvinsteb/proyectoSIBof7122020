@@ -212,7 +212,7 @@ function templateFecha(id, nombre) {
 }
 function templateNacionalidad(id) {
     let temNacionalidad = `
-        <div class="col-sm" id="nacionalidad${id}">
+        <div class="col-sm" id="nacionalidad${id}" cantidad="1">
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm">
@@ -225,7 +225,7 @@ function templateNacionalidad(id) {
                 </div>
             </div>
             <div class="form-group">
-                <button type="button" id="btnAgregarNacionalidad${id}_1" class="btn btn-primary agregarNacionalidaCliente">Agregar Nacionalidad</button>
+                <button type="button" id="agregarNacionalidad${id}" class="btn btn-primary agregarNacionalidad">Agregar Nacionalidad</button>
             </div>
         </div>
     `;
@@ -233,8 +233,20 @@ function templateNacionalidad(id) {
 }
 function templateTelefono(id) {
     let temTelefono = `
-
-    `;
+    <div class="col-sm" id="telefonos${id}" cantidad="1">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm">
+                    <label for="telefono${id}_1">Telefonos:</label>
+                    <input name="telefono${id}_1" id="telefono${id}_1" type="text" class="form-control telefono" placeholder="telefono ..." maxlength="30" required />
+                </div>
+                <div class="col-sm"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="button" id="agregarTelefono${id}" class="btn btn-primary agregarTelefono">Agregar teléfono</button>
+        </div>
+    </div>`;
     return temTelefono;
 }
 function templateCamposNacimiento(id) {
@@ -325,9 +337,11 @@ function templateDireccion(id) {
 }
 function templateCamposNacionalidadTelefono(id) {
     let cmNacionalidad = templateNacionalidad(id);
+    let cmTelefono = templateTelefono(id);
     let temCNT = `
     <div class="row">
         ${cmNacionalidad}
+        ${cmTelefono}
     </div>
     `;
     return temCNT;
@@ -405,8 +419,9 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     //
     cargarPais($(`select#nacionalidad${idCamposMinimos}_1`));
     agregarTemplateNacionalidad(
-        $(`button#btnAgregarNacionalidad${idCamposMinimos}_1`)
+        $(`button#agregarNacionalidad${idCamposMinimos}`)
     );
+    agregarTemplateTelefono($(`button#agregarTelefono${idCamposMinimos}`));
 
     validarNit($(`input#nit${idCamposMinimos}`));
 }
@@ -827,7 +842,8 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
         $(arrBtnAgregarTelefono[i]).click(function () {
             let divPadre = $(this).parent().parent();
             let idDivPadre = $(divPadre).attr("id");
-            let idSelect = $(divPadre).children().length;
+            let idSelect = $(divPadre).attr("cantidad");
+            idSelect++;
             let idInput = `${idDivPadre}_${idSelect}`;
             $(`#${idDivPadre}>div:nth-last-child(2)`).after(`
                             <div class="form-group">
@@ -842,6 +858,7 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
                                     </div>
                                 </div>
                             </div `);
+            $(divPadre).attr("cantidad", idSelect);
             $(`#${idDivPadre}>div.form-group>div.row`)
                 .find("button")
                 .click(function () {
@@ -1307,7 +1324,7 @@ function AgregarTitular() {
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm" id="nacionalidad${idTitular}">
+                                            <div class="col-sm" id="nacionalidad${idTitular}" cantidad="1">
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-sm">
@@ -1320,13 +1337,13 @@ function AgregarTitular() {
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button type="button" class="btn btn-primary agregarNacionalidaCliente">
+                                                    <button type="button" class="btn btn-primary agregarNacionalidadCliente">
                                                         Agregar Nacionalidad
                                                     </button>
                                                 </div>
                                             </div>
                                             <!-- .nacionalidad -->
-                                            <div class="col-sm" id="telefonosCliente">
+                                            <div class="col-sm" id="telefonosCliente" cantidad="1">
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-sm">
@@ -1462,7 +1479,7 @@ function AgregarTitular() {
         );
         cargarPais(paisNacionalidad);
         let btnsAddNacionalidad = $(divTitularActual).find(
-            "button.agregarNacionalidaCliente"
+            "button.agregarNacionalidadCliente"
         );
         agregarTemplateNacionalidad(btnsAddNacionalidad);
 
@@ -1859,7 +1876,7 @@ $(document).ready(function () {
     validarApellidoCasada($(".apellidoCasadaCliente"));
     validarNit($(".validarNit"));
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
-    agregarTemplateNacionalidad($(".agregarNacionalidaCliente"));
+    agregarTemplateNacionalidad($(".agregarNacionalidadCliente"));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
     verificarClientePep($(".pepCliente"));
     verificarAsoPep($(".asoPepCliente"));
