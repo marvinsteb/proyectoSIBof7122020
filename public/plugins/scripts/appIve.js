@@ -210,6 +210,33 @@ function templateFecha(id, nombre) {
     `;
     return temCampoFecha;
 }
+function templateNacionalidad(id) {
+    let temNacionalidad = `
+        <div class="col-sm" id="nacionalidad${id}">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm">
+                        <label>Nacionalidad</label>
+                        <select name="nacionalidad${id}" id="nacionalidad${id}_1" class="form-control custom-select nacionalidad" style="width: 100%" required>
+                            <option value="" disabled selected>Selecciona</option>
+                        </select>
+                    </div>
+                    <div class="col-sm my-auto pt-2"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" id="btnAgregarNacionalidad${id}_1" class="btn btn-primary agregarNacionalidaCliente">Agregar Nacionalidad</button>
+            </div>
+        </div>
+    `;
+    return temNacionalidad;
+}
+function templateTelefono(id) {
+    let temTelefono = `
+
+    `;
+    return temTelefono;
+}
 function templateCamposNacimiento(id) {
     //fechaNacimiento
     let cmFechaNacimiento = templateFecha(id, "nacimiento");
@@ -296,6 +323,15 @@ function templateDireccion(id) {
         </div>`;
     return temDirec;
 }
+function templateCamposNacionalidadTelefono(id) {
+    let cmNacionalidad = templateNacionalidad(id);
+    let temCNT = `
+    <div class="row">
+        ${cmNacionalidad}
+    </div>
+    `;
+    return temCNT;
+}
 function templateCamposMinimos(id, titulo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
@@ -303,6 +339,7 @@ function templateCamposMinimos(id, titulo) {
     let tCamposProf = templateCamposProfecion(id);
     let tCampoDireccion = templateDireccion(id);
     let tCamposResidencia = templateCamposResidencia(id);
+    let tCamposNumTel = templateCamposNacionalidadTelefono(id);
     let tcamposMinimos = `
     <div class="card card-info mt-3" id=${id}>
         <div class="card-header">
@@ -320,6 +357,7 @@ function templateCamposMinimos(id, titulo) {
             ${tCamposProf}
             ${tCampoDireccion}
             ${tCamposResidencia}
+            ${tCamposNumTel}
         </div>
 
      </div>`;
@@ -355,13 +393,20 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     $(divDatos).append(templateRepresentante);
     validarApellidoCasada($(`input#apellidoCasada${idCamposMinimos}`));
     setFormatoFecha($(`div.date`));
+    // campos nacimiento
     habilitaDepartamentoMunicipio($(`select#paisNacimiento${idCamposMinimos}`));
     cargarPais($(`select#paisNacimiento${idCamposMinimos}`));
     cargarDepartamentos($(`select#deptoNacimiento${idCamposMinimos}`));
-
+    //campos nacimiento
     habilitaDepartamentoMunicipio($(`select#paisRecidencia${idCamposMinimos}`));
     cargarPais($(`select#paisRecidencia${idCamposMinimos}`));
     cargarDepartamentos($(`select#deptoRecidencia${idCamposMinimos}`));
+
+    //
+    cargarPais($(`select#nacionalidad${idCamposMinimos}_1`));
+    agregarTemplateNacionalidad(
+        $(`button#btnAgregarNacionalidad${idCamposMinimos}_1`)
+    );
 
     validarNit($(`input#nit${idCamposMinimos}`));
 }
@@ -746,7 +791,8 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
         $(arrBtnsAgregarNacionalidad[i]).click(function () {
             let divPadre = $(this).parent().parent();
             let idPadre = $(divPadre).attr("id");
-            let id = $(divPadre).children().length;
+            let id = $(divPadre).attr("cantidad");
+            id++;
             let idSelect = `${idPadre}_${id}`;
             $(`#${idPadre}>div:nth-last-child(2)`).after(
                 `<div class='form-group'>
@@ -762,7 +808,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
                             </div>
                         </div>`
             );
-
+            $(divPadre).attr("cantidad", id);
             $(`#${idPadre}>div.form-group>div.row`)
                 .find("button")
                 .click(function () {
