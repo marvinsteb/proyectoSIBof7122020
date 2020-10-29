@@ -20,7 +20,7 @@ use App\Http\Controllers\DepartamentoController;
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('home', 'home')->name('home');
     Route::get('/', function () {
-        return view('contenido.oficioive7122020');
+       return redirect()->route('home');
     });
     Route::get('oficios/7122020', [InformacionClienteController::class, 'index']);
     Route::get('oficios/7122020/crear', [InformacionClienteController::class, 'create']);
