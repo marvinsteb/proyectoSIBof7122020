@@ -430,9 +430,9 @@ function templateCamposMinimos(id, titulo) {
     let tPep = templatePersonaPep(id);
     let tAsoPep = templateAsoPep(id);
     let tcamposMinimos = `
-    <div class="card card-info mt-3" id=${id}>
+    <div class="card card-info mt-3" id="${id}">
         <div class="card-header">
-            <h3 class="card-title">${titulo}</h3>
+            <h3 class="card-title">Información del ${titulo}</h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -460,7 +460,7 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     console.log(`agregado informacion del  ${idCamposMinimos}`);
     let templateRepresentante = templateCamposMinimos(
         `${idCamposMinimos}`,
-        `Información del ${tipo}`
+        `${tipo}`
     );
     $(divDatos).append(templateRepresentante);
     validarApellidoCasada($(`input#apellidoCasada${idCamposMinimos}`));

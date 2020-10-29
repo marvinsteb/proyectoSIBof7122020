@@ -19,7 +19,7 @@
                 @csrf
                 <!-- datos titular -->
                 <div class="titulares" id="titulares">
-                    <div class="card card-primary" id="Cliente_1">
+                    <div class="card card-primary" id="Titular_1">
                         <div class="card-header">
                             <h3 class="card-title">Titular 1</h3>
                             <div class="card-tools">
@@ -128,369 +128,384 @@
                                 </div>
                             </div>
                             <!-- .row -->
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <h4>III. DATOS PERSONALES</h4>
-                                </div>
-                                <div class="col-sm-12">
-                                    <h5>Información del cliente 1</h5>
-                                </div>
-                                <br />
-                                <br />
-                            </div>
-                            <!-- .row -->
-
-                            <div class="row">
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Primer Apellido</label>
-                                        <input name="primerApellidoCliente_1" id="primerApellidoCliente_1" type="text" class="form-control primerApellidoCliente" placeholder="Primer Apellido ..." maxlength="15" required />
+                            <div id="datosCliente_1">
+                                 <div class="card card-info mt-3" id="Cliente_1">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Información del cliente</h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Segundo apellido</label>
-                                        <input name="segundoApellidoCliente_1" id="segundoApellidoCliente_1" type="text" class="form-control segundoApellidoCliente" placeholder="Segundo apellido ..." maxlength="15" />
-                                    </div>
-                                </div>
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label for="apellidoCasadaCliente_1">Apellido casada</label>
-                                        <input name="apellidoCasadaCliente_1" id="apellidoCasadaCliente_1" type="text" class="form-control apellidoCasadaCliente" placeholder="Apellido casada ..." maxlength="15" />
-                                        <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Primer nombre</label>
-                                        <input name="primerNombreCliente_1" id="primerNombreCliente_1" type="text" class="form-control primerNombreCliente" placeholder="Primer nombre ..." maxlength="15" required />
-                                    </div>
-                                </div>
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Segundo nombre</label>
-                                        <input name="segundoNombreCliente_1" id="segundoNombreCliente_1" type="text" class="form-control segundoNombreCliente" placeholder="Segundo nombre ..." maxlength="15" />
-                                    </div>
-                                </div>
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Otros nombre</label>
-                                        <input name="otrosNombresCliente_1" id="otrosNombresCliente_1" type="text" class="form-control otrosNombresCliente" placeholder="Otros nombres ..." maxlength="30" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .row -->
-
-                            <div class="row">
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Fecha nacimiento</label>
-                                        <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
-                                            <input name="fechaNacimientoCliente_1" id="fechaNacimientoCliente_1" type="text" class="form-control datetimepicker-input fechaNacimientoCliente" data-target="#fechaNacimiento" required />
-                                            <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
-                                            <div class="input-group-append" data-target="#fechaNacimiento" data-toggle="datetimepicker">
-                                                <div class="input-group-text">
-                                                    <i class="fa fa-calendar"></i>
+                                    <div class="card-body">
+                                        
+                                                    
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <h4>III. DATOS PERSONALES</h4>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <h5>Información del cliente 1</h5>
+                                                    </div>
+                                                    <br />
+                                                    <br />
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                                <!-- .row -->
 
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>País nacimiento</label>
-                                        <select name="paisNacimientoCliente_1" id="paisNacimientoCliente_1" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
-                                            <option value="" disabled selected>Selecciona</option>
-                                            @foreach($paises as $pais)
-                                            <option value="{{$pais->idPais}}">
-                                                {{$pais->nombrePais}}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Primer Apellido</label>
+                                                            <input name="primerApellidoCliente_1" id="primerApellidoCliente_1" type="text" class="form-control primerApellidoCliente" placeholder="Primer Apellido ..." maxlength="15" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Segundo apellido</label>
+                                                            <input name="segundoApellidoCliente_1" id="segundoApellidoCliente_1" type="text" class="form-control segundoApellidoCliente" placeholder="Segundo apellido ..." maxlength="15" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label for="apellidoCasadaCliente_1">Apellido casada</label>
+                                                            <input name="apellidoCasadaCliente_1" id="apellidoCasadaCliente_1" type="text" class="form-control apellidoCasadaCliente" placeholder="Apellido casada ..." maxlength="15" />
+                                                            <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Primer nombre</label>
+                                                            <input name="primerNombreCliente_1" id="primerNombreCliente_1" type="text" class="form-control primerNombreCliente" placeholder="Primer nombre ..." maxlength="15" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Segundo nombre</label>
+                                                            <input name="segundoNombreCliente_1" id="segundoNombreCliente_1" type="text" class="form-control segundoNombreCliente" placeholder="Segundo nombre ..." maxlength="15" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Otros nombre</label>
+                                                            <input name="otrosNombresCliente_1" id="otrosNombresCliente_1" type="text" class="form-control otrosNombresCliente" placeholder="Otros nombres ..." maxlength="30" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- .row -->
 
-                                <!-- select departamento -->
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Departamento nacimiento</label>
-                                        <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control custom-select deptoNacimientoCliente getMunicipio" style="width: 100%" required disabled>
-                                            <option value="" disabled selected>Selecciona</option>
-                                            @foreach($departamentos as $departamento)
-                                            <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- select muni -->
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Municipio nacimiento</label>
-                                        <select name="muniNaciminentoCliente_1" id="muniNaciminentoCliente_1" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required disabled>
-                                            <option value="" disabled selected>Selecciona</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Condición migratoria</label>
-                                        <select name="condicionMigratoriaCliente_1" id="condicionMigratoriaCliente_1" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
-                                            <option value="" disabled selected>Selecciona</option>
-                                            @foreach($listaCondicionMigratoria as $condicionMigratoria)
-                                            <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">{{$condicionMigratoria->descripcion}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Fecha nacimiento</label>
+                                                            <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
+                                                                <input name="fechaNacimientoCliente_1" id="fechaNacimientoCliente_1" type="text" class="form-control datetimepicker-input fechaNacimientoCliente" data-target="#fechaNacimiento" required />
+                                                                <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
+                                                                <div class="input-group-append" data-target="#fechaNacimiento" data-toggle="datetimepicker">
+                                                                    <div class="input-group-text">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Especifique</label>
-                                        <input name="otraCoMiCliente_1" id="otraCoMiCliente_1" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .row -->
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>País nacimiento</label>
+                                                            <select name="paisNacimientoCliente_1" id="paisNacimientoCliente_1" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                @foreach($paises as $pais)
+                                                                <option value="{{$pais->idPais}}">
+                                                                    {{$pais->nombrePais}}
+                                                                </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
-                            <div class="row">
-                                <!-- sexo cliente -->
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label>Sexo</label>
-                                        <select name="sexoCliente_1" id="sexoCliente_1" class="form-control custom-select sexoCliente" style="width: 100%" required>
-                                            <option value="" disabled selected>Selecciona</option>
-                                            <option value="M">Masculino</option>
-                                            <option value="F">Femenino</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- .col-sm -->
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Estado civil</label>
-                                        <select name="estadoCivilCliente_1" id="estadoCivilCliente_1" class="form-control custom-select estadoCivilCliente" style="width: 100%" required>
-                                            <option value="" disabled selected>Selecciona</option>
-                                            <option value="S">Soltero</option>
-                                            <option value="C">Casado</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- .col-sm -->
+                                                    <!-- select departamento -->
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Departamento nacimiento</label>
+                                                            <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control custom-select deptoNacimientoCliente getMunicipio" style="width: 100%" required disabled>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                @foreach($departamentos as $departamento)
+                                                                <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- select muni -->
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Municipio nacimiento</label>
+                                                            <select name="muniNaciminentoCliente_1" id="muniNaciminentoCliente_1" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required disabled>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Condición migratoria</label>
+                                                            <select name="condicionMigratoriaCliente_1" id="condicionMigratoriaCliente_1" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                @foreach($listaCondicionMigratoria as $condicionMigratoria)
+                                                                <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">{{$condicionMigratoria->descripcion}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Nit</label>
-                                        <input name="nitCliente_1" id="nitCliente_1" type="text" class="form-control validarNit" placeholder="Nit ..." maxlength="20" />
-                                    </div>
-                                </div>
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Especifique</label>
+                                                            <input name="otraCoMiCliente_1" id="otraCoMiCliente_1" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- .row -->
 
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Docto. identificación</label>
-                                        <select name="tipoDoctoIdentificacionCliente_1" id="tipoDoctoIdentificacionCliente_1" class="form-control custom-select tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
-                                            <option value="" disabled selected>Selecciona</option>
-                                            <option value="D">DPI</option>
-                                            <option value="P">Pasaporte</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                                <div class="row">
+                                                    <!-- sexo cliente -->
+                                                    <div class="col-sm-2">
+                                                        <div class="form-group">
+                                                            <label>Sexo</label>
+                                                            <select name="sexoCliente_1" id="sexoCliente_1" class="form-control custom-select sexoCliente" style="width: 100%" required>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                <option value="M">Masculino</option>
+                                                                <option value="F">Femenino</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- .col-sm -->
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Estado civil</label>
+                                                            <select name="estadoCivilCliente_1" id="estadoCivilCliente_1" class="form-control custom-select estadoCivilCliente" style="width: 100%" required>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                <option value="S">Soltero</option>
+                                                                <option value="C">Casado</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- .col-sm -->
 
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Número identificación</label>
-                                        <input name="noDocIdentificacionCliente_1" id="noDocIdentificacionCliente_1" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required disabled/>
-                                    </div>
-                                </div>
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Nit</label>
+                                                            <input name="nitCliente_1" id="nitCliente_1" type="text" class="form-control validarNit" placeholder="Nit ..." maxlength="20" />
+                                                        </div>
+                                                    </div>
 
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>País (Pasaporte)</label>
-                                        <select name="emicionPasaporteCliente_1" id="emicionPasaporteCliente_1" class="form-control custom-select emicionPasaporteCliente" style="width: 100%" disabled required>
-                                            <option value="" disabled selected>Selecciona</option>
-                                            @foreach($paises as $pais)
-                                            <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .row -->
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Docto. identificación</label>
+                                                            <select name="tipoDoctoIdentificacionCliente_1" id="tipoDoctoIdentificacionCliente_1" class="form-control custom-select tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                <option value="D">DPI</option>
+                                                                <option value="P">Pasaporte</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
-                            <div class="row">
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Profesión u oficio</label>
-                                        <input name="profecionOficioCliente_1" id="profecionOficioCliente_1" type="text" class="form-control profecionOficioCliente" placeholder="Profesión u oficio ..." maxlength="100" required />
-                                    </div>
-                                </div>
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Correo electrónico</label>
-                                        <input name="emailCliente_1" id="emailCliente_1" type="email" class="form-control emailCliente" placeholder="Correo electrónico ..." maxlength="100" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .row -->
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Número identificación</label>
+                                                            <input name="noDocIdentificacionCliente_1" id="noDocIdentificacionCliente_1" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required disabled/>
+                                                        </div>
+                                                    </div>
 
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <h5>Residencia</h5>
-                                </div>
-                                <br />
-                                <br />
-                            </div>
-                            <!-- .row -->
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>País (Pasaporte)</label>
+                                                            <select name="emicionPasaporteCliente_1" id="emicionPasaporteCliente_1" class="form-control custom-select emicionPasaporteCliente" style="width: 100%" disabled required>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                @foreach($paises as $pais)
+                                                                <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- .row -->
 
-                            <div class="row">
-                                <div class="col-sm">
-                                    <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
-                                    <input name="direccionRecidenciaCliente_1" id="direccionRecidenciaCliente_1" type="text" class="form-control direccionRecidenciaCliente" placeholder="Dirección de residencia completa ..." maxlength="400" required />
-                                </div>
-                            </div>
-                            <!-- .row -->
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Profesión u oficio</label>
+                                                            <input name="profecionOficioCliente_1" id="profecionOficioCliente_1" type="text" class="form-control profecionOficioCliente" placeholder="Profesión u oficio ..." maxlength="100" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Correo electrónico</label>
+                                                            <input name="emailCliente_1" id="emailCliente_1" type="email" class="form-control emailCliente" placeholder="Correo electrónico ..." maxlength="100" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- .row -->
 
-                            <div class="row">
-                                <!-- select pais nacimiento Cliente -->
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>País residencia</label>
-                                        <select name="paisRecidenciaCliente_1" id="paisRecidenciaCliente_1" class="form-control custom-select paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
-                                            <option value="" disabled selected>Selecciona</option>
-                                            @foreach($paises as $pais)
-                                            <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <h5>Residencia</h5>
+                                                    </div>
+                                                    <br />
+                                                    <br />
+                                                </div>
+                                                <!-- .row -->
 
-                                <!-- select departamento -->
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Departamento residencia</label>
-                                        <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control custom-select deptoRecidenciaCliente getMunicipio" style="width: 100%" required disabled>
-                                            <option value="" disabled selected>Selecciona</option>
-                                            @foreach($departamentos as $departamento)
-                                            <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- select muni -->
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Municipio residencia</label>
-                                        <select name="muniRecidenciaCliente_1" id="muniRecidenciaCliente_1" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required disabled>
-                                            <option value="" disabled selected>Selecciona</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
+                                                        <input name="direccionRecidenciaCliente_1" id="direccionRecidenciaCliente_1" type="text" class="form-control direccionRecidenciaCliente" placeholder="Dirección de residencia completa ..." maxlength="400" required />
+                                                    </div>
+                                                </div>
+                                                <!-- .row -->
 
-                            <div class="row">
-                                <div class="col-sm" id="nacionalidadCliente_1" cantidad="1">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <label>Nacionalidad</label>
-                                                <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
-                                                    <option value="" disabled selected>Selecciona</option>
-                                                    @foreach($paises as $pais)
-                                                    <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-sm my-auto pt-2"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="button" id="agregarNacionalidadCliente_1" class="btn btn-primary agregarNacionalidadCliente">
-                                            Agregar Nacionalidad
-                                        </button>
-                                    </div>
-                                </div>
-                                <!-- .nacionalidad -->
-                                <div class="col-sm" id="telefonoCliente_1" cantidad="1">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <label>Telefonos:</label>
-                                                <input name="telefonoCliente_1" id="telefonoCliente_1_1" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
-                                            </div>
-                                            <div class="col-sm"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="button" id="agregarTelefonoCliente_1" class="btn btn-primary agregarTelefonoCliente">
-                                            Agregar teléfono
-                                        </button>
-                                    </div>
-                                </div>
-                                <!-- .telefono -->
-                            </div>
+                                                <div class="row">
+                                                    <!-- select pais nacimiento Cliente -->
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>País residencia</label>
+                                                            <select name="paisRecidenciaCliente_1" id="paisRecidenciaCliente_1" class="form-control custom-select paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                @foreach($paises as $pais)
+                                                                <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-check">
-                                        <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label></div>
-                                        <div class="icheck-primary d-inline">
-                                            <input type="radio" id="cpeSiCliente_1" class="cpe" name="cpeCliente_1" value="S" required />
-                                            <label for="cpeSiCliente_1">Sí</label>
-                                        </div>
-                                        <div class="icheck-primary d-inline">
-                                            <input type="radio" id="cpeNoCliente_1" class="cpe" name="cpeCliente_1" value="N" required />
-                                            <label for="cpeNoCliente_1">No</label>
-                                            <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
-                                        </div>
+                                                    <!-- select departamento -->
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Departamento residencia</label>
+                                                            <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control custom-select deptoRecidenciaCliente getMunicipio" style="width: 100%" required disabled>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                @foreach($departamentos as $departamento)
+                                                                <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- select muni -->
+                                                    <div class="col-sm">
+                                                        <div class="form-group">
+                                                            <label>Municipio residencia</label>
+                                                            <select name="muniRecidenciaCliente_1" id="muniRecidenciaCliente_1" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required disabled>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm" id="nacionalidadCliente_1" cantidad="1">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-sm">
+                                                                    <label>Nacionalidad</label>
+                                                                    <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
+                                                                        <option value="" disabled selected>Selecciona</option>
+                                                                        @foreach($paises as $pais)
+                                                                        <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm my-auto pt-2"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <button type="button" id="agregarNacionalidadCliente_1" class="btn btn-primary agregarNacionalidadCliente">
+                                                                Agregar Nacionalidad
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- .nacionalidad -->
+                                                    <div class="col-sm" id="telefonoCliente_1" cantidad="1">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-sm">
+                                                                    <label>Telefonos:</label>
+                                                                    <input name="telefonoCliente_1" id="telefonoCliente_1_1" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
+                                                                </div>
+                                                                <div class="col-sm"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <button type="button" id="agregarTelefonoCliente_1" class="btn btn-primary agregarTelefonoCliente">
+                                                                Agregar teléfono
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- .telefono -->
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-check">
+                                                            <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label></div>
+                                                            <div class="icheck-primary d-inline">
+                                                                <input type="radio" id="cpeSiCliente_1" class="cpe" name="cpeCliente_1" value="S" required />
+                                                                <label for="cpeSiCliente_1">Sí</label>
+                                                            </div>
+                                                            <div class="icheck-primary d-inline">
+                                                                <input type="radio" id="cpeNoCliente_1" class="cpe" name="cpeCliente_1" value="N" required />
+                                                                <label for="cpeNoCliente_1">No</label>
+                                                                <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-check">
+                                                            <div>
+                                                                <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
+                                                            </div>
+                                                            <div class="icheck-primary d-inline">
+                                                                <input type="radio" id="primaryPepSi_1" class="pepCliente" name="pepCliente_1" value="S" required />
+                                                                <label for="primaryPepSi_1">Sí</label>
+                                                            </div>
+                                                            <div class="icheck-primary d-inline">
+                                                                <input type="radio" id="primaryPepNo_1" class="pepCliente" name="pepCliente_1" value="N" required />
+                                                                <label for="primaryPepNo_1">No</label>
+                                                                <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="datospepCliente_1"></div>
+
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <div class="form-check">
+                                                            <div>
+                                                                <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
+                                                            </div>
+                                                            <div class="icheck-primary d-inline">
+                                                                <input type="radio" id="primaryAsoPepClienteSi_1" class="asoPepCliente" name="asoPepCliente_1" value="S" required />
+                                                                <label for="primaryAsoPepClienteSi_1">Sí</label>
+                                                            </div>
+                                                            <div class="icheck-primary d-inline">
+                                                                <input type="radio" id="primaryAsoPepClienteNo_1" class="asoPepCliente" name="asoPepCliente_1" value="N" required />
+                                                                <label for="primaryAsoPepClienteNo_1">No</label>
+                                                                <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="datosasoPepCliente_1">
+                                                    <div class="info" cantidad="0">
+                                                    </div>
+                                                    <div class="btnadd">
+                                                    </div>
+                                                </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-check">
-                                        <div>
-                                            <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
-                                        </div>
-                                        <div class="icheck-primary d-inline">
-                                            <input type="radio" id="primaryPepSi_1" class="pepCliente" name="pepCliente_1" value="S" required />
-                                            <label for="primaryPepSi_1">Sí</label>
-                                        </div>
-                                        <div class="icheck-primary d-inline">
-                                            <input type="radio" id="primaryPepNo_1" class="pepCliente" name="pepCliente_1" value="N" required />
-                                            <label for="primaryPepNo_1">No</label>
-                                            <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="datospepCliente_1"></div>
-
-                            <div class="row">
-                                <div class="col-sm">
-                                    <div class="form-check">
-                                        <div>
-                                            <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
-                                        </div>
-                                        <div class="icheck-primary d-inline">
-                                            <input type="radio" id="primaryAsoPepClienteSi_1" class="asoPepCliente" name="asoPepCliente_1" value="S" required />
-                                            <label for="primaryAsoPepClienteSi_1">Sí</label>
-                                        </div>
-                                        <div class="icheck-primary d-inline">
-                                            <input type="radio" id="primaryAsoPepClienteNo_1" class="asoPepCliente" name="asoPepCliente_1" value="N" required />
-                                            <label for="primaryAsoPepClienteNo_1">No</label>
-                                            <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="datosasoPepCliente_1">
-                                <div class="info" cantidad="0">
-                                </div>
-                                <div class="btnadd">
                                 </div>
                             </div>
                             <div id="representanteCliente_1">
