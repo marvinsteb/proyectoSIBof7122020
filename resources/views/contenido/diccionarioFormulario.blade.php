@@ -19,7 +19,7 @@
                 @csrf
                 <!-- datos titular -->
                 <div class="titulares" id="titulares">
-                    <div class="card card-primary" id="Titular_1">
+                    <div class="card card-primary" id="Cliente_1">
                         <div class="card-header">
                             <h3 class="card-title">Titular 1</h3>
                             <div class="card-tools">
@@ -34,11 +34,8 @@
                         <!-- /.card-header -->
 
                         <div class="card-body">
-                            <div class="row mb-3">
-                                <h4>I. TIPO DE ACTUACIÓN DEL CLIENTE 1</h4>
-                            </div>
+                            <div class="row mb-3"><h4>I. TIPO DE ACTUACIÓN DEL CLIENTE 1</h4></div>
                             <!-- .row -->
-
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-check">
@@ -128,8 +125,8 @@
                                 </div>
                             </div>
                             <!-- .row -->
-                            <div id="datosCliente_1">
-                                 <div class="card card-info mt-3" id="Cliente_1">
+                            <div id="camposMinimosCliente_1">
+                                 <div class="card card-info mt-3">
                                     <div class="card-header">
                                         <h3 class="card-title">Información del cliente</h3>
                                         <div class="card-tools">
