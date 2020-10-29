@@ -367,6 +367,36 @@ function templateCpe(id) {
         </div>`;
     return temCpe;
 }
+function templateAsoPep(id) {
+    let temAsoPep = `
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-check">
+                    <div>
+                        <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
+                    </div>
+                    <div class="icheck-primary d-inline">
+                        <input type="radio" id="primaryAsoPepSi${id}" class="asoPep" name="asoPep${id}" value="S" required />
+                        <label for="primaryAsoPepSi${id}">Sí</label>
+                    </div>
+                    <div class="icheck-primary d-inline">
+                        <input type="radio" id="primaryAsoPepNo${id}" class="asoPep" name="asoPep${id}" value="N" required />
+                        <label for="primaryAsoPepNo${id}">No</label>
+                        <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="datosasoPep${id}">
+            <div class="info">
+            </div>
+            <div class="btnadd">
+            </div>
+        </div>
+    `;
+    return temAsoPep;
+}
 function templatePersonaPep(id) {
     let temPersonaPep = `
             <div class="row">
@@ -398,6 +428,7 @@ function templateCamposMinimos(id, titulo) {
     let tCamposNumTel = templateCamposNacionalidadTelefono(id);
     let tCpe = templateCpe(id);
     let tPep = templatePersonaPep(id);
+    let tAsoPep = templateAsoPep(id);
     let tcamposMinimos = `
     <div class="card card-info mt-3" id=${id}>
         <div class="card-header">
@@ -418,32 +449,13 @@ function templateCamposMinimos(id, titulo) {
             ${tCamposNumTel}
             ${tCpe}
             ${tPep}
+            ${tAsoPep}
         </div>
 
      </div>`;
     return tcamposMinimos;
 }
-// funciones para configuracion del formulario
-function setFormatoFecha(divInputFecha) {
-    for (let i = 0; i < divInputFecha.length; i++) {
-        $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
-
-        $(divInputFecha[i]).on("focusout", function () {
-            let fechaString = $(this).find("input").val();
-            let hoy = new Date();
-            hoy.setHours(0, 0, 0, 0);
-
-            let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
-            let fechaActual = dateMomentObject.toDate();
-            if (fechaActual <= hoy) {
-                $(this).find("input").removeClass("is-invalid");
-            } else {
-                $(this).find("input").val(null);
-                $(this).find("input").addClass("is-invalid");
-            }
-        });
-    }
-}
+// agrega template campos minimos con los eventos, y verificaciones
 function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     console.log(`agregado informacion del  ${idCamposMinimos}`);
     let templateRepresentante = templateCamposMinimos(
@@ -470,7 +482,30 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     agregarTemplateTelefono($(`button#agregarTelefono${idCamposMinimos}`));
 
     verificarPersonaPep($(`input[name=pep${idCamposMinimos}`));
+    verificarAsoPep($(`input[name=asoPep${idCamposMinimos}]`));
     validarNit($(`input#nit${idCamposMinimos}`));
+}
+
+// funciones para configuracion del formulario
+function setFormatoFecha(divInputFecha) {
+    for (let i = 0; i < divInputFecha.length; i++) {
+        $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
+
+        $(divInputFecha[i]).on("focusout", function () {
+            let fechaString = $(this).find("input").val();
+            let hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
+            let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
+            let fechaActual = dateMomentObject.toDate();
+            if (fechaActual <= hoy) {
+                $(this).find("input").removeClass("is-invalid");
+            } else {
+                $(this).find("input").val(null);
+                $(this).find("input").addClass("is-invalid");
+            }
+        });
+    }
 }
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
@@ -768,8 +803,7 @@ function habilitaPaisPasaporte(pasaportes) {
 }
 function verificarPersonaPep(radioClientePep) {
     for (let i = 0; i < radioClientePep.length; i++) {
-        $(radioClientePep[i]).change(function (event) {
-            console.log($(this).val());
+        $(radioClientePep[i]).change(function () {
             /**
              * utilizo el atributo name, del input radio pepCliente para establecer el id unicao para cada campo id
              * cuando el titular el id sera entidadpepCliente_1 entidad${id}
@@ -917,8 +951,9 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
 }
 
 function agregaAsoPep(idAsoPep) {
-    let indiceAsociadosAgregados =
-        $(`#datos${idAsoPep}>div.info`).children().length + 1;
+    let indiceAsociadosAgregados = $(`#datos${idAsoPep}>div.info`).attr(
+        "cantidad"
+    );
     // para el id unico del pariente asociado pep se utiliza el paramento idAsopep, obtenido del atributo name del radio button
     // eje: asoPepCliente_1 concatenado con el numero de asocado obtenido en la variable indiceAsociadosAgregados
     // al concatenar queda asoPepCliente_1_1 en el siguiente asoPepCliente_1_2 susesivamente se asignara a la variable id
@@ -1014,6 +1049,8 @@ function agregaAsoPep(idAsoPep) {
                                     </div>
                                 </div>
                                 </div>`;
+    indiceAsociadosAgregados++;
+    $(`#datos${idAsoPep}>div.info`).attr("cantidad", indiceAsociadosAgregados);
     $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
 
     validarApellidoCasada($(`input#apellidoCasada${id}`));

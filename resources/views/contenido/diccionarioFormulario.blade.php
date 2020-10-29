@@ -488,7 +488,7 @@
                             </div>
 
                             <div id="datosasoPepCliente_1">
-                                <div class="info">
+                                <div class="info" cantidad="0">
                                 </div>
                                 <div class="btnadd">
                                 </div>
