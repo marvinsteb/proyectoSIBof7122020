@@ -418,7 +418,7 @@ function templatePersonaPep(id) {
             <div class="datospep${id}"></div>`;
     return temPersonaPep;
 }
-function templateCamposMinimos(id, titulo) {
+function templateCamposMinimos(id, tipo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
     let tCamposDoc = templateCamposDocumentos(id);
@@ -432,7 +432,7 @@ function templateCamposMinimos(id, titulo) {
     let tcamposMinimos = `
     <div class="card card-info mt-3" id="${id}">
         <div class="card-header">
-            <h3 class="card-title">Información del ${titulo}</h3>
+            <h3 class="card-title">Información del ${tipo}</h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -458,10 +458,7 @@ function templateCamposMinimos(id, titulo) {
 // agrega template campos minimos con los eventos, y verificaciones
 function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     console.log(`agregado informacion del  ${idCamposMinimos}`);
-    let templateRepresentante = templateCamposMinimos(
-        `${idCamposMinimos}`,
-        `${tipo}`
-    );
+    let templateRepresentante = templateCamposMinimos(idCamposMinimos, tipo);
     $(divDatos).append(templateRepresentante);
     validarApellidoCasada($(`input#apellidoCasada${idCamposMinimos}`));
     setFormatoFecha($(`div.date`));
@@ -510,13 +507,17 @@ function setFormatoFecha(divInputFecha) {
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
         $(elementoActuaNomprePropio[i]).change(function () {
-            let divDatosRepresentante = `#representanteCliente_1`;
-            let inputCalidadActua = $(this)
+            let tipo = $(this)
                 .parent()
                 .parent()
                 .parent()
                 .parent()
-                .find("input.calidadActuaCliente");
+                .parent()
+                .parent()
+                .attr("id");
+            console.log(tipo);
+            let divDatosRepresentante = $(`div#representante${tipo}`);
+            let inputCalidadActua = $(`input#calidadActua${tipo}`);
             if (this.value === "C") {
                 inputCalidadActua[0].disabled = true;
                 $(inputCalidadActua[0]).val(null);
@@ -527,7 +528,7 @@ function verificaActuaNombrePropio(elementoActuaNomprePropio) {
                 $(inputCalidadActua[0]).prop("required", true);
                 agregarCamposMinimos(
                     divDatosRepresentante,
-                    "RepresentanteCliente_1",
+                    `Representante${tipo}`,
                     "representante"
                 );
             }
@@ -1112,11 +1113,7 @@ function AgregarTitular() {
          * variables para los id de los campos
          * se utiliza el tipo y el id para crear un id unico para cada campo
          */
-        let idNit = `nit${tipo}_${id}`;
-
         let idTitular = `${tipo}_${id}`;
-        let camposNombresTitulares = templateCamposNommbres(idTitular);
-        let componenteSexoCamposMinimos = templateSexo(idTitular);
 
         let templateTitular = `
                                 <div class="card card-primary" id="${idTitular}">
@@ -1134,9 +1131,7 @@ function AgregarTitular() {
                                     <!-- /.card-header -->
 
                                     <div class="card-body">
-                                        <div class="row mb-3">
-                                            <h4>I. TIPO DE ACTUACIÓN DEL CLIENTE ${id}</h4>
-                                        </div>
+                                        <div class="row mb-3"><h4>I. TIPO DE ACTUACIÓN DEL CLIENTE ${id}</h4></div>
                                         <!-- .row -->
 
                                         <div class="row">
@@ -1221,303 +1216,20 @@ function AgregarTitular() {
                                             </div>
                                         </div>
                                         <!-- .row -->
-
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <h4>III. DATOS PERSONALES</h4>
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <h5>Información del cliente ${id}</h5>
-                                            </div>
-                                            <br />
-                                            <br />
-                                        </div>
-                                        <!-- .row -->
-                                        ${camposNombresTitulares}
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Fecha nacimiento</label>
-                                                    <div class="input-group date" id="fechaNacimiento_${idTitular}" data-target-input="nearest">
-                                                        <input name="fechaNacimiento${idTitular}" id="fechaNacimiento${idTitular}" type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento_${idTitular}" required />
-                                                        <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
-                                                        <div class="input-group-append" data-target="#fechaNacimiento_${idTitular}" data-toggle="datetimepicker">
-                                                            <div class="input-group-text">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>País nacimiento</label>
-                                                    <select name="paisNacimiento${idTitular}" id="paisNacimiento${idTitular}" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <!-- select departamento -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Departamento nacimiento</label>
-                                                    <select name="deptoNacimiento${idTitular}" id="deptoNacimiento${idTitular}" class="form-control custom-select deptoNacimientoCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <!-- select muni -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Municipio nacimiento</label>
-                                                    <select name="muniNaciminento${idTitular}" id="muniNaciminento${idTitular}" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Condición migratoria</label>
-                                                    <select name="condicionMigratoria${idTitular}" id="condicionMigratoria${idTitular}" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Especifique</label>
-                                                    <input name="otraCoMi${idTitular}" id="otraCoMi${idTitular}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <!-- sexo cliente -->
-                                         ${componenteSexoCamposMinimos}
-                                            <!-- .col-sm -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Estado civil</label>
-                                                    <select name="estadoCivil${idTitular}" id="estadoCivil${idTitular}" class="form-control custom-select estadoCivilCliente" style="width: 100%" required>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                        <option value="S">Soltero</option>
-                                                        <option value="C">Casado</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <!-- .col-sm -->
-
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Nit</label>
-                                                    <input name="${idNit}" id="${idNit}" type="text" class="form-control nitCliente" placeholder="Nit ..." maxlength="20" />
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Docto. identificación</label>
-                                                    <select name="tipoDoctoIdentificacion${idTitular}" id="tipoDoctoIdentificacion${idTitular}" class="form-control custom-select tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                        <option value="D">DPI</option>
-                                                        <option value="P">Pasaporte</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Número identificación</label>
-                                                    <input name="noDocIdentificacion${idTitular}" id="noDocIdentificacion${idTitular}" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required disabled/>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>País (Pasaporte)</label>
-                                                    <select name="emicionPasaporte${idTitular}" id="emicionPasaporte${idTitular}" class="form-control custom-select emicionPasaporteCliente" style="width: 100%" disabled required>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Profesión u oficio</label>
-                                                    <input name="profecionOficio${idTitular}" id="profecionOficio${idTitular}" type="text" class="form-control profecionOficioCliente" placeholder="Profesión u oficio ..." maxlength="100" required />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Correo electrónico</label>
-                                                    <input name="email${idTitular}" id="email${idTitular}" type="email" class="form-control emailCliente" placeholder="Correo electrónico ..." maxlength="100" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <h5>Residencia</h5>
-                                            </div>
-                                            <br />
-                                            <br />
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
-                                                <input name="direccionRecidencia${idTitular}" id="direccionRecidencia${idTitular}" type="text" class="form-control direccionRecidenciaCliente" placeholder="Dirección de residencia completa ..." maxlength="400" required />
-                                            </div>
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <!-- select pais nacimiento Cliente -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>País residencia</label>
-                                                    <select name="paisRecidencia${idTitular}" id="paisRecidencia${idTitular}" class="form-control custom-select paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <!-- select departamento -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Departamento residencia</label>
-                                                    <select name="deptoRecidencia${idTitular}" id="deptoRecidencia${idTitular}" class="form-control custom-select deptoRecidenciaCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <!-- select muni -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Municipio residencia</label>
-                                                    <select name="muniRecidencia${idTitular}" id="muniRecidencia${idTitular}" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm" id="nacionalidad${idTitular}" cantidad="1">
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-sm">
-                                                            <label>Nacionalidad</label>
-                                                            <select name="nacionalidad${idTitular}" id="nacionalidad${idTitular}_1" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
-                                                                <option value="" disabled selected>Selecciona</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm my-auto pt-2"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <button type="button" class="btn btn-primary agregarNacionalidadCliente">
-                                                        Agregar Nacionalidad
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- .nacionalidad -->
-                                            <div class="col-sm" id="telefonosCliente" cantidad="1">
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-sm">
-                                                            <label>Telefonos:</label>
-                                                            <input name="telefonoCliente" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
-                                                        </div>
-                                                        <div class="col-sm"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <button type="button" class="btn btn-primary agregarTelefono">
-                                                        Agregar teléfono
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- .telefono -->
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-check">
-                                                    <div>
-                                                        <label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryCpeClienteSi_${idTitular}" class="cpeCliente" name="cpe${idTitular}" value="S" required />
-                                                        <label for="primaryCpeClienteSi_${idTitular}">Sí</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryCpeClienteNo_${idTitular}" class="cpeCliente" name="cpe${idTitular}" value="N" required />
-                                                        <label for="primaryCpeClienteNo_${idTitular}">No</label>
-                                                        <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-check">
-                                                    <div>
-                                                        <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryPepSi_${idTitular}" class="pepCliente" name="pep${idTitular}" value="S" required />
-                                                        <label for="primaryPepSi_${idTitular}">Sí</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryPepNo_${idTitular}" class="pepCliente" name="pep${idTitular}" value="N" required />
-                                                        <label for="primaryPepNo_${idTitular}">No</label>
-                                                        <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="datospep${idTitular}"></div>
-
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-check">
-                                                    <div>
-                                                        <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryAsoPepSi${idTitular}" class="asoPep" name="asoPep${idTitular}" value="S" required />
-                                                        <label for="primaryAsoPepSi${idTitular}">Sí</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryAsoPepNo${idTitular}" class="asoPep" name="asoPep${idTitular}" value="N" required />
-                                                        <label for="primaryAsoPepNo${idTitular}">No</label>
-                                                        <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="datosasoPep${idTitular}">
-                                            <div class="info">
-                                            </div>
-                                            <div class="btnadd">
-                                            </div>
-                                        </div>
-                                        <!-- .datosPaAsPep -->
+                                         <div id="camposMinimos${idTitular}"></div>
+                                         <div id="representante${idTitular}"></div>
                                     </div>
                                     <!-- /.card-body -->
                                 </div>
                                 `;
         $("#titulares").append(templateTitular);
+        // agregar campos titular
+        console.log("agregando camposminimos");
+        agregarCamposMinimos(
+            $(`#camposMinimos${idTitular}`),
+            `${idTitular}`,
+            "cliente"
+        );
         /*agregado validadciones para el nuevo titular*/
         let divTitularActual = $(`#titulares>div#${idTitular}`);
 
@@ -1534,52 +1246,6 @@ function AgregarTitular() {
             "select.setDepartamento"
         );
         cargarDepartamentos(selectDepartamentoActual);
-
-        let fechas = $(divTitularActual).find("div.date");
-        setFormatoFecha(fechas);
-
-        //cuando se usa template, se puede utilizar un id exacto para localizar el elemento
-        validarApellidoCasada($(`input#apellidoCasada${idTitular}`));
-
-        let liConMigratoria = $(divTitularActual).find(
-            "select.condicionMigratoriaCliente"
-        );
-        cargarCondicionMigratoria(liConMigratoria);
-        let nit = $(divTitularActual).find(`input:text[id=${idNit}]`);
-        validarNit($(nit));
-
-        let selectValidaPaisPasaporte = $(divTitularActual).find(
-            "select.validaPaisPasaporte"
-        );
-        habilitaPaisPasaporte(selectValidaPaisPasaporte);
-        // se carga el pais, no se necestia verificar departamentos,
-        // los demas paises se cargan con la clase set Pais
-        let paisPasaporte = $(divTitularActual).find(
-            "select.emicionPasaporteCliente"
-        );
-        cargarPais(paisPasaporte);
-
-        let paisNacionalidad = $(divTitularActual).find(
-            "select.nacionalidadCliente"
-        );
-        cargarPais(paisNacionalidad);
-        let btnsAddNacionalidad = $(divTitularActual).find(
-            "button.agregarNacionalidadCliente"
-        );
-        agregarTemplateNacionalidad(btnsAddNacionalidad);
-
-        let btnAddTelefono = $(divTitularActual).find("button.agregarTelefono");
-        agregarTemplateTelefono(btnAddTelefono);
-
-        let radioButtonClientePep = $(divTitularActual).find(
-            "input.pepCliente"
-        );
-        verificarPersonaPep(radioButtonClientePep);
-        let radioEsAsoPep = $(divTitularActual).find(
-            `input:radio[name=asoPep${idTitular}]`
-        );
-        console.log(radioEsAsoPep);
-        verificarAsoPep(radioEsAsoPep);
 
         eliminarTemplateTitular($("#titulares>div"));
     });
