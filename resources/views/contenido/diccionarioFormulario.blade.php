@@ -136,20 +136,6 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        
-                                                    
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <h4>III. DATOS PERSONALES</h4>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <h5>Información del cliente 1</h5>
-                                                    </div>
-                                                    <br />
-                                                    <br />
-                                                </div>
-                                                <!-- .row -->
-
                                                 <div class="row">
                                                     <div class="col-sm">
                                                         <div class="form-group">
