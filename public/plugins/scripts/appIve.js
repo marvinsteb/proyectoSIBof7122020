@@ -1688,7 +1688,9 @@ class diccionarioFormulario {
     }
 }
 function expandirCard() {
-    let titulares = $("#titulares>div");
+    let titulares = $("#titulares>div").find(
+        `button[data-card-widget=collapse]`
+    );
     for (let i = 0; i < titulares.length; i++) {
         $(titulares[i]).CardWidget("expand");
     }
@@ -1752,7 +1754,6 @@ function obtenerDatos() {
     for (let i = 0; i < titulares.length; i++) {
         let id = $(titulares[i]).attr("id");
         let divTitularActual = $(`#titulares>div#${id}`);
-        console.log(divTitularActual);
         let titular = new dicCamposMinimos();
         titular.tipoActuacion = $(divTitularActual)
             .find(`input:radio[name=tipoActuacion${id}]:checked`)
