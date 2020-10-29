@@ -367,6 +367,27 @@ function templateCpe(id) {
         </div>`;
     return temCpe;
 }
+function templatePersonaPep(id) {
+    let temPersonaPep = `
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-check">
+                        <div><label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label></div>
+                        <div class="icheck-primary d-inline">
+                            <input type="radio" id="pepSi${id}" class="pep" name="pep${id}" value="S" required />
+                            <label for="pepSi${id}">Sí</label>
+                        </div>
+                        <div class="icheck-primary d-inline">
+                            <input type="radio" id="pepNo${id}" class="pep" name="pep${id}" value="N" required />
+                            <label for="pepNo${id}">No</label>
+                            <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="datospep${id}"></div>`;
+    return temPersonaPep;
+}
 function templateCamposMinimos(id, titulo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
@@ -376,6 +397,7 @@ function templateCamposMinimos(id, titulo) {
     let tCamposResidencia = templateCamposResidencia(id);
     let tCamposNumTel = templateCamposNacionalidadTelefono(id);
     let tCpe = templateCpe(id);
+    let tPep = templatePersonaPep(id);
     let tcamposMinimos = `
     <div class="card card-info mt-3" id=${id}>
         <div class="card-header">
@@ -395,6 +417,7 @@ function templateCamposMinimos(id, titulo) {
             ${tCamposResidencia}
             ${tCamposNumTel}
             ${tCpe}
+            ${tPep}
         </div>
 
      </div>`;
@@ -446,6 +469,7 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     );
     agregarTemplateTelefono($(`button#agregarTelefono${idCamposMinimos}`));
 
+    verificarPersonaPep($(`input[name=pep${idCamposMinimos}`));
     validarNit($(`input#nit${idCamposMinimos}`));
 }
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
@@ -742,15 +766,16 @@ function habilitaPaisPasaporte(pasaportes) {
         });
     }
 }
-function verificarClientePep(radioClientePep) {
+function verificarPersonaPep(radioClientePep) {
     for (let i = 0; i < radioClientePep.length; i++) {
-        $(radioClientePep[i]).change(function () {
+        $(radioClientePep[i]).change(function (event) {
+            console.log($(this).val());
             /**
              * utilizo el atributo name, del input radio pepCliente para establecer el id unicao para cada campo id
              * cuando el titular el id sera entidadpepCliente_1 entidad${id}
              */
             let id = $(this).attr("name");
-            if (this.value != "N") {
+            if ($(this).val() != "N") {
                 var templateDatosPep = `<div class="row">
                     <div class="col-sm">
                         <div class="form-group">
@@ -1512,7 +1537,7 @@ function AgregarTitular() {
         let radioButtonClientePep = $(divTitularActual).find(
             "input.pepCliente"
         );
-        verificarClientePep(radioButtonClientePep);
+        verificarPersonaPep(radioButtonClientePep);
         let radioEsAsoPep = $(divTitularActual).find(
             `input:radio[name=asoPep${idTitular}]`
         );
@@ -1901,7 +1926,7 @@ $(document).ready(function () {
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
     agregarTemplateNacionalidad($(".agregarNacionalidadCliente"));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
-    verificarClientePep($(".pepCliente"));
+    verificarPersonaPep($(".pepCliente"));
     verificarAsoPep($(".asoPepCliente"));
     AgregarTitular();
     eliminarTemplateTitular($("#titulares>div"));
