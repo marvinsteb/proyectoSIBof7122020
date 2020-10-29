@@ -249,6 +249,7 @@ function templateTelefono(id) {
     </div>`;
     return temTelefono;
 }
+// div row
 function templateCamposNacimiento(id) {
     //fechaNacimiento
     let cmFechaNacimiento = templateFecha(id, "nacimiento");
@@ -346,6 +347,77 @@ function templateCamposNacionalidadTelefono(id) {
     `;
     return temCNT;
 }
+function templateCpe(id) {
+    let temCpe = `
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-check">
+                    <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label></div>
+                    <div class="icheck-primary d-inline">
+                        <input type="radio" id="cpeSi${id}" class="cpe" name="cpe${id}" value="S" required />
+                        <label for="cpeSi${id}">Sí</label>
+                    </div>
+                    <div class="icheck-primary d-inline">
+                        <input type="radio" id="cpeNo${id}" class="cpe" name="cpe${id}" value="N" required />
+                        <label for="cpeNo${id}">No</label>
+                        <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    return temCpe;
+}
+function templateAsoPep(id) {
+    let temAsoPep = `
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-check">
+                    <div>
+                        <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
+                    </div>
+                    <div class="icheck-primary d-inline">
+                        <input type="radio" id="primaryAsoPepSi${id}" class="asoPep" name="asoPep${id}" value="S" required />
+                        <label for="primaryAsoPepSi${id}">Sí</label>
+                    </div>
+                    <div class="icheck-primary d-inline">
+                        <input type="radio" id="primaryAsoPepNo${id}" class="asoPep" name="asoPep${id}" value="N" required />
+                        <label for="primaryAsoPepNo${id}">No</label>
+                        <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="datosasoPep${id}">
+            <div class="info">
+            </div>
+            <div class="btnadd">
+            </div>
+        </div>
+    `;
+    return temAsoPep;
+}
+function templatePersonaPep(id) {
+    let temPersonaPep = `
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-check">
+                        <div><label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label></div>
+                        <div class="icheck-primary d-inline">
+                            <input type="radio" id="pepSi${id}" class="pep" name="pep${id}" value="S" required />
+                            <label for="pepSi${id}">Sí</label>
+                        </div>
+                        <div class="icheck-primary d-inline">
+                            <input type="radio" id="pepNo${id}" class="pep" name="pep${id}" value="N" required />
+                            <label for="pepNo${id}">No</label>
+                            <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="datospep${id}"></div>`;
+    return temPersonaPep;
+}
 function templateCamposMinimos(id, titulo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
@@ -354,10 +426,13 @@ function templateCamposMinimos(id, titulo) {
     let tCampoDireccion = templateDireccion(id);
     let tCamposResidencia = templateCamposResidencia(id);
     let tCamposNumTel = templateCamposNacionalidadTelefono(id);
+    let tCpe = templateCpe(id);
+    let tPep = templatePersonaPep(id);
+    let tAsoPep = templateAsoPep(id);
     let tcamposMinimos = `
-    <div class="card card-info mt-3" id=${id}>
+    <div class="card card-info mt-3" id="${id}">
         <div class="card-header">
-            <h3 class="card-title">${titulo}</h3>
+            <h3 class="card-title">Información del ${titulo}</h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -372,37 +447,20 @@ function templateCamposMinimos(id, titulo) {
             ${tCampoDireccion}
             ${tCamposResidencia}
             ${tCamposNumTel}
+            ${tCpe}
+            ${tPep}
+            ${tAsoPep}
         </div>
 
      </div>`;
     return tcamposMinimos;
 }
-// funciones para configuracion del formulario
-function setFormatoFecha(divInputFecha) {
-    for (let i = 0; i < divInputFecha.length; i++) {
-        $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
-
-        $(divInputFecha[i]).on("focusout", function () {
-            let fechaString = $(this).find("input").val();
-            let hoy = new Date();
-            hoy.setHours(0, 0, 0, 0);
-
-            let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
-            let fechaActual = dateMomentObject.toDate();
-            if (fechaActual <= hoy) {
-                $(this).find("input").removeClass("is-invalid");
-            } else {
-                $(this).find("input").val(null);
-                $(this).find("input").addClass("is-invalid");
-            }
-        });
-    }
-}
+// agrega template campos minimos con los eventos, y verificaciones
 function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     console.log(`agregado informacion del  ${idCamposMinimos}`);
     let templateRepresentante = templateCamposMinimos(
         `${idCamposMinimos}`,
-        `Información del ${tipo}`
+        `${tipo}`
     );
     $(divDatos).append(templateRepresentante);
     validarApellidoCasada($(`input#apellidoCasada${idCamposMinimos}`));
@@ -423,7 +481,31 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     );
     agregarTemplateTelefono($(`button#agregarTelefono${idCamposMinimos}`));
 
+    verificarPersonaPep($(`input[name=pep${idCamposMinimos}`));
+    verificarAsoPep($(`input[name=asoPep${idCamposMinimos}]`));
     validarNit($(`input#nit${idCamposMinimos}`));
+}
+
+// funciones para configuracion del formulario
+function setFormatoFecha(divInputFecha) {
+    for (let i = 0; i < divInputFecha.length; i++) {
+        $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
+
+        $(divInputFecha[i]).on("focusout", function () {
+            let fechaString = $(this).find("input").val();
+            let hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
+            let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
+            let fechaActual = dateMomentObject.toDate();
+            if (fechaActual <= hoy) {
+                $(this).find("input").removeClass("is-invalid");
+            } else {
+                $(this).find("input").val(null);
+                $(this).find("input").addClass("is-invalid");
+            }
+        });
+    }
 }
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
@@ -719,7 +801,7 @@ function habilitaPaisPasaporte(pasaportes) {
         });
     }
 }
-function verificarClientePep(radioClientePep) {
+function verificarPersonaPep(radioClientePep) {
     for (let i = 0; i < radioClientePep.length; i++) {
         $(radioClientePep[i]).change(function () {
             /**
@@ -727,7 +809,7 @@ function verificarClientePep(radioClientePep) {
              * cuando el titular el id sera entidadpepCliente_1 entidad${id}
              */
             let id = $(this).attr("name");
-            if (this.value != "N") {
+            if ($(this).val() != "N") {
                 var templateDatosPep = `<div class="row">
                     <div class="col-sm">
                         <div class="form-group">
@@ -869,8 +951,9 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
 }
 
 function agregaAsoPep(idAsoPep) {
-    let indiceAsociadosAgregados =
-        $(`#datos${idAsoPep}>div.info`).children().length + 1;
+    let indiceAsociadosAgregados = $(`#datos${idAsoPep}>div.info`).attr(
+        "cantidad"
+    );
     // para el id unico del pariente asociado pep se utiliza el paramento idAsopep, obtenido del atributo name del radio button
     // eje: asoPepCliente_1 concatenado con el numero de asocado obtenido en la variable indiceAsociadosAgregados
     // al concatenar queda asoPepCliente_1_1 en el siguiente asoPepCliente_1_2 susesivamente se asignara a la variable id
@@ -966,6 +1049,8 @@ function agregaAsoPep(idAsoPep) {
                                     </div>
                                 </div>
                                 </div>`;
+    indiceAsociadosAgregados++;
+    $(`#datos${idAsoPep}>div.info`).attr("cantidad", indiceAsociadosAgregados);
     $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
 
     validarApellidoCasada($(`input#apellidoCasada${id}`));
@@ -1489,7 +1574,7 @@ function AgregarTitular() {
         let radioButtonClientePep = $(divTitularActual).find(
             "input.pepCliente"
         );
-        verificarClientePep(radioButtonClientePep);
+        verificarPersonaPep(radioButtonClientePep);
         let radioEsAsoPep = $(divTitularActual).find(
             `input:radio[name=asoPep${idTitular}]`
         );
@@ -1603,7 +1688,9 @@ class diccionarioFormulario {
     }
 }
 function expandirCard() {
-    let titulares = $("#titulares>div");
+    let titulares = $("#titulares>div").find(
+        `button[data-card-widget=collapse]`
+    );
     for (let i = 0; i < titulares.length; i++) {
         $(titulares[i]).CardWidget("expand");
     }
@@ -1667,7 +1754,6 @@ function obtenerDatos() {
     for (let i = 0; i < titulares.length; i++) {
         let id = $(titulares[i]).attr("id");
         let divTitularActual = $(`#titulares>div#${id}`);
-        console.log(divTitularActual);
         let titular = new dicCamposMinimos();
         titular.tipoActuacion = $(divTitularActual)
             .find(`input:radio[name=tipoActuacion${id}]:checked`)
@@ -1878,7 +1964,7 @@ $(document).ready(function () {
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
     agregarTemplateNacionalidad($(".agregarNacionalidadCliente"));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
-    verificarClientePep($(".pepCliente"));
+    verificarPersonaPep($(".pepCliente"));
     verificarAsoPep($(".asoPepCliente"));
     AgregarTitular();
     eliminarTemplateTitular($("#titulares>div"));
