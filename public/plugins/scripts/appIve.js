@@ -1224,7 +1224,6 @@ function AgregarTitular() {
                                 `;
         $("#titulares").append(templateTitular);
         // agregar campos titular
-        console.log("agregando camposminimos");
         agregarCamposMinimos(
             $(`#camposMinimos${idTitular}`),
             `${idTitular}`,
@@ -1238,15 +1237,10 @@ function AgregarTitular() {
         );
         inputActuaNombrePropio.focus();
         verificaActuaNombrePropio(inputActuaNombrePropio);
-
-        let selectPaisActual = $(divTitularActual).find("select.setPais");
+        let selectPaisActual = $(`select#paisCaMi${idTitular}`);
         habilitaDepartamentoMunicipio(selectPaisActual);
         cargarPais(selectPaisActual);
-        let selectDepartamentoActual = $(divTitularActual).find(
-            "select.setDepartamento"
-        );
-        cargarDepartamentos(selectDepartamentoActual);
-
+        cargarDepartamentos($(`select#deptoCaMi${idTitular}`));
         eliminarTemplateTitular($("#titulares>div"));
     });
 }
