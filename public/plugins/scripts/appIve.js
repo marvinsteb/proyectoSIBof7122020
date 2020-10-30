@@ -1617,6 +1617,10 @@ function obtenerDatos() {
             .find(`input:text[id=fechaDocCaMi${id}]`)
             .val();
         titular.cliente = obtenerDatosCamposMinimos(divTitularActual, id);
+        titular.representante = obtenerDatosCamposMinimos(
+            divTitularActual,
+            `Representante${id}`
+        );
         df.agregarTitular(titular);
     }
     console.log(df);
