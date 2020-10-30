@@ -1332,7 +1332,7 @@ class dicCamposMinimos {
         this.lugar = new dicLugar();
         this.fecha = null;
         this.cliente = new dicDatosPersonales();
-        this.representante = null;
+        this.representante = new dicDatosPersonales();
         this.infoEconomicaInical = null;
     }
 }
@@ -1412,6 +1412,183 @@ function eliminarTemplateTitular(titulares) {
         });
     }
 }
+function obtenerDatosCamposMinimos(divPadre, id) {
+    let datosPersonales = new dicDatosPersonales();
+    datosPersonales.primerApellido = $(divPadre)
+        .find(`input:text[id=primerApellido${id}]`)
+        .val();
+    datosPersonales.segundoApellido = $(divPadre)
+        .find(`input:text[id=segundoApellido${id}]`)
+        .val();
+    datosPersonales.apellidoCasada = $(divPadre)
+        .find(`input:text[id=apellidoCasada${id}]`)
+        .val();
+    datosPersonales.primerNombre = $(divPadre)
+        .find(`input:text[id=primerNombre${id}]`)
+        .val();
+    datosPersonales.segundoNombre = $(divPadre)
+        .find(`input:text[id=segundoNombre${id}]`)
+        .val();
+    datosPersonales.otrosNombres = $(divPadre)
+        .find(`input:text[id=otrosNombres${id}]`)
+        .val();
+    datosPersonales.fechaNacimiento = $(divPadre)
+        .find(`input:text[id=fechaNacimiento${id}]`)
+        .val();
+    datosPersonales.nacimiento.pais = $(divPadre)
+        //
+        .find(`select[id=paisNacimiento${id}] option:selected`)
+        .val();
+    datosPersonales.nacimiento.departamento = $(divPadre)
+        .find(`select[id=deptoNacimiento${id}] option:selected`)
+        .val();
+    datosPersonales.nacimiento.municipio = $(divPadre)
+        .find(`select[id=muniNaciminento${id}] option:selected`)
+        .val();
+    datosPersonales.condicionMigratoria = $(divPadre)
+        .find(`select[id=condicionMigratoria${id}] option:selected`)
+        .val();
+    datosPersonales.otraCondicionMigratoria = $(divPadre)
+        .find(`input:text[id=otraCoMi${id}]`)
+        .val();
+    datosPersonales.sexo = $(divPadre)
+        .find(`select[id=sexo${id}] option:selected`)
+        .val();
+    datosPersonales.estadoCivil = $(divPadre)
+        .find(`select[id=estadoCivil${id}] option:selected`)
+        .val();
+    datosPersonales.nit = $(divPadre).find(`input:text[id=nit${id}]`).val();
+    datosPersonales.tipoDocumentoIdentificacion = $(divPadre)
+        .find(`select[id=tipoDoctoIdentificacion${id}] option:selected`)
+        .val();
+    datosPersonales.numeroDocumentoIdentificacion = $(divPadre)
+        .find(`input:text[id=noDocIdentificacion${id}]`)
+        .val();
+    datosPersonales.emisionPasaporte = $(divPadre)
+        .find(`select[id=emicionPasaporte${id}] option:selected`)
+        .val();
+    datosPersonales.profesionOficio = $(divPadre)
+        .find(`input:text[id=profecionOficio${id}]`)
+        .val();
+    datosPersonales.email = $(divPadre).find(`input[id=email${id}]`).val();
+    datosPersonales.direccionResidencia = $(divPadre)
+        .find(`input:text[id=direccionRecidencia${id}]`)
+        .val();
+    datosPersonales.residencia.pais = $(divPadre)
+        .find(`select[id=paisRecidencia${id}] option:selected`)
+        .val();
+    datosPersonales.residencia.departamento = $(divPadre)
+        .find(`select[id=deptoRecidencia${id}] option:selected`)
+        .val();
+    datosPersonales.residencia.municipio = $(divPadre)
+        .find(`select[id=muniRecidencia${id}] option:selected`)
+        .val();
+    let telefonos = $(divPadre).find(`input.telefonoCliente`);
+    for (let i = 0; i < telefonos.length; i++) {
+        datosPersonales.agregarTelefono($(telefonos[i]).val());
+    }
+
+    let nacionalidades = $(divPadre).find(`select.nacionalidadCliente`);
+    for (let a = 0; a < nacionalidades.length; a++) {
+        datosPersonales.agregarNacionalidad($(nacionalidades[a]).val());
+    }
+    datosPersonales.cpe = $(divPadre)
+        .find(`input:radio[name=cpe${id}]:checked`)
+        .val();
+    let esPep = (datosPersonales.pep = $(divPadre)
+        .find(`input:radio[name=pep${id}]:checked`)
+        .val());
+    if (esPep === "S") {
+        datosPersonales.datospep.entidad = $(divPadre)
+            .find(`input[id=entidadpep${id}]`)
+            .val();
+        datosPersonales.datospep.puestoDesempenia = $(divPadre)
+            .find(`input[id=puestoDesepeniapep${id}]`)
+            .val();
+        datosPersonales.datospep.paisEntidad = $(divPadre)
+            .find(`select[id=paisEntidadpep${id}] option:selected`)
+            .val();
+        let esOtroRiqueza = (datosPersonales.datospep.origenRiqueza = $(
+            divPadre
+        )
+            .find(`select[id=origenRiquezapep${id}] option:selected`)
+            .val());
+        if (esOtroRiqueza == 8) {
+            datosPersonales.datospep.otroOrigenRiqueza = $(divPadre)
+                .find(`input[id=otroOrigenRiquezapep${id}]`)
+                .val();
+        }
+    } else {
+        datosPersonales.datospep = null;
+    }
+
+    let esAsoPep = (datosPersonales.parienteAsociadoPep = $(divPadre)
+        .find(`input:radio[name=asoPep${id}]:checked`)
+        .val());
+
+    if (esAsoPep == "S") {
+        let asociados = $(`#datosasoPep${id}>div.info`).children();
+        for (let a = 0; a < asociados.length; a++) {
+            // obtenemos el id, del div que contiene los datos del asociado actual
+            // div#asoPepCliente_1_0 para buscar cada input con
+            // $(`div#asoPepCliente_1_0`).find(`select#parentescoasoPepCliente_1_0`).val();
+
+            let idAsociado = $(asociados[a]).attr("id");
+            let datosAsoPep = new dicParienteAsociadoPep();
+            let divactual = `div#${idAsociado}`;
+            datosAsoPep.parentesco = $(divactual)
+                .find(`select#parentesco${idAsociado}`)
+                .val();
+            datosAsoPep.otroParentesco = $(divactual)
+                .find(`input#otroParentesco${idAsociado}`)
+                .val();
+            datosAsoPep.motivoAsociacion = $(divactual)
+                .find(`select#motivoAsociacion${idAsociado}`)
+                .val();
+            datosAsoPep.otroMotivoAsociacion = $(divactual)
+                .find(`input#otroMotivoAsociacion${idAsociado}`)
+                .val();
+            datosAsoPep.sexo = $(divactual)
+                .find(`select#sexo${idAsociado}`)
+                .val();
+            datosAsoPep.condicion = $(divactual)
+                .find(`select#condicion${idAsociado}`)
+                .val();
+            datosAsoPep.primerApellido = $(divactual)
+                .find(`input#primerApellido${idAsociado}`)
+                .val();
+            datosAsoPep.segundoApellido = $(divactual)
+                .find(`input#segundoApellido${idAsociado}`)
+                .val();
+            datosAsoPep.apellidoCasada = $(divactual)
+                .find(`input#apellidoCasada${idAsociado}`)
+                .val();
+            datosAsoPep.primerNombre = $(divactual)
+                .find(`input#primerNombre${idAsociado}`)
+                .val();
+            datosAsoPep.segundoNombre = $(divactual)
+                .find(`input#segundoNombre${idAsociado}`)
+                .val();
+            datosAsoPep.otrosNombres = $(divactual)
+                .find(`input#otrosNombres${idAsociado}`)
+                .val();
+            datosAsoPep.entidad = $(divactual)
+                .find(`input#entidad${idAsociado}`)
+                .val();
+            datosAsoPep.puestoDesempenia = $(divPadre)
+                .find(`input#puestoDesempenia${idAsociado}`)
+                .val();
+            datosAsoPep.paisEntidad = $(divPadre)
+                .find(`select#pais${idAsociado}`)
+                .val();
+            datosPersonales.agregarParienteAsociadoPep(datosAsoPep);
+        }
+    } else {
+        datosPersonales.datosParienteAsociadoPep = null;
+    }
+
+    return datosPersonales;
+}
 function obtenerDatos() {
     let df = new diccionarioFormulario(
         $(".diccionarioFormulario").attr("idDiccionario")
@@ -1439,181 +1616,7 @@ function obtenerDatos() {
         titular.fecha = $(divTitularActual)
             .find(`input:text[id=fechaDocCaMi${id}]`)
             .val();
-        titular.cliente.primerApellido = $(divTitularActual)
-            .find(`input:text[id=primerApellido${id}]`)
-            .val();
-        titular.cliente.segundoApellido = $(divTitularActual)
-            .find(`input:text[id=segundoApellido${id}]`)
-            .val();
-        titular.cliente.apellidoCasada = $(divTitularActual)
-            .find(`input:text[id=apellidoCasada${id}]`)
-            .val();
-        titular.cliente.primerNombre = $(divTitularActual)
-            .find(`input:text[id=primerNombre${id}]`)
-            .val();
-        titular.cliente.segundoNombre = $(divTitularActual)
-            .find(`input:text[id=segundoNombre${id}]`)
-            .val();
-        titular.cliente.otrosNombres = $(divTitularActual)
-            .find(`input:text[id=otrosNombres${id}]`)
-            .val();
-        titular.cliente.fechaNacimiento = $(divTitularActual)
-            .find(`input:text[id=fechaNacimiento${id}]`)
-            .val();
-        titular.cliente.nacimiento.pais = $(divTitularActual)
-            //
-            .find(`select[id=paisNacimiento${id}] option:selected`)
-            .val();
-        titular.cliente.nacimiento.departamento = $(divTitularActual)
-            .find(`select[id=deptoNacimiento${id}] option:selected`)
-            .val();
-        titular.cliente.nacimiento.municipio = $(divTitularActual)
-            .find(`select[id=muniNaciminento${id}] option:selected`)
-            .val();
-        titular.cliente.condicionMigratoria = $(divTitularActual)
-            .find(`select[id=condicionMigratoria${id}] option:selected`)
-            .val();
-        titular.cliente.otraCondicionMigratoria = $(divTitularActual)
-            .find(`input:text[id=otraCoMi${id}]`)
-            .val();
-        titular.cliente.sexo = $(divTitularActual)
-            .find(`select[id=sexo${id}] option:selected`)
-            .val();
-        titular.cliente.estadoCivil = $(divTitularActual)
-            .find(`select[id=estadoCivil${id}] option:selected`)
-            .val();
-        titular.cliente.nit = $(divTitularActual)
-            .find(`input:text[id=nit${id}]`)
-            .val();
-        titular.cliente.tipoDocumentoIdentificacion = $(divTitularActual)
-            .find(`select[id=tipoDoctoIdentificacion${id}] option:selected`)
-            .val();
-        titular.cliente.numeroDocumentoIdentificacion = $(divTitularActual)
-            .find(`input:text[id=noDocIdentificacion${id}]`)
-            .val();
-        titular.cliente.emisionPasaporte = $(divTitularActual)
-            .find(`select[id=emicionPasaporte${id}] option:selected`)
-            .val();
-        titular.cliente.profesionOficio = $(divTitularActual)
-            .find(`input:text[id=profecionOficio${id}]`)
-            .val();
-        titular.cliente.email = $(divTitularActual)
-            .find(`input[id=email${id}]`)
-            .val();
-        titular.cliente.direccionResidencia = $(divTitularActual)
-            .find(`input:text[id=direccionRecidencia${id}]`)
-            .val();
-        titular.cliente.residencia.pais = $(divTitularActual)
-            .find(`select[id=paisRecidencia${id}] option:selected`)
-            .val();
-        titular.cliente.residencia.departamento = $(divTitularActual)
-            .find(`select[id=deptoRecidencia${id}] option:selected`)
-            .val();
-        titular.cliente.residencia.municipio = $(divTitularActual)
-            .find(`select[id=muniRecidencia${id}] option:selected`)
-            .val();
-        let telefonos = $(divTitularActual).find(`input.telefonoCliente`);
-        for (let i = 0; i < telefonos.length; i++) {
-            titular.cliente.agregarTelefono($(telefonos[i]).val());
-        }
-
-        let nacionalidades = $(divTitularActual).find(
-            `select.nacionalidadCliente`
-        );
-        for (let a = 0; a < nacionalidades.length; a++) {
-            titular.cliente.agregarNacionalidad($(nacionalidades[a]).val());
-        }
-        titular.cliente.cpe = $(divTitularActual)
-            .find(`input:radio[name=cpe${id}]:checked`)
-            .val();
-        let esPep = (titular.cliente.pep = $(divTitularActual)
-            .find(`input:radio[name=pep${id}]:checked`)
-            .val());
-        if (esPep === "S") {
-            titular.cliente.datospep.entidad = $(divTitularActual)
-                .find(`input[id=entidadpep${id}]`)
-                .val();
-            titular.cliente.datospep.puestoDesempenia = $(divTitularActual)
-                .find(`input[id=puestoDesepeniapep${id}]`)
-                .val();
-            titular.cliente.datospep.paisEntidad = $(divTitularActual)
-                .find(`select[id=paisEntidadpep${id}] option:selected`)
-                .val();
-            let esOtroRiqueza = (titular.cliente.datospep.origenRiqueza = $(
-                divTitularActual
-            )
-                .find(`select[id=origenRiquezapep${id}] option:selected`)
-                .val());
-            if (esOtroRiqueza == 8) {
-                titular.cliente.datospep.otroOrigenRiqueza = $(divTitularActual)
-                    .find(`input[id=otroOrigenRiquezapep${id}]`)
-                    .val();
-            }
-        } else {
-            titular.cliente.datospep = null;
-        }
-
-        let esAsoPep = (titular.cliente.parienteAsociadoPep = $(
-            divTitularActual
-        )
-            .find(`input:radio[name=asoPep${id}]:checked`)
-            .val());
-
-        if (esAsoPep == "S") {
-            let asociados = $(`#datosasoPep${id}>div.info`).children();
-            for (let a = 0; a < asociados.length; a++) {
-                let id = $(asociados[a]).attr("id");
-                let datosAsoPep = new dicParienteAsociadoPep();
-                let divactual = `div#${id}`;
-                datosAsoPep.parentesco = $(divactual)
-                    .find(`select#parentesco${id}`)
-                    .val();
-                datosAsoPep.otroParentesco = $(divactual)
-                    .find(`input#otroParentesco${id}`)
-                    .val();
-                datosAsoPep.motivoAsociacion = $(divactual)
-                    .find(`select#motivoAsociacion${id}`)
-                    .val();
-                datosAsoPep.otroMotivoAsociacion = $(divactual)
-                    .find(`input#otroMotivoAsociacion${id}`)
-                    .val();
-                datosAsoPep.sexo = $(divactual).find(`select#sexo${id}`).val();
-                datosAsoPep.condicion = $(divactual)
-                    .find(`select#condicion${id}`)
-                    .val();
-                datosAsoPep.primerApellido = $(divactual)
-                    .find(`input#primerApellido${id}`)
-                    .val();
-                datosAsoPep.segundoApellido = $(divactual)
-                    .find(`input#segundoApellido${id}`)
-                    .val();
-                datosAsoPep.apellidoCasada = $(divactual)
-                    .find(`input#apellidoCasada${id}`)
-                    .val();
-                datosAsoPep.primerNombre = $(divactual)
-                    .find(`input#primerNombre${id}`)
-                    .val();
-                datosAsoPep.segundoNombre = $(divactual)
-                    .find(`input#segundoNombre${id}`)
-                    .val();
-                datosAsoPep.otrosNombres = $(divactual)
-                    .find(`input#otrosNombres${id}`)
-                    .val();
-                datosAsoPep.entidad = $(divactual)
-                    .find(`input#entidad${id}`)
-                    .val();
-                datosAsoPep.puestoDesempenia = $(divTitularActual)
-                    .find(`input#puestoDesempenia${id}`)
-                    .val();
-                datosAsoPep.paisEntidad = $(divTitularActual)
-                    .find(`select#pais${id}`)
-                    .val();
-                titular.cliente.agregarParienteAsociadoPep(datosAsoPep);
-            }
-        } else {
-            titular.cliente.datosParienteAsociadoPep = null;
-        }
-
+        titular.cliente = obtenerDatosCamposMinimos(divTitularActual, id);
         df.agregarTitular(titular);
     }
     console.log(df);
