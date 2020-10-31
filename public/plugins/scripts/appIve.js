@@ -129,16 +129,26 @@ function templateEstadoCivil(id) {
     `;
     return temEs;
 }
-function templatePais(id, textolabel, desabilitadeptomuni) {
+function templatePais(
+    id,
+    textolabel,
+    desabilitadeptomuni,
+    clasesAdicionales,
+    deshabilitado
+) {
     let claseDeptoMuni = "";
     if (desabilitadeptomuni == true) {
         claseDeptoMuni = "deshabilitaDepartamentoMunicipio";
+    }
+    selectDesabilitado = "";
+    if (deshabilitado == true) {
+        selectDesabilitado = "disabled";
     }
     let templatepais = `
     <div class="col-sm">
         <div class="form-group">
             <label for="${id}">${textolabel}</label>
-            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais" style="width: 100%" required>
+            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales}" style="width: 100%" required ${selectDesabilitado}>
             <option value="" disabled selected>Selecciona</option>
             </select>
         </div>
@@ -302,7 +312,9 @@ function templateCamposDocumentos(id) {
     let paisPasaporte = templatePais(
         `emicionPasaporte${id}`,
         "País (Pasaporte)",
-        false
+        false,
+        "emicionPasaporte",
+        true
     );
     let temCamDoc = `
     <div class="row">
@@ -466,12 +478,15 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     habilitaDepartamentoMunicipio($(`select#paisNacimiento${idCamposMinimos}`));
     cargarPais($(`select#paisNacimiento${idCamposMinimos}`));
     cargarDepartamentos($(`select#deptoNacimiento${idCamposMinimos}`));
+
+    habilitaPaisPasaporte(
+        $(`Select#tipoDoctoIdentificacion${idCamposMinimos}`)
+    );
     //campos nacimiento
     habilitaDepartamentoMunicipio($(`select#paisRecidencia${idCamposMinimos}`));
     cargarPais($(`select#paisRecidencia${idCamposMinimos}`));
     cargarDepartamentos($(`select#deptoRecidencia${idCamposMinimos}`));
 
-    //
     cargarPais($(`select#nacionalidad${idCamposMinimos}_1`));
     agregarTemplateNacionalidad(
         $(`button#agregarNacionalidad${idCamposMinimos}`)
@@ -784,13 +799,13 @@ function habilitaOtraCondicionMigratoria(condicionMigratoria) {
 function habilitaPaisPasaporte(pasaportes) {
     for (let i = 0; i < pasaportes.length; i++) {
         $(pasaportes[i]).change(function (event) {
+            console.log("cambiando dpi o pasaporte");
             let divPadre = $(this).parent().parent().parent();
+            console.log($(divPadre).index());
             let selectPaisPasaporte = $(divPadre).find(
-                "select.emicionPasaporteCliente"
+                "select.emicionPasaporte"
             );
-            let inputDocumento = $(divPadre).find(
-                "input.noDocIdentificacionCliente"
-            );
+            let inputDocumento = $(divPadre).find("input.noDocIdentificacion");
             if (event.target.value == "P") {
                 selectPaisPasaporte[0].disabled = false;
                 inputDocumento[0].disabled = false;

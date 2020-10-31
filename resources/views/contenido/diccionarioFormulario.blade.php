@@ -57,7 +57,7 @@
                                 <div class="col-sm-8">
                                     <div class="form-group">
                                         <label for ="calidadActuaCliente_1">Calidad con que actúa</label>
-                                        <input name="calidadActuaCliente_1" id="calidadActuaCliente_1" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
+                                        <input name="calidadActuaCliente_1" id="calidadActuaCliente_1" type="text" class="form-control calidadActua" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
                                         <div class="invalid-tooltip">Por Ejemplo: Mandatario, Patria potestad, Tutor, Otros.</div>
                                     </div>
                                 </div>
@@ -265,7 +265,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Estado civil</label>
-                                                            <select name="estadoCivilCliente_1" id="estadoCivilCliente_1" class="form-control custom-select estadoCivilCliente" style="width: 100%" required>
+                                                            <select name="estadoCivilCliente_1" id="estadoCivilCliente_1" class="form-control custom-select estadoCivil" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 <option value="S">Soltero</option>
                                                                 <option value="C">Casado</option>
@@ -284,7 +284,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Docto. identificación</label>
-                                                            <select name="tipoDoctoIdentificacionCliente_1" id="tipoDoctoIdentificacionCliente_1" class="form-control custom-select tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
+                                                            <select name="tipoDoctoIdentificacionCliente_1" id="tipoDoctoIdentificacionCliente_1" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 <option value="D">DPI</option>
                                                                 <option value="P">Pasaporte</option>
@@ -295,14 +295,14 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Número identificación</label>
-                                                            <input name="noDocIdentificacionCliente_1" id="noDocIdentificacionCliente_1" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required disabled/>
+                                                            <input name="noDocIdentificacionCliente_1" id="noDocIdentificacionCliente_1" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required disabled/>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>País (Pasaporte)</label>
-                                                            <select name="emicionPasaporteCliente_1" id="emicionPasaporteCliente_1" class="form-control custom-select emicionPasaporteCliente" style="width: 100%" disabled required>
+                                                            <select name="emicionPasaporteCliente_1" id="emicionPasaporteCliente_1" class="form-control custom-select emicionPasaporte" style="width: 100%" disabled required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($paises as $pais)
                                                                 <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
