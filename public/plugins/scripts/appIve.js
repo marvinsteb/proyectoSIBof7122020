@@ -482,7 +482,7 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     habilitaPaisPasaporte(
         $(`Select#tipoDoctoIdentificacion${idCamposMinimos}`)
     );
-    cargarPais($(`select#emicionPasaporte${id}`));
+    cargarPais($(`select#emicionPasaporte${idCamposMinimos}`));
     //campos nacimiento
     habilitaDepartamentoMunicipio($(`select#paisRecidencia${idCamposMinimos}`));
     cargarPais($(`select#paisRecidencia${idCamposMinimos}`));
