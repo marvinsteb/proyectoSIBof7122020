@@ -223,7 +223,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Municipio nacimiento</label>
-                                                            <select name="muniNaciminentoCliente_1" id="muniNaciminentoCliente_1" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required disabled>
+                                                            <select name="muniNacimientoCliente_1" id="muniNacimientoCliente_1" class="form-control custom-select muniNacimientoCliente setMunicipio" style="width: 100%" required disabled>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                             </select>
                                                         </div>

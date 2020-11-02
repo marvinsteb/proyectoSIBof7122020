@@ -1408,7 +1408,7 @@ function eliminarTemplateTitular(titulares) {
         });
     }
 }
-function obtenerDatosCamposMinimos(divPadre, id) {
+function obtenerDatosPersonales(divPadre, id) {
     let datosPersonales = new dicDatosPersonales();
     datosPersonales.primerApellido = $(divPadre)
         .find(`input:text[id=primerApellido${id}]`)
@@ -1439,7 +1439,7 @@ function obtenerDatosCamposMinimos(divPadre, id) {
         .find(`select[id=deptoNacimiento${id}] option:selected`)
         .val();
     datosPersonales.nacimiento.municipio = $(divPadre)
-        .find(`select[id=muniNaciminento${id}] option:selected`)
+        .find(`select[id=muniNacimiento${id}] option:selected`)
         .val();
     datosPersonales.condicionMigratoria = $(divPadre)
         .find(`select[id=condicionMigratoria${id}] option:selected`)
@@ -1612,8 +1612,8 @@ function obtenerDatos() {
         titular.fecha = $(divTitularActual)
             .find(`input:text[id=fechaDocCaMi${id}]`)
             .val();
-        titular.cliente = obtenerDatosCamposMinimos(divTitularActual, id);
-        titular.representante = obtenerDatosCamposMinimos(
+        titular.cliente = obtenerDatosPersonales(divTitularActual, id);
+        titular.representante = obtenerDatosPersonales(
             divTitularActual,
             `Representante${id}`
         );
