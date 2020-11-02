@@ -133,8 +133,8 @@ function templatePais(
     id,
     textolabel,
     desabilitadeptomuni,
-    clasesAdicionales,
-    deshabilitado
+    clasesAdicionales = "",
+    deshabilitado = false
 ) {
     let claseDeptoMuni = "";
     if (desabilitadeptomuni == true) {
@@ -1131,13 +1131,7 @@ function AgregarTitular() {
          */
         let idTitular = `${tipo}_${id}`;
         console.log(idTitular);
-        let cmpaisTitular = templatePais(
-            `paisCaMi${idTitular}`,
-            "País",
-            true,
-            "",
-            false
-        );
+        let cmpaisTitular = templatePais(`paisCaMi${idTitular}`, "País", true);
         let templateTitular = `
                                 <div class="card card-primary" id="${idTitular}">
                                     <div class="card-header">
