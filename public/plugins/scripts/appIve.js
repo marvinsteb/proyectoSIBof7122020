@@ -262,7 +262,7 @@ function templateTelefono(id) {
 // div row
 function templateCamposNacimiento(id) {
     //fechaNacimiento
-    let cmFechaNacimiento = templateFecha(id, "nacimiento");
+    let cmFechaNacimiento = templateFecha(id, "Nacimiento");
     let cmPaisNacimiento = templatePais(
         `paisNacimiento${id}`,
         "País nacimiento",
@@ -1130,7 +1130,14 @@ function AgregarTitular() {
          * se utiliza el tipo y el id para crear un id unico para cada campo
          */
         let idTitular = `${tipo}_${id}`;
-
+        console.log(idTitular);
+        let cmpaisTitular = templatePais(
+            `paisCaMi${idTitular}`,
+            "País",
+            true,
+            "",
+            false
+        );
         let templateTitular = `
                                 <div class="card card-primary" id="${idTitular}">
                                     <div class="card-header">
@@ -1189,14 +1196,7 @@ function AgregarTitular() {
                                         <!-- row -->
 
                                         <div class="row">
-                                            <!-- select pais -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>País</label>
-                                                    <select name="paisCaMi${idTitular}" id="paisCaMi${idTitular}" class="form-control custom-select paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            ${cmpaisTitular}
                                             <!-- select departamento -->
                                             <div class="col-sm">
                                                 <div class="form-group">
