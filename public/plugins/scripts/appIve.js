@@ -1130,11 +1130,14 @@ function AgregarTitular() {
          * se utiliza el tipo y el id para crear un id unico para cada campo
          */
         let idTitular = `${tipo}_${id}`;
-        console.log(idTitular);
         let cmpaisTitular = templatePais(`paisCaMi${idTitular}`, "País", true);
         let cmDepartamentoTitular = templateDepartamento(
-            `deptoCaMi${idTitular}`,
+            `CaMi${idTitular}`,
             "Departamento"
+        );
+        let cmMunicipioTitular = templateMunicipio(
+            `CaMi${idTitular}`,
+            "Municipio"
         );
         let templateTitular = `
                                 <div class="card card-primary" id="${idTitular}">
@@ -1196,15 +1199,7 @@ function AgregarTitular() {
                                         <div class="row">
                                             ${cmpaisTitular}
                                             ${cmDepartamentoTitular}
-                                            <!-- select muni -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Municipio</label>
-                                                    <select name="muniCaMi${idTitular}" id="muniCaMi${idTitular}" class="form-control custom-select muniCaMiCliente setMunicipio" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            ${cmMunicipioTitular}
                                             <!-- fecha -->
                                             <div class="col-sm">
                                                 <div class="form-group">
@@ -1246,6 +1241,7 @@ function AgregarTitular() {
         let selectPaisActual = $(`select#paisCaMi${idTitular}`);
         habilitaDepartamentoMunicipio(selectPaisActual);
         cargarPais(selectPaisActual);
+
         cargarDepartamentos($(`select#deptoCaMi${idTitular}`));
         eliminarTemplateTitular($("#titulares>div"));
     });
