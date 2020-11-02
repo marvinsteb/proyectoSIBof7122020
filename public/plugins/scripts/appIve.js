@@ -1366,7 +1366,7 @@ function validarFormulario() {
             "submit",
             function (event) {
                 expandirCard();
-                obtenerDatos();
+                enviarDatos();
                 if (form.checkValidity() === false) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -1375,7 +1375,7 @@ function validarFormulario() {
                     event.preventDefault();
                     event.stopPropagation();
                     console.log("enviando formulario");
-                    enviarDatos();
+                    //enviarDatos();
                 }
             },
             false
@@ -1481,7 +1481,7 @@ function obtenerDatosPersonales(divPadre, id) {
     datosPersonales.residencia.municipio = $(divPadre)
         .find(`select[id=muniRecidencia${id}] option:selected`)
         .val();
-    let telefonos = $(divPadre).find(`input.telefono`);
+    let telefonos = $(`div#telefono${id}`).find("input.telefono");
     for (let i = 0; i < telefonos.length; i++) {
         datosPersonales.agregarTelefono($(telefonos[i]).val());
     }
@@ -1615,10 +1615,13 @@ function obtenerDatos() {
             .find(`input:text[id=fechaDocCaMi${id}]`)
             .val();
         titular.cliente = obtenerDatosPersonales(divTitularActual, id);
-        titular.representante = obtenerDatosPersonales(
-            divTitularActual,
-            `Representante${id}`
-        );
+        if (titular.tipoActuacion === "R") {
+            titular.representante = obtenerDatosPersonales(
+                divTitularActual,
+                `Representante${id}`
+            );
+        }
+
         df.agregarTitular(titular);
     }
     console.log(df);
