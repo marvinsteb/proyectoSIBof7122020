@@ -1599,9 +1599,6 @@ function obtenerDatos() {
         titular.tipoActuacion = $(divTitularActual)
             .find(`input:radio[name=tipoActuacion${id}]:checked`)
             .val();
-        titular.calidadActua = $(divTitularActual)
-            .find(`input:text[id=calidadActua${id}]`)
-            .val();
         titular.lugar.pais = $(divTitularActual)
             .find(`select[id=paisCaMi${id}] option:selected`)
             .val();
@@ -1616,6 +1613,9 @@ function obtenerDatos() {
             .val();
         titular.cliente = obtenerDatosPersonales(divTitularActual, id);
         if (titular.tipoActuacion === "R") {
+            titular.calidadActua = $(divTitularActual)
+                .find(`input:text[id=calidadActua${id}]`)
+                .val();
             titular.representante = obtenerDatosPersonales(
                 divTitularActual,
                 `Representante${id}`
