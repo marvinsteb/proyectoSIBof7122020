@@ -241,18 +241,28 @@ function templateNacionalidad(id) {
     `;
     return temNacionalidad;
 }
-function templateTelefono(id) {
-    let temTelefono = `
-    <div class="col-sm" id="telefonos${id}" cantidad="1">
+function templateTelefono(id, agregarBtnBorrar) {
+    let btnBorrar = "";
+    if (agregarBtnBorrar) {
+        btnBorrar = `<button type="button" class="btn btn-danger">borrar</button>`;
+    }
+    let tmTelefono = `
         <div class="form-group">
             <div class="row">
                 <div class="col-sm">
-                    <label for="telefono${id}_1">Telefonos:</label>
-                    <input name="telefono${id}_1" id="telefono${id}_1" type="text" class="form-control telefono" placeholder="telefono ..." maxlength="30" required />
+                    <input name="${id}" id="${id}" type="text" class="form-control telefono" placeholder="telefono ..." maxlength="30" required />
                 </div>
-                <div class="col-sm"></div>
+                <div class="col-sm">${btnBorrar}</div>
             </div>
-        </div>
+        </div>`;
+    return tmTelefono;
+}
+function templateContenedorTelefonos(id) {
+    let cmTel = templateTelefono(`telefono${id}_1`, false);
+    let temTelefono = `
+    <div class="col-sm" id="telefono${id}" cantidad="1">
+        <label>Teléfonos</label>
+        ${cmTel}
         <div class="form-group">
             <button type="button" id="agregarTelefono${id}" class="btn btn-primary agregarTelefono">Agregar teléfono</button>
         </div>
@@ -353,7 +363,7 @@ function templateDireccion(id) {
 }
 function templateCamposNacionalidadTelefono(id) {
     let cmNacionalidad = templateNacionalidad(id);
-    let cmTelefono = templateTelefono(id);
+    let cmTelefono = templateContenedorTelefonos(id);
     let temCNT = `
     <div class="row">
         ${cmNacionalidad}
@@ -947,19 +957,8 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
             let idSelect = $(divPadre).attr("cantidad");
             idSelect++;
             let idInput = `${idDivPadre}_${idSelect}`;
-            $(`#${idDivPadre}>div:nth-last-child(2)`).after(`
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <input name="${idDivPadre}" id="${idInput}" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
-                                    </div>
-                                    <div class="col-sm my-auto">
-                                        <button type="button" class="btn btn-danger">
-                                            borrar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div `);
+            let cmTelefono = templateTelefono(idInput, true);
+            $(`#${idDivPadre}>div:nth-last-child(2)`).after(cmTelefono);
             $(divPadre).attr("cantidad", idSelect);
             $(`#${idDivPadre}>div.form-group>div.row`)
                 .find("button")
@@ -1482,12 +1481,12 @@ function obtenerDatosPersonales(divPadre, id) {
     datosPersonales.residencia.municipio = $(divPadre)
         .find(`select[id=muniRecidencia${id}] option:selected`)
         .val();
-    let telefonos = $(divPadre).find(`input.telefonoCliente`);
+    let telefonos = $(divPadre).find(`input.telefono`);
     for (let i = 0; i < telefonos.length; i++) {
         datosPersonales.agregarTelefono($(telefonos[i]).val());
     }
 
-    let nacionalidades = $(divPadre).find(`select.nacionalidadCliente`);
+    let nacionalidades = $(divPadre).find(`select.nacionalidad`);
     for (let a = 0; a < nacionalidades.length; a++) {
         datosPersonales.agregarNacionalidad($(nacionalidades[a]).val());
     }

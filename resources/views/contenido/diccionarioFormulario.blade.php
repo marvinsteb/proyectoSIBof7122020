@@ -389,7 +389,7 @@
                                                             <div class="row">
                                                                 <div class="col-sm">
                                                                     <label>Nacionalidad</label>
-                                                                    <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
+                                                                    <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control custom-select nacionalidad" style="width: 100%" required>
                                                                         <option value="" disabled selected>Selecciona</option>
                                                                         @foreach($paises as $pais)
                                                                         <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
@@ -410,8 +410,8 @@
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-sm">
-                                                                    <label>Telefonos:</label>
-                                                                    <input name="telefonoCliente_1" id="telefonoCliente_1_1" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
+                                                                    <label>Teléfonos:</label>
+                                                                    <input name="telefonoCliente_1_1" id="telefonoCliente_1_1" type="text" class="form-control telefono" placeholder="telefono ..." maxlength="30" required />
                                                                 </div>
                                                                 <div class="col-sm"></div>
                                                             </div>
