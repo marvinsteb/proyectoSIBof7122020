@@ -1249,10 +1249,10 @@ function AgregarTitular() {
     });
 }
 class dicLugar {
-    constructor(pais, departamento, municipio) {
-        this.pais = pais;
-        this.departamento = departamento;
-        this.municipio = municipio;
+    constructor() {
+        this.pais = null;
+        this.departamento = null;
+        this.municipio = null;
     }
 }
 class datosPep {
@@ -1602,12 +1602,14 @@ function obtenerDatos() {
         titular.lugar.pais = $(divTitularActual)
             .find(`select[id=paisCaMi${id}] option:selected`)
             .val();
-        titular.lugar.departamento = $(divTitularActual)
-            .find(`select[id=deptoCaMi${id}] option:selected`)
-            .val();
-        titular.lugar.municipio = $(divTitularActual)
-            .find(`select[id=muniCaMi${id}] option:selected`)
-            .val();
+        if (titular.lugar.pais === "1") {
+            titular.lugar.departamento = $(divTitularActual)
+                .find(`select[id=deptoCaMi${id}] option:selected`)
+                .val();
+            titular.lugar.municipio = $(divTitularActual)
+                .find(`select[id=muniCaMi${id}] option:selected`)
+                .val();
+        }
         titular.fecha = $(divTitularActual)
             .find(`input:text[id=fechaDocCaMi${id}]`)
             .val();
