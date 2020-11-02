@@ -294,7 +294,10 @@ function templateCamposResidencia(id) {
         `Recidencia${id}`,
         "Departamento residencia"
     );
-    let comMunicipio = templateMunicipio(id, "Municipio residencia");
+    let comMunicipio = templateMunicipio(
+        `Recidencia${id}`,
+        "Municipio residencia"
+    );
     let tempCamResidencia = `
     <div class="row">
         ${comPais}
