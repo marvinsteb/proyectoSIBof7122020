@@ -1132,6 +1132,10 @@ function AgregarTitular() {
         let idTitular = `${tipo}_${id}`;
         console.log(idTitular);
         let cmpaisTitular = templatePais(`paisCaMi${idTitular}`, "País", true);
+        let cmDepartamentoTitular = templateDepartamento(
+            `deptoCaMi${idTitular}`,
+            "Departamento"
+        );
         let templateTitular = `
                                 <div class="card card-primary" id="${idTitular}">
                                     <div class="card-header">
@@ -1191,15 +1195,7 @@ function AgregarTitular() {
 
                                         <div class="row">
                                             ${cmpaisTitular}
-                                            <!-- select departamento -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Departamento</label>
-                                                    <select name="deptoCaMi${idTitular}" id="deptoCaMi${idTitular}" class="form-control custom-select deptoCaMiCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            ${cmDepartamentoTitular}
                                             <!-- select muni -->
                                             <div class="col-sm">
                                                 <div class="form-group">
