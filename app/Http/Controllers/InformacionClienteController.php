@@ -140,7 +140,7 @@ class InformacionClienteController extends Controller
      */   
     public function store(Request $request)
     {
-
+         $camposMinimos = [];
         DB::beginTransaction();
         try {
             // diccionario formulario 
@@ -150,6 +150,7 @@ class InformacionClienteController extends Controller
             ]);
 
             for ($i = 0; $i < count($request->titulares); $i++) {
+                
                 $camposMinimos = [
                     'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
                     'calidadActua' => $request->titulares[$i]["calidadActua"],
@@ -162,14 +163,14 @@ class InformacionClienteController extends Controller
                     'cliente' => $this->guradarDatosPersonales($request->titulares[$i]["cliente"]),
                     'infoEconomica' => null,
                     'diccionarioFormulario' => $idDiccionarioFormulario,
-                    ];
-                if($camposMinimos['tipoActuacion'] == 'R'){
-                    $camposMinimos['representante'] = $this->guradarDatosPersonales($request->titulares[$i]["representante"]);
-                } 
-                $idCamposMinimos = DB::table('camposMinimos')->insertGetId($camposMinimos);
+                    ]; 
+                 if($camposMinimos["tipoActuacion"] == "R"){
+                    $camposMinimos["representante"] =  $this->guradarDatosPersonales($request->titulares[$i]["representante"]);
+                }
+                DB::table('camposMinimos')->insertGetId($camposMinimos);
             }
 
-            $respuesta = $request;
+            $respuesta = $camposMinimos;
             
      
 
@@ -178,10 +179,13 @@ class InformacionClienteController extends Controller
         } catch (\Exception $e) {
             $respuesta = [
                 'error'=> true,
-                'mensaje'=> $e->getMessage()
+                'mensaje'=> $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'code' => $e->getCode(),
             ];
             DB::rollback();
         }
+        
         return Response()->json(
         $respuesta,
         200,
