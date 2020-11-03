@@ -925,7 +925,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
                 `<div class='form-group'>
                             <div class="row">
                                 <div class="col-sm">
-                                    <select name="${idPadre}" id="${idSelect}" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
+                                    <select name="${idPadre}" id="${idSelect}" class="form-control custom-select nacionalidad" style="width: 100%" required>
                                         <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
@@ -1486,7 +1486,8 @@ function obtenerDatosPersonales(divPadre, id) {
         datosPersonales.agregarTelefono($(telefonos[i]).val());
     }
 
-    let nacionalidades = $(divPadre).find(`select.nacionalidad`);
+    let nacionalidades = $(`div#nacionalidad${id}`).find(`select.nacionalidad`);
+    console.log(nacionalidades);
     for (let a = 0; a < nacionalidades.length; a++) {
         datosPersonales.agregarNacionalidad($(nacionalidades[a]).val());
     }
