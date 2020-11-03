@@ -9,17 +9,100 @@ use Illuminate\Support\Facades\DB;
 
 class InformacionClienteController extends Controller
 {
+    public function guradarDatosPersonales($datosPersonales){
+        
+                    $camposMinimos = [
+                        'primerApellido' => $datosPersonales["primerApellido"],
+                        'segundoApellido' => empty($datosPersonales["segundoApellido"]) ? 'SOA' : $datosPersonales["segundoApellido"],
+                        'apellidoCasada' => $datosPersonales["apellidoCasada"],
+                        'primerNombre' => $datosPersonales["primerNombre"],
+                        'segundoNombre' => empty($datosPersonales["segundoNombre"]) ? 'SON' : $datosPersonales["segundoNombre"],
+                        'otrosNombres' => $datosPersonales["otrosNombres"],
+                        'fechaNacimiento' => $this->formatoFechaDB(
+                            $datosPersonales["fechaNacimiento"]
+                        ),
+                        'nacimiento' => DB::table('lugar')->insertGetId([
+                            "pais" => $datosPersonales["nacimiento"]["pais"],
+                            "departamento" => $datosPersonales["nacimiento"]["departamento"],
+                            "municipio" => $datosPersonales["nacimiento"]["municipio"],
+                        ]),
+                        'condicionMigratoria' => $datosPersonales["condicionMigratoria"],
+                        'otraCondicionMigratoria' => $datosPersonales["otraCondicionMigratoria"],
+                        'sexo' => $datosPersonales["sexo"],
+                        'estadoCivil' => $datosPersonales["estadoCivil"],
+                        'nit' => $datosPersonales["nit"],
+                        'profesionOficio' => $datosPersonales["profesionOficio"],
+                        'tipoDocumentoIdentificacion' => $datosPersonales["tipoDocumentoIdentificacion"],
+                        'numeroDocumentoIdentificacion' => $datosPersonales["numeroDocumentoIdentificacion"],
+                        'emisionPasaporte' => $datosPersonales["emisionPasaporte"],
+                        'email' => $datosPersonales["email"],
+                        'direccionResidencia' => $datosPersonales["direccionResidencia"],
+                        'residencia' => DB::table('lugar')->insertGetId([
+                            "pais" => $datosPersonales["residencia"]["pais"],
+                            "departamento" => $datosPersonales["residencia"]["departamento"],
+                            "municipio" => $datosPersonales["residencia"]["municipio"],
+                        ]),
+                        'pep' => $datosPersonales["pep"],
+                        'parienteAsociadoPep' => $datosPersonales["parienteAsociadoPep"],
+                        'cpe' => $datosPersonales["cpe"]
+                    ];
+                if($camposMinimos["pep"]== "S"){
+                    $camposMinimos['datosPep']  = DB::table("datosPep")->insertGetID([
+                        'entidad'=> $datosPersonales["datospep"]["entidad"],
+                        'puestoDesempenia' => $datosPersonales["datospep"]["puestoDesempenia"],
+                        'paisEntidad' => $datosPersonales["datospep"]["paisEntidad"],
+                        'origenRiqueza'=> $datosPersonales["datospep"]["origenRiqueza"],
+                        'otroOrigenRiqueza'=> $datosPersonales["datospep"]["otroOrigenRiqueza"],
+                    ]);
+
+                };
+                $idClienteCamposMinimos = DB::table('datosPersonales')->insertGetID($camposMinimos);
+                
+                if($camposMinimos["parienteAsociadoPep"]=='S'){
+                    $arrayDatosParienteAsociadoPep = $datosPersonales["datosParienteAsociadoPep"];
+                  foreach ($arrayDatosParienteAsociadoPep as $parienteAsociadoPep) {
+                      $datos = $parienteAsociadoPep;
+                      $datos["segundoApellido"] = empty($datos["segundoApellido"]) ? 'SOA':$datos["segundoApellido"];
+                      $datos["segundoNombre"] = empty($datos["segundoNombre"]) ? 'SON':$datos["segundoNombre"];
+                      $idDatosParAsoPep = DB::table('datosParienteAsociadoPep')->insertGetId($datos);
+                      DB::table('parienteAsociadoPep')->insertGetId([
+                            'idDatosPersonales' => $idClienteCamposMinimos,
+                            'idDatosParienteAsociadoPep' => $idDatosParAsoPep
+                      ]);
+
+                  } 
+                }
+
+
+                 $telefonosTitulares = $datosPersonales["telefonos"];
+                  for ($a = 0; $a < count($telefonosTitulares); $a++) {
+                      $idTelefonos = DB::table('telefono')->insertGetId([
+                          'idDatosPersonales' => $idClienteCamposMinimos,
+                          'numTelefono' => $telefonosTitulares[$a]
+                      ]);
+                  }
+
+                  $nacionalidadTitulares = $datosPersonales["nacionalidades"];
+                  foreach ($nacionalidadTitulares as $nacionalidad) { 
+                      $idNacionalidad = DB::table('nacionalidad')->insertGetId([
+                          'idDatosPersonales' => $idClienteCamposMinimos,
+                          'idPais' => $nacionalidad
+                          ]);
+                  }
+                  return $idClienteCamposMinimos;
+    }
+
+     public function formatoFechaDB($fecha)
+    {
+        $fechaFormateada = Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
+        return $fechaFormateada;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function formatoFechaDB($fecha)
-    {
-        $fechaFormateada = Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
-        return $fechaFormateada;
-    }
     public function index()
     {
         return view('contenido.oficioive7122020');
@@ -48,15 +131,16 @@ class InformacionClienteController extends Controller
         ]);
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+     */   
     public function store(Request $request)
     {
-
+         $camposMinimos = [];
         DB::beginTransaction();
         try {
             // diccionario formulario 
@@ -66,88 +150,8 @@ class InformacionClienteController extends Controller
             ]);
 
             for ($i = 0; $i < count($request->titulares); $i++) {
-                //cliente
-                $camposMinimos = [
-                    'primerApellido' => $request->titulares[$i]["cliente"]["primerApellido"],
-                    'segundoApellido' => empty($request->titulares[$i]["cliente"]["segundoApellido"]) ? 'SOA' : $request->titulares[$i]["cliente"]["segundoApellido"],
-                    'apellidoCasada' => $request->titulares[$i]["cliente"]["apellidoCasada"],
-                    'primerNombre' => $request->titulares[$i]["cliente"]["primerNombre"],
-                    'segundoNombre' => empty($request->titulares[$i]["cliente"]["segundoNombre"]) ? 'SON' : $request->titulares[$i]["cliente"]["segundoNombre"],
-                    'otrosNombres' => $request->titulares[$i]["cliente"]["otrosNombres"],
-                    'fechaNacimiento' => $this->formatoFechaDB(
-                        $request->titulares[$i]["cliente"]["fechaNacimiento"]
-                    ),
-                    'nacimiento' => DB::table('lugar')->insertGetId([
-                        "pais" => $request->titulares[$i]["cliente"]["nacimiento"]["pais"],
-                        "departamento" => $request->titulares[$i]["cliente"]["nacimiento"]["departamento"],
-                        "municipio" => $request->titulares[$i]["cliente"]["nacimiento"]["municipio"],
-                    ]),
-                    'condicionMigratoria' => $request->titulares[$i]["cliente"]["condicionMigratoria"],
-                    'otraCondicionMigratoria' => $request->titulares[$i]["cliente"]["otraCondicionMigratoria"],
-                    'sexo' => $request->titulares[$i]["cliente"]["sexo"],
-                    'estadoCivil' => $request->titulares[$i]["cliente"]["estadoCivil"],
-                    'nit' => $request->titulares[$i]["cliente"]["nit"],
-                    'profesionOficio' => $request->titulares[$i]["cliente"]["profesionOficio"],
-                    'tipoDocumentoIdentificacion' => $request->titulares[$i]["cliente"]["tipoDocumentoIdentificacion"],
-                    'numeroDocumentoIdentificacion' => $request->titulares[$i]["cliente"]["numeroDocumentoIdentificacion"],
-                    'emisionPasaporte' => $request->titulares[$i]["cliente"]["emisionPasaporte"],
-                    'email' => $request->titulares[$i]["cliente"]["email"],
-                    'direccionResidencia' => $request->titulares[$i]["cliente"]["direccionResidencia"],
-                    'residencia' => DB::table('lugar')->insertGetId([
-                        "pais" => $request->titulares[$i]["cliente"]["residencia"]["pais"],
-                        "departamento" => $request->titulares[$i]["cliente"]["residencia"]["departamento"],
-                        "municipio" => $request->titulares[$i]["cliente"]["residencia"]["municipio"],
-                    ]),
-                    'pep' => $request->titulares[$i]["cliente"]["pep"],
-                    'parienteAsociadoPep' => $request->titulares[$i]["cliente"]["parienteAsociadoPep"],
-                    'cpe' => $request->titulares[$i]["cliente"]["cpe"]
-                    ];
-                if($camposMinimos["pep"]== "S"){
-                    $camposMinimos['datosPep']  = DB::table("datosPep")->insertGetID([
-                        'entidad'=> $request->titulares[$i]["cliente"]["datospep"]["entidad"],
-                        'puestoDesempenia' => $request->titulares[$i]["cliente"]["datospep"]["puestoDesempenia"],
-                        'paisEntidad' => $request->titulares[$i]["cliente"]["datospep"]["paisEntidad"],
-                        'origenRiqueza'=> $request->titulares[$i]["cliente"]["datospep"]["origenRiqueza"],
-                        'otroOrigenRiqueza'=> $request->titulares[$i]["cliente"]["datospep"]["otroOrigenRiqueza"],
-                    ]);
-
-                };
-                $idClienteCamposMinimos = DB::table('datosPersonales')->insertGetID($camposMinimos);
                 
-                if($camposMinimos["parienteAsociadoPep"]=='S'){
-                    $arrayDatosParienteAsociadoPep = $request->titulares[$i]["cliente"]["datosParienteAsociadoPep"];
-                  foreach ($arrayDatosParienteAsociadoPep as $parienteAsociadoPep) {
-                      $datos = $parienteAsociadoPep;
-                      $datos["segundoApellido"] = empty($datos["segundoApellido"]) ? 'SOA':$datos["segundoApellido"];
-                      $datos["segundoNombre"] = empty($datos["segundoNombre"]) ? 'SON':$datos["segundoNombre"];
-                      $idDatosParAsoPep = DB::table('datosParienteAsociadoPep')->insertGetId($datos);
-                      DB::table('parienteAsociadoPep')->insertGetId([
-                            'idDatosPersonales' => $idClienteCamposMinimos,
-                            'idDatosParienteAsociadoPep' => $idDatosParAsoPep
-                      ]);
-
-                  } 
-                }
-
-
-                 $telefonosTitulares = $request->titulares[$i]["cliente"]["telefonos"];
-                  for ($a = 0; $a < count($telefonosTitulares); $a++) {
-                      $idTelefonos = DB::table('telefono')->insertGetId([
-                          'idDatosPersonales' => $idClienteCamposMinimos,
-                          'numTelefono' => $telefonosTitulares[$a]
-                      ]);
-                  }
-
-                  $nacionalidadTitulares = $request->titulares[$i]["cliente"]["nacionalidades"];
-                  foreach ($nacionalidadTitulares as $nacionalidad) { 
-                      $idNacionalidad = DB::table('nacionalidad')->insertGetId([
-                          'idDatosPersonales' => $idClienteCamposMinimos,
-                          'idPais' => $nacionalidad
-                          ]);
-                  }
-
-                // campos minimos
-                $idCamposMinimos = DB::table('camposMinimos')->insertGetId([
+                $camposMinimos = [
                     'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
                     'calidadActua' => $request->titulares[$i]["calidadActua"],
                     'lugar' =>  DB::table('lugar')->insertGetId([
@@ -156,14 +160,17 @@ class InformacionClienteController extends Controller
                         "municipio" => $request->titulares[$i]["lugar"]["municipio"]
                     ]),
                     'fecha' => $this->formatoFechaDB($request->titulares[$i]["fecha"]),
-                    'cliente' => $idClienteCamposMinimos,
-                    'representante' => null,
+                    'cliente' => $this->guradarDatosPersonales($request->titulares[$i]["cliente"]),
                     'infoEconomica' => null,
                     'diccionarioFormulario' => $idDiccionarioFormulario,
-                ]);
+                    ]; 
+                 if($camposMinimos["tipoActuacion"] == "R"){
+                    $camposMinimos["representante"] =  $this->guradarDatosPersonales($request->titulares[$i]["representante"]);
+                }
+                DB::table('camposMinimos')->insertGetId($camposMinimos);
             }
 
-            $respuesta = $request;
+            $respuesta = $camposMinimos;
             
      
 
@@ -172,10 +179,13 @@ class InformacionClienteController extends Controller
         } catch (\Exception $e) {
             $respuesta = [
                 'error'=> true,
-                'mensaje'=> $e->getMessage()
+                'mensaje'=> $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'code' => $e->getCode(),
             ];
             DB::rollback();
         }
+        
         return Response()->json(
         $respuesta,
         200,

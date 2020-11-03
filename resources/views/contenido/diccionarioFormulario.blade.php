@@ -57,7 +57,7 @@
                                 <div class="col-sm-8">
                                     <div class="form-group">
                                         <label for ="calidadActuaCliente_1">Calidad con que actúa</label>
-                                        <input name="calidadActuaCliente_1" id="calidadActuaCliente_1" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
+                                        <input name="calidadActuaCliente_1" id="calidadActuaCliente_1" type="text" class="form-control calidadActua" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
                                         <div class="invalid-tooltip">Por Ejemplo: Mandatario, Patria potestad, Tutor, Otros.</div>
                                     </div>
                                 </div>
@@ -136,20 +136,6 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        
-                                                    
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <h4>III. DATOS PERSONALES</h4>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <h5>Información del cliente 1</h5>
-                                                    </div>
-                                                    <br />
-                                                    <br />
-                                                </div>
-                                                <!-- .row -->
-
                                                 <div class="row">
                                                     <div class="col-sm">
                                                         <div class="form-group">
@@ -237,7 +223,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Municipio nacimiento</label>
-                                                            <select name="muniNaciminentoCliente_1" id="muniNaciminentoCliente_1" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required disabled>
+                                                            <select name="muniNacimientoCliente_1" id="muniNacimientoCliente_1" class="form-control custom-select muniNacimientoCliente setMunicipio" style="width: 100%" required disabled>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                             </select>
                                                         </div>
@@ -279,7 +265,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Estado civil</label>
-                                                            <select name="estadoCivilCliente_1" id="estadoCivilCliente_1" class="form-control custom-select estadoCivilCliente" style="width: 100%" required>
+                                                            <select name="estadoCivilCliente_1" id="estadoCivilCliente_1" class="form-control custom-select estadoCivil" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 <option value="S">Soltero</option>
                                                                 <option value="C">Casado</option>
@@ -298,7 +284,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Docto. identificación</label>
-                                                            <select name="tipoDoctoIdentificacionCliente_1" id="tipoDoctoIdentificacionCliente_1" class="form-control custom-select tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
+                                                            <select name="tipoDoctoIdentificacionCliente_1" id="tipoDoctoIdentificacionCliente_1" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 <option value="D">DPI</option>
                                                                 <option value="P">Pasaporte</option>
@@ -309,14 +295,14 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Número identificación</label>
-                                                            <input name="noDocIdentificacionCliente_1" id="noDocIdentificacionCliente_1" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required disabled/>
+                                                            <input name="noDocIdentificacionCliente_1" id="noDocIdentificacionCliente_1" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required disabled/>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>País (Pasaporte)</label>
-                                                            <select name="emicionPasaporteCliente_1" id="emicionPasaporteCliente_1" class="form-control custom-select emicionPasaporteCliente" style="width: 100%" disabled required>
+                                                            <select name="emicionPasaporteCliente_1" id="emicionPasaporteCliente_1" class="form-control custom-select emicionPasaporte" style="width: 100%" disabled required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($paises as $pais)
                                                                 <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
@@ -403,7 +389,7 @@
                                                             <div class="row">
                                                                 <div class="col-sm">
                                                                     <label>Nacionalidad</label>
-                                                                    <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
+                                                                    <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control custom-select nacionalidad" style="width: 100%" required>
                                                                         <option value="" disabled selected>Selecciona</option>
                                                                         @foreach($paises as $pais)
                                                                         <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
@@ -424,8 +410,8 @@
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-sm">
-                                                                    <label>Telefonos:</label>
-                                                                    <input name="telefonoCliente_1" id="telefonoCliente_1_1" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
+                                                                    <label>Teléfonos:</label>
+                                                                    <input name="telefonoCliente_1_1" id="telefonoCliente_1_1" type="text" class="form-control telefono" placeholder="telefono ..." maxlength="30" required />
                                                                 </div>
                                                                 <div class="col-sm"></div>
                                                             </div>

@@ -129,16 +129,26 @@ function templateEstadoCivil(id) {
     `;
     return temEs;
 }
-function templatePais(id, textolabel, desabilitadeptomuni) {
+function templatePais(
+    id,
+    textolabel,
+    desabilitadeptomuni,
+    clasesAdicionales = "",
+    deshabilitado = false
+) {
     let claseDeptoMuni = "";
     if (desabilitadeptomuni == true) {
         claseDeptoMuni = "deshabilitaDepartamentoMunicipio";
+    }
+    selectDesabilitado = "";
+    if (deshabilitado == true) {
+        selectDesabilitado = "disabled";
     }
     let templatepais = `
     <div class="col-sm">
         <div class="form-group">
             <label for="${id}">${textolabel}</label>
-            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais" style="width: 100%" required>
+            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales}" style="width: 100%" required ${selectDesabilitado}>
             <option value="" disabled selected>Selecciona</option>
             </select>
         </div>
@@ -231,18 +241,28 @@ function templateNacionalidad(id) {
     `;
     return temNacionalidad;
 }
-function templateTelefono(id) {
-    let temTelefono = `
-    <div class="col-sm" id="telefonos${id}" cantidad="1">
+function templateTelefono(id, agregarBtnBorrar) {
+    let btnBorrar = "";
+    if (agregarBtnBorrar) {
+        btnBorrar = `<button type="button" class="btn btn-danger">borrar</button>`;
+    }
+    let tmTelefono = `
         <div class="form-group">
             <div class="row">
                 <div class="col-sm">
-                    <label for="telefono${id}_1">Telefonos:</label>
-                    <input name="telefono${id}_1" id="telefono${id}_1" type="text" class="form-control telefono" placeholder="telefono ..." maxlength="30" required />
+                    <input name="${id}" id="${id}" type="text" class="form-control telefono" placeholder="telefono ..." maxlength="30" required />
                 </div>
-                <div class="col-sm"></div>
+                <div class="col-sm">${btnBorrar}</div>
             </div>
-        </div>
+        </div>`;
+    return tmTelefono;
+}
+function templateContenedorTelefonos(id) {
+    let cmTel = templateTelefono(`telefono${id}_1`, false);
+    let temTelefono = `
+    <div class="col-sm" id="telefono${id}" cantidad="1">
+        <label>Teléfonos</label>
+        ${cmTel}
         <div class="form-group">
             <button type="button" id="agregarTelefono${id}" class="btn btn-primary agregarTelefono">Agregar teléfono</button>
         </div>
@@ -252,7 +272,7 @@ function templateTelefono(id) {
 // div row
 function templateCamposNacimiento(id) {
     //fechaNacimiento
-    let cmFechaNacimiento = templateFecha(id, "nacimiento");
+    let cmFechaNacimiento = templateFecha(id, "Nacimiento");
     let cmPaisNacimiento = templatePais(
         `paisNacimiento${id}`,
         "País nacimiento",
@@ -284,7 +304,10 @@ function templateCamposResidencia(id) {
         `Recidencia${id}`,
         "Departamento residencia"
     );
-    let comMunicipio = templateMunicipio(id, "Municipio residencia");
+    let comMunicipio = templateMunicipio(
+        `Recidencia${id}`,
+        "Municipio residencia"
+    );
     let tempCamResidencia = `
     <div class="row">
         ${comPais}
@@ -302,7 +325,9 @@ function templateCamposDocumentos(id) {
     let paisPasaporte = templatePais(
         `emicionPasaporte${id}`,
         "País (Pasaporte)",
-        false
+        false,
+        "emicionPasaporte",
+        true
     );
     let temCamDoc = `
     <div class="row">
@@ -338,7 +363,7 @@ function templateDireccion(id) {
 }
 function templateCamposNacionalidadTelefono(id) {
     let cmNacionalidad = templateNacionalidad(id);
-    let cmTelefono = templateTelefono(id);
+    let cmTelefono = templateContenedorTelefonos(id);
     let temCNT = `
     <div class="row">
         ${cmNacionalidad}
@@ -418,7 +443,7 @@ function templatePersonaPep(id) {
             <div class="datospep${id}"></div>`;
     return temPersonaPep;
 }
-function templateCamposMinimos(id, titulo) {
+function templateCamposMinimos(id, tipo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
     let tCamposDoc = templateCamposDocumentos(id);
@@ -432,7 +457,7 @@ function templateCamposMinimos(id, titulo) {
     let tcamposMinimos = `
     <div class="card card-info mt-3" id="${id}">
         <div class="card-header">
-            <h3 class="card-title">Información del ${titulo}</h3>
+            <h3 class="card-title">Información del ${tipo}</h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -458,10 +483,7 @@ function templateCamposMinimos(id, titulo) {
 // agrega template campos minimos con los eventos, y verificaciones
 function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     console.log(`agregado informacion del  ${idCamposMinimos}`);
-    let templateRepresentante = templateCamposMinimos(
-        `${idCamposMinimos}`,
-        `${tipo}`
-    );
+    let templateRepresentante = templateCamposMinimos(idCamposMinimos, tipo);
     $(divDatos).append(templateRepresentante);
     validarApellidoCasada($(`input#apellidoCasada${idCamposMinimos}`));
     setFormatoFecha($(`div.date`));
@@ -469,12 +491,16 @@ function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     habilitaDepartamentoMunicipio($(`select#paisNacimiento${idCamposMinimos}`));
     cargarPais($(`select#paisNacimiento${idCamposMinimos}`));
     cargarDepartamentos($(`select#deptoNacimiento${idCamposMinimos}`));
+
+    habilitaPaisPasaporte(
+        $(`Select#tipoDoctoIdentificacion${idCamposMinimos}`)
+    );
+    cargarPais($(`select#emicionPasaporte${idCamposMinimos}`));
     //campos nacimiento
     habilitaDepartamentoMunicipio($(`select#paisRecidencia${idCamposMinimos}`));
     cargarPais($(`select#paisRecidencia${idCamposMinimos}`));
     cargarDepartamentos($(`select#deptoRecidencia${idCamposMinimos}`));
 
-    //
     cargarPais($(`select#nacionalidad${idCamposMinimos}_1`));
     agregarTemplateNacionalidad(
         $(`button#agregarNacionalidad${idCamposMinimos}`)
@@ -510,13 +536,17 @@ function setFormatoFecha(divInputFecha) {
 function verificaActuaNombrePropio(elementoActuaNomprePropio) {
     for (let i = 0; i < elementoActuaNomprePropio.length; i++) {
         $(elementoActuaNomprePropio[i]).change(function () {
-            let divDatosRepresentante = `#representanteCliente_1`;
-            let inputCalidadActua = $(this)
+            let tipo = $(this)
                 .parent()
                 .parent()
                 .parent()
                 .parent()
-                .find("input.calidadActuaCliente");
+                .parent()
+                .parent()
+                .attr("id");
+            console.log(tipo);
+            let divDatosRepresentante = $(`div#representante${tipo}`);
+            let inputCalidadActua = $(`input#calidadActua${tipo}`);
             if (this.value === "C") {
                 inputCalidadActua[0].disabled = true;
                 $(inputCalidadActua[0]).val(null);
@@ -527,7 +557,7 @@ function verificaActuaNombrePropio(elementoActuaNomprePropio) {
                 $(inputCalidadActua[0]).prop("required", true);
                 agregarCamposMinimos(
                     divDatosRepresentante,
-                    "RepresentanteCliente_1",
+                    `Representante${tipo}`,
                     "representante"
                 );
             }
@@ -783,13 +813,13 @@ function habilitaOtraCondicionMigratoria(condicionMigratoria) {
 function habilitaPaisPasaporte(pasaportes) {
     for (let i = 0; i < pasaportes.length; i++) {
         $(pasaportes[i]).change(function (event) {
+            console.log("cambiando dpi o pasaporte");
             let divPadre = $(this).parent().parent().parent();
+            console.log($(divPadre).index());
             let selectPaisPasaporte = $(divPadre).find(
-                "select.emicionPasaporteCliente"
+                "select.emicionPasaporte"
             );
-            let inputDocumento = $(divPadre).find(
-                "input.noDocIdentificacionCliente"
-            );
+            let inputDocumento = $(divPadre).find("input.noDocIdentificacion");
             if (event.target.value == "P") {
                 selectPaisPasaporte[0].disabled = false;
                 inputDocumento[0].disabled = false;
@@ -895,7 +925,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
                 `<div class='form-group'>
                             <div class="row">
                                 <div class="col-sm">
-                                    <select name="${idPadre}" id="${idSelect}" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
+                                    <select name="${idPadre}" id="${idSelect}" class="form-control custom-select nacionalidad" style="width: 100%" required>
                                         <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
@@ -927,19 +957,8 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
             let idSelect = $(divPadre).attr("cantidad");
             idSelect++;
             let idInput = `${idDivPadre}_${idSelect}`;
-            $(`#${idDivPadre}>div:nth-last-child(2)`).after(`
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <input name="${idDivPadre}" id="${idInput}" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
-                                    </div>
-                                    <div class="col-sm my-auto">
-                                        <button type="button" class="btn btn-danger">
-                                            borrar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div `);
+            let cmTelefono = templateTelefono(idInput, true);
+            $(`#${idDivPadre}>div:nth-last-child(2)`).after(cmTelefono);
             $(divPadre).attr("cantidad", idSelect);
             $(`#${idDivPadre}>div.form-group>div.row`)
                 .find("button")
@@ -1112,12 +1131,16 @@ function AgregarTitular() {
          * variables para los id de los campos
          * se utiliza el tipo y el id para crear un id unico para cada campo
          */
-        let idNit = `nit${tipo}_${id}`;
-
         let idTitular = `${tipo}_${id}`;
-        let camposNombresTitulares = templateCamposNommbres(idTitular);
-        let componenteSexoCamposMinimos = templateSexo(idTitular);
-
+        let cmpaisTitular = templatePais(`paisCaMi${idTitular}`, "País", true);
+        let cmDepartamentoTitular = templateDepartamento(
+            `CaMi${idTitular}`,
+            "Departamento"
+        );
+        let cmMunicipioTitular = templateMunicipio(
+            `CaMi${idTitular}`,
+            "Municipio"
+        );
         let templateTitular = `
                                 <div class="card card-primary" id="${idTitular}">
                                     <div class="card-header">
@@ -1134,9 +1157,7 @@ function AgregarTitular() {
                                     <!-- /.card-header -->
 
                                     <div class="card-body">
-                                        <div class="row mb-3">
-                                            <h4>I. TIPO DE ACTUACIÓN DEL CLIENTE ${id}</h4>
-                                        </div>
+                                        <div class="row mb-3"><h4>I. TIPO DE ACTUACIÓN DEL CLIENTE ${id}</h4></div>
                                         <!-- .row -->
 
                                         <div class="row">
@@ -1178,32 +1199,9 @@ function AgregarTitular() {
                                         <!-- row -->
 
                                         <div class="row">
-                                            <!-- select pais -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>País</label>
-                                                    <select name="paisCaMi${idTitular}" id="paisCaMi${idTitular}" class="form-control custom-select paisCaMiCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <!-- select departamento -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Departamento</label>
-                                                    <select name="deptoCaMi${idTitular}" id="deptoCaMi${idTitular}" class="form-control custom-select deptoCaMiCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <!-- select muni -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Municipio</label>
-                                                    <select name="muniCaMi${idTitular}" id="muniCaMi${idTitular}" class="form-control custom-select muniCaMiCliente setMunicipio" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            ${cmpaisTitular}
+                                            ${cmDepartamentoTitular}
+                                            ${cmMunicipioTitular}
                                             <!-- fecha -->
                                             <div class="col-sm">
                                                 <div class="form-group">
@@ -1221,303 +1219,19 @@ function AgregarTitular() {
                                             </div>
                                         </div>
                                         <!-- .row -->
-
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <h4>III. DATOS PERSONALES</h4>
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <h5>Información del cliente ${id}</h5>
-                                            </div>
-                                            <br />
-                                            <br />
-                                        </div>
-                                        <!-- .row -->
-                                        ${camposNombresTitulares}
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Fecha nacimiento</label>
-                                                    <div class="input-group date" id="fechaNacimiento_${idTitular}" data-target-input="nearest">
-                                                        <input name="fechaNacimiento${idTitular}" id="fechaNacimiento${idTitular}" type="text" class="form-control datetimepicker-input" data-target="#fechaNacimiento_${idTitular}" required />
-                                                        <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
-                                                        <div class="input-group-append" data-target="#fechaNacimiento_${idTitular}" data-toggle="datetimepicker">
-                                                            <div class="input-group-text">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>País nacimiento</label>
-                                                    <select name="paisNacimiento${idTitular}" id="paisNacimiento${idTitular}" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <!-- select departamento -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Departamento nacimiento</label>
-                                                    <select name="deptoNacimiento${idTitular}" id="deptoNacimiento${idTitular}" class="form-control custom-select deptoNacimientoCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <!-- select muni -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Municipio nacimiento</label>
-                                                    <select name="muniNaciminento${idTitular}" id="muniNaciminento${idTitular}" class="form-control custom-select muniNaciminentoCliente setMunicipio" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Condición migratoria</label>
-                                                    <select name="condicionMigratoria${idTitular}" id="condicionMigratoria${idTitular}" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Especifique</label>
-                                                    <input name="otraCoMi${idTitular}" id="otraCoMi${idTitular}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <!-- sexo cliente -->
-                                         ${componenteSexoCamposMinimos}
-                                            <!-- .col-sm -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Estado civil</label>
-                                                    <select name="estadoCivil${idTitular}" id="estadoCivil${idTitular}" class="form-control custom-select estadoCivilCliente" style="width: 100%" required>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                        <option value="S">Soltero</option>
-                                                        <option value="C">Casado</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <!-- .col-sm -->
-
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Nit</label>
-                                                    <input name="${idNit}" id="${idNit}" type="text" class="form-control nitCliente" placeholder="Nit ..." maxlength="20" />
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Docto. identificación</label>
-                                                    <select name="tipoDoctoIdentificacion${idTitular}" id="tipoDoctoIdentificacion${idTitular}" class="form-control custom-select tipoDoctoIdentificacionCliente validaPaisPasaporte" style="width: 100%" required>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                        <option value="D">DPI</option>
-                                                        <option value="P">Pasaporte</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Número identificación</label>
-                                                    <input name="noDocIdentificacion${idTitular}" id="noDocIdentificacion${idTitular}" type="text" class="form-control noDocIdentificacionCliente" placeholder="Número identificación..." maxlength="20" required disabled/>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>País (Pasaporte)</label>
-                                                    <select name="emicionPasaporte${idTitular}" id="emicionPasaporte${idTitular}" class="form-control custom-select emicionPasaporteCliente" style="width: 100%" disabled required>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Profesión u oficio</label>
-                                                    <input name="profecionOficio${idTitular}" id="profecionOficio${idTitular}" type="text" class="form-control profecionOficioCliente" placeholder="Profesión u oficio ..." maxlength="100" required />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Correo electrónico</label>
-                                                    <input name="email${idTitular}" id="email${idTitular}" type="email" class="form-control emailCliente" placeholder="Correo electrónico ..." maxlength="100" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <h5>Residencia</h5>
-                                            </div>
-                                            <br />
-                                            <br />
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
-                                                <input name="direccionRecidencia${idTitular}" id="direccionRecidencia${idTitular}" type="text" class="form-control direccionRecidenciaCliente" placeholder="Dirección de residencia completa ..." maxlength="400" required />
-                                            </div>
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <!-- select pais nacimiento Cliente -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>País residencia</label>
-                                                    <select name="paisRecidencia${idTitular}" id="paisRecidencia${idTitular}" class="form-control custom-select paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <!-- select departamento -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Departamento residencia</label>
-                                                    <select name="deptoRecidencia${idTitular}" id="deptoRecidencia${idTitular}" class="form-control custom-select deptoRecidenciaCliente getMunicipio setDepartamento" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <!-- select muni -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Municipio residencia</label>
-                                                    <select name="muniRecidencia${idTitular}" id="muniRecidencia${idTitular}" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required disabled>
-                                                        <option value="" disabled selected>Selecciona</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm" id="nacionalidad${idTitular}" cantidad="1">
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-sm">
-                                                            <label>Nacionalidad</label>
-                                                            <select name="nacionalidad${idTitular}" id="nacionalidad${idTitular}_1" class="form-control custom-select nacionalidadCliente" style="width: 100%" required>
-                                                                <option value="" disabled selected>Selecciona</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm my-auto pt-2"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <button type="button" class="btn btn-primary agregarNacionalidadCliente">
-                                                        Agregar Nacionalidad
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- .nacionalidad -->
-                                            <div class="col-sm" id="telefonosCliente" cantidad="1">
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-sm">
-                                                            <label>Telefonos:</label>
-                                                            <input name="telefonoCliente" type="text" class="form-control telefonoCliente" placeholder="telefono ..." maxlength="30" required />
-                                                        </div>
-                                                        <div class="col-sm"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <button type="button" class="btn btn-primary agregarTelefono">
-                                                        Agregar teléfono
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- .telefono -->
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-check">
-                                                    <div>
-                                                        <label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryCpeClienteSi_${idTitular}" class="cpeCliente" name="cpe${idTitular}" value="S" required />
-                                                        <label for="primaryCpeClienteSi_${idTitular}">Sí</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryCpeClienteNo_${idTitular}" class="cpeCliente" name="cpe${idTitular}" value="N" required />
-                                                        <label for="primaryCpeClienteNo_${idTitular}">No</label>
-                                                        <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-check">
-                                                    <div>
-                                                        <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryPepSi_${idTitular}" class="pepCliente" name="pep${idTitular}" value="S" required />
-                                                        <label for="primaryPepSi_${idTitular}">Sí</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryPepNo_${idTitular}" class="pepCliente" name="pep${idTitular}" value="N" required />
-                                                        <label for="primaryPepNo_${idTitular}">No</label>
-                                                        <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="datospep${idTitular}"></div>
-
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-check">
-                                                    <div>
-                                                        <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryAsoPepSi${idTitular}" class="asoPep" name="asoPep${idTitular}" value="S" required />
-                                                        <label for="primaryAsoPepSi${idTitular}">Sí</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="primaryAsoPepNo${idTitular}" class="asoPep" name="asoPep${idTitular}" value="N" required />
-                                                        <label for="primaryAsoPepNo${idTitular}">No</label>
-                                                        <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="datosasoPep${idTitular}">
-                                            <div class="info">
-                                            </div>
-                                            <div class="btnadd">
-                                            </div>
-                                        </div>
-                                        <!-- .datosPaAsPep -->
+                                         <div id="camposMinimos${idTitular}"></div>
+                                         <div id="representante${idTitular}"></div>
                                     </div>
                                     <!-- /.card-body -->
                                 </div>
                                 `;
         $("#titulares").append(templateTitular);
+        // agregar campos titular
+        agregarCamposMinimos(
+            $(`#camposMinimos${idTitular}`),
+            `${idTitular}`,
+            "cliente"
+        );
         /*agregado validadciones para el nuevo titular*/
         let divTitularActual = $(`#titulares>div#${idTitular}`);
 
@@ -1526,69 +1240,19 @@ function AgregarTitular() {
         );
         inputActuaNombrePropio.focus();
         verificaActuaNombrePropio(inputActuaNombrePropio);
-
-        let selectPaisActual = $(divTitularActual).find("select.setPais");
+        let selectPaisActual = $(`select#paisCaMi${idTitular}`);
         habilitaDepartamentoMunicipio(selectPaisActual);
         cargarPais(selectPaisActual);
-        let selectDepartamentoActual = $(divTitularActual).find(
-            "select.setDepartamento"
-        );
-        cargarDepartamentos(selectDepartamentoActual);
 
-        let fechas = $(divTitularActual).find("div.date");
-        setFormatoFecha(fechas);
-
-        //cuando se usa template, se puede utilizar un id exacto para localizar el elemento
-        validarApellidoCasada($(`input#apellidoCasada${idTitular}`));
-
-        let liConMigratoria = $(divTitularActual).find(
-            "select.condicionMigratoriaCliente"
-        );
-        cargarCondicionMigratoria(liConMigratoria);
-        let nit = $(divTitularActual).find(`input:text[id=${idNit}]`);
-        validarNit($(nit));
-
-        let selectValidaPaisPasaporte = $(divTitularActual).find(
-            "select.validaPaisPasaporte"
-        );
-        habilitaPaisPasaporte(selectValidaPaisPasaporte);
-        // se carga el pais, no se necestia verificar departamentos,
-        // los demas paises se cargan con la clase set Pais
-        let paisPasaporte = $(divTitularActual).find(
-            "select.emicionPasaporteCliente"
-        );
-        cargarPais(paisPasaporte);
-
-        let paisNacionalidad = $(divTitularActual).find(
-            "select.nacionalidadCliente"
-        );
-        cargarPais(paisNacionalidad);
-        let btnsAddNacionalidad = $(divTitularActual).find(
-            "button.agregarNacionalidadCliente"
-        );
-        agregarTemplateNacionalidad(btnsAddNacionalidad);
-
-        let btnAddTelefono = $(divTitularActual).find("button.agregarTelefono");
-        agregarTemplateTelefono(btnAddTelefono);
-
-        let radioButtonClientePep = $(divTitularActual).find(
-            "input.pepCliente"
-        );
-        verificarPersonaPep(radioButtonClientePep);
-        let radioEsAsoPep = $(divTitularActual).find(
-            `input:radio[name=asoPep${idTitular}]`
-        );
-        console.log(radioEsAsoPep);
-        verificarAsoPep(radioEsAsoPep);
-
+        cargarDepartamentos($(`select#deptoCaMi${idTitular}`));
         eliminarTemplateTitular($("#titulares>div"));
     });
 }
 class dicLugar {
-    constructor(pais, departamento, municipio) {
-        this.pais = pais;
-        this.departamento = departamento;
-        this.municipio = municipio;
+    constructor() {
+        this.pais = null;
+        this.departamento = null;
+        this.municipio = null;
     }
 }
 class datosPep {
@@ -1666,7 +1330,7 @@ class dicCamposMinimos {
         this.lugar = new dicLugar();
         this.fecha = null;
         this.cliente = new dicDatosPersonales();
-        this.representante = null;
+        this.representante = new dicDatosPersonales();
         this.infoEconomicaInical = null;
     }
 }
@@ -1702,7 +1366,7 @@ function validarFormulario() {
             "submit",
             function (event) {
                 expandirCard();
-                obtenerDatos();
+                enviarDatos();
                 if (form.checkValidity() === false) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -1711,7 +1375,7 @@ function validarFormulario() {
                     event.preventDefault();
                     event.stopPropagation();
                     console.log("enviando formulario");
-                    enviarDatos();
+                    //enviarDatos();
                 }
             },
             false
@@ -1746,6 +1410,184 @@ function eliminarTemplateTitular(titulares) {
         });
     }
 }
+function obtenerDatosPersonales(divPadre, id) {
+    let datosPersonales = new dicDatosPersonales();
+    datosPersonales.primerApellido = $(divPadre)
+        .find(`input:text[id=primerApellido${id}]`)
+        .val();
+    datosPersonales.segundoApellido = $(divPadre)
+        .find(`input:text[id=segundoApellido${id}]`)
+        .val();
+    datosPersonales.apellidoCasada = $(divPadre)
+        .find(`input:text[id=apellidoCasada${id}]`)
+        .val();
+    datosPersonales.primerNombre = $(divPadre)
+        .find(`input:text[id=primerNombre${id}]`)
+        .val();
+    datosPersonales.segundoNombre = $(divPadre)
+        .find(`input:text[id=segundoNombre${id}]`)
+        .val();
+    datosPersonales.otrosNombres = $(divPadre)
+        .find(`input:text[id=otrosNombres${id}]`)
+        .val();
+    datosPersonales.fechaNacimiento = $(divPadre)
+        .find(`input:text[id=fechaNacimiento${id}]`)
+        .val();
+    datosPersonales.nacimiento.pais = $(divPadre)
+        //
+        .find(`select[id=paisNacimiento${id}] option:selected`)
+        .val();
+    datosPersonales.nacimiento.departamento = $(divPadre)
+        .find(`select[id=deptoNacimiento${id}] option:selected`)
+        .val();
+    datosPersonales.nacimiento.municipio = $(divPadre)
+        .find(`select[id=muniNacimiento${id}] option:selected`)
+        .val();
+    datosPersonales.condicionMigratoria = $(divPadre)
+        .find(`select[id=condicionMigratoria${id}] option:selected`)
+        .val();
+    datosPersonales.otraCondicionMigratoria = $(divPadre)
+        .find(`input:text[id=otraCoMi${id}]`)
+        .val();
+    datosPersonales.sexo = $(divPadre)
+        .find(`select[id=sexo${id}] option:selected`)
+        .val();
+    datosPersonales.estadoCivil = $(divPadre)
+        .find(`select[id=estadoCivil${id}] option:selected`)
+        .val();
+    datosPersonales.nit = $(divPadre).find(`input:text[id=nit${id}]`).val();
+    datosPersonales.tipoDocumentoIdentificacion = $(divPadre)
+        .find(`select[id=tipoDoctoIdentificacion${id}] option:selected`)
+        .val();
+    datosPersonales.numeroDocumentoIdentificacion = $(divPadre)
+        .find(`input:text[id=noDocIdentificacion${id}]`)
+        .val();
+    datosPersonales.emisionPasaporte = $(divPadre)
+        .find(`select[id=emicionPasaporte${id}] option:selected`)
+        .val();
+    datosPersonales.profesionOficio = $(divPadre)
+        .find(`input:text[id=profecionOficio${id}]`)
+        .val();
+    datosPersonales.email = $(divPadre).find(`input[id=email${id}]`).val();
+    datosPersonales.direccionResidencia = $(divPadre)
+        .find(`input:text[id=direccionRecidencia${id}]`)
+        .val();
+    datosPersonales.residencia.pais = $(divPadre)
+        .find(`select[id=paisRecidencia${id}] option:selected`)
+        .val();
+    datosPersonales.residencia.departamento = $(divPadre)
+        .find(`select[id=deptoRecidencia${id}] option:selected`)
+        .val();
+    datosPersonales.residencia.municipio = $(divPadre)
+        .find(`select[id=muniRecidencia${id}] option:selected`)
+        .val();
+    let telefonos = $(`div#telefono${id}`).find("input.telefono");
+    for (let i = 0; i < telefonos.length; i++) {
+        datosPersonales.agregarTelefono($(telefonos[i]).val());
+    }
+
+    let nacionalidades = $(`div#nacionalidad${id}`).find(`select.nacionalidad`);
+    console.log(nacionalidades);
+    for (let a = 0; a < nacionalidades.length; a++) {
+        datosPersonales.agregarNacionalidad($(nacionalidades[a]).val());
+    }
+    datosPersonales.cpe = $(divPadre)
+        .find(`input:radio[name=cpe${id}]:checked`)
+        .val();
+    let esPep = (datosPersonales.pep = $(divPadre)
+        .find(`input:radio[name=pep${id}]:checked`)
+        .val());
+    if (esPep === "S") {
+        datosPersonales.datospep.entidad = $(divPadre)
+            .find(`input[id=entidadpep${id}]`)
+            .val();
+        datosPersonales.datospep.puestoDesempenia = $(divPadre)
+            .find(`input[id=puestoDesepeniapep${id}]`)
+            .val();
+        datosPersonales.datospep.paisEntidad = $(divPadre)
+            .find(`select[id=paisEntidadpep${id}] option:selected`)
+            .val();
+        let esOtroRiqueza = (datosPersonales.datospep.origenRiqueza = $(
+            divPadre
+        )
+            .find(`select[id=origenRiquezapep${id}] option:selected`)
+            .val());
+        if (esOtroRiqueza == 8) {
+            datosPersonales.datospep.otroOrigenRiqueza = $(divPadre)
+                .find(`input[id=otroOrigenRiquezapep${id}]`)
+                .val();
+        }
+    } else {
+        datosPersonales.datospep = null;
+    }
+
+    let esAsoPep = (datosPersonales.parienteAsociadoPep = $(divPadre)
+        .find(`input:radio[name=asoPep${id}]:checked`)
+        .val());
+
+    if (esAsoPep == "S") {
+        let asociados = $(`#datosasoPep${id}>div.info`).children();
+        for (let a = 0; a < asociados.length; a++) {
+            // obtenemos el id, del div que contiene los datos del asociado actual
+            // div#asoPepCliente_1_0 para buscar cada input con
+            // $(`div#asoPepCliente_1_0`).find(`select#parentescoasoPepCliente_1_0`).val();
+
+            let idAsociado = $(asociados[a]).attr("id");
+            let datosAsoPep = new dicParienteAsociadoPep();
+            let divactual = `div#${idAsociado}`;
+            datosAsoPep.parentesco = $(divactual)
+                .find(`select#parentesco${idAsociado}`)
+                .val();
+            datosAsoPep.otroParentesco = $(divactual)
+                .find(`input#otroParentesco${idAsociado}`)
+                .val();
+            datosAsoPep.motivoAsociacion = $(divactual)
+                .find(`select#motivoAsociacion${idAsociado}`)
+                .val();
+            datosAsoPep.otroMotivoAsociacion = $(divactual)
+                .find(`input#otroMotivoAsociacion${idAsociado}`)
+                .val();
+            datosAsoPep.sexo = $(divactual)
+                .find(`select#sexo${idAsociado}`)
+                .val();
+            datosAsoPep.condicion = $(divactual)
+                .find(`select#condicion${idAsociado}`)
+                .val();
+            datosAsoPep.primerApellido = $(divactual)
+                .find(`input#primerApellido${idAsociado}`)
+                .val();
+            datosAsoPep.segundoApellido = $(divactual)
+                .find(`input#segundoApellido${idAsociado}`)
+                .val();
+            datosAsoPep.apellidoCasada = $(divactual)
+                .find(`input#apellidoCasada${idAsociado}`)
+                .val();
+            datosAsoPep.primerNombre = $(divactual)
+                .find(`input#primerNombre${idAsociado}`)
+                .val();
+            datosAsoPep.segundoNombre = $(divactual)
+                .find(`input#segundoNombre${idAsociado}`)
+                .val();
+            datosAsoPep.otrosNombres = $(divactual)
+                .find(`input#otrosNombres${idAsociado}`)
+                .val();
+            datosAsoPep.entidad = $(divactual)
+                .find(`input#entidad${idAsociado}`)
+                .val();
+            datosAsoPep.puestoDesempenia = $(divPadre)
+                .find(`input#puestoDesempenia${idAsociado}`)
+                .val();
+            datosAsoPep.paisEntidad = $(divPadre)
+                .find(`select#pais${idAsociado}`)
+                .val();
+            datosPersonales.agregarParienteAsociadoPep(datosAsoPep);
+        }
+    } else {
+        datosPersonales.datosParienteAsociadoPep = null;
+    }
+
+    return datosPersonales;
+}
 function obtenerDatos() {
     let df = new diccionarioFormulario(
         $(".diccionarioFormulario").attr("idDiccionario")
@@ -1758,194 +1600,29 @@ function obtenerDatos() {
         titular.tipoActuacion = $(divTitularActual)
             .find(`input:radio[name=tipoActuacion${id}]:checked`)
             .val();
-        titular.calidadActua = $(divTitularActual)
-            .find(`input:text[id=calidadActua${id}]`)
-            .val();
         titular.lugar.pais = $(divTitularActual)
             .find(`select[id=paisCaMi${id}] option:selected`)
             .val();
-        titular.lugar.departamento = $(divTitularActual)
-            .find(`select[id=deptoCaMi${id}] option:selected`)
-            .val();
-        titular.lugar.municipio = $(divTitularActual)
-            .find(`select[id=muniCaMi${id}] option:selected`)
-            .val();
+        if (titular.lugar.pais === "1") {
+            titular.lugar.departamento = $(divTitularActual)
+                .find(`select[id=deptoCaMi${id}] option:selected`)
+                .val();
+            titular.lugar.municipio = $(divTitularActual)
+                .find(`select[id=muniCaMi${id}] option:selected`)
+                .val();
+        }
         titular.fecha = $(divTitularActual)
             .find(`input:text[id=fechaDocCaMi${id}]`)
             .val();
-        titular.cliente.primerApellido = $(divTitularActual)
-            .find(`input:text[id=primerApellido${id}]`)
-            .val();
-        titular.cliente.segundoApellido = $(divTitularActual)
-            .find(`input:text[id=segundoApellido${id}]`)
-            .val();
-        titular.cliente.apellidoCasada = $(divTitularActual)
-            .find(`input:text[id=apellidoCasada${id}]`)
-            .val();
-        titular.cliente.primerNombre = $(divTitularActual)
-            .find(`input:text[id=primerNombre${id}]`)
-            .val();
-        titular.cliente.segundoNombre = $(divTitularActual)
-            .find(`input:text[id=segundoNombre${id}]`)
-            .val();
-        titular.cliente.otrosNombres = $(divTitularActual)
-            .find(`input:text[id=otrosNombres${id}]`)
-            .val();
-        titular.cliente.fechaNacimiento = $(divTitularActual)
-            .find(`input:text[id=fechaNacimiento${id}]`)
-            .val();
-        titular.cliente.nacimiento.pais = $(divTitularActual)
-            //
-            .find(`select[id=paisNacimiento${id}] option:selected`)
-            .val();
-        titular.cliente.nacimiento.departamento = $(divTitularActual)
-            .find(`select[id=deptoNacimiento${id}] option:selected`)
-            .val();
-        titular.cliente.nacimiento.municipio = $(divTitularActual)
-            .find(`select[id=muniNaciminento${id}] option:selected`)
-            .val();
-        titular.cliente.condicionMigratoria = $(divTitularActual)
-            .find(`select[id=condicionMigratoria${id}] option:selected`)
-            .val();
-        titular.cliente.otraCondicionMigratoria = $(divTitularActual)
-            .find(`input:text[id=otraCoMi${id}]`)
-            .val();
-        titular.cliente.sexo = $(divTitularActual)
-            .find(`select[id=sexo${id}] option:selected`)
-            .val();
-        titular.cliente.estadoCivil = $(divTitularActual)
-            .find(`select[id=estadoCivil${id}] option:selected`)
-            .val();
-        titular.cliente.nit = $(divTitularActual)
-            .find(`input:text[id=nit${id}]`)
-            .val();
-        titular.cliente.tipoDocumentoIdentificacion = $(divTitularActual)
-            .find(`select[id=tipoDoctoIdentificacion${id}] option:selected`)
-            .val();
-        titular.cliente.numeroDocumentoIdentificacion = $(divTitularActual)
-            .find(`input:text[id=noDocIdentificacion${id}]`)
-            .val();
-        titular.cliente.emisionPasaporte = $(divTitularActual)
-            .find(`select[id=emicionPasaporte${id}] option:selected`)
-            .val();
-        titular.cliente.profesionOficio = $(divTitularActual)
-            .find(`input:text[id=profecionOficio${id}]`)
-            .val();
-        titular.cliente.email = $(divTitularActual)
-            .find(`input[id=email${id}]`)
-            .val();
-        titular.cliente.direccionResidencia = $(divTitularActual)
-            .find(`input:text[id=direccionRecidencia${id}]`)
-            .val();
-        titular.cliente.residencia.pais = $(divTitularActual)
-            .find(`select[id=paisRecidencia${id}] option:selected`)
-            .val();
-        titular.cliente.residencia.departamento = $(divTitularActual)
-            .find(`select[id=deptoRecidencia${id}] option:selected`)
-            .val();
-        titular.cliente.residencia.municipio = $(divTitularActual)
-            .find(`select[id=muniRecidencia${id}] option:selected`)
-            .val();
-        let telefonos = $(divTitularActual).find(`input.telefonoCliente`);
-        for (let i = 0; i < telefonos.length; i++) {
-            titular.cliente.agregarTelefono($(telefonos[i]).val());
-        }
-
-        let nacionalidades = $(divTitularActual).find(
-            `select.nacionalidadCliente`
-        );
-        for (let a = 0; a < nacionalidades.length; a++) {
-            titular.cliente.agregarNacionalidad($(nacionalidades[a]).val());
-        }
-        titular.cliente.cpe = $(divTitularActual)
-            .find(`input:radio[name=cpe${id}]:checked`)
-            .val();
-        let esPep = (titular.cliente.pep = $(divTitularActual)
-            .find(`input:radio[name=pep${id}]:checked`)
-            .val());
-        if (esPep === "S") {
-            titular.cliente.datospep.entidad = $(divTitularActual)
-                .find(`input[id=entidadpep${id}]`)
+        titular.cliente = obtenerDatosPersonales(divTitularActual, id);
+        if (titular.tipoActuacion === "R") {
+            titular.calidadActua = $(divTitularActual)
+                .find(`input:text[id=calidadActua${id}]`)
                 .val();
-            titular.cliente.datospep.puestoDesempenia = $(divTitularActual)
-                .find(`input[id=puestoDesepeniapep${id}]`)
-                .val();
-            titular.cliente.datospep.paisEntidad = $(divTitularActual)
-                .find(`select[id=paisEntidadpep${id}] option:selected`)
-                .val();
-            let esOtroRiqueza = (titular.cliente.datospep.origenRiqueza = $(
-                divTitularActual
-            )
-                .find(`select[id=origenRiquezapep${id}] option:selected`)
-                .val());
-            if (esOtroRiqueza == 8) {
-                titular.cliente.datospep.otroOrigenRiqueza = $(divTitularActual)
-                    .find(`input[id=otroOrigenRiquezapep${id}]`)
-                    .val();
-            }
-        } else {
-            titular.cliente.datospep = null;
-        }
-
-        let esAsoPep = (titular.cliente.parienteAsociadoPep = $(
-            divTitularActual
-        )
-            .find(`input:radio[name=asoPep${id}]:checked`)
-            .val());
-
-        if (esAsoPep == "S") {
-            let asociados = $(`#datosasoPep${id}>div.info`).children();
-            for (let a = 0; a < asociados.length; a++) {
-                let id = $(asociados[a]).attr("id");
-                let datosAsoPep = new dicParienteAsociadoPep();
-                let divactual = `div#${id}`;
-                datosAsoPep.parentesco = $(divactual)
-                    .find(`select#parentesco${id}`)
-                    .val();
-                datosAsoPep.otroParentesco = $(divactual)
-                    .find(`input#otroParentesco${id}`)
-                    .val();
-                datosAsoPep.motivoAsociacion = $(divactual)
-                    .find(`select#motivoAsociacion${id}`)
-                    .val();
-                datosAsoPep.otroMotivoAsociacion = $(divactual)
-                    .find(`input#otroMotivoAsociacion${id}`)
-                    .val();
-                datosAsoPep.sexo = $(divactual).find(`select#sexo${id}`).val();
-                datosAsoPep.condicion = $(divactual)
-                    .find(`select#condicion${id}`)
-                    .val();
-                datosAsoPep.primerApellido = $(divactual)
-                    .find(`input#primerApellido${id}`)
-                    .val();
-                datosAsoPep.segundoApellido = $(divactual)
-                    .find(`input#segundoApellido${id}`)
-                    .val();
-                datosAsoPep.apellidoCasada = $(divactual)
-                    .find(`input#apellidoCasada${id}`)
-                    .val();
-                datosAsoPep.primerNombre = $(divactual)
-                    .find(`input#primerNombre${id}`)
-                    .val();
-                datosAsoPep.segundoNombre = $(divactual)
-                    .find(`input#segundoNombre${id}`)
-                    .val();
-                datosAsoPep.otrosNombres = $(divactual)
-                    .find(`input#otrosNombres${id}`)
-                    .val();
-                datosAsoPep.entidad = $(divactual)
-                    .find(`input#entidad${id}`)
-                    .val();
-                datosAsoPep.puestoDesempenia = $(divTitularActual)
-                    .find(`input#puestoDesempenia${id}`)
-                    .val();
-                datosAsoPep.paisEntidad = $(divTitularActual)
-                    .find(`select#pais${id}`)
-                    .val();
-                titular.cliente.agregarParienteAsociadoPep(datosAsoPep);
-            }
-        } else {
-            titular.cliente.datosParienteAsociadoPep = null;
+            titular.representante = obtenerDatosPersonales(
+                divTitularActual,
+                `Representante${id}`
+            );
         }
 
         df.agregarTitular(titular);
