@@ -7,6 +7,7 @@ use App\Models\CamposMinimos;
 use App\Models\DatosPersonales;
 use App\Models\DiccionarioFormulario;
 use App\Models\Lugar;
+use App\Models\Nacionalidad;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -111,6 +112,14 @@ class InformacionClienteController extends Controller
                             ->where('lugar.idLugar','=',$idLugar)->get()[0];
         return $arrLugarCM;
     }
+    public function arrayNacionalidades($idNacionalidad){
+        $nacionalidades = [];
+       $nacdsAso = Nacionalidad::select('pais.codigoPais')->join('pais','nacionalidad.idPais','=','pais.idPais')->where('nacionalidad.idDatosPersonales','=',$idNacionalidad)->get();
+       foreach ($nacdsAso as $naccd) {
+           $nacionalidades[]= $naccd["codigoPais"];
+       }
+       return $nacionalidades;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -197,6 +206,7 @@ class InformacionClienteController extends Controller
 
                 $datosPersonalesCliente = DatosPersonales::where('idDatosPersonales','=',$camposMinimos["cliente"])->get()[0];
                 $datosPersonalesCliente["fechaNacimiento"] = $this->formatoFechaJson($datosPersonalesCliente["fechaNacimiento"]);
+                $datosPersonalesCliente["nacionalidades"] = $this->arrayNacionalidades($datosPersonalesCliente["idDatosPersonales"]);
                 $datosPersonalesCliente["nacimiento"] = $this->querylugar($datosPersonalesCliente["nacimiento"]);
                 $camposMinimos["cliente"] = $datosPersonalesCliente;
             }
