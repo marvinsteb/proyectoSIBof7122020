@@ -11,6 +11,7 @@ use App\Models\Nacionalidad;
 use App\Models\Telefono;
 use App\Models\Pais;
 use App\Models\DatosPep;
+use App\Models\ParienteAsociadoPep;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -144,6 +145,12 @@ class InformacionClienteController extends Controller
     public function obtenerCodigoPais($idPais){
         return Pais::select("codigoPais")->where('idPais','=',$idPais)->get()[0]["codigoPais"];
     }
+    public function queryDatosParienteAsociadoPep($idDatosPersonales){
+        $arrParienteAsociadoPep = ParienteAsociadoPep::select('datosParienteAsociadoPep.*')
+                            ->join('datosParienteAsociadoPep', 'datosParienteAsociadoPep.idDatosParienteAsociadoPep', '=', 'parienteAsociadoPep.idDatosParienteAsociadoPep')
+                            ->where('parienteAsociadoPep.idDatosPersonales','=',$idDatosPersonales)->get();
+        return $arrParienteAsociadoPep;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -241,6 +248,11 @@ class InformacionClienteController extends Controller
                         $datosPersonalesCliente["datosPep"] ["paisEntidad"] =  $this->obtenerCodigoPais($datosPersonalesCliente["datosPep"] ["paisEntidad"]);
                     } else {
                         $datosPersonalesCliente["datosPep"] = "";
+                    }
+                    if($datosPersonalesCliente["parienteAsociadoPep"] == 'S'){
+                        $datosPersonalesCliente["datosParienteAsociadoPep"] = $this->queryDatosParienteAsociadoPep($datosPersonalesCliente["idDatosPersonales"]);
+                    } else {
+                        $datosPersonalesCliente["datosParienteAsociadoPep"] = "";
                     }
                 $camposMinimos["cliente"] = $datosPersonalesCliente;
             }
