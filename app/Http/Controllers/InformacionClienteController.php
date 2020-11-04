@@ -8,6 +8,7 @@ use App\Models\DatosPersonales;
 use App\Models\DiccionarioFormulario;
 use App\Models\Lugar;
 use App\Models\Nacionalidad;
+use App\Models\Pais;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -219,6 +220,8 @@ class InformacionClienteController extends Controller
                 $datosPersonalesCliente["nacimiento"] = $this->querylugar($datosPersonalesCliente["nacimiento"]);
                 $datosPersonalesCliente["nit"] = $this->formatoNit($datosPersonalesCliente["nit"]);
                 $datosPersonalesCliente["numeroDocumentoIdentificacion"] = $this->formatoDPI($datosPersonalesCliente["numeroDocumentoIdentificacion"]);
+                $datosPersonalesCliente["emisionPasaporte"] =  Pais::select("codigoPais")->where('idPais','=',$datosPersonalesCliente["emisionPasaporte"])->get()[0]["codigoPais"];
+                $datosPersonalesCliente["residencia"] = $this->querylugar($datosPersonalesCliente["residencia"]);
                 $camposMinimos["cliente"] = $datosPersonalesCliente;
             }
             $JsonDicFormuario = [
