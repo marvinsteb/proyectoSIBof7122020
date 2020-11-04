@@ -10,6 +10,7 @@ use App\Models\Lugar;
 use App\Models\Nacionalidad;
 use App\Models\Telefono;
 use App\Models\Pais;
+use App\Models\DatosPep;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -222,16 +223,20 @@ class InformacionClienteController extends Controller
 
                 $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
                 $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
-
-                $datosPersonalesCliente = DatosPersonales::where('idDatosPersonales','=',$camposMinimos["cliente"])->get()[0];
-                $datosPersonalesCliente["fechaNacimiento"] = $this->formatoFechaJson($datosPersonalesCliente["fechaNacimiento"]);
-                $datosPersonalesCliente["nacionalidades"] = $this->arrayNacionalidades($datosPersonalesCliente["idDatosPersonales"]);
-                $datosPersonalesCliente["nacimiento"] = $this->querylugar($datosPersonalesCliente["nacimiento"]);
-                $datosPersonalesCliente["nit"] = $this->formatoNit($datosPersonalesCliente["nit"]);
-                $datosPersonalesCliente["numeroDocumentoIdentificacion"] = $this->formatoDPI($datosPersonalesCliente["numeroDocumentoIdentificacion"]);
-                $datosPersonalesCliente["emisionPasaporte"] =  Pais::select("codigoPais")->where('idPais','=',$datosPersonalesCliente["emisionPasaporte"])->get()[0]["codigoPais"];
-                $datosPersonalesCliente["residencia"] = $this->querylugar($datosPersonalesCliente["residencia"]);
-                $datosPersonalesCliente["telefonos"] = $this->arrayTelefonos($datosPersonalesCliente["idDatosPersonales"]);
+                    $datosPersonalesCliente = DatosPersonales::where('idDatosPersonales','=',$camposMinimos["cliente"])->get()[0];
+                    $datosPersonalesCliente["fechaNacimiento"] = $this->formatoFechaJson($datosPersonalesCliente["fechaNacimiento"]);
+                    $datosPersonalesCliente["nacionalidades"] = $this->arrayNacionalidades($datosPersonalesCliente["idDatosPersonales"]);
+                    $datosPersonalesCliente["nacimiento"] = $this->querylugar($datosPersonalesCliente["nacimiento"]);
+                    $datosPersonalesCliente["nit"] = $this->formatoNit($datosPersonalesCliente["nit"]);
+                    $datosPersonalesCliente["numeroDocumentoIdentificacion"] = $this->formatoDPI($datosPersonalesCliente["numeroDocumentoIdentificacion"]);
+                    $datosPersonalesCliente["emisionPasaporte"] =  Pais::select("codigoPais")->where('idPais','=',$datosPersonalesCliente["emisionPasaporte"])->get()[0]["codigoPais"];
+                    $datosPersonalesCliente["residencia"] = $this->querylugar($datosPersonalesCliente["residencia"]);
+                    $datosPersonalesCliente["telefonos"] = $this->arrayTelefonos($datosPersonalesCliente["idDatosPersonales"]);
+                    if($datosPersonalesCliente["pep"] == 'S'){
+                        $datosPersonalesCliente["datosPep"] = DatosPep::where('idDatosPep','=',$datosPersonalesCliente["datosPep"])->get()[0];
+                    } else {
+                        $datosPersonalesCliente["datosPep"] = "";
+                    }
                 $camposMinimos["cliente"] = $datosPersonalesCliente;
             }
             $JsonDicFormuario = [
