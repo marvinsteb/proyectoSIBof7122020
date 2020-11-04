@@ -140,6 +140,10 @@ class InformacionClienteController extends Controller
         $dpiSinEspacios = str_replace(" ","",$dpiSinGiones);
         return $dpiSinEspacios;
     }
+    
+    public function obtenerCodigoPais($idPais){
+        return Pais::select("codigoPais")->where('idPais','=',$idPais)->get()[0]["codigoPais"];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -229,11 +233,12 @@ class InformacionClienteController extends Controller
                     $datosPersonalesCliente["nacimiento"] = $this->querylugar($datosPersonalesCliente["nacimiento"]);
                     $datosPersonalesCliente["nit"] = $this->formatoNit($datosPersonalesCliente["nit"]);
                     $datosPersonalesCliente["numeroDocumentoIdentificacion"] = $this->formatoDPI($datosPersonalesCliente["numeroDocumentoIdentificacion"]);
-                    $datosPersonalesCliente["emisionPasaporte"] =  Pais::select("codigoPais")->where('idPais','=',$datosPersonalesCliente["emisionPasaporte"])->get()[0]["codigoPais"];
+                    $datosPersonalesCliente["emisionPasaporte"] =  $this->obtenerCodigoPais($datosPersonalesCliente["emisionPasaporte"]);
                     $datosPersonalesCliente["residencia"] = $this->querylugar($datosPersonalesCliente["residencia"]);
                     $datosPersonalesCliente["telefonos"] = $this->arrayTelefonos($datosPersonalesCliente["idDatosPersonales"]);
                     if($datosPersonalesCliente["pep"] == 'S'){
                         $datosPersonalesCliente["datosPep"] = DatosPep::where('idDatosPep','=',$datosPersonalesCliente["datosPep"])->get()[0];
+                        $datosPersonalesCliente["datosPep"] ["paisEntidad"] =  $this->obtenerCodigoPais($datosPersonalesCliente["datosPep"] ["paisEntidad"]);
                     } else {
                         $datosPersonalesCliente["datosPep"] = "";
                     }
