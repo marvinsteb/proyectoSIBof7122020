@@ -8,6 +8,7 @@ use App\Models\DatosPersonales;
 use App\Models\DiccionarioFormulario;
 use App\Models\Lugar;
 use App\Models\Nacionalidad;
+use App\Models\Telefono;
 use App\Models\Pais;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -122,6 +123,14 @@ class InformacionClienteController extends Controller
        }
        return $nacionalidades;
     }
+    public function arrayTelefonos($idDatosPersonales){
+        $telefonos = [];
+       $querytbTelefonos = Telefono::select('numTelefono')->where('telefono.idDatosPersonales','=',$idDatosPersonales)->get();
+       foreach ($querytbTelefonos as $telefono) {
+           $telefonos[]= $telefono["numTelefono"];
+       }
+       return $telefonos;
+    }
     public function formatoNit($nit){
         return str_replace("-","",$nit);
     }
@@ -222,6 +231,7 @@ class InformacionClienteController extends Controller
                 $datosPersonalesCliente["numeroDocumentoIdentificacion"] = $this->formatoDPI($datosPersonalesCliente["numeroDocumentoIdentificacion"]);
                 $datosPersonalesCliente["emisionPasaporte"] =  Pais::select("codigoPais")->where('idPais','=',$datosPersonalesCliente["emisionPasaporte"])->get()[0]["codigoPais"];
                 $datosPersonalesCliente["residencia"] = $this->querylugar($datosPersonalesCliente["residencia"]);
+                $datosPersonalesCliente["telefonos"] = $this->arrayTelefonos($datosPersonalesCliente["idDatosPersonales"]);
                 $camposMinimos["cliente"] = $datosPersonalesCliente;
             }
             $JsonDicFormuario = [
