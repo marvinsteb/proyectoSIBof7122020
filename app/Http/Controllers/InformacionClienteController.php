@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CamposMinimos;
+use App\Models\DatosPersonales;
 use App\Models\DiccionarioFormulario;
 use App\Models\Lugar;
 use Carbon\Carbon;
@@ -189,7 +190,9 @@ class InformacionClienteController extends Controller
                                     ->where('lugar.idLugar','=',$camposMinimos["lugar"])->get();
                 $camposMinimos["lugar"] = $arrLugarCM[0];
                 $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
-                
+                $datosPersonalesCliente = DatosPersonales::where('idDatosPersonales','=',$camposMinimos["cliente"])->get()[0];
+                $datosperso
+                $camposMinimos["cliente"] = $datosPersonalesCliente;
             }
             $JsonDicFormuario = [
                 'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
