@@ -103,6 +103,14 @@ class InformacionClienteController extends Controller
     public function formatoFechaJson($fecha){
         return  Carbon::createFromFormat('Y-m-d', $fecha)->format('Ymd');
     }
+    public function querylugar($idLugar){
+        $arrLugarCM = Lugar::select('lugar.idlugar','pais.codigoPais as pais','departamento.codigoDepartamento as departamento','municipio.codigoMunicipio as municipio', 'pais.nombrePais','departamento.nombreDepartamento','municipio.nombreMunicipio')
+                            ->join('pais', 'lugar.pais', '=', 'pais.idPais')
+                            ->join('departamento', 'lugar.departamento', '=', 'departamento.idDepartamento')
+                            ->join('municipio', 'lugar.municipio', '=', 'municipio.idMunicipio')
+                            ->where('lugar.idLugar','=',$idLugar)->get()[0];
+        return $arrLugarCM;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -183,15 +191,13 @@ class InformacionClienteController extends Controller
                 if($camposMinimos['tipoActuacion'] == 'C'){
                     $camposMinimos['calidadActua']= "";
                 }
-                $arrLugarCM = Lugar::select('lugar.idlugar','pais.codigoPais as pais','departamento.codigoDepartamento as departamento','municipio.codigoMunicipio as municipio', 'pais.nombrePais','departamento.nombreDepartamento','municipio.nombreMunicipio')
-                                    ->join('pais', 'lugar.pais', '=', 'pais.idPais')
-                                    ->join('departamento', 'lugar.departamento', '=', 'departamento.idDepartamento')
-                                    ->join('municipio', 'lugar.municipio', '=', 'municipio.idMunicipio')
-                                    ->where('lugar.idLugar','=',$camposMinimos["lugar"])->get();
-                $camposMinimos["lugar"] = $arrLugarCM[0];
+
+                $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
                 $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
+
                 $datosPersonalesCliente = DatosPersonales::where('idDatosPersonales','=',$camposMinimos["cliente"])->get()[0];
-                $datosperso
+                $datosPersonalesCliente["fechaNacimiento"] = $this->formatoFechaJson($datosPersonalesCliente["fechaNacimiento"]);
+                $datosPersonalesCliente["nacimiento"] = $this->querylugar($datosPersonalesCliente["nacimiento"]);
                 $camposMinimos["cliente"] = $datosPersonalesCliente;
             }
             $JsonDicFormuario = [
