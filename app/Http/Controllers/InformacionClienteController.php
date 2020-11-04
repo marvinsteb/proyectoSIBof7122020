@@ -107,8 +107,8 @@ class InformacionClienteController extends Controller
     public function querylugar($idLugar){
         $arrLugarCM = Lugar::select('lugar.idlugar','pais.codigoPais as pais','departamento.codigoDepartamento as departamento','municipio.codigoMunicipio as municipio', 'pais.nombrePais','departamento.nombreDepartamento','municipio.nombreMunicipio')
                             ->join('pais', 'lugar.pais', '=', 'pais.idPais')
-                            ->join('departamento', 'lugar.departamento', '=', 'departamento.idDepartamento')
-                            ->join('municipio', 'lugar.municipio', '=', 'municipio.idMunicipio')
+                            ->leftJoin('departamento', 'lugar.departamento', '=', 'departamento.idDepartamento')
+                            ->leftJoin('municipio', 'lugar.municipio', '=', 'municipio.idMunicipio')
                             ->where('lugar.idLugar','=',$idLugar)->get()[0];
         return $arrLugarCM;
     }
