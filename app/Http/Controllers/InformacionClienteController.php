@@ -101,6 +101,7 @@ class InformacionClienteController extends Controller
         return  Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
         
     }
+    // funciones para crear el archivo json diccionario formulario
     public function formatoFechaJson($fecha){
         return  Carbon::createFromFormat('Y-m-d', $fecha)->format('Ymd');
     }
@@ -119,6 +120,14 @@ class InformacionClienteController extends Controller
            $nacionalidades[]= $naccd["codigoPais"];
        }
        return $nacionalidades;
+    }
+    public function formatoNit($nit){
+        return str_replace("-","",$nit);
+    }
+    public function formatoDPI($dpi){
+        $dpiSinGiones = str_replace("-","",$dpi);
+        $dpiSinEspacios = str_replace(" ","",$dpiSinGiones);
+        return $dpiSinEspacios;
     }
     /**
      * Display a listing of the resource.
@@ -208,6 +217,7 @@ class InformacionClienteController extends Controller
                 $datosPersonalesCliente["fechaNacimiento"] = $this->formatoFechaJson($datosPersonalesCliente["fechaNacimiento"]);
                 $datosPersonalesCliente["nacionalidades"] = $this->arrayNacionalidades($datosPersonalesCliente["idDatosPersonales"]);
                 $datosPersonalesCliente["nacimiento"] = $this->querylugar($datosPersonalesCliente["nacimiento"]);
+                $datosPersonalesCliente["nit"] = $this->formatoNit($datosPersonalesCliente["nit"]);
                 $camposMinimos["cliente"] = $datosPersonalesCliente;
             }
             $JsonDicFormuario = [
