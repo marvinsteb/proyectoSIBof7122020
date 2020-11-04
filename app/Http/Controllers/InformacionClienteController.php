@@ -255,14 +255,16 @@ class InformacionClienteController extends Controller
             $ObCamposMinimos = CamposMinimos::where('diccionarioFormulario','=',$ObDicFormulario[0]['iddiccionarioFormulario'])->get();
             
             foreach ($ObCamposMinimos as $camposMinimos) {
-                if($camposMinimos['tipoActuacion'] == 'C'){
-                    $camposMinimos['calidadActua']= "";
+                if($camposMinimos['tipoActuacion'] == 'R'){
+                    $camposMinimos["representante"] = $this->queryDatosPersonales($camposMinimos["representante"]);
+                }else{
+                    $camposMinimos["calidadActua"] = "";
+                    $camposMinimos["representante"] = "";
                 }
 
                 $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
                 $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
                 $camposMinimos["cliente"] = $this->queryDatosPersonales($camposMinimos["cliente"]);
-                $camposMinimos["representante"] = $this->queryDatosPersonales($camposMinimos["representante"]);
             }
             $JsonDicFormuario = [
                 'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
