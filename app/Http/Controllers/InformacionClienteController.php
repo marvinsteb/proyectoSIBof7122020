@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CamposMinimos;
+use App\Models\DiccionarioFormulario;
+use App\Models\Lugar;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -94,10 +96,12 @@ class InformacionClienteController extends Controller
 
      public function formatoFechaDB($fecha)
     {
-        $fechaFormateada = Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
-        return $fechaFormateada;
+        return  Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
+        
     }
-
+    public function formatoFechaJson($fecha){
+        return  Carbon::createFromFormat('Y-m-d', $fecha)->format('Ymd');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -153,7 +157,6 @@ class InformacionClienteController extends Controller
                 
                 $camposMinimos = [
                     'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
-                    'calidadActua' => $request->titulares[$i]["calidadActua"],
                     'lugar' =>  DB::table('lugar')->insertGetId([
                         "pais" => $request->titulares[$i]["lugar"]["pais"],
                         "departamento" => $request->titulares[$i]["lugar"]["departamento"],
@@ -165,14 +168,38 @@ class InformacionClienteController extends Controller
                     'diccionarioFormulario' => $idDiccionarioFormulario,
                     ]; 
                  if($camposMinimos["tipoActuacion"] == "R"){
+                    $camposMinimos["calidadActua"] = $request->titulares[$i]["calidadActua"];
                     $camposMinimos["representante"] =  $this->guradarDatosPersonales($request->titulares[$i]["representante"]);
                 }
                 DB::table('camposMinimos')->insertGetId($camposMinimos);
             }
+            // query para generar el json.
+            $ObDicFormulario = DiccionarioFormulario::where('iddiccionarioFormulario', '=',$idDiccionarioFormulario )->get();
 
-            $respuesta = $camposMinimos;
+            $ObCamposMinimos = CamposMinimos::where('diccionarioFormulario','=',$ObDicFormulario[0]['iddiccionarioFormulario'])->get();
             
-     
+            foreach ($ObCamposMinimos as $camposMinimos) {
+                if($camposMinimos['tipoActuacion'] == 'C'){
+                    $camposMinimos['calidadActua']= "";
+                }
+                $arrLugarCM = Lugar::select('lugar.idlugar','pais.codigoPais as pais','departamento.codigoDepartamento as departamento','municipio.codigoMunicipio as municipio', 'pais.nombrePais','departamento.nombreDepartamento','municipio.nombreMunicipio')
+                                    ->join('pais', 'lugar.pais', '=', 'pais.idPais')
+                                    ->join('departamento', 'lugar.departamento', '=', 'departamento.idDepartamento')
+                                    ->join('municipio', 'lugar.municipio', '=', 'municipio.idMunicipio')
+                                    ->where('lugar.idLugar','=',$camposMinimos["lugar"])->get();
+                $camposMinimos["lugar"] = $arrLugarCM[0];
+                $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
+                
+            }
+            $JsonDicFormuario = [
+                'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
+                'estado'=> $ObDicFormulario[0]['estado'],
+                'titulares'=> $ObCamposMinimos,
+                'productos'=>'productos',
+                'perfilEconomico'=>'perfilEconomico'
+            ];
+
+             $respuesta = $JsonDicFormuario;
 
             DB::commit();
             // all good
