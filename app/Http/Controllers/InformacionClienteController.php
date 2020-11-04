@@ -151,6 +151,33 @@ class InformacionClienteController extends Controller
                             ->where('parienteAsociadoPep.idDatosPersonales','=',$idDatosPersonales)->get();
         return $arrParienteAsociadoPep;
     }
+    public function queryDatosPersonales($idDatosPersonales){
+                    $datosPersonales = DatosPersonales::where('idDatosPersonales','=',$idDatosPersonales)->get()[0];
+                    $datosPersonales["fechaNacimiento"] = $this->formatoFechaJson($datosPersonales["fechaNacimiento"]);
+                    $datosPersonales["nacionalidades"] = $this->arrayNacionalidades($datosPersonales["idDatosPersonales"]);
+                    $datosPersonales["nacimiento"] = $this->querylugar($datosPersonales["nacimiento"]);
+                    $datosPersonales["nit"] = $this->formatoNit($datosPersonales["nit"]);
+                    $datosPersonales["numeroDocumentoIdentificacion"] = $this->formatoDPI($datosPersonales["numeroDocumentoIdentificacion"]);
+                    if($datosPersonales["tipoDocumentoIdentificacion"] == 'P'){
+                        $datosPersonales["emisionPasaporte"] =  $this->obtenerCodigoPais($datosPersonales["emisionPasaporte"]);
+                    } else {
+                        $datosPersonales["emisionPasaporte"] = "";
+                    }
+                    $datosPersonales["residencia"] = $this->querylugar($datosPersonales["residencia"]);
+                    $datosPersonales["telefonos"] = $this->arrayTelefonos($datosPersonales["idDatosPersonales"]);
+                    if($datosPersonales["pep"] == 'S'){
+                        $datosPersonales["datosPep"] = DatosPep::where('idDatosPep','=',$datosPersonales["datosPep"])->get()[0];
+                        $datosPersonales["datosPep"] ["paisEntidad"] =  $this->obtenerCodigoPais($datosPersonales["datosPep"] ["paisEntidad"]);
+                    } else {
+                        $datosPersonales["datosPep"] = "";
+                    }
+                    if($datosPersonales["parienteAsociadoPep"] == 'S'){
+                        $datosPersonales["datosParienteAsociadoPep"] = $this->queryDatosParienteAsociadoPep($datosPersonales["idDatosPersonales"]);
+                    } else {
+                        $datosPersonales["datosParienteAsociadoPep"] = "";
+                    }
+                    return $datosPersonales;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -234,27 +261,8 @@ class InformacionClienteController extends Controller
 
                 $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
                 $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
-                    $datosPersonalesCliente = DatosPersonales::where('idDatosPersonales','=',$camposMinimos["cliente"])->get()[0];
-                    $datosPersonalesCliente["fechaNacimiento"] = $this->formatoFechaJson($datosPersonalesCliente["fechaNacimiento"]);
-                    $datosPersonalesCliente["nacionalidades"] = $this->arrayNacionalidades($datosPersonalesCliente["idDatosPersonales"]);
-                    $datosPersonalesCliente["nacimiento"] = $this->querylugar($datosPersonalesCliente["nacimiento"]);
-                    $datosPersonalesCliente["nit"] = $this->formatoNit($datosPersonalesCliente["nit"]);
-                    $datosPersonalesCliente["numeroDocumentoIdentificacion"] = $this->formatoDPI($datosPersonalesCliente["numeroDocumentoIdentificacion"]);
-                    $datosPersonalesCliente["emisionPasaporte"] =  $this->obtenerCodigoPais($datosPersonalesCliente["emisionPasaporte"]);
-                    $datosPersonalesCliente["residencia"] = $this->querylugar($datosPersonalesCliente["residencia"]);
-                    $datosPersonalesCliente["telefonos"] = $this->arrayTelefonos($datosPersonalesCliente["idDatosPersonales"]);
-                    if($datosPersonalesCliente["pep"] == 'S'){
-                        $datosPersonalesCliente["datosPep"] = DatosPep::where('idDatosPep','=',$datosPersonalesCliente["datosPep"])->get()[0];
-                        $datosPersonalesCliente["datosPep"] ["paisEntidad"] =  $this->obtenerCodigoPais($datosPersonalesCliente["datosPep"] ["paisEntidad"]);
-                    } else {
-                        $datosPersonalesCliente["datosPep"] = "";
-                    }
-                    if($datosPersonalesCliente["parienteAsociadoPep"] == 'S'){
-                        $datosPersonalesCliente["datosParienteAsociadoPep"] = $this->queryDatosParienteAsociadoPep($datosPersonalesCliente["idDatosPersonales"]);
-                    } else {
-                        $datosPersonalesCliente["datosParienteAsociadoPep"] = "";
-                    }
-                $camposMinimos["cliente"] = $datosPersonalesCliente;
+                $camposMinimos["cliente"] = $this->queryDatosPersonales($camposMinimos["cliente"]);
+                $camposMinimos["representante"] = $this->queryDatosPersonales($camposMinimos["representante"]);
             }
             $JsonDicFormuario = [
                 'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
