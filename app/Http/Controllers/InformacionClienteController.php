@@ -218,6 +218,7 @@ class InformacionClienteController extends Controller
                 $datosPersonalesCliente["nacionalidades"] = $this->arrayNacionalidades($datosPersonalesCliente["idDatosPersonales"]);
                 $datosPersonalesCliente["nacimiento"] = $this->querylugar($datosPersonalesCliente["nacimiento"]);
                 $datosPersonalesCliente["nit"] = $this->formatoNit($datosPersonalesCliente["nit"]);
+                $datosPersonalesCliente["numeroDocumentoIdentificacion"] = $this->formatoDPI($datosPersonalesCliente["numeroDocumentoIdentificacion"]);
                 $camposMinimos["cliente"] = $datosPersonalesCliente;
             }
             $JsonDicFormuario = [
