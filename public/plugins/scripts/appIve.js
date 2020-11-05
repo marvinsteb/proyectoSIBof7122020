@@ -1359,6 +1359,12 @@ function expandirCard() {
         $(titulares[i]).CardWidget("expand");
     }
 }
+function mostrarModal() {
+    $("#myModal").modal({
+        backdrop: "static",
+        keyboard: false,
+    });
+}
 function validarFormulario() {
     var forms = document.getElementsByClassName("needs-validation");
     var validation = Array.prototype.filter.call(forms, function (form) {
@@ -1366,7 +1372,6 @@ function validarFormulario() {
             "submit",
             function (event) {
                 expandirCard();
-                enviarDatos();
                 if (form.checkValidity() === false) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -1375,7 +1380,8 @@ function validarFormulario() {
                     event.preventDefault();
                     event.stopPropagation();
                     console.log("enviando formulario");
-                    //enviarDatos();
+                    mostrarModal();
+                    enviarDatos();
                 }
             },
             false
