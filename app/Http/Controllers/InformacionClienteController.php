@@ -17,6 +17,20 @@ use Illuminate\Support\Facades\DB;
 
 class InformacionClienteController extends Controller
 {
+    public function guardarLugar($lugar){
+        DB::table('lugar')->updateOrInsert([
+                                "pais" => $lugar ["pais"],
+                                "departamento" => $lugar ["departamento"],
+                                "municipio" => $lugar ["municipio"],
+                            ]);
+        $obLugar = DB::table('lugar')
+                    ->where('pais', $lugar ["pais"])
+                    ->where('departamento', $lugar ["departamento"])
+                    ->where('municipio', $lugar ["municipio"])
+                    ->first();
+        
+        return $obLugar->idLugar;
+    }
     public function guradarDatosPersonales($datosPersonales){
         
                     $camposMinimos = [
@@ -29,11 +43,7 @@ class InformacionClienteController extends Controller
                         'fechaNacimiento' => $this->formatoFechaDB(
                             $datosPersonales["fechaNacimiento"]
                         ),
-                        'nacimiento' => DB::table('lugar')->insertGetId([
-                            "pais" => $datosPersonales["nacimiento"]["pais"],
-                            "departamento" => $datosPersonales["nacimiento"]["departamento"],
-                            "municipio" => $datosPersonales["nacimiento"]["municipio"],
-                        ]),
+                        'nacimiento' => $this->guardarLugar($datosPersonales["nacimiento"]),
                         'condicionMigratoria' => $datosPersonales["condicionMigratoria"],
                         'otraCondicionMigratoria' => $datosPersonales["otraCondicionMigratoria"],
                         'sexo' => $datosPersonales["sexo"],
@@ -45,11 +55,7 @@ class InformacionClienteController extends Controller
                         'emisionPasaporte' => $datosPersonales["emisionPasaporte"],
                         'email' => $datosPersonales["email"],
                         'direccionResidencia' => $datosPersonales["direccionResidencia"],
-                        'residencia' => DB::table('lugar')->insertGetId([
-                            "pais" => $datosPersonales["residencia"]["pais"],
-                            "departamento" => $datosPersonales["residencia"]["departamento"],
-                            "municipio" => $datosPersonales["residencia"]["municipio"],
-                        ]),
+                        'residencia' => $this->guardarLugar($datosPersonales["residencia"]),
                         'pep' => $datosPersonales["pep"],
                         'parienteAsociadoPep' => $datosPersonales["parienteAsociadoPep"],
                         'cpe' => $datosPersonales["cpe"]
@@ -258,11 +264,7 @@ class InformacionClienteController extends Controller
                 
                 $camposMinimos = [
                     'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
-                    'lugar' =>  DB::table('lugar')->insertGetId([
-                        "pais" => $request->titulares[$i]["lugar"]["pais"],
-                        "departamento" => $request->titulares[$i]["lugar"]["departamento"],
-                        "municipio" => $request->titulares[$i]["lugar"]["municipio"]
-                    ]),
+                    'lugar' => $this->guardarLugar($request->titulares[$i]["lugar"]),
                     'fecha' => $this->formatoFechaDB($request->titulares[$i]["fecha"]),
                     'cliente' => $this->guradarDatosPersonales($request->titulares[$i]["cliente"]),
                     'infoEconomica' => null,
