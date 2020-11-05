@@ -100,8 +100,7 @@ class InformacionClienteController extends Controller
                   return $idClienteCamposMinimos;
     }
 
-     public function formatoFechaDB($fecha)
-    {
+    public function formatoFechaDB($fecha){
         return  Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
         
     }
