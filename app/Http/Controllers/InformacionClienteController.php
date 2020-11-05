@@ -209,14 +209,28 @@ class InformacionClienteController extends Controller
             ];
             return $dicFormuario;
     }
+    public function diccionarioFormularioJson($id){
+        $respuesta = $this->queryDicionarioFormulario($id);
+        return Response()->json(
+        $respuesta,
+        200,
+        ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+        JSON_UNESCAPED_UNICODE
+        );
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('contenido.oficioive7122020');
+    { 
+        $dicFormulario = DB::table('diccionarioFormulario')->select('*')
+        ->where('estado','A')
+        ->join('camposMinimos','camposMinimos.diccionarioFormulario','=','diccionarioFormulario.iddiccionarioFormulario')
+        ->join('datosPersonales','datosPersonales.idDatosPersonales','=','camposMinimos.cliente')
+        ->orderBy('iddiccionarioFormulario', 'desc')->simplePaginate(7);
+        return view('contenido.oficioive7122020',compact('dicFormulario'));
     }
 
     /**

@@ -164,7 +164,7 @@
             }}"></script>
 
     <script src="{{ asset('plugins/scripts/appIve.js') }}"></script>
-
+    @stack('scripts')
     <script>
         $(function() {
             //Initialize Select2 Elements

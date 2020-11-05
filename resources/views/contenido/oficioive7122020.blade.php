@@ -1,35 +1,36 @@
 @extends('layouts.admin')
 @section('contenido')
     <h2>Oficio IVe Núm. 712-2020 - Listado de clientes</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </table>
-   
+
+     <div class="container mt-5">
+            <table class="table mb-5">
+                <thead>
+                    <tr class="table-success">
+                        <th scope="col">#</th>
+                        <th scope="col">Tipo Actuacion</th>
+                        <th scope="col">Nombre Cliente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($dicFormulario as $dc)
+                    <tr>
+                        <th scope="row">{{$dc->iddiccionarioFormulario}}</th>
+                        <td>{{ $dc->tipoActuacion == 'C' ? 'Cliente' :'Representante' }}</td>
+                        <td>{{ $dc->primerNombre." ".$dc->segundoNombre}}</td>
+                        <td>
+                            <a href="{{'descargarjson/'.$dc->iddiccionarioFormulario}}"><button class="btn btn-info">Descargar Archivo JSON</button>
+                        </a></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        {{-- Pagination --}}
+        <div class="d-flex justify-content-center">
+            {!! $dicFormulario->links() !!}
+        </div>
+        </div>
+    @push('scripts')
+    <!-- Scripts -->
+    <script src="{{ asset('plugins/scripts/descargarJson.js')}}"></script>
+    @endpush
 @stop
