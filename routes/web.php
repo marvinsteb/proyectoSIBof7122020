@@ -18,10 +18,8 @@ use App\Http\Controllers\DepartamentoController;
 |
 */
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('home', 'home')->name('home');
-    Route::get('/', function () {
-       return redirect()->route('home');
-    });
+    Route::get('home', [InformacionClienteController::class, 'index']);
+    Route::get('/',[InformacionClienteController::class, 'index']);
     Route::get('oficios/7122020', [InformacionClienteController::class, 'index']);
     Route::get('oficios/7122020/crear', [InformacionClienteController::class, 'create']);
     Route::post('oficios/7122020/guardarActualizar', [InformacionClienteController::class, 'store']);

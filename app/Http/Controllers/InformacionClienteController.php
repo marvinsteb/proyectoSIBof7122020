@@ -4,6 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CamposMinimos;
+use App\Models\DatosPersonales;
+use App\Models\DiccionarioFormulario;
+use App\Models\Lugar;
+use App\Models\Nacionalidad;
+use App\Models\Telefono;
+use App\Models\Pais;
+use App\Models\DatosPep;
+use App\Models\ParienteAsociadoPep;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -92,12 +100,109 @@ class InformacionClienteController extends Controller
                   return $idClienteCamposMinimos;
     }
 
-     public function formatoFechaDB($fecha)
-    {
-        $fechaFormateada = Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
-        return $fechaFormateada;
+    public function formatoFechaDB($fecha){
+        return  Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
+        
     }
+    // funciones para crear el archivo json diccionario formulario
+    public function formatoFechaJson($fecha){
+        return  Carbon::createFromFormat('Y-m-d', $fecha)->format('Ymd');
+    }
+    public function querylugar($idLugar){
+        $arrLugarCM = Lugar::select('lugar.idlugar','pais.codigoPais as pais','departamento.codigoDepartamento as departamento','municipio.codigoMunicipio as municipio', 'pais.nombrePais','departamento.nombreDepartamento','municipio.nombreMunicipio')
+                            ->join('pais', 'lugar.pais', '=', 'pais.idPais')
+                            ->leftJoin('departamento', 'lugar.departamento', '=', 'departamento.idDepartamento')
+                            ->leftJoin('municipio', 'lugar.municipio', '=', 'municipio.idMunicipio')
+                            ->where('lugar.idLugar','=',$idLugar)->get()[0];
+        return $arrLugarCM;
+    }
+    public function arrayNacionalidades($idNacionalidad){
+        $nacionalidades = [];
+       $nacdsAso = Nacionalidad::select('pais.codigoPais')->join('pais','nacionalidad.idPais','=','pais.idPais')->where('nacionalidad.idDatosPersonales','=',$idNacionalidad)->get();
+       foreach ($nacdsAso as $naccd) {
+           $nacionalidades[]= $naccd["codigoPais"];
+       }
+       return $nacionalidades;
+    }
+    public function arrayTelefonos($idDatosPersonales){
+        $telefonos = [];
+       $querytbTelefonos = Telefono::select('numTelefono')->where('telefono.idDatosPersonales','=',$idDatosPersonales)->get();
+       foreach ($querytbTelefonos as $telefono) {
+           $telefonos[]= $telefono["numTelefono"];
+       }
+       return $telefonos;
+    }
+    public function formatoNit($nit){
+        return str_replace("-","",$nit);
+    }
+    public function formatoDPI($dpi){
+        $dpiSinGiones = str_replace("-","",$dpi);
+        $dpiSinEspacios = str_replace(" ","",$dpiSinGiones);
+        return $dpiSinEspacios;
+    }
+    
+    public function obtenerCodigoPais($idPais){
+        return Pais::select("codigoPais")->where('idPais','=',$idPais)->get()[0]["codigoPais"];
+    }
+    public function queryDatosParienteAsociadoPep($idDatosPersonales){
+        $arrParienteAsociadoPep = ParienteAsociadoPep::select('datosParienteAsociadoPep.*')
+                            ->join('datosParienteAsociadoPep', 'datosParienteAsociadoPep.idDatosParienteAsociadoPep', '=', 'parienteAsociadoPep.idDatosParienteAsociadoPep')
+                            ->where('parienteAsociadoPep.idDatosPersonales','=',$idDatosPersonales)->get();
+        return $arrParienteAsociadoPep;
+    }
+    public function queryDatosPersonales($idDatosPersonales){
+                    $datosPersonales = DatosPersonales::where('idDatosPersonales','=',$idDatosPersonales)->get()[0];
+                    $datosPersonales["fechaNacimiento"] = $this->formatoFechaJson($datosPersonales["fechaNacimiento"]);
+                    $datosPersonales["nacionalidades"] = $this->arrayNacionalidades($datosPersonales["idDatosPersonales"]);
+                    $datosPersonales["nacimiento"] = $this->querylugar($datosPersonales["nacimiento"]);
+                    $datosPersonales["nit"] = $this->formatoNit($datosPersonales["nit"]);
+                    $datosPersonales["numeroDocumentoIdentificacion"] = $this->formatoDPI($datosPersonales["numeroDocumentoIdentificacion"]);
+                    if($datosPersonales["tipoDocumentoIdentificacion"] == 'P'){
+                        $datosPersonales["emisionPasaporte"] =  $this->obtenerCodigoPais($datosPersonales["emisionPasaporte"]);
+                    } else {
+                        $datosPersonales["emisionPasaporte"] = "";
+                    }
+                    $datosPersonales["residencia"] = $this->querylugar($datosPersonales["residencia"]);
+                    $datosPersonales["telefonos"] = $this->arrayTelefonos($datosPersonales["idDatosPersonales"]);
+                    if($datosPersonales["pep"] == 'S'){
+                        $datosPersonales["datosPep"] = DatosPep::where('idDatosPep','=',$datosPersonales["datosPep"])->get()[0];
+                        $datosPersonales["datosPep"] ["paisEntidad"] =  $this->obtenerCodigoPais($datosPersonales["datosPep"] ["paisEntidad"]);
+                    } else {
+                        $datosPersonales["datosPep"] = "";
+                    }
+                    if($datosPersonales["parienteAsociadoPep"] == 'S'){
+                        $datosPersonales["datosParienteAsociadoPep"] = $this->queryDatosParienteAsociadoPep($datosPersonales["idDatosPersonales"]);
+                    } else {
+                        $datosPersonales["datosParienteAsociadoPep"] = "";
+                    }
+                    return $datosPersonales;
+    }
+    public function queryDicionarioFormulario($id){
+            $ObDicFormulario = DiccionarioFormulario::where('iddiccionarioFormulario', '=',$id)->get();
 
+            $ObCamposMinimos = CamposMinimos::where('diccionarioFormulario','=',$ObDicFormulario[0]['iddiccionarioFormulario'])->get();
+            
+            foreach ($ObCamposMinimos as $camposMinimos) {
+                if($camposMinimos['tipoActuacion'] == 'R'){
+                    $camposMinimos["representante"] = $this->queryDatosPersonales($camposMinimos["representante"]);
+                }else{
+                    $camposMinimos["calidadActua"] = "";
+                    $camposMinimos["representante"] = "";
+                }
+
+                $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
+                $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
+                $camposMinimos["cliente"] = $this->queryDatosPersonales($camposMinimos["cliente"]);
+            }
+            $dicFormuario = [
+                'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
+                'estado'=> $ObDicFormulario[0]['estado'],
+                'titulares'=> $ObCamposMinimos,
+                'productos'=>'productos',
+                'perfilEconomico'=>'perfilEconomico'
+            ];
+            return $dicFormuario;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -153,7 +258,6 @@ class InformacionClienteController extends Controller
                 
                 $camposMinimos = [
                     'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
-                    'calidadActua' => $request->titulares[$i]["calidadActua"],
                     'lugar' =>  DB::table('lugar')->insertGetId([
                         "pais" => $request->titulares[$i]["lugar"]["pais"],
                         "departamento" => $request->titulares[$i]["lugar"]["departamento"],
@@ -165,14 +269,12 @@ class InformacionClienteController extends Controller
                     'diccionarioFormulario' => $idDiccionarioFormulario,
                     ]; 
                  if($camposMinimos["tipoActuacion"] == "R"){
+                    $camposMinimos["calidadActua"] = $request->titulares[$i]["calidadActua"];
                     $camposMinimos["representante"] =  $this->guradarDatosPersonales($request->titulares[$i]["representante"]);
                 }
                 DB::table('camposMinimos')->insertGetId($camposMinimos);
             }
-
-            $respuesta = $camposMinimos;
-            
-     
+             $respuesta = $this->queryDicionarioFormulario($idDiccionarioFormulario);
 
             DB::commit();
             // all good

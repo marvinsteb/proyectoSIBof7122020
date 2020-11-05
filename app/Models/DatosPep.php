@@ -7,17 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DatosPep extends Model
 {
-    /*
-    `datospep`
-(`idDatosPep`,
-`entidad`,
-`puestoDesempenia`,
-`pais`,
-`origenRiqueza`,
-`otroOrigenRiqueza`)
-    */
     use HasFactory;
-    protected $table = 'datospep';
+    protected $table = 'datosPep';
     protected $primarykey = 'idDatosPep';
     public $timestamps = false;
     protected $fillable = [
