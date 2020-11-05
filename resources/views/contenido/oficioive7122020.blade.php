@@ -9,6 +9,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Tipo Actuacion</th>
                         <th scope="col">Nombre Cliente</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,9 +19,8 @@
                         <td>{{ $dc->tipoActuacion == 'C' ? 'Cliente' :'Representante' }}</td>
                         <td>{{ $dc->primerNombre." ".$dc->segundoNombre}}</td>
                         <td>
-                            <a href="{{'descargarjson/'.$dc->iddiccionarioFormulario}}"><button class="btn btn-info">Descargar Archivo JSON</button>
-                        </a></td>
-                    </tr>
+                            <a href="{{'descargarjson/'.$dc->iddiccionarioFormulario}}"><button class="btn btn-info btnDescargarJson">Descargar Archivo JSON</button></a></td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
