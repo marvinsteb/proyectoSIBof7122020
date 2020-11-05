@@ -178,6 +178,32 @@ class InformacionClienteController extends Controller
                     }
                     return $datosPersonales;
     }
+    public function queryDicionarioFormulario($id){
+            $ObDicFormulario = DiccionarioFormulario::where('iddiccionarioFormulario', '=',$id)->get();
+
+            $ObCamposMinimos = CamposMinimos::where('diccionarioFormulario','=',$ObDicFormulario[0]['iddiccionarioFormulario'])->get();
+            
+            foreach ($ObCamposMinimos as $camposMinimos) {
+                if($camposMinimos['tipoActuacion'] == 'R'){
+                    $camposMinimos["representante"] = $this->queryDatosPersonales($camposMinimos["representante"]);
+                }else{
+                    $camposMinimos["calidadActua"] = "";
+                    $camposMinimos["representante"] = "";
+                }
+
+                $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
+                $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
+                $camposMinimos["cliente"] = $this->queryDatosPersonales($camposMinimos["cliente"]);
+            }
+            $dicFormuario = [
+                'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
+                'estado'=> $ObDicFormulario[0]['estado'],
+                'titulares'=> $ObCamposMinimos,
+                'productos'=>'productos',
+                'perfilEconomico'=>'perfilEconomico'
+            ];
+            return $dicFormuario;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -249,32 +275,7 @@ class InformacionClienteController extends Controller
                 }
                 DB::table('camposMinimos')->insertGetId($camposMinimos);
             }
-            // query para generar el json.
-            $ObDicFormulario = DiccionarioFormulario::where('iddiccionarioFormulario', '=',$idDiccionarioFormulario )->get();
-
-            $ObCamposMinimos = CamposMinimos::where('diccionarioFormulario','=',$ObDicFormulario[0]['iddiccionarioFormulario'])->get();
-            
-            foreach ($ObCamposMinimos as $camposMinimos) {
-                if($camposMinimos['tipoActuacion'] == 'R'){
-                    $camposMinimos["representante"] = $this->queryDatosPersonales($camposMinimos["representante"]);
-                }else{
-                    $camposMinimos["calidadActua"] = "";
-                    $camposMinimos["representante"] = "";
-                }
-
-                $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
-                $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
-                $camposMinimos["cliente"] = $this->queryDatosPersonales($camposMinimos["cliente"]);
-            }
-            $JsonDicFormuario = [
-                'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
-                'estado'=> $ObDicFormulario[0]['estado'],
-                'titulares'=> $ObCamposMinimos,
-                'productos'=>'productos',
-                'perfilEconomico'=>'perfilEconomico'
-            ];
-
-             $respuesta = $JsonDicFormuario;
+             $respuesta = $this->queryDicionarioFormulario($idDiccionarioFormulario);
 
             DB::commit();
             // all good
