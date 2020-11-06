@@ -19,7 +19,7 @@
                         <td>{{ $dc->tipoActuacion == 'C' ? 'Cliente' :'Representante' }}</td>
                         <td>{{ $dc->primerNombre." ".$dc->segundoNombre}}</td>
                         <td>
-                            <a href="{{'descargarjson/'.$dc->iddiccionarioFormulario}}"><button class="btn btn-info btnDescargarJson">Descargar Archivo JSON</button></a></td>
+                            <a href="{{'/descargarjson/'.$dc->iddiccionarioFormulario}}"><button class="btn btn-info btnDescargarJson">Descargar Archivo JSON</button></a></td>
                         </tr>
                     @endforeach
                 </tbody>
