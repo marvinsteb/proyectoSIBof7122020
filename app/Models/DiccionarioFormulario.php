@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class DiccionarioFormulario extends Model
 {
     use HasFactory;
-     protected $table = 'diccionarioFormulario';
-    protected $primarykey = 'iddiccionarioFormulario';
+    protected $table = 'diccionarioFormulario';
+    protected $primaryKey = 'iddiccionarioFormulario';
     public $timestamps = false;
 
     protected $fillable = [
