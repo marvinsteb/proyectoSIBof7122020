@@ -155,6 +155,9 @@ class InformacionClienteController extends Controller
         $arrParienteAsociadoPep = ParienteAsociadoPep::select('datosParienteAsociadoPep.*')
                             ->join('datosParienteAsociadoPep', 'datosParienteAsociadoPep.idDatosParienteAsociadoPep', '=', 'parienteAsociadoPep.idDatosParienteAsociadoPep')
                             ->where('parienteAsociadoPep.idDatosPersonales','=',$idDatosPersonales)->get();
+        foreach($arrParienteAsociadoPep as $dt){
+            $dt['paisEntidad'] = $this->obtenerCodigoPais($dt['paisEntidad']);
+        }
         return $arrParienteAsociadoPep;
     }
     public function queryDatosPersonales($idDatosPersonales){
