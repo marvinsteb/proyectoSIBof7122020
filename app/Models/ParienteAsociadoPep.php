@@ -9,7 +9,7 @@ class ParienteAsociadoPep extends Model
 {
     use HasFactory;
     protected $table = 'parienteAsociadoPep';
-    protected $primarykey = 'idParienteAsociadoPep';
+    protected $primaryKey = 'idParienteAsociadoPep';
     public $timestamps = false;
 
     protected $fillable = [

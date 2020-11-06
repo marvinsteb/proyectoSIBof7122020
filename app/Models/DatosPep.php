@@ -9,7 +9,7 @@ class DatosPep extends Model
 {
     use HasFactory;
     protected $table = 'datosPep';
-    protected $primarykey = 'idDatosPep';
+    protected $primaryKey = 'idDatosPep';
     public $timestamps = false;
     protected $fillable = [
         'entidad',

@@ -9,7 +9,7 @@ class Lugar extends Model
 {
     use HasFactory;
     protected $table = 'lugar';
-    protected $primarykey = 'idLugar';
+    protected $primaryKey = 'idLugar';
     public $timestamps = false;
 
     protected $fillable = [

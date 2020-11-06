@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CamposMinimos extends Model
 {
     protected $table = 'camposMinimos';
-    protected $primarykey = 'idCamposMinimos';
+    protected $primaryKey = 'idCamposMinimos';
     public $timestamps = false;
 
     protected $fillable = [

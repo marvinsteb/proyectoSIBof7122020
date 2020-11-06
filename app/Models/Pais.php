@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pais extends Model
 {
     protected $table = 'pais';
-    protected $primarykey = 'idPais';
+    protected $primaryKey = 'idPais';
     public $timestamps = false;
 
     protected $fillable = [
