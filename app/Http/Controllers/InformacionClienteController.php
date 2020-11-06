@@ -14,6 +14,7 @@ use App\Models\DatosPep;
 use App\Models\ParienteAsociadoPep;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class InformacionClienteController extends Controller
 {
@@ -354,6 +355,9 @@ class InformacionClienteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $dFormulario = DiccionarioFormulario::findOrFail($id);
+        $dFormulario->estado = 'E';
+        $dFormulario->update();
+           return Redirect::to('/oficios/7122020');
     }
 }

@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('oficios/7122020', [InformacionClienteController::class, 'index']);
     Route::get('oficios/7122020/crear', [InformacionClienteController::class, 'create']);
     Route::post('oficios/7122020/guardarActualizar', [InformacionClienteController::class, 'store']);
+    Route::get('eliminarFormulario/{id}', [InformacionClienteController::class, 'destroy']);
     Route::get('descargarjson/{id}', [InformacionClienteController::class, 'diccionarioFormularioJson']);
     Route::get('departamentos/municipios/{id}', [MunicipioController::class, 'getMunicipio']);
     Route::get('pais/obtenerpaises', [PaisController::class, 'getPais']);
