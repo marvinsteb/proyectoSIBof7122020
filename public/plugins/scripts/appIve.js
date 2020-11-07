@@ -49,7 +49,7 @@ function templateSexo(id) {
     <div class="col-sm">
         <div class="form-group">
            <label for="sexo${id}">Sexo</label>
-            <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo" style="width: 100%" required>
+            <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo select2" style="width: 100%" required>
                 <option value="" disabled selected>Selecciona</option>
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
@@ -74,7 +74,7 @@ function templateDoctoIdentificacion(id) {
 <div class="col-sm">
     <div class="form-group">
         <label>Docto. identificación</label>
-        <select name="tipoDoctoIdentificacion${id}" id="tipoDoctoIdentificacion${id}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte" style="width: 100%" required>
+        <select name="tipoDoctoIdentificacion${id}" id="tipoDoctoIdentificacion${id}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte select2" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
             <option value="D">DPI</option>
             <option value="P">Pasaporte</option>
@@ -119,7 +119,7 @@ function templateEstadoCivil(id) {
     <div class="col-sm">
         <div class="form-group">
             <label>Estado civil</label>
-            <select name="estadoCivil${id}" id="estadoCivil${id}" class="form-control custom-select estadoCivil" style="width: 100%" required>
+            <select name="estadoCivil${id}" id="estadoCivil${id}" class="form-control custom-select estadoCivil select2" style="width: 100%" required>
                 <option value="" disabled selected>Selecciona</option>
                 <option value="S">Soltero</option>
                 <option value="C">Casado</option>
@@ -148,7 +148,7 @@ function templatePais(
     <div class="col-sm">
         <div class="form-group">
             <label for="${id}">${textolabel}</label>
-            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales}" style="width: 100%" required ${selectDesabilitado}>
+            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales} select2" style="width: 100%" required ${selectDesabilitado}>
             <option value="" disabled selected>Selecciona</option>
             </select>
         </div>
@@ -161,7 +161,7 @@ function templateDepartamento(id, textolabel) {
     <div class="col-sm">
         <div class="form-group">
             <label>${textolabel}</label>
-            <select name="depto${id}" id="depto${id}" class="form-control custom-select depto getMunicipio setDepartamento" style="width: 100%" required disabled>
+            <select name="depto${id}" id="depto${id}" class="form-control custom-select depto getMunicipio setDepartamento select2" style="width: 100%" required disabled>
                 <option value="" disabled selected>Selecciona</option>
             </select>
         </div>
@@ -174,7 +174,7 @@ function templateMunicipio(id, textolabel) {
     <div class="col-sm">
         <div class="form-group">
             <label>${textolabel}</label>
-            <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio" style="width: 100%" required disabled>
+            <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio select2" style="width: 100%" required disabled>
                 <option value="" disabled selected>Selecciona</option>
             </select>
         </div>
@@ -187,7 +187,7 @@ function templateCondicionMigratoria(id) {
         <div class="col-sm">
             <div class="form-group">
                 <label>Condición migratoria</label>
-                <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
+                <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria select2" style="width: 100%" disabled required>
                 <option value="" disabled selected>Selecciona</option>
                 </select>
             </div>
@@ -227,7 +227,7 @@ function templateNacionalidad(id) {
                 <div class="row">
                     <div class="col-sm">
                         <label>Nacionalidad</label>
-                        <select name="nacionalidad${id}" id="nacionalidad${id}_1" class="form-control custom-select nacionalidad" style="width: 100%" required>
+                        <select name="nacionalidad${id}" id="nacionalidad${id}_1" class="form-control custom-select nacionalidad select2" style="width: 100%" required>
                             <option value="" disabled selected>Selecciona</option>
                         </select>
                     </div>
@@ -858,7 +858,7 @@ function verificarPersonaPep(radioClientePep) {
                         <div class="col-sm">
                             <div class="form-group">
                                 <label for ="paisEntidad${id}">País entidad</label>
-                                <select name="paisEntidad${id}" id="paisEntidad${id}" class="form-control custom-select" style="width: 100%;" required>
+                                <select name="paisEntidad${id}" id="paisEntidad${id}" class="form-control custom-select select2" style="width: 100%;" required>
                                     <option value="" disabled selected>Selecciona</option>
                                 </select>
                             </div>
@@ -866,7 +866,7 @@ function verificarPersonaPep(radioClientePep) {
                         <div class="col-sm">
                             <div class="form-group">
                                 <label for= "origenRiqueza${id}">Origen o procedencia de su riqueza</label>
-                                <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select" style="width: 100%;" required>
+                                <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select select2" style="width: 100%;" required>
                                     <option value="" disabled selected>Selecciona</option>
                                     <option value="1">Bienes muebles e inmuebles por herencia</option>
                                     <option value="2">Bienes muebles e inmuebles</option>
@@ -925,7 +925,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
                 `<div class='form-group'>
                             <div class="row">
                                 <div class="col-sm">
-                                    <select name="${idPadre}" id="${idSelect}" class="form-control custom-select nacionalidad" style="width: 100%" required>
+                                    <select name="${idPadre}" id="${idSelect}" class="form-control custom-select nacionalidad select2" style="width: 100%" required>
                                         <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
@@ -945,6 +945,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
             let selectPaisActual = $(`#${idPadre}>div.form-group>div.row`).find(
                 `select#${idSelect}`
             );
+            $(".select2").select2();
             cargarPais(selectPaisActual);
         });
     }
@@ -1000,7 +1001,7 @@ function agregaAsoPep(idAsoPep) {
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label for="parentesco${id}">Parentesco</label>
-                                                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco" style="width: 100%" required>
+                                                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco select2" style="width: 100%" required>
                                                     <option value="" disabled selected>Selecciona</option>
                                                     <option value="1">Padre</option>
                                                     <option value="2">Madre</option>
@@ -1022,7 +1023,7 @@ function agregaAsoPep(idAsoPep) {
                                         <div class="col-sm">
                                             <div class="form-group">
                                                 <label for="motivoAsociacion${id}">Motivo asociación</label>
-                                                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion" style="width: 100%" required>
+                                                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion select2" style="width: 100%" required>
                                                     <option value="" disabled selected>Selecciona</option>
                                                     <option value="1">Profesionales</option>
                                                     <option value="2">Políticos</option>
@@ -1042,7 +1043,7 @@ function agregaAsoPep(idAsoPep) {
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label for="condicion${id}">Condición</label>
-                                                <select name="condicion${id}" id="condicion${id}" class="form-control custom-select" style="width: 100%" required>
+                                                <select name="condicion${id}" id="condicion${id}" class="form-control custom-select select2" style="width: 100%" required>
                                                     <option value="">Selecciona</option>
                                                     <option value="N">Nacional</option>
                                                     <option value="E">Extranjero</option>
@@ -1246,6 +1247,7 @@ function AgregarTitular() {
 
         cargarDepartamentos($(`select#deptoCaMi${idTitular}`));
         eliminarTemplateTitular($("#titulares>div"));
+        $(".select2").select2();
     });
 }
 class dicLugar {
