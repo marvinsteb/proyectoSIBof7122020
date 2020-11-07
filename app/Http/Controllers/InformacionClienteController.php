@@ -272,11 +272,13 @@ class InformacionClienteController extends Controller
          $camposMinimos = [];
         DB::beginTransaction();
         try {
-            // diccionario formulario 
-
-            $idDiccionarioFormulario = DB::table('diccionarioFormulario')->insertGetId([
-                "estado" => "A"
-            ]);
+            // diccionario formulario
+            
+            $obdFormulario = DiccionarioFormulario::updateOrCreate(
+                ['iddiccionarioFormulario'=> $request->iddiccionarioFormulario] ,
+                ["estado" => "A"]
+            ); 
+            $idDiccionarioFormulario = $obdFormulario->iddiccionarioFormulario;
 
             for ($i = 0; $i < count($request->titulares); $i++) {
                 
@@ -294,7 +296,7 @@ class InformacionClienteController extends Controller
                 }
                 DB::table('camposMinimos')->insertGetId($camposMinimos);
             }
-             $respuesta = $this->queryDicionarioFormulario($idDiccionarioFormulario);
+             $respuesta = $obdFormulario;
 
             DB::commit();
             // all good
