@@ -1098,7 +1098,7 @@ function verificarAsoPep(asoPepCliente) {
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-primary agregarFamiliarAsociado" id="agregarFamiliarAsociadoPepCliente">
+                                            <button type="button" class="btn btn-primary agregarFamiliarAsociado" id="agregarFamiliarAsociadoPep${idAsoPep}">
                                                 Agregar Familiar/Asociado PEP
                                             </button>
                                         </div>
@@ -1639,6 +1639,13 @@ function obtenerDatos() {
     return df;
 }
 $(document).ready(function () {
+    function askConfirmation(evt) {
+        var msg =
+            "Si recarga la página perdera todos los datos ingresados.\n¿Deseas recargar la página?";
+        evt.returnValue = msg;
+        return msg;
+    }
+    window.addEventListener("beforeunload", askConfirmation);
     console.log("Esperando a que la pagina cargue completamente ");
     setFormatoFecha($(".date"));
     verificaActuaNombrePropio($(".actuaNombrePropio"));

@@ -582,5 +582,8 @@
 </section>
 <!-- /.content -->
 
+    @push('scripts')
+        <script src="{{ asset('plugins/scripts/appIve.js') }}"></script>
+    @endpush
 
 @endsection
