@@ -414,7 +414,7 @@ function templateAsoPep(id) {
         </div>
 
         <div id="datosasoPep${id}">
-            <div class="info">
+             <div class="info" cantidad="0">
             </div>
             <div class="btnadd">
             </div>
@@ -1336,7 +1336,7 @@ class dicCamposMinimos {
 }
 class diccionarioFormulario {
     constructor(id) {
-        this.id = id;
+        this.iddiccionarioFormulario = id;
         this.titulares = new Array();
         this.productos = new Array();
         this.perfilEconomico = new Object();
