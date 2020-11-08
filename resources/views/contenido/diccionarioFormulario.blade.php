@@ -34,7 +34,7 @@
     <div class="container-fluid">
 
         <form action="guardarActualizar" class="needs-validation" method="post" novalidate>
-            <div class="diccionarioFormulario" idDiccionario="20">
+            <div class="diccionarioFormulario" idDiccionario="">
                 @csrf
                 <!-- datos titular -->
                 <div class="titulares" id="titulares">
