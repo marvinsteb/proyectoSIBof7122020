@@ -525,7 +525,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-sm-7">
+                                            <div class="col-sm-9">
                                                 <div class="form-group">
                                                     <label for="montoIngresosCliente_1" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>
                                                 </div>
@@ -533,6 +533,14 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <input type="number" name = "montoIngresosCliente_1" id="montoIngresosCliente_1" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label for="">Propósito de la relación de negocios</label>
+                                                    <input name="propositoRc" id="propositoRcCliente_1" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
                                                 </div>
                                             </div>
                                         </div>
