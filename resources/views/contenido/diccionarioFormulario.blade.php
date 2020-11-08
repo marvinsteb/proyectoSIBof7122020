@@ -532,7 +532,7 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="form-group">
-                                                    <input type="number" name = "montoIngresosCliente_1" id="montoIngresosCliente_1" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>
+                                                    <input type="number" name = "montoIngresos" id="montoIngresosCliente_1" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>
                                                 </div>
                                             </div>
                                         </div>
@@ -540,7 +540,7 @@
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label for="">Propósito de la relación de negocios</label>
-                                                    <input name="propositoRc" id="propositoRcCliente_1" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
+                                                    <input name="propositoRC" id="propositoRCCliente_1" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
                                                 </div>
                                             </div>
                                         </div>

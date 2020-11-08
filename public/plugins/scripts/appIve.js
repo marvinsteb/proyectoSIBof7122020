@@ -1325,6 +1325,16 @@ class dicDatosPersonales {
         this.datosParienteAsociadoPep.push(asociado);
     }
 }
+class informacionEconomicaInicial {
+    constructor(id) {
+        this.idInformacionEconomicaInicial = id;
+        this.montoIngresos = null;
+        this.negocioPropio = new Array();
+        this.relacionDependencia = new Array();
+        this.otrosIngresos = new Array();
+        this.propositoRC = null;
+    }
+}
 class dicCamposMinimos {
     constructor() {
         this.tipoActuacion = null;
@@ -1333,7 +1343,7 @@ class dicCamposMinimos {
         this.fecha = null;
         this.cliente = new dicDatosPersonales();
         this.representante = new dicDatosPersonales();
-        this.infoEconomicaInical = null;
+        this.infoEconomicaInical = new informacionEconomicaInicial();
     }
 }
 class diccionarioFormulario {
@@ -1373,17 +1383,16 @@ function validarFormulario() {
         form.addEventListener(
             "submit",
             function (event) {
+                event.preventDefault();
+                event.stopPropagation();
                 expandirCard();
+                enviarDatos();
                 if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
                     form.classList.add("was-validated");
                 } else {
-                    event.preventDefault();
-                    event.stopPropagation();
                     console.log("enviando formulario");
                     mostrarModal();
-                    enviarDatos();
+                    //enviarDatos();
                 }
             },
             false
@@ -1495,7 +1504,6 @@ function obtenerDatosPersonales(divPadre, id) {
     }
 
     let nacionalidades = $(`div#nacionalidad${id}`).find(`select.nacionalidad`);
-    console.log(nacionalidades);
     for (let a = 0; a < nacionalidades.length; a++) {
         datosPersonales.agregarNacionalidad($(nacionalidades[a]).val());
     }
@@ -1632,6 +1640,12 @@ function obtenerDatos() {
                 `Representante${id}`
             );
         }
+        titular.infoEconomicaInical.montoIngresos = $(divTitularActual)
+            .find(`input[id=montoIngresos${id}]`)
+            .val();
+        titular.infoEconomicaInical.propositoRC = $(divTitularActual)
+            .find(`input:text[id=propositoRC${id}]`)
+            .val();
 
         df.agregarTitular(titular);
     }
@@ -1639,13 +1653,13 @@ function obtenerDatos() {
     return df;
 }
 $(document).ready(function () {
-    function askConfirmation(evt) {
-        var msg =
-            "Si recarga la página perdera todos los datos ingresados.\n¿Deseas recargar la página?";
-        evt.returnValue = msg;
-        return msg;
-    }
-    window.addEventListener("beforeunload", askConfirmation);
+    // function askConfirmation(evt) {
+    //     var msg =
+    //         "Si recarga la página perdera todos los datos ingresados.\n¿Deseas recargar la página?";
+    //     evt.returnValue = msg;
+    //     return msg;
+    // }
+    // window.addEventListener("beforeunload", askConfirmation);
     console.log("Esperando a que la pagina cargue completamente ");
     setFormatoFecha($(".date"));
     verificaActuaNombrePropio($(".actuaNombrePropio"));
