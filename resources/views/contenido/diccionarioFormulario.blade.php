@@ -539,8 +539,44 @@
                                         <div class="row">
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label for="">Propósito de la relación de negocios</label>
+                                                    <label for="propositoRCCliente_1">Propósito de la relación de negocios</label>
                                                     <input name="propositoRC" id="propositoRCCliente_1" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="fuenteIngresosCliente_1">
+                                            <div class="row">
+                                                <div class="col-sm">
+                                                    <div class="form-group">
+                                                        <label for="">Fuente de ingresos</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="datosFuenteIngresosCliente_1">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <select name="" id="" class="form-control custom-select select2" style="width: 100%" required>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                <option value="NP">Negocio propio</option>
+                                                                <option value="RD">Relación de dependencia</option>
+                                                                <option value="OI">Otras fuentes de ingreso</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col sm">
+                                                        <div class="form-group row">
+                                                                <label class="ml-4">Primer nombre </label>
+                                                                <div class="col-sm ml-2">
+                                                                    <input name="primerNombreCliente_1" id="primerNombreCliente_1" type="text" class="form-control" placeholder="Primer nombre ..." maxlength="15" required />
+                                                                </div>
+                                                        </div>                                              
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+
                                                 </div>
                                             </div>
                                         </div>
