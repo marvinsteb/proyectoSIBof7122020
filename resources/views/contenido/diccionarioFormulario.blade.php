@@ -566,9 +566,9 @@
                                                     </div>
                                                     <div class="col sm">
                                                         <div class="form-group row">
-                                                                <label class="ml-4">Primer nombre </label>
+                                                                <label class="ml-4"></label>
                                                                 <div class="col-sm ml-2">
-                                                                    <input name="primerNombreCliente_1" id="primerNombreCliente_1" type="text" class="form-control" placeholder="Primer nombre ..." maxlength="15" required />
+                                                                    <input name="" id="" type="text" class="form-control" placeholder="" maxlength="15" required />
                                                                 </div>
                                                         </div>                                              
                                                     </div>
@@ -576,7 +576,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="form-group">
-
+                                                    <button type="button" id="agregarTelefonoCliente_1" class="btn btn-primary agregarTelefonoCliente">Agregar teléfono</button>
                                                 </div>
                                             </div>
                                         </div>
