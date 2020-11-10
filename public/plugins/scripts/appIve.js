@@ -495,7 +495,9 @@ function templateCamposFuenteIngreo(id, posicion) {
         </div>
         <div class="col sm">
             <div class="form-group row">
-                    <label for="input${id}_${posicion}" class="ml-4" id="label${id}_${posicion}"></label>
+                    <div class="col-sm-2">
+                        <label for="input${id}_${posicion}" class="ml-4" id="label${id}_${posicion}"></label>
+                    </div>
                     <div class="col-sm ml-2">
                         <input name="input" id="input${id}_${posicion}" type="text" class="form-control" required />
                     </div>
@@ -1179,8 +1181,8 @@ function validarTipoFuenteIngreso(fuenteIngresos) {
 }
 function agregarTemplateFuenteIngresos(btnFuenteIngreso) {
     $(btnFuenteIngreso).click(function () {
-        const divPadre = $(this).parent().parent().parent().attr("class");
-        const divContenedor = $(`div.${divPadre} >div:nth-child(2)`);
+        const divPadre = $(this).parent().parent().parent().attr("id");
+        const divContenedor = $(`div#${divPadre} >div:nth-child(2)`);
         const id = $(divContenedor).attr("id");
         let posicion = $(divContenedor).attr("cantidad");
         posicion++;
@@ -1394,6 +1396,25 @@ class dicDatosPersonales {
     }
     agregarParienteAsociadoPep(asociado) {
         this.datosParienteAsociadoPep.push(asociado);
+    }
+}
+
+class informacionNegocioPropio {
+    constructor(id) {
+        this.idNombreComercial = id;
+        this.nombreComercial = null;
+    }
+}
+class informacionNombreEmpleador {
+    constructor(id) {
+        this.idNombreEmpleador = id;
+        this.nombreEmpleador = null;
+    }
+}
+class informacionOtrosIngresos {
+    constructor(id) {
+        this.otrasFuentesIngreso = id;
+        this.otrasFuentesIngreso = null;
     }
 }
 class informacionEconomicaInicial {
@@ -1685,6 +1706,40 @@ function obtenerDatosPersonales(divPadre, id) {
 
     return datosPersonales;
 }
+function obtenerDatosInfoEconomica(infoEconomica, id) {
+    let infoEc = new informacionEconomicaInicial();
+    infoEc.montoIngresos = $(infoEconomica)
+        .find(`input[id=montoIngresos${id}]`)
+        .val();
+    infoEc.propositoRC = $(infoEconomica)
+        .find(`input:text[id=propositoRC${id}]`)
+        .val();
+
+    let fuenteIngresos = $(infoEconomica).find(`div#fuenteingresos${id}`);
+    $(fuenteIngresos)
+        .children()
+        .each(function (elemento) {
+            console.log($(this).find(`input`).val());
+            switch ($(this).find(`input`).attr("name")) {
+                case "nombreComercial":
+                    let ngp = new informacionNegocioPropio();
+                    ngp.nombreComercial = $(this).find(`input`).val();
+                    infoEc.agregarNegocioPropio(ngp);
+                    break;
+                case "nombreEmpleador":
+                    let rdp = new informacionNombreEmpleador();
+                    rdp.nombreEmpleador = $(this).find(`input`).val();
+                    infoEc.agregarRelacionDependencia(rdp);
+                    break;
+                case "otrasFuentesIngresos":
+                    let ofi = new informacionOtrosIngresos();
+                    ofi.otrasFuentesIngreso = $(this).find(`input`).val();
+                    infoEc.agregarotrosIngresos(ofi);
+                    break;
+            }
+        });
+    return infoEc;
+}
 function obtenerDatos() {
     let df = new diccionarioFormulario(
         $(".diccionarioFormulario").attr("idDiccionario")
@@ -1723,13 +1778,13 @@ function obtenerDatos() {
                 `Representante${id}`
             );
         }
-        titular.infoEconomicaInical.montoIngresos = $(divTitularActual)
-            .find(`input[id=montoIngresos${id}]`)
-            .val();
-        titular.infoEconomicaInical.propositoRC = $(divTitularActual)
-            .find(`input:text[id=propositoRC${id}]`)
-            .val();
-
+        const divInfoEconomica = $(divTitularActual).find(
+            `div#informacionEconomicaIncial${id}`
+        );
+        titular.infoEconomicaInical = obtenerDatosInfoEconomica(
+            divInfoEconomica,
+            id
+        );
         df.agregarTitular(titular);
     }
     console.log(df);
