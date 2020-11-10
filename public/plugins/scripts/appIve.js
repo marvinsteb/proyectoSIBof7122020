@@ -1405,6 +1405,15 @@ class informacionEconomicaInicial {
         this.otrosIngresos = new Array();
         this.propositoRC = null;
     }
+    agregarNegocioPropio(npropio) {
+        this.negocioPropio.push(npropio);
+    }
+    agregarRelacionDependencia(rDependencia) {
+        this.relacionDependencia.push(rDependencia);
+    }
+    agregarotrosIngresos(oIngresos) {
+        this.otrosIngresos.push(oIngresos);
+    }
 }
 class dicCamposMinimos {
     constructor() {
@@ -1499,6 +1508,7 @@ function eliminarTemplateTitular(titulares) {
     }
 }
 function obtenerDatosPersonales(divPadre, id) {
+    console.log(divPadre);
     let datosPersonales = new dicDatosPersonales();
     datosPersonales.primerApellido = $(divPadre)
         .find(`input:text[id=primerApellido${id}]`)
@@ -1701,13 +1711,15 @@ function obtenerDatos() {
         titular.fecha = $(divTitularActual)
             .find(`input:text[id=fechaDocCaMi${id}]`)
             .val();
-        titular.cliente = obtenerDatosPersonales(divTitularActual, id);
+        let daPeCliente = $(divTitularActual).find(`div#camposMinimos${id}`);
+        titular.cliente = obtenerDatosPersonales(daPeCliente, id);
         if (titular.tipoActuacion === "R") {
             titular.calidadActua = $(divTitularActual)
                 .find(`input:text[id=calidadActua${id}]`)
                 .val();
+            let daPeRepre = $(divTitularActual).find(`div#representante${id}`);
             titular.representante = obtenerDatosPersonales(
-                divTitularActual,
+                daPeRepre,
                 `Representante${id}`
             );
         }
