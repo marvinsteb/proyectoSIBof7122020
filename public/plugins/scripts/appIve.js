@@ -1142,19 +1142,22 @@ function validarTipoFuenteIngreso() {
                 $(label).text("Nombre comercial");
                 $(input)
                     .attr("placeholder", "Nombre comercial ...")
-                    .attr("maxlength", "400");
+                    .attr("maxlength", "400")
+                    .attr("name", "nombreComercial");
                 break;
             case "RD":
                 $(label).text("Nombre empleador");
                 $(input)
                     .attr("placeholder", "Nombre empleador ...")
-                    .attr("maxlength", "200");
+                    .attr("maxlength", "200")
+                    .attr("name", "nombreEmpleador");
                 break;
             case "OI":
                 $(label).text("Otras fuentes de ingreso");
                 $(input)
                     .attr("placeholder", "Otra fuente ...")
-                    .attr("maxlength", "400");
+                    .attr("maxlength", "400")
+                    .attr("name", "otrasFuentesIngresos");
                 break;
         }
     });
