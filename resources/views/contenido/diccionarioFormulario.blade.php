@@ -552,11 +552,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="datosFuenteIngresosCliente_1">
+                                            <div id="fuenteingresosCliente_1" cantidad = "0" idinput= "">
                                                 <div class="row">
-                                                    <div class="col-sm-4">
+                                                    <div class="col-sm-2">
                                                         <div class="form-group">
-                                                            <select name="" id="" class="form-control custom-select select2" style="width: 100%" required>
+                                                            <select name="selectfuenteingresos" id="selectfuenteingresosCliente_1_1" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 <option value="NP">Negocio propio</option>
                                                                 <option value="RD">Relación de dependencia</option>
@@ -566,9 +566,9 @@
                                                     </div>
                                                     <div class="col sm">
                                                         <div class="form-group row">
-                                                                <label class="ml-4"></label>
+                                                                <label for="inputfuenteingresosCliente_1_1" class="ml-4" id="labelfuenteingresosCliente_1_1"></label>
                                                                 <div class="col-sm ml-2">
-                                                                    <input name="" id="" type="text" class="form-control" placeholder="" maxlength="15" required />
+                                                                    <input name="inputfuenteingresos" id="inputfuenteingresosCliente_1_1" type="text" class="form-control" required />
                                                                 </div>
                                                         </div>                                              
                                                     </div>
@@ -576,7 +576,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="form-group">
-                                                    <button type="button" id="agregarTelefonoCliente_1" class="btn btn-primary agregarTelefonoCliente">Agregar teléfono</button>
+                                                    <button type="button" id="agregarFuenteIngresos" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
                                                 </div>
                                             </div>
                                         </div>

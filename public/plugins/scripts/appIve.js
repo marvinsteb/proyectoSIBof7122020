@@ -1120,6 +1120,45 @@ function verificarAsoPep(asoPepCliente) {
         });
     }
 }
+function validarTipoFuenteIngreso() {
+    $(".fuenteIngresos").change(function () {
+        let posicionActual = $(this)
+            .parent()
+            .parent()
+            .parent()
+            .parent()
+            .index();
+        let divIngresosActual = $(this)
+            .parent()
+            .parent()
+            .parent()
+            .parent()
+            .attr("id");
+        let label = `#label${divIngresosActual}_${posicionActual}`;
+        let input = $(`input#input${divIngresosActual}_${posicionActual}`);
+
+        switch ($(this).val()) {
+            case "NP":
+                $(label).text("Nombre comercial");
+                $(input)
+                    .attr("placeholder", "Nombre comercial ...")
+                    .attr("maxlength", "400");
+                break;
+            case "RD":
+                $(label).text("Nombre empleador");
+                $(input)
+                    .attr("placeholder", "Nombre empleador ...")
+                    .attr("maxlength", "200");
+                break;
+            case "OI":
+                $(label).text("Otras fuentes de ingreso");
+                $(input)
+                    .attr("placeholder", "Otra fuente ...")
+                    .attr("maxlength", "400");
+                break;
+        }
+    });
+}
 function AgregarTitular() {
     $("#btnAgregarTitular").click(function (event) {
         event.preventDefault();
@@ -1672,6 +1711,7 @@ $(document).ready(function () {
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
     verificarPersonaPep($(".pepCliente"));
     verificarAsoPep($(".asoPepCliente"));
+    validarTipoFuenteIngreso();
     AgregarTitular();
     eliminarTemplateTitular($("#titulares>div"));
     validarFormulario();
