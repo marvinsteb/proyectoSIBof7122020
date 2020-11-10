@@ -1146,18 +1146,9 @@ function verificarAsoPep(asoPepCliente) {
 }
 function validarTipoFuenteIngreso(fuenteIngresos) {
     $(fuenteIngresos).change(function () {
-        let posicionActual = $(this)
-            .parent()
-            .parent()
-            .parent()
-            .parent()
-            .index();
-        let divIngresosActual = $(this)
-            .parent()
-            .parent()
-            .parent()
-            .parent()
-            .attr("id");
+        let posicionActual = $(this).parent().parent().parent().index();
+        let divRowFntIng = $(this).parent().parent().parent().parent();
+        let divIngresosActual = $(divRowFntIng).attr("id");
         let label = `#label${divIngresosActual}_${posicionActual}`;
         let input = $(`input#input${divIngresosActual}_${posicionActual}`);
 
@@ -1186,14 +1177,17 @@ function validarTipoFuenteIngreso(fuenteIngresos) {
         }
     });
 }
-function agregarTemplateFuenteIngresos(btnFuenteIngreso, callback) {
+function agregarTemplateFuenteIngresos(btnFuenteIngreso) {
     $(btnFuenteIngreso).click(function () {
         const divPadre = $(this).parent().parent().parent().attr("class");
         const divContenedor = $(`div.${divPadre} >div:nth-child(2)`);
         const id = $(divContenedor).attr("id");
-        const posicion = "2";
+        let posicion = $(divContenedor).attr("cantidad");
+        posicion++;
         let cFuIn = templateCamposFuenteIngreo(id, posicion);
         $(divContenedor).append(cFuIn);
+        $(divContenedor).attr("cantidad", posicion);
+        $(`select#select${id}_${posicion}`).select2();
         validarTipoFuenteIngreso($(`select#select${id}_${posicion}`));
     });
 }

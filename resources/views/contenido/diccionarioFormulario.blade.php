@@ -556,7 +556,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-2">
                                                         <div class="form-group">
-                                                            <select name="selectfuenteingresos" id="selectfuenteingresosCliente_1_1" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
+                                                            <select name="selectfuenteingresos" id="selectfuenteingresosCliente_1_0" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 <option value="NP">Negocio propio</option>
                                                                 <option value="RD">Relación de dependencia</option>
@@ -566,9 +566,9 @@
                                                     </div>
                                                     <div class="col sm">
                                                         <div class="form-group row">
-                                                                <label for="inputfuenteingresosCliente_1_1" class="ml-4" id="labelfuenteingresosCliente_1_1"></label>
+                                                                <label for="inputfuenteingresosCliente_1_0" class="ml-4" id="labelfuenteingresosCliente_1_0"></label>
                                                                 <div class="col-sm ml-2">
-                                                                    <input name="inputfuenteingresos" id="inputfuenteingresosCliente_1_1" type="text" class="form-control" required />
+                                                                    <input name="inputfuenteingresos" id="inputfuenteingresosCliente_1_0" type="text" class="form-control" required />
                                                                 </div>
                                                         </div>
                                                     </div>
