@@ -544,7 +544,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="fuenteIngresosCliente_1">
+                                        <div class="datosfuenteingresosCliente_1">
                                             <div class="row">
                                                 <div class="col-sm">
                                                     <div class="form-group">
@@ -570,7 +570,7 @@
                                                                 <div class="col-sm ml-2">
                                                                     <input name="inputfuenteingresos" id="inputfuenteingresosCliente_1_1" type="text" class="form-control" required />
                                                                 </div>
-                                                        </div>                                              
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -480,6 +480,30 @@ function templateCamposMinimos(id, tipo) {
      </div>`;
     return tcamposMinimos;
 }
+function templateCamposFuenteIngreo(id, posicion) {
+    let temFeIg = `
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <select name="select" id="select${id}_${posicion}" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="NP">Negocio propio</option>
+                    <option value="RD">Relación de dependencia</option>
+                    <option value="OI">Otras fuentes de ingreso</option>
+                </select>
+            </div>
+        </div>
+        <div class="col sm">
+            <div class="form-group row">
+                    <label for="input${id}_${posicion}" class="ml-4" id="label${id}_${posicion}"></label>
+                    <div class="col-sm ml-2">
+                        <input name="input" id="input${id}_${posicion}" type="text" class="form-control" required />
+                    </div>
+            </div>
+        </div>
+    </div>`;
+    return temFeIg;
+}
 // agrega template campos minimos con los eventos, y verificaciones
 function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
     console.log(`agregado informacion del  ${idCamposMinimos}`);
@@ -1120,8 +1144,8 @@ function verificarAsoPep(asoPepCliente) {
         });
     }
 }
-function validarTipoFuenteIngreso() {
-    $(".fuenteIngresos").change(function () {
+function validarTipoFuenteIngreso(fuenteIngresos) {
+    $(fuenteIngresos).change(function () {
         let posicionActual = $(this)
             .parent()
             .parent()
@@ -1160,6 +1184,17 @@ function validarTipoFuenteIngreso() {
                     .attr("name", "otrasFuentesIngresos");
                 break;
         }
+    });
+}
+function agregarTemplateFuenteIngresos(btnFuenteIngreso, callback) {
+    $(btnFuenteIngreso).click(function () {
+        const divPadre = $(this).parent().parent().parent().attr("class");
+        const divContenedor = $(`div.${divPadre} >div:nth-child(2)`);
+        const id = $(divContenedor).attr("id");
+        const posicion = "2";
+        let cFuIn = templateCamposFuenteIngreo(id, posicion);
+        $(divContenedor).append(cFuIn);
+        validarTipoFuenteIngreso($(`select#select${id}_${posicion}`));
     });
 }
 function AgregarTitular() {
@@ -1714,7 +1749,8 @@ $(document).ready(function () {
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
     verificarPersonaPep($(".pepCliente"));
     verificarAsoPep($(".asoPepCliente"));
-    validarTipoFuenteIngreso();
+    validarTipoFuenteIngreso($("select.fuenteIngresos"));
+    agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
     AgregarTitular();
     eliminarTemplateTitular($("#titulares>div"));
     validarFormulario();
