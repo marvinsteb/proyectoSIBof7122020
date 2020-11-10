@@ -11,6 +11,7 @@ use App\Models\Nacionalidad;
 use App\Models\Telefono;
 use App\Models\Pais;
 use App\Models\DatosPep;
+use App\Models\InformacionEconomicaInicial;
 use App\Models\ParienteAsociadoPep;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,7 @@ class InformacionClienteController extends Controller
         
         return $obLugar->idLugar;
     }
-    public function guradarDatosPersonales($datosPersonales){
+    public function guardarDatosPersonales($datosPersonales){
         
                     $camposMinimos = [
                         'primerApellido' => $datosPersonales["primerApellido"],
@@ -105,6 +106,16 @@ class InformacionClienteController extends Controller
                           ]);
                   }
                   return $idClienteCamposMinimos;
+    }
+    public function guardarInformacionEconomica($infoEconomica){
+        $obInfoEcoIni = InformacionEconomicaInicial::updateOrCreate(
+            ['idInformacionEconomicaInicial' => $infoEconomica["idInformacionEconomicaInicial"]],
+            [
+                 'montoIngresos' => $infoEconomica["montoIngresos"],
+                 'propositoRC' => $infoEconomica["propositoRC"]
+            ]
+        );
+        return $obInfoEcoIni->idInformacionEconomicaInicial;
     }
 
     public function formatoFechaDB($fecha){
@@ -286,17 +297,17 @@ class InformacionClienteController extends Controller
                     'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
                     'lugar' => $this->guardarLugar($request->titulares[$i]["lugar"]),
                     'fecha' => $this->formatoFechaDB($request->titulares[$i]["fecha"]),
-                    'cliente' => $this->guradarDatosPersonales($request->titulares[$i]["cliente"]),
-                    'infoEconomica' => null,
+                    'cliente' => $this->guardarDatosPersonales($request->titulares[$i]["cliente"]),
+                    'infoEconomica' => $this->guardarInformacionEconomica($request->titulares[$i]["infoEconomicaInical"]),
                     'diccionarioFormulario' => $idDiccionarioFormulario,
                     ]; 
                  if($camposMinimos["tipoActuacion"] == "R"){
                     $camposMinimos["calidadActua"] = $request->titulares[$i]["calidadActua"];
-                    $camposMinimos["representante"] =  $this->guradarDatosPersonales($request->titulares[$i]["representante"]);
+                    $camposMinimos["representante"] =  $this->guardarDatosPersonales($request->titulares[$i]["representante"]);
                 }
                 DB::table('camposMinimos')->insertGetId($camposMinimos);
             }
-             $respuesta = $obdFormulario;
+             $respuesta = $this->queryDicionarioFormulario( $obdFormulario->iddiccionarioFormulario);
 
             DB::commit();
             // all good
