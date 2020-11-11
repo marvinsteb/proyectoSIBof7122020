@@ -1,4 +1,7 @@
 @extends('layouts.admin') @section('contenido')
+    @push('css')
+    <link rel="stylesheet" href="{{ asset('plugins/css/estilos.css') }}" />    
+    @endpush
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -34,7 +37,7 @@
     <div class="container-fluid">
 
         <form action="guardarActualizar" class="needs-validation" method="post" novalidate>
-            <div class="diccionarioFormulario" idDiccionario="20">
+            <div class="diccionarioFormulario" idDiccionario="">
                 @csrf
                 <!-- datos titular -->
                 <div class="titulares" id="titulares">
@@ -98,7 +101,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>País</label>
-                                        <select name="paisCaMiCliente_1" id="paisCaMiCliente_1" class="form-control custom-select paisCaMiCliente deshabilitaDepartamentoMunicipio" style="width: 100%" required>
+                                        <select name="paisCaMiCliente_1" id="paisCaMiCliente_1" class="form-control custom-select paisCaMiCliente deshabilitaDepartamentoMunicipio select2" style="width: 100%" required>
                                             <option value="" disabled selected>Selecciona</option>
                                             @foreach($paises as $pais)
                                             <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
@@ -110,7 +113,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Departamento</label>
-                                        <select name="deptoCaMiCliente_1" id="deptoCaMiCliente_1" class="form-control custom-select deptoCaMiCliente getMunicipio" style="width: 100%" required disabled>
+                                        <select name="deptoCaMiCliente_1" id="deptoCaMiCliente_1" class="form-control custom-select deptoCaMiCliente getMunicipio select2" style="width: 100%" required disabled>
                                             <option value="" disabled selected>Selecciona</option>
                                             @foreach($departamentos as $departamento)
                                             <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
@@ -122,7 +125,7 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <label>Municipio</label>
-                                        <select name="muniCaMiCliente_1" id="muniCaMiCliente_1" class="form-control custom-select muniCaMiCliente setMunicipio" style="width: 100%" required disabled>
+                                        <select name="muniCaMiCliente_1" id="muniCaMiCliente_1" class="form-control custom-select muniCaMiCliente setMunicipio select2" style="width: 100%" required disabled>
                                             <option value="" disabled selected>Selecciona</option>
                                         </select>
                                     </div>
@@ -215,7 +218,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>País nacimiento</label>
-                                                            <select name="paisNacimientoCliente_1" id="paisNacimientoCliente_1" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                                            <select name="paisNacimientoCliente_1" id="paisNacimientoCliente_1" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($paises as $pais)
                                                                 <option value="{{$pais->idPais}}">
@@ -229,8 +232,8 @@
                                                     <!-- select departamento -->
                                                     <div class="col-sm">
                                                         <div class="form-group">
-                                                            <label>Departamento nacimiento</label>
-                                                            <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control custom-select deptoNacimientoCliente getMunicipio" style="width: 100%" required disabled>
+                                                            <label>Depto. nacimiento</label>
+                                                            <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control custom-select deptoNacimientoCliente getMunicipio select2" style="width: 100%" required disabled>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($departamentos as $departamento)
                                                                 <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
@@ -242,7 +245,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Municipio nacimiento</label>
-                                                            <select name="muniNacimientoCliente_1" id="muniNacimientoCliente_1" class="form-control custom-select muniNacimientoCliente setMunicipio" style="width: 100%" required disabled>
+                                                            <select name="muniNacimientoCliente_1" id="muniNacimientoCliente_1" class="form-control custom-select muniNacimientoCliente setMunicipio select2" style="width: 100%" required disabled>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                             </select>
                                                         </div>
@@ -250,7 +253,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Condición migratoria</label>
-                                                            <select name="condicionMigratoriaCliente_1" id="condicionMigratoriaCliente_1" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
+                                                            <select name="condicionMigratoriaCliente_1" id="condicionMigratoriaCliente_1" class="form-control custom-select condicionMigratoria select2" style="width: 100%" disabled required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($listaCondicionMigratoria as $condicionMigratoria)
                                                                 <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">{{$condicionMigratoria->descripcion}}</option>
@@ -273,7 +276,7 @@
                                                     <div class="col-sm-2">
                                                         <div class="form-group">
                                                             <label>Sexo</label>
-                                                            <select name="sexoCliente_1" id="sexoCliente_1" class="form-control custom-select sexoCliente" style="width: 100%" required>
+                                                            <select name="sexoCliente_1" id="sexoCliente_1" class="form-control custom-select sexoCliente select2" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 <option value="M">Masculino</option>
                                                                 <option value="F">Femenino</option>
@@ -284,7 +287,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Estado civil</label>
-                                                            <select name="estadoCivilCliente_1" id="estadoCivilCliente_1" class="form-control custom-select estadoCivil" style="width: 100%" required>
+                                                            <select name="estadoCivilCliente_1" id="estadoCivilCliente_1" class="form-control custom-select estadoCivil select2" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 <option value="S">Soltero</option>
                                                                 <option value="C">Casado</option>
@@ -303,7 +306,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Docto. identificación</label>
-                                                            <select name="tipoDoctoIdentificacionCliente_1" id="tipoDoctoIdentificacionCliente_1" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte" style="width: 100%" required>
+                                                            <select name="tipoDoctoIdentificacionCliente_1" id="tipoDoctoIdentificacionCliente_1" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte select2" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 <option value="D">DPI</option>
                                                                 <option value="P">Pasaporte</option>
@@ -321,7 +324,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>País (Pasaporte)</label>
-                                                            <select name="emicionPasaporteCliente_1" id="emicionPasaporteCliente_1" class="form-control custom-select emicionPasaporte" style="width: 100%" disabled required>
+                                                            <select name="emicionPasaporteCliente_1" id="emicionPasaporteCliente_1" class="form-control custom-select emicionPasaporte select2" style="width: 100%" disabled required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($paises as $pais)
                                                                 <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
@@ -370,7 +373,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>País residencia</label>
-                                                            <select name="paisRecidenciaCliente_1" id="paisRecidenciaCliente_1" class="form-control custom-select paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais" style="width: 100%" required>
+                                                            <select name="paisRecidenciaCliente_1" id="paisRecidenciaCliente_1" class="form-control custom-select paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($paises as $pais)
                                                                 <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
@@ -383,7 +386,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Departamento residencia</label>
-                                                            <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control custom-select deptoRecidenciaCliente getMunicipio" style="width: 100%" required disabled>
+                                                            <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control custom-select deptoRecidenciaCliente getMunicipio select2" style="width: 100%" required disabled>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($departamentos as $departamento)
                                                                 <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
@@ -395,7 +398,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Municipio residencia</label>
-                                                            <select name="muniRecidenciaCliente_1" id="muniRecidenciaCliente_1" class="form-control custom-select muniRecidenciaCliente setMunicipio" style="width: 100%" required disabled>
+                                                            <select name="muniRecidenciaCliente_1" id="muniRecidenciaCliente_1" class="form-control custom-select muniRecidenciaCliente setMunicipio select2" style="width: 100%" required disabled>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                             </select>
                                                         </div>
@@ -408,7 +411,7 @@
                                                             <div class="row">
                                                                 <div class="col-sm">
                                                                     <label>Nacionalidad</label>
-                                                                    <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control custom-select nacionalidad" style="width: 100%" required>
+                                                                    <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control custom-select nacionalidad select2" style="width: 100%" required>
                                                                         <option value="" disabled selected>Selecciona</option>
                                                                         @foreach($paises as $pais)
                                                                         <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
@@ -510,6 +513,78 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="informacionEconomicaIncialCliente_1">
+                                <div class="card card-info mt-3">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Información económica del cliente</h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-9">
+                                                <div class="form-group">
+                                                    <label for="montoIngresosCliente_1" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <input type="number" name = "montoIngresos" id="montoIngresosCliente_1" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label for="propositoRCCliente_1">Propósito de la relación de negocios</label>
+                                                    <input name="propositoRC" id="propositoRCCliente_1" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="datosfuenteingresosCliente_1">
+                                            <div class="row">
+                                                <div class="col-sm">
+                                                    <div class="form-group">
+                                                        <label for="">Fuente de ingresos</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="fuenteingresosCliente_1" cantidad = "0" idinput= "">
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <div class="form-group">
+                                                            <select name="selectfuenteingresos" id="selectfuenteingresosCliente_1_0" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
+                                                                <option value="" disabled selected>Selecciona</option>
+                                                                <option value="NP">Negocio propio</option>
+                                                                <option value="RD">Relación de dependencia</option>
+                                                                <option value="OI">Otras fuentes de ingreso</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col sm">
+                                                        <div class="form-group row">
+                                                                <div class="col-sm-2">
+                                                                    <label for="inputfuenteingresosCliente_1_0" class="ml-4" id="labelfuenteingresosCliente_1_0"></label>
+                                                                </div>
+                                                                <div class="col-sm ml-2">
+                                                                    <input name="inputfuenteingresos" id="inputfuenteingresosCliente_1_0" type="text" class="form-control" required />
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <button type="button" id="agregarFuenteIngresos" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="representanteCliente_1">
                             </div>
                         </div>
@@ -579,5 +654,8 @@
 </section>
 <!-- /.content -->
 
+    @push('scripts')
+        <script src="{{ asset('plugins/scripts/appIve.js') }}"></script>
+    @endpush
 
 @endsection

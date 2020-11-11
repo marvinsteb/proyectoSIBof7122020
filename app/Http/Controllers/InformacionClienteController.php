@@ -11,6 +11,8 @@ use App\Models\Nacionalidad;
 use App\Models\Telefono;
 use App\Models\Pais;
 use App\Models\DatosPep;
+use App\Models\FuenteIngresos;
+use App\Models\InformacionEconomicaInicial;
 use App\Models\ParienteAsociadoPep;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +34,7 @@ class InformacionClienteController extends Controller
         
         return $obLugar->idLugar;
     }
-    public function guradarDatosPersonales($datosPersonales){
+    public function guardarDatosPersonales($datosPersonales){
         
                     $camposMinimos = [
                         'primerApellido' => $datosPersonales["primerApellido"],
@@ -106,6 +108,54 @@ class InformacionClienteController extends Controller
                   }
                   return $idClienteCamposMinimos;
     }
+    public function guardarFueneIngresos($id,$fuenteIng,$tipo){
+        foreach($fuenteIng as $info){
+            $idFuIng =[];
+             $obFuenteIngresos =[
+                            'idInformacionEconomicaInicial' => $id,
+                            'tipo'=> $tipo,
+                            'nombreComercial'=>null,
+                            'nombreEmpleador'=>null,
+                            'otrasFuentesIngreso'=>null,
+                        ];
+            switch ($tipo) {
+                case 'NP':
+                    $idFuIng['idFuenteIngresos'] = $info['idNombreComercial'];
+                    $obFuenteIngresos['nombreComercial'] = $info['nombreComercial'];
+                break;
+                case 'RD':
+                    $idFuIng['idFuenteIngresos'] = $info['idNombreEmpleador'];
+                    $obFuenteIngresos['nombreEmpleador'] = $info['nombreEmpleador'];
+                break;
+                case 'OI':
+                    $idFuIng ['idFuenteIngresos'] = $info['idOtrasFuentesIngreso'];
+                    $obFuenteIngresos['otrasFuentesIngreso'] = $info['otrasFuentesIngreso'];
+                break;
+            }
+            FuenteIngresos::updateOrCreate($idFuIng,$obFuenteIngresos);
+        }
+        
+    }
+    public function guardarInformacionEconomica($infoEconomica){
+        $obInfoEcoIni = InformacionEconomicaInicial::updateOrCreate(
+            ['idInformacionEconomicaInicial' => $infoEconomica["idInformacionEconomicaInicial"]],
+            [
+                 'montoIngresos' => $infoEconomica["montoIngresos"],
+                 'propositoRC' => $infoEconomica["propositoRC"]
+            ]
+        );
+        if(!empty($infoEconomica["negocioPropio"])){
+            $this->guardarFueneIngresos($obInfoEcoIni->idInformacionEconomicaInicial,$infoEconomica["negocioPropio"],"NP");
+        }
+        if(!empty($infoEconomica["relacionDependencia"])){
+            $this->guardarFueneIngresos($obInfoEcoIni->idInformacionEconomicaInicial,$infoEconomica["relacionDependencia"],"RD");
+        }
+        if(!empty($infoEconomica["otrosIngresos"])){
+            $this->guardarFueneIngresos($obInfoEcoIni->idInformacionEconomicaInicial,$infoEconomica["otrosIngresos"],"OI");
+        }
+        
+        return $obInfoEcoIni->idInformacionEconomicaInicial;
+    }
 
     public function formatoFechaDB($fecha){
         return  Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
@@ -155,6 +205,9 @@ class InformacionClienteController extends Controller
         $arrParienteAsociadoPep = ParienteAsociadoPep::select('datosParienteAsociadoPep.*')
                             ->join('datosParienteAsociadoPep', 'datosParienteAsociadoPep.idDatosParienteAsociadoPep', '=', 'parienteAsociadoPep.idDatosParienteAsociadoPep')
                             ->where('parienteAsociadoPep.idDatosPersonales','=',$idDatosPersonales)->get();
+        foreach($arrParienteAsociadoPep as $dt){
+            $dt['paisEntidad'] = $this->obtenerCodigoPais($dt['paisEntidad']);
+        }
         return $arrParienteAsociadoPep;
     }
     public function queryDatosPersonales($idDatosPersonales){
@@ -184,6 +237,34 @@ class InformacionClienteController extends Controller
                     }
                     return $datosPersonales;
     }
+    public function queryArrayFuenteIngresos($idInfoEco,$tipo){
+        $arrFuentIngresos = [];
+        $campo = '';
+        switch ($tipo) {
+            case 'NP':
+                $campo = "nombreComercial";
+            break;
+            case 'RD':
+                $campo = "nombreEmpleador";
+            break;
+            case 'OI':
+                $campo = "otrasFuentesIngreso";
+            break;
+        }
+        $queryFuenteIngresos = FuenteIngresos::select($campo)->where('tipo','=',$tipo)->where('idInformacionEconomicaInicial','=',$idInfoEco)->get();
+        foreach ($queryFuenteIngresos as $fi) {
+          $ob[$campo] = $fi[$campo];
+          $arrFuentIngresos[] = $ob;
+        }
+        return $arrFuentIngresos;
+    }
+    public function queryInfoEconommicaInicial($infoEconomicaCamposMinimos){
+        $obInfoEco = InformacionEconomicaInicial::where('idInformacionEconomicaInicial','=',$infoEconomicaCamposMinimos)->first();
+        $obInfoEco["negocioPropio"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'NP');
+        $obInfoEco["relacionDependencia"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'RD');
+        $obInfoEco["otrosIngresos"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'OI');
+        return $obInfoEco;
+    }
     public function queryDicionarioFormulario($id){
             $ObDicFormulario = DiccionarioFormulario::where('iddiccionarioFormulario', '=',$id)->get();
 
@@ -200,6 +281,7 @@ class InformacionClienteController extends Controller
                 $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
                 $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
                 $camposMinimos["cliente"] = $this->queryDatosPersonales($camposMinimos["cliente"]);
+                $camposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($camposMinimos["infoEconomica"]);
             }
             $dicFormuario = [
                 'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
@@ -269,11 +351,13 @@ class InformacionClienteController extends Controller
          $camposMinimos = [];
         DB::beginTransaction();
         try {
-            // diccionario formulario 
-
-            $idDiccionarioFormulario = DB::table('diccionarioFormulario')->insertGetId([
-                "estado" => "A"
-            ]);
+            // diccionario formulario
+            
+            $obdFormulario = DiccionarioFormulario::updateOrCreate(
+                ['iddiccionarioFormulario'=> $request->iddiccionarioFormulario] ,
+                ["estado" => "A"]
+            ); 
+            $idDiccionarioFormulario = $obdFormulario->iddiccionarioFormulario;
 
             for ($i = 0; $i < count($request->titulares); $i++) {
                 
@@ -281,17 +365,17 @@ class InformacionClienteController extends Controller
                     'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
                     'lugar' => $this->guardarLugar($request->titulares[$i]["lugar"]),
                     'fecha' => $this->formatoFechaDB($request->titulares[$i]["fecha"]),
-                    'cliente' => $this->guradarDatosPersonales($request->titulares[$i]["cliente"]),
-                    'infoEconomica' => null,
+                    'cliente' => $this->guardarDatosPersonales($request->titulares[$i]["cliente"]),
+                    'infoEconomica' => $this->guardarInformacionEconomica($request->titulares[$i]["infoEconomicaInical"]),
                     'diccionarioFormulario' => $idDiccionarioFormulario,
                     ]; 
                  if($camposMinimos["tipoActuacion"] == "R"){
                     $camposMinimos["calidadActua"] = $request->titulares[$i]["calidadActua"];
-                    $camposMinimos["representante"] =  $this->guradarDatosPersonales($request->titulares[$i]["representante"]);
+                    $camposMinimos["representante"] =  $this->guardarDatosPersonales($request->titulares[$i]["representante"]);
                 }
                 DB::table('camposMinimos')->insertGetId($camposMinimos);
             }
-             $respuesta = $this->queryDicionarioFormulario($idDiccionarioFormulario);
+             $respuesta = $this->queryDicionarioFormulario( $obdFormulario->iddiccionarioFormulario);
 
             DB::commit();
             // all good
