@@ -9,7 +9,7 @@ class Telefono extends Model
 {
     use HasFactory;
     protected $table = 'telefono';
-    protected $primarykey = 'idTelefono';
+    protected $primaryKey = 'idTelefono';
     public $timestamps = false;
 
     protected $fillable = [

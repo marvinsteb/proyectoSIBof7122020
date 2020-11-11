@@ -9,7 +9,7 @@ class Nacionalidad extends Model
 {
     use HasFactory;
     protected $table = 'nacionalidad';
-    protected $primarykey = 'idNacionalidad';
+    protected $primaryKey = 'idNacionalidad';
     public $timestamps = false;
 
     protected $fillable = [

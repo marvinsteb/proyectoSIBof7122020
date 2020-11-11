@@ -49,7 +49,7 @@ function templateSexo(id) {
     <div class="col-sm">
         <div class="form-group">
            <label for="sexo${id}">Sexo</label>
-            <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo" style="width: 100%" required>
+            <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo select2" style="width: 100%" required>
                 <option value="" disabled selected>Selecciona</option>
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
@@ -74,7 +74,7 @@ function templateDoctoIdentificacion(id) {
 <div class="col-sm">
     <div class="form-group">
         <label>Docto. identificación</label>
-        <select name="tipoDoctoIdentificacion${id}" id="tipoDoctoIdentificacion${id}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte" style="width: 100%" required>
+        <select name="tipoDoctoIdentificacion${id}" id="tipoDoctoIdentificacion${id}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte select2" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
             <option value="D">DPI</option>
             <option value="P">Pasaporte</option>
@@ -119,7 +119,7 @@ function templateEstadoCivil(id) {
     <div class="col-sm">
         <div class="form-group">
             <label>Estado civil</label>
-            <select name="estadoCivil${id}" id="estadoCivil${id}" class="form-control custom-select estadoCivil" style="width: 100%" required>
+            <select name="estadoCivil${id}" id="estadoCivil${id}" class="form-control custom-select estadoCivil select2" style="width: 100%" required>
                 <option value="" disabled selected>Selecciona</option>
                 <option value="S">Soltero</option>
                 <option value="C">Casado</option>
@@ -148,7 +148,7 @@ function templatePais(
     <div class="col-sm">
         <div class="form-group">
             <label for="${id}">${textolabel}</label>
-            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales}" style="width: 100%" required ${selectDesabilitado}>
+            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales} select2" style="width: 100%" required ${selectDesabilitado}>
             <option value="" disabled selected>Selecciona</option>
             </select>
         </div>
@@ -161,7 +161,7 @@ function templateDepartamento(id, textolabel) {
     <div class="col-sm">
         <div class="form-group">
             <label>${textolabel}</label>
-            <select name="depto${id}" id="depto${id}" class="form-control custom-select depto getMunicipio setDepartamento" style="width: 100%" required disabled>
+            <select name="depto${id}" id="depto${id}" class="form-control custom-select depto getMunicipio setDepartamento select2" style="width: 100%" required disabled>
                 <option value="" disabled selected>Selecciona</option>
             </select>
         </div>
@@ -174,7 +174,7 @@ function templateMunicipio(id, textolabel) {
     <div class="col-sm">
         <div class="form-group">
             <label>${textolabel}</label>
-            <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio" style="width: 100%" required disabled>
+            <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio select2" style="width: 100%" required disabled>
                 <option value="" disabled selected>Selecciona</option>
             </select>
         </div>
@@ -187,7 +187,7 @@ function templateCondicionMigratoria(id) {
         <div class="col-sm">
             <div class="form-group">
                 <label>Condición migratoria</label>
-                <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria" style="width: 100%" disabled required>
+                <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria select2" style="width: 100%" disabled required>
                 <option value="" disabled selected>Selecciona</option>
                 </select>
             </div>
@@ -227,7 +227,7 @@ function templateNacionalidad(id) {
                 <div class="row">
                     <div class="col-sm">
                         <label>Nacionalidad</label>
-                        <select name="nacionalidad${id}" id="nacionalidad${id}_1" class="form-control custom-select nacionalidad" style="width: 100%" required>
+                        <select name="nacionalidad${id}" id="nacionalidad${id}_1" class="form-control custom-select nacionalidad select2" style="width: 100%" required>
                             <option value="" disabled selected>Selecciona</option>
                         </select>
                     </div>
@@ -414,7 +414,7 @@ function templateAsoPep(id) {
         </div>
 
         <div id="datosasoPep${id}">
-            <div class="info">
+             <div class="info" cantidad="0">
             </div>
             <div class="btnadd">
             </div>
@@ -479,6 +479,32 @@ function templateCamposMinimos(id, tipo) {
 
      </div>`;
     return tcamposMinimos;
+}
+function templateCamposFuenteIngreo(id, posicion) {
+    let temFeIg = `
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <select name="select" id="select${id}_${posicion}" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="NP">Negocio propio</option>
+                    <option value="RD">Relación de dependencia</option>
+                    <option value="OI">Otras fuentes de ingreso</option>
+                </select>
+            </div>
+        </div>
+        <div class="col sm">
+            <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label for="input${id}_${posicion}" class="ml-4" id="label${id}_${posicion}"></label>
+                    </div>
+                    <div class="col-sm ml-2">
+                        <input name="input" id="input${id}_${posicion}" type="text" class="form-control" required />
+                    </div>
+            </div>
+        </div>
+    </div>`;
+    return temFeIg;
 }
 // agrega template campos minimos con los eventos, y verificaciones
 function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
@@ -858,7 +884,7 @@ function verificarPersonaPep(radioClientePep) {
                         <div class="col-sm">
                             <div class="form-group">
                                 <label for ="paisEntidad${id}">País entidad</label>
-                                <select name="paisEntidad${id}" id="paisEntidad${id}" class="form-control custom-select" style="width: 100%;" required>
+                                <select name="paisEntidad${id}" id="paisEntidad${id}" class="form-control custom-select select2" style="width: 100%;" required>
                                     <option value="" disabled selected>Selecciona</option>
                                 </select>
                             </div>
@@ -866,7 +892,7 @@ function verificarPersonaPep(radioClientePep) {
                         <div class="col-sm">
                             <div class="form-group">
                                 <label for= "origenRiqueza${id}">Origen o procedencia de su riqueza</label>
-                                <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select" style="width: 100%;" required>
+                                <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select select2" style="width: 100%;" required>
                                     <option value="" disabled selected>Selecciona</option>
                                     <option value="1">Bienes muebles e inmuebles por herencia</option>
                                     <option value="2">Bienes muebles e inmuebles</option>
@@ -925,7 +951,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
                 `<div class='form-group'>
                             <div class="row">
                                 <div class="col-sm">
-                                    <select name="${idPadre}" id="${idSelect}" class="form-control custom-select nacionalidad" style="width: 100%" required>
+                                    <select name="${idPadre}" id="${idSelect}" class="form-control custom-select nacionalidad select2" style="width: 100%" required>
                                         <option value="" disabled selected>Selecciona</option>
                                     </select>
                                 </div>
@@ -945,6 +971,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
             let selectPaisActual = $(`#${idPadre}>div.form-group>div.row`).find(
                 `select#${idSelect}`
             );
+            $(".select2").select2();
             cargarPais(selectPaisActual);
         });
     }
@@ -1000,7 +1027,7 @@ function agregaAsoPep(idAsoPep) {
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label for="parentesco${id}">Parentesco</label>
-                                                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco" style="width: 100%" required>
+                                                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco select2" style="width: 100%" required>
                                                     <option value="" disabled selected>Selecciona</option>
                                                     <option value="1">Padre</option>
                                                     <option value="2">Madre</option>
@@ -1022,7 +1049,7 @@ function agregaAsoPep(idAsoPep) {
                                         <div class="col-sm">
                                             <div class="form-group">
                                                 <label for="motivoAsociacion${id}">Motivo asociación</label>
-                                                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion" style="width: 100%" required>
+                                                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion select2" style="width: 100%" required>
                                                     <option value="" disabled selected>Selecciona</option>
                                                     <option value="1">Profesionales</option>
                                                     <option value="2">Políticos</option>
@@ -1042,7 +1069,7 @@ function agregaAsoPep(idAsoPep) {
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label for="condicion${id}">Condición</label>
-                                                <select name="condicion${id}" id="condicion${id}" class="form-control custom-select" style="width: 100%" required>
+                                                <select name="condicion${id}" id="condicion${id}" class="form-control custom-select select2" style="width: 100%" required>
                                                     <option value="">Selecciona</option>
                                                     <option value="N">Nacional</option>
                                                     <option value="E">Extranjero</option>
@@ -1097,7 +1124,7 @@ function verificarAsoPep(asoPepCliente) {
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-primary agregarFamiliarAsociado" id="agregarFamiliarAsociadoPepCliente">
+                                            <button type="button" class="btn btn-primary agregarFamiliarAsociado" id="agregarFamiliarAsociadoPep${idAsoPep}">
                                                 Agregar Familiar/Asociado PEP
                                             </button>
                                         </div>
@@ -1118,6 +1145,53 @@ function verificarAsoPep(asoPepCliente) {
             }
         });
     }
+}
+function validarTipoFuenteIngreso(fuenteIngresos) {
+    $(fuenteIngresos).change(function () {
+        let posicionActual = $(this).parent().parent().parent().index();
+        let divRowFntIng = $(this).parent().parent().parent().parent();
+        let divIngresosActual = $(divRowFntIng).attr("id");
+        let label = `#label${divIngresosActual}_${posicionActual}`;
+        let input = $(`input#input${divIngresosActual}_${posicionActual}`);
+
+        switch ($(this).val()) {
+            case "NP":
+                $(label).text("Nombre comercial");
+                $(input)
+                    .attr("placeholder", "Nombre comercial ...")
+                    .attr("maxlength", "400")
+                    .attr("name", "nombreComercial");
+                break;
+            case "RD":
+                $(label).text("Nombre empleador");
+                $(input)
+                    .attr("placeholder", "Nombre empleador ...")
+                    .attr("maxlength", "200")
+                    .attr("name", "nombreEmpleador");
+                break;
+            case "OI":
+                $(label).text("Otras fuentes de ingreso");
+                $(input)
+                    .attr("placeholder", "Otra fuente ...")
+                    .attr("maxlength", "400")
+                    .attr("name", "otrasFuentesIngresos");
+                break;
+        }
+    });
+}
+function agregarTemplateFuenteIngresos(btnFuenteIngreso) {
+    $(btnFuenteIngreso).click(function () {
+        const divPadre = $(this).parent().parent().parent().attr("id");
+        const divContenedor = $(`div#${divPadre} >div:nth-child(2)`);
+        const id = $(divContenedor).attr("id");
+        let posicion = $(divContenedor).attr("cantidad");
+        posicion++;
+        let cFuIn = templateCamposFuenteIngreo(id, posicion);
+        $(divContenedor).append(cFuIn);
+        $(divContenedor).attr("cantidad", posicion);
+        $(`select#select${id}_${posicion}`).select2();
+        validarTipoFuenteIngreso($(`select#select${id}_${posicion}`));
+    });
 }
 function AgregarTitular() {
     $("#btnAgregarTitular").click(function (event) {
@@ -1246,6 +1320,7 @@ function AgregarTitular() {
 
         cargarDepartamentos($(`select#deptoCaMi${idTitular}`));
         eliminarTemplateTitular($("#titulares>div"));
+        $(".select2").select2();
     });
 }
 class dicLugar {
@@ -1323,6 +1398,44 @@ class dicDatosPersonales {
         this.datosParienteAsociadoPep.push(asociado);
     }
 }
+
+class informacionNegocioPropio {
+    constructor(id) {
+        this.idNombreComercial = id;
+        this.nombreComercial = null;
+    }
+}
+class informacionNombreEmpleador {
+    constructor(id) {
+        this.idNombreEmpleador = id;
+        this.nombreEmpleador = null;
+    }
+}
+class informacionOtrosIngresos {
+    constructor(id) {
+        this.idOtrasFuentesIngreso = id;
+        this.otrasFuentesIngreso = null;
+    }
+}
+class informacionEconomicaInicial {
+    constructor(id) {
+        this.idInformacionEconomicaInicial = id;
+        this.montoIngresos = null;
+        this.negocioPropio = new Array();
+        this.relacionDependencia = new Array();
+        this.otrosIngresos = new Array();
+        this.propositoRC = null;
+    }
+    agregarNegocioPropio(npropio) {
+        this.negocioPropio.push(npropio);
+    }
+    agregarRelacionDependencia(rDependencia) {
+        this.relacionDependencia.push(rDependencia);
+    }
+    agregarotrosIngresos(oIngresos) {
+        this.otrosIngresos.push(oIngresos);
+    }
+}
 class dicCamposMinimos {
     constructor() {
         this.tipoActuacion = null;
@@ -1331,12 +1444,12 @@ class dicCamposMinimos {
         this.fecha = null;
         this.cliente = new dicDatosPersonales();
         this.representante = new dicDatosPersonales();
-        this.infoEconomicaInical = null;
+        this.infoEconomicaInical = new informacionEconomicaInicial();
     }
 }
 class diccionarioFormulario {
     constructor(id) {
-        this.id = id;
+        this.iddiccionarioFormulario = id;
         this.titulares = new Array();
         this.productos = new Array();
         this.perfilEconomico = new Object();
@@ -1371,17 +1484,16 @@ function validarFormulario() {
         form.addEventListener(
             "submit",
             function (event) {
+                event.preventDefault();
+                event.stopPropagation();
                 expandirCard();
+                enviarDatos();
                 if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
                     form.classList.add("was-validated");
                 } else {
-                    event.preventDefault();
-                    event.stopPropagation();
                     console.log("enviando formulario");
                     mostrarModal();
-                    enviarDatos();
+                    //enviarDatos();
                 }
             },
             false
@@ -1417,6 +1529,7 @@ function eliminarTemplateTitular(titulares) {
     }
 }
 function obtenerDatosPersonales(divPadre, id) {
+    console.log(divPadre);
     let datosPersonales = new dicDatosPersonales();
     datosPersonales.primerApellido = $(divPadre)
         .find(`input:text[id=primerApellido${id}]`)
@@ -1493,7 +1606,6 @@ function obtenerDatosPersonales(divPadre, id) {
     }
 
     let nacionalidades = $(`div#nacionalidad${id}`).find(`select.nacionalidad`);
-    console.log(nacionalidades);
     for (let a = 0; a < nacionalidades.length; a++) {
         datosPersonales.agregarNacionalidad($(nacionalidades[a]).val());
     }
@@ -1594,6 +1706,40 @@ function obtenerDatosPersonales(divPadre, id) {
 
     return datosPersonales;
 }
+function obtenerDatosInfoEconomica(infoEconomica, id) {
+    let infoEc = new informacionEconomicaInicial();
+    infoEc.montoIngresos = $(infoEconomica)
+        .find(`input[id=montoIngresos${id}]`)
+        .val();
+    infoEc.propositoRC = $(infoEconomica)
+        .find(`input:text[id=propositoRC${id}]`)
+        .val();
+
+    let fuenteIngresos = $(infoEconomica).find(`div#fuenteingresos${id}`);
+    $(fuenteIngresos)
+        .children()
+        .each(function (elemento) {
+            console.log($(this).find(`input`).val());
+            switch ($(this).find(`input`).attr("name")) {
+                case "nombreComercial":
+                    let ngp = new informacionNegocioPropio();
+                    ngp.nombreComercial = $(this).find(`input`).val();
+                    infoEc.agregarNegocioPropio(ngp);
+                    break;
+                case "nombreEmpleador":
+                    let rdp = new informacionNombreEmpleador();
+                    rdp.nombreEmpleador = $(this).find(`input`).val();
+                    infoEc.agregarRelacionDependencia(rdp);
+                    break;
+                case "otrasFuentesIngresos":
+                    let ofi = new informacionOtrosIngresos();
+                    ofi.otrasFuentesIngreso = $(this).find(`input`).val();
+                    infoEc.agregarotrosIngresos(ofi);
+                    break;
+            }
+        });
+    return infoEc;
+}
 function obtenerDatos() {
     let df = new diccionarioFormulario(
         $(".diccionarioFormulario").attr("idDiccionario")
@@ -1620,23 +1766,38 @@ function obtenerDatos() {
         titular.fecha = $(divTitularActual)
             .find(`input:text[id=fechaDocCaMi${id}]`)
             .val();
-        titular.cliente = obtenerDatosPersonales(divTitularActual, id);
+        let daPeCliente = $(divTitularActual).find(`div#camposMinimos${id}`);
+        titular.cliente = obtenerDatosPersonales(daPeCliente, id);
         if (titular.tipoActuacion === "R") {
             titular.calidadActua = $(divTitularActual)
                 .find(`input:text[id=calidadActua${id}]`)
                 .val();
+            let daPeRepre = $(divTitularActual).find(`div#representante${id}`);
             titular.representante = obtenerDatosPersonales(
-                divTitularActual,
+                daPeRepre,
                 `Representante${id}`
             );
         }
-
+        const divInfoEconomica = $(divTitularActual).find(
+            `div#informacionEconomicaIncial${id}`
+        );
+        titular.infoEconomicaInical = obtenerDatosInfoEconomica(
+            divInfoEconomica,
+            id
+        );
         df.agregarTitular(titular);
     }
     console.log(df);
     return df;
 }
 $(document).ready(function () {
+    // function askConfirmation(evt) {
+    //     var msg =
+    //         "Si recarga la página perdera todos los datos ingresados.\n¿Deseas recargar la página?";
+    //     evt.returnValue = msg;
+    //     return msg;
+    // }
+    // window.addEventListener("beforeunload", askConfirmation);
     console.log("Esperando a que la pagina cargue completamente ");
     setFormatoFecha($(".date"));
     verificaActuaNombrePropio($(".actuaNombrePropio"));
@@ -1649,6 +1810,8 @@ $(document).ready(function () {
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
     verificarPersonaPep($(".pepCliente"));
     verificarAsoPep($(".asoPepCliente"));
+    validarTipoFuenteIngreso($("select.fuenteIngresos"));
+    agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
     AgregarTitular();
     eliminarTemplateTitular($("#titulares>div"));
     validarFormulario();

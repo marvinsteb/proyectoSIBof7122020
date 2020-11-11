@@ -9,7 +9,7 @@ class DatosPersonales extends Model
 {
     use HasFactory;
     protected $table = 'datosPersonales';
-    protected $primarykey = 'idDatosPersonales';
+    protected $primaryKey = 'idDatosPersonales';
     public $timestamps = false;
     protected $fillable = [
         'primerApellido',

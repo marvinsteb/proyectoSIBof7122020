@@ -10,16 +10,31 @@
                         <th scope="col">Tipo Actuacion</th>
                         <th scope="col">Nombre Cliente</th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($dicFormulario as $dc)
                     <tr>
-                        <th scope="row">{{$dc->iddiccionarioFormulario}}</th>
+                        <td scope="row">{{$dc->iddiccionarioFormulario}}</td>
                         <td>{{ $dc->tipoActuacion == 'C' ? 'Cliente' :'Representante' }}</td>
                         <td>{{ $dc->primerNombre." ".$dc->segundoNombre}}</td>
                         <td>
-                            <a href="{{'/descargarjson/'.$dc->iddiccionarioFormulario}}"><button class="btn btn-info btnDescargarJson">Descargar Archivo JSON</button></a></td>
+                            <a href="#">
+                                <button class="btn btn-success">Editar</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/eliminarFormulario/{{$dc->iddiccionarioFormulario}}">
+                                <button class="btn btn-danger btnEliminar">Eliminar</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{'/descargarjson/'.$dc->iddiccionarioFormulario}}">
+                                <button class="btn btn-info btnDescargarJson">Descargar JSON</button>
+                            </a>
+                        </td>
                         </tr>
                     @endforeach
                 </tbody>
