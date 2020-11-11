@@ -232,7 +232,7 @@
                                                     <!-- select departamento -->
                                                     <div class="col-sm">
                                                         <div class="form-group">
-                                                            <label>Departamento nacimiento</label>
+                                                            <label>Depto. nacimiento</label>
                                                             <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control custom-select deptoNacimientoCliente getMunicipio select2" style="width: 100%" required disabled>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($departamentos as $departamento)

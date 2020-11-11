@@ -11,6 +11,7 @@ use App\Models\Nacionalidad;
 use App\Models\Telefono;
 use App\Models\Pais;
 use App\Models\DatosPep;
+use App\Models\FuenteIngresos;
 use App\Models\InformacionEconomicaInicial;
 use App\Models\ParienteAsociadoPep;
 use Carbon\Carbon;
@@ -107,6 +108,34 @@ class InformacionClienteController extends Controller
                   }
                   return $idClienteCamposMinimos;
     }
+    public function guardarFueneIngresos($id,$fuenteIng,$tipo){
+        foreach($fuenteIng as $info){
+            $idFuIng =[];
+             $obFuenteIngresos =[
+                            'idInformacionEconomicaInicial' => $id,
+                            'tipo'=> $tipo,
+                            'nombreComercial'=>null,
+                            'nombreEmpleador'=>null,
+                            'otrasFuentesIngreso'=>null,
+                        ];
+            switch ($tipo) {
+                case 'NP':
+                    $idFuIng['idFuenteIngresos'] = $info['idNombreComercial'];
+                    $obFuenteIngresos['nombreComercial'] = $info['nombreComercial'];
+                break;
+                case 'RD':
+                    $idFuIng['idFuenteIngresos'] = $info['idNombreEmpleador'];
+                    $obFuenteIngresos['nombreEmpleador'] = $info['nombreEmpleador'];
+                break;
+                case 'OI':
+                    $idFuIng ['idFuenteIngresos'] = $info['idOtrasFuentesIngreso'];
+                    $obFuenteIngresos['otrasFuentesIngreso'] = $info['otrasFuentesIngreso'];
+                break;
+            }
+            FuenteIngresos::updateOrCreate($idFuIng,$obFuenteIngresos);
+        }
+        
+    }
     public function guardarInformacionEconomica($infoEconomica){
         $obInfoEcoIni = InformacionEconomicaInicial::updateOrCreate(
             ['idInformacionEconomicaInicial' => $infoEconomica["idInformacionEconomicaInicial"]],
@@ -115,6 +144,16 @@ class InformacionClienteController extends Controller
                  'propositoRC' => $infoEconomica["propositoRC"]
             ]
         );
+        if(!empty($infoEconomica["negocioPropio"])){
+            $this->guardarFueneIngresos($obInfoEcoIni->idInformacionEconomicaInicial,$infoEconomica["negocioPropio"],"NP");
+        }
+        if(!empty($infoEconomica["relacionDependencia"])){
+            $this->guardarFueneIngresos($obInfoEcoIni->idInformacionEconomicaInicial,$infoEconomica["relacionDependencia"],"RD");
+        }
+        if(!empty($infoEconomica["otrosIngresos"])){
+            $this->guardarFueneIngresos($obInfoEcoIni->idInformacionEconomicaInicial,$infoEconomica["otrosIngresos"],"OI");
+        }
+        
         return $obInfoEcoIni->idInformacionEconomicaInicial;
     }
 
