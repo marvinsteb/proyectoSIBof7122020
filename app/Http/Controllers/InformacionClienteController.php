@@ -237,6 +237,34 @@ class InformacionClienteController extends Controller
                     }
                     return $datosPersonales;
     }
+    public function queryArrayFuenteIngresos($idInfoEco,$tipo){
+        $arrFuentIngresos = [];
+        $campo = '';
+        switch ($tipo) {
+            case 'NP':
+                $campo = "nombreComercial";
+            break;
+            case 'RD':
+                $campo = "nombreEmpleador";
+            break;
+            case 'OI':
+                $campo = "otrasFuentesIngreso";
+            break;
+        }
+        $queryFuenteIngresos = FuenteIngresos::select($campo)->where('tipo','=',$tipo)->where('idInformacionEconomicaInicial','=',$idInfoEco)->get();
+        foreach ($queryFuenteIngresos as $fi) {
+          $ob[$campo] = $fi[$campo];
+          $arrFuentIngresos[] = $ob;
+        }
+        return $arrFuentIngresos;
+    }
+    public function queryInfoEconommicaInicial($infoEconomicaCamposMinimos){
+        $obInfoEco = InformacionEconomicaInicial::where('idInformacionEconomicaInicial','=',$infoEconomicaCamposMinimos)->first();
+        $obInfoEco["negocioPropio"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'NP');
+        $obInfoEco["relacionDependencia"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'RD');
+        $obInfoEco["otrosIngresos"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'OI');
+        return $obInfoEco;
+    }
     public function queryDicionarioFormulario($id){
             $ObDicFormulario = DiccionarioFormulario::where('iddiccionarioFormulario', '=',$id)->get();
 
@@ -253,6 +281,7 @@ class InformacionClienteController extends Controller
                 $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
                 $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
                 $camposMinimos["cliente"] = $this->queryDatosPersonales($camposMinimos["cliente"]);
+                $camposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($camposMinimos["infoEconomica"]);
             }
             $dicFormuario = [
                 'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
