@@ -1413,7 +1413,7 @@ class informacionNombreEmpleador {
 }
 class informacionOtrosIngresos {
     constructor(id) {
-        this.otrasFuentesIngreso = id;
+        this.idOtrasFuentesIngreso = id;
         this.otrasFuentesIngreso = null;
     }
 }
