@@ -114,81 +114,51 @@ function templatePais(
     if (deshabilitado == true) {
         selectDesabilitado = "disabled";
     }
-    let templatepais = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label for="${id}">${textolabel}</label>
-            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales} select2" style="width: 100%" required ${selectDesabilitado}>
-            <option value="" disabled selected>Selecciona</option>
-            </select>
-        </div>
-    </div>
-    `;
-    return templatepais;
+    let templatepais = `<label for="${id}">${textolabel}</label>
+                        <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales} select2" style="width: 100%" required ${selectDesabilitado}>
+                        <option value="" disabled selected>Selecciona</option>
+                        </select>`;
+    return templateFormGroup(templatepais);
 }
 function templateDepartamento(id, textolabel) {
-    let temDepartamento = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>${textolabel}</label>
-            <select name="depto${id}" id="depto${id}" class="form-control custom-select depto getMunicipio setDepartamento select2" style="width: 100%" required disabled>
-                <option value="" disabled selected>Selecciona</option>
-            </select>
-        </div>
-    </div>
-    `;
-    return temDepartamento;
+    let temDepartamento = ` <label>${textolabel}</label>
+                            <select name="depto${id}" id="depto${id}" class="form-control custom-select depto getMunicipio setDepartamento select2" style="width: 100%" required disabled>
+                                <option value="" disabled selected>Selecciona</option>
+                            </select>`;
+    return templateFormGroup(temDepartamento);
 }
 function templateMunicipio(id, textolabel) {
-    let temMunicipio = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>${textolabel}</label>
-            <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio select2" style="width: 100%" required disabled>
-                <option value="" disabled selected>Selecciona</option>
-            </select>
-        </div>
-    </div>
-    `;
-    return temMunicipio;
+    let temMunicipio = `<label>${textolabel}</label>
+                        <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio select2" style="width: 100%" required disabled>
+                            <option value="" disabled selected>Selecciona</option>
+                        </select>`;
+    return templateFormGroup(temMunicipio);
 }
 function templateCondicionMigratoria(id) {
-    let temCondicionMigratoria = `
-        <div class="col-sm">
-            <div class="form-group">
+    const cmCond = templateFormGroup(`
                 <label>Condición migratoria</label>
                 <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria select2" style="width: 100%" disabled required>
                 <option value="" disabled selected>Selecciona</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-sm">
-            <div class="form-group">
-                <label>Especifique</label>
-                <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
-            </div>
-        </div>
-        `;
+                </select>`);
+    const espCond = templateFormGroup(`
+                    <label>Especifique</label>
+                    <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />`);
+    let temCondicionMigratoria = `${cmCond}
+                                  ${espCond}`;
     return temCondicionMigratoria;
 }
 function templateFecha(id, nombre) {
-    let temCampoFecha = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>Fecha nacimiento</label>
-            <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
-                <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
-                <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
-                <div class="input-group-append" data-target="#fecha${nombre}_${id}" data-toggle="datetimepicker">
-                    <div class="input-group-text">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    `;
-    return temCampoFecha;
+    let temCampoFecha = `<label>Fecha nacimiento</label>
+                        <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
+                            <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
+                            <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
+                            <div class="input-group-append" data-target="#fecha${nombre}_${id}" data-toggle="datetimepicker">
+                                <div class="input-group-text">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>`;
+    return templateFormGroup(temCampoFecha);
 }
 function templateNacionalidad(id) {
     let temNacionalidad = `
