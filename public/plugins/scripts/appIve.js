@@ -1,4 +1,5 @@
 // templates
+
 function templateInvalidTooltip(mensaje) {
     return `<div class="invalid-tooltip">${mensaje}</div>`;
 }
@@ -442,6 +443,91 @@ function templatePersonaPep(id) {
             </div>
             <div class="datospep${id}"></div>`;
     return temPersonaPep;
+}
+function templateMontoIngresos(id) {
+    let tmMontoIngresos = ` <div class="row">
+                                <div class="col-sm-9">
+                                    <div class="form-group">
+                                        <label for="montoIngresos${id}" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="number" name = "montoIngresos" id="montoIngresos${id}" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>
+                                    </div>
+                                </div>
+                            </div>`;
+    return tmMontoIngresos;
+}
+function templatePropositoRc(id) {
+    let tempPropositoRc = `<div class="row">
+                                <div class="col-sm">
+                                    <div class="form-group">
+                                        <label for="propositoRC${id}">Propósito de la relación de negocios</label>
+                                        <input name="propositoRC" id="propositoRC${id}" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
+                                    </div>
+                                </div>
+                            </div>`;
+    return tempPropositoRc;
+}
+function templateInformacionEconomicaInicial(id) {
+    const comMonto = templateMontoIngresos(id);
+    const cmRc = templatePropositoRc(id);
+    let tmInfoEcoInicial = `<div class="card card-info mt-3">
+                                <div class="card-header">
+                                    <h3 class="card-title">Información económica del cliente</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    ${comMonto}
+                                    ${cmRc}
+                                    <div id="datosfuenteingresos${id}">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label for="">Fuente de ingresos</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="fuenteingresos${id}" cantidad = "0" idinput= "">
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <select name="selectfuenteingresos" id="selectfuenteingresos${id}_0" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
+                                                            <option value="" disabled selected>Selecciona</option>
+                                                            <option value="NP">Negocio propio</option>
+                                                            <option value="RD">Relación de dependencia</option>
+                                                            <option value="OI">Otras fuentes de ingreso</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col sm">
+                                                    <div class="form-group row">
+                                                            <div class="col-sm-2">
+                                                                <label for="inputfuenteingresos${id}_0" class="ml-4" id="labelfuenteingresos${id}_0"></label>
+                                                            </div>
+                                                            <div class="col-sm ml-2">
+                                                                <input name="inputfuenteingresos" id="inputfuenteingresos${id}_0" type="text" class="form-control" required />
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <button type="button" id="agregarFuenteIngresos" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            `;
+    return tmInfoEcoInicial;
 }
 function templateCamposMinimos(id, tipo) {
     let tcamposNombres = templateCamposNommbres(id);
@@ -1294,6 +1380,7 @@ function AgregarTitular() {
                                         </div>
                                         <!-- .row -->
                                          <div id="camposMinimos${idTitular}"></div>
+                                         <div id="informacionEconomicaIncial${idTitular}"></div>
                                          <div id="representante${idTitular}"></div>
                                     </div>
                                     <!-- /.card-body -->
@@ -1306,6 +1393,10 @@ function AgregarTitular() {
             `${idTitular}`,
             "cliente"
         );
+        const comInfoEco = templateInformacionEconomicaInicial(idTitular);
+        $(`div#informacionEconomicaIncial${idTitular}`).append(comInfoEco);
+        validarTipoFuenteIngreso($("select.fuenteIngresos"));
+        agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
         /*agregado validadciones para el nuevo titular*/
         let divTitularActual = $(`#titulares>div#${idTitular}`);
 
