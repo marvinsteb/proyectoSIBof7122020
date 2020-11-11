@@ -2,6 +2,14 @@
 function templateInvalidTooltip(mensaje) {
     return `<div class="invalid-tooltip">${mensaje}</div>`;
 }
+function templateFormGroup(temFormGroup) {
+    let tm = `<div class="col-sm">
+                    <div class="form-group">
+                        ${temFormGroup}
+                    </div>
+                </div>`;
+    return tm;
+}
 function templateCamposNommbres(id) {
     let templateNombres = ` <div class="row">
                                             <div class="col-sm">
@@ -45,89 +53,51 @@ function templateCamposNommbres(id) {
     return templateNombres;
 }
 function templateSexo(id) {
-    let templatesexo = `
-    <div class="col-sm">
-        <div class="form-group">
-           <label for="sexo${id}">Sexo</label>
-            <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo select2" style="width: 100%" required>
-                <option value="" disabled selected>Selecciona</option>
-                <option value="M">Masculino</option>
-                <option value="F">Femenino</option>
-            </select>
-        </div>
-    </div>`;
-    return templatesexo;
+    const templatesexo = `<label for="sexo${id}">Sexo</label>
+                          <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo select2" style="width: 100%" required>
+                              <option value="" disabled selected>Selecciona</option>
+                              <option value="M">Masculino</option>
+                              <option value="F">Femenino</option>
+                          </select>`;
+    return templateFormGroup(templatesexo);
 }
 function templateNit(id) {
-    let temNit = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>Nit</label>
-            <input name="nit${id}" id="nit${id}" type="text" class="form-control nit" placeholder="Nit ..." maxlength="20" />
-        </div>
-    </div>
-    `;
-    return temNit;
+    const temNit = `<label>Nit</label>
+                    <input name="nit${id}" id="nit${id}" type="text" class="form-control nit" placeholder="Nit ..." maxlength="20" />`;
+    return templateFormGroup(temNit);
 }
 function templateDoctoIdentificacion(id) {
-    let temDoctoIdent = `
-<div class="col-sm">
-    <div class="form-group">
-        <label>Docto. identificación</label>
-        <select name="tipoDoctoIdentificacion${id}" id="tipoDoctoIdentificacion${id}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte select2" style="width: 100%" required>
-            <option value="" disabled selected>Selecciona</option>
-            <option value="D">DPI</option>
-            <option value="P">Pasaporte</option>
-        </select>
-    </div>
-</div>
-    `;
-    return temDoctoIdent;
+    const temDoctoIdent = `<label for="tipoDoctoIdentificacion${id}">Docto. identificación</label>
+                           <select name="tipoDoctoIdentificacion${id}" id="tipoDoctoIdentificacion${id}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte select2" style="width: 100%" required>
+                               <option value="" disabled selected>Selecciona</option>
+                               <option value="D">DPI</option>
+                               <option value="P">Pasaporte</option>
+                           </select>`;
+    return templateFormGroup(temDoctoIdent);
 }
 function templateNumDocumento(id) {
-    let temNumDoc = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>Número identificación</label>
-            <input name="noDocIdentificacion${id}" id="noDocIdentificacion${id}" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required disabled/>
-        </div>
-    </div>`;
-    return temNumDoc;
+    const temNumDoc = `<label>Número identificación</label>
+                       <input name="noDocIdentificacion${id}" id="noDocIdentificacion${id}" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required disabled/>`;
+    return templateFormGroup(temNumDoc);
 }
 function templateProfecionOficio(id) {
-    let temProfOfici = `
-        <div class="col-sm">
-            <div class="form-group">
-                <label>Profesión u oficio</label>
-                <input name="profecionOficio${id}" id="profecionOficio${id}" type="text" class="form-control profecionOficio" placeholder="Profesión u oficio ..." maxlength="100" required />
-            </div>
-        </div>`;
-    return temProfOfici;
+    const temProfOfici = `<label>Profesión u oficio</label>
+                          <input name="profecionOficio${id}" id="profecionOficio${id}" type="text" class="form-control profecionOficio" placeholder="Profesión u oficio ..." maxlength="100" required />`;
+    return templateFormGroup(temProfOfici);
 }
 function templateEmail(id) {
-    let temcorreo = `
-        <div class="col-sm">
-            <div class="form-group">
-                <label>Correo electrónico</label>
-                <input name="email${id}" id="email${id}" type="email" class="form-control email" placeholder="Correo electrónico ..." maxlength="100" />
-            </div>
-        </div>`;
-    return temcorreo;
+    let temcorreo = `<label>Correo electrónico</label>
+                     <input name="email${id}" id="email${id}" type="email" class="form-control email" placeholder="Correo electrónico ..." maxlength="100" />`;
+    return templateFormGroup(temcorreo);
 }
 function templateEstadoCivil(id) {
-    let temEs = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>Estado civil</label>
-            <select name="estadoCivil${id}" id="estadoCivil${id}" class="form-control custom-select estadoCivil select2" style="width: 100%" required>
-                <option value="" disabled selected>Selecciona</option>
-                <option value="S">Soltero</option>
-                <option value="C">Casado</option>
-            </select>
-        </div>
-    </div>
-    `;
-    return temEs;
+    let temEs = `<label>Estado civil</label>
+                 <select name="estadoCivil${id}" id="estadoCivil${id}" class="form-control custom-select estadoCivil select2" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="S">Soltero</option>
+                    <option value="C">Casado</option>
+                 </select>`;
+    return templateFormGroup(temEs);
 }
 function templatePais(
     id,
