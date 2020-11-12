@@ -1,6 +1,15 @@
 // templates
+
 function templateInvalidTooltip(mensaje) {
     return `<div class="invalid-tooltip">${mensaje}</div>`;
+}
+function templateFormGroup(temFormGroup) {
+    let tm = `<div class="col-sm">
+                    <div class="form-group">
+                        ${temFormGroup}
+                    </div>
+                </div>`;
+    return tm;
 }
 function templateCamposNommbres(id) {
     let templateNombres = ` <div class="row">
@@ -45,89 +54,51 @@ function templateCamposNommbres(id) {
     return templateNombres;
 }
 function templateSexo(id) {
-    let templatesexo = `
-    <div class="col-sm">
-        <div class="form-group">
-           <label for="sexo${id}">Sexo</label>
-            <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo select2" style="width: 100%" required>
-                <option value="" disabled selected>Selecciona</option>
-                <option value="M">Masculino</option>
-                <option value="F">Femenino</option>
-            </select>
-        </div>
-    </div>`;
-    return templatesexo;
+    const templatesexo = `<label for="sexo${id}">Sexo</label>
+                          <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo select2" style="width: 100%" required>
+                              <option value="" disabled selected>Selecciona</option>
+                              <option value="M">Masculino</option>
+                              <option value="F">Femenino</option>
+                          </select>`;
+    return templateFormGroup(templatesexo);
 }
 function templateNit(id) {
-    let temNit = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>Nit</label>
-            <input name="nit${id}" id="nit${id}" type="text" class="form-control nit" placeholder="Nit ..." maxlength="20" />
-        </div>
-    </div>
-    `;
-    return temNit;
+    const temNit = `<label>Nit</label>
+                    <input name="nit${id}" id="nit${id}" type="text" class="form-control nit" placeholder="Nit ..." maxlength="20" />`;
+    return templateFormGroup(temNit);
 }
 function templateDoctoIdentificacion(id) {
-    let temDoctoIdent = `
-<div class="col-sm">
-    <div class="form-group">
-        <label>Docto. identificación</label>
-        <select name="tipoDoctoIdentificacion${id}" id="tipoDoctoIdentificacion${id}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte select2" style="width: 100%" required>
-            <option value="" disabled selected>Selecciona</option>
-            <option value="D">DPI</option>
-            <option value="P">Pasaporte</option>
-        </select>
-    </div>
-</div>
-    `;
-    return temDoctoIdent;
+    const temDoctoIdent = `<label for="tipoDoctoIdentificacion${id}">Docto. identificación</label>
+                           <select name="tipoDoctoIdentificacion${id}" id="tipoDoctoIdentificacion${id}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte select2" style="width: 100%" required>
+                               <option value="" disabled selected>Selecciona</option>
+                               <option value="D">DPI</option>
+                               <option value="P">Pasaporte</option>
+                           </select>`;
+    return templateFormGroup(temDoctoIdent);
 }
 function templateNumDocumento(id) {
-    let temNumDoc = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>Número identificación</label>
-            <input name="noDocIdentificacion${id}" id="noDocIdentificacion${id}" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required disabled/>
-        </div>
-    </div>`;
-    return temNumDoc;
+    const temNumDoc = `<label>Número identificación</label>
+                       <input name="noDocIdentificacion${id}" id="noDocIdentificacion${id}" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required disabled/>`;
+    return templateFormGroup(temNumDoc);
 }
 function templateProfecionOficio(id) {
-    let temProfOfici = `
-        <div class="col-sm">
-            <div class="form-group">
-                <label>Profesión u oficio</label>
-                <input name="profecionOficio${id}" id="profecionOficio${id}" type="text" class="form-control profecionOficio" placeholder="Profesión u oficio ..." maxlength="100" required />
-            </div>
-        </div>`;
-    return temProfOfici;
+    const temProfOfici = `<label>Profesión u oficio</label>
+                          <input name="profecionOficio${id}" id="profecionOficio${id}" type="text" class="form-control profecionOficio" placeholder="Profesión u oficio ..." maxlength="100" required />`;
+    return templateFormGroup(temProfOfici);
 }
 function templateEmail(id) {
-    let temcorreo = `
-        <div class="col-sm">
-            <div class="form-group">
-                <label>Correo electrónico</label>
-                <input name="email${id}" id="email${id}" type="email" class="form-control email" placeholder="Correo electrónico ..." maxlength="100" />
-            </div>
-        </div>`;
-    return temcorreo;
+    let temcorreo = `<label>Correo electrónico</label>
+                     <input name="email${id}" id="email${id}" type="email" class="form-control email" placeholder="Correo electrónico ..." maxlength="100" />`;
+    return templateFormGroup(temcorreo);
 }
 function templateEstadoCivil(id) {
-    let temEs = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>Estado civil</label>
-            <select name="estadoCivil${id}" id="estadoCivil${id}" class="form-control custom-select estadoCivil select2" style="width: 100%" required>
-                <option value="" disabled selected>Selecciona</option>
-                <option value="S">Soltero</option>
-                <option value="C">Casado</option>
-            </select>
-        </div>
-    </div>
-    `;
-    return temEs;
+    let temEs = `<label>Estado civil</label>
+                 <select name="estadoCivil${id}" id="estadoCivil${id}" class="form-control custom-select estadoCivil select2" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="S">Soltero</option>
+                    <option value="C">Casado</option>
+                 </select>`;
+    return templateFormGroup(temEs);
 }
 function templatePais(
     id,
@@ -144,81 +115,51 @@ function templatePais(
     if (deshabilitado == true) {
         selectDesabilitado = "disabled";
     }
-    let templatepais = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label for="${id}">${textolabel}</label>
-            <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales} select2" style="width: 100%" required ${selectDesabilitado}>
-            <option value="" disabled selected>Selecciona</option>
-            </select>
-        </div>
-    </div>
-    `;
-    return templatepais;
+    let templatepais = `<label for="${id}">${textolabel}</label>
+                        <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales} select2" style="width: 100%" required ${selectDesabilitado}>
+                        <option value="" disabled selected>Selecciona</option>
+                        </select>`;
+    return templateFormGroup(templatepais);
 }
 function templateDepartamento(id, textolabel) {
-    let temDepartamento = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>${textolabel}</label>
-            <select name="depto${id}" id="depto${id}" class="form-control custom-select depto getMunicipio setDepartamento select2" style="width: 100%" required disabled>
-                <option value="" disabled selected>Selecciona</option>
-            </select>
-        </div>
-    </div>
-    `;
-    return temDepartamento;
+    let temDepartamento = ` <label>${textolabel}</label>
+                            <select name="depto${id}" id="depto${id}" class="form-control custom-select depto getMunicipio setDepartamento select2" style="width: 100%" required disabled>
+                                <option value="" disabled selected>Selecciona</option>
+                            </select>`;
+    return templateFormGroup(temDepartamento);
 }
 function templateMunicipio(id, textolabel) {
-    let temMunicipio = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>${textolabel}</label>
-            <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio select2" style="width: 100%" required disabled>
-                <option value="" disabled selected>Selecciona</option>
-            </select>
-        </div>
-    </div>
-    `;
-    return temMunicipio;
+    let temMunicipio = `<label>${textolabel}</label>
+                        <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio select2" style="width: 100%" required disabled>
+                            <option value="" disabled selected>Selecciona</option>
+                        </select>`;
+    return templateFormGroup(temMunicipio);
 }
 function templateCondicionMigratoria(id) {
-    let temCondicionMigratoria = `
-        <div class="col-sm">
-            <div class="form-group">
+    const cmCond = templateFormGroup(`
                 <label>Condición migratoria</label>
                 <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria select2" style="width: 100%" disabled required>
                 <option value="" disabled selected>Selecciona</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-sm">
-            <div class="form-group">
-                <label>Especifique</label>
-                <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
-            </div>
-        </div>
-        `;
+                </select>`);
+    const espCond = templateFormGroup(`
+                    <label>Especifique</label>
+                    <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />`);
+    let temCondicionMigratoria = `${cmCond}
+                                  ${espCond}`;
     return temCondicionMigratoria;
 }
 function templateFecha(id, nombre) {
-    let temCampoFecha = `
-    <div class="col-sm">
-        <div class="form-group">
-            <label>Fecha nacimiento</label>
-            <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
-                <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
-                <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
-                <div class="input-group-append" data-target="#fecha${nombre}_${id}" data-toggle="datetimepicker">
-                    <div class="input-group-text">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    `;
-    return temCampoFecha;
+    let temCampoFecha = `<label>Fecha nacimiento</label>
+                        <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
+                            <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
+                            <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
+                            <div class="input-group-append" data-target="#fecha${nombre}_${id}" data-toggle="datetimepicker">
+                                <div class="input-group-text">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>`;
+    return templateFormGroup(temCampoFecha);
 }
 function templateNacionalidad(id) {
     let temNacionalidad = `
@@ -442,6 +383,91 @@ function templatePersonaPep(id) {
             </div>
             <div class="datospep${id}"></div>`;
     return temPersonaPep;
+}
+function templateMontoIngresos(id) {
+    let tmMontoIngresos = ` <div class="row">
+                                <div class="col-sm-9">
+                                    <div class="form-group">
+                                        <label for="montoIngresos${id}" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="number" name = "montoIngresos" id="montoIngresos${id}" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>
+                                    </div>
+                                </div>
+                            </div>`;
+    return tmMontoIngresos;
+}
+function templatePropositoRc(id) {
+    let tempPropositoRc = `<div class="row">
+                                <div class="col-sm">
+                                    <div class="form-group">
+                                        <label for="propositoRC${id}">Propósito de la relación de negocios</label>
+                                        <input name="propositoRC" id="propositoRC${id}" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
+                                    </div>
+                                </div>
+                            </div>`;
+    return tempPropositoRc;
+}
+function templateInformacionEconomicaInicial(id) {
+    const comMonto = templateMontoIngresos(id);
+    const cmRc = templatePropositoRc(id);
+    let tmInfoEcoInicial = `<div class="card card-info mt-3">
+                                <div class="card-header">
+                                    <h3 class="card-title">Información económica del cliente</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    ${comMonto}
+                                    ${cmRc}
+                                    <div id="datosfuenteingresos${id}">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label for="">Fuente de ingresos</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="fuenteingresos${id}" cantidad = "0" idinput= "">
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <select name="selectfuenteingresos" id="selectfuenteingresos${id}_0" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
+                                                            <option value="" disabled selected>Selecciona</option>
+                                                            <option value="NP">Negocio propio</option>
+                                                            <option value="RD">Relación de dependencia</option>
+                                                            <option value="OI">Otras fuentes de ingreso</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col sm">
+                                                    <div class="form-group row">
+                                                            <div class="col-sm-2">
+                                                                <label for="inputfuenteingresos${id}_0" class="ml-4" id="labelfuenteingresos${id}_0"></label>
+                                                            </div>
+                                                            <div class="col-sm ml-2">
+                                                                <input name="inputfuenteingresos" id="inputfuenteingresos${id}_0" type="text" class="form-control" required />
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <button type="button" id="agregarFuenteIngresos${id}" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            `;
+    return tmInfoEcoInicial;
 }
 function templateCamposMinimos(id, tipo) {
     let tcamposNombres = templateCamposNommbres(id);
@@ -914,6 +940,7 @@ function verificarPersonaPep(radioClientePep) {
                     </div>`;
                 $(`.datos${id}`).append(templateDatosPep);
                 cargarPais($(`#paisEntidad${id}`));
+                $(".select2").select2();
                 habilitaOtroOrigenriqueza($(`#origenRiqueza${id}`));
             } else {
                 $(`.datos${id} div`).remove();
@@ -1111,6 +1138,7 @@ function agregaAsoPep(idAsoPep) {
         5,
         `input#otroMotivoAsociacion${id}`
     );
+    $(".select2").select2();
 
     //establecemos el foco en el primer campo, para no perderse en el formulario
     $(`#datos${idAsoPep}>div.info`).find(`select#parentesco${id}`).focus();
@@ -1294,6 +1322,7 @@ function AgregarTitular() {
                                         </div>
                                         <!-- .row -->
                                          <div id="camposMinimos${idTitular}"></div>
+                                         <div id="informacionEconomicaIncial${idTitular}"></div>
                                          <div id="representante${idTitular}"></div>
                                     </div>
                                     <!-- /.card-body -->
@@ -1306,6 +1335,10 @@ function AgregarTitular() {
             `${idTitular}`,
             "cliente"
         );
+        const comInfoEco = templateInformacionEconomicaInicial(idTitular);
+        $(`div#informacionEconomicaIncial${idTitular}`).append(comInfoEco);
+        validarTipoFuenteIngreso($("select.fuenteIngresos"));
+        agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
         /*agregado validadciones para el nuevo titular*/
         let divTitularActual = $(`#titulares>div#${idTitular}`);
 
