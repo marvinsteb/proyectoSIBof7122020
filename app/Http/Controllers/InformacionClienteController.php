@@ -14,6 +14,7 @@ use App\Models\DatosPep;
 use App\Models\FuenteIngresos;
 use App\Models\InformacionEconomicaInicial;
 use App\Models\ParienteAsociadoPep;
+use App\Models\Titular;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -266,9 +267,10 @@ class InformacionClienteController extends Controller
         return $obInfoEco;
     }
     public function queryDicionarioFormulario($id){
-            $ObDicFormulario = DiccionarioFormulario::where('iddiccionarioFormulario', '=',$id)->get();
+            $ObDicFormulario = DiccionarioFormulario::where('idDiccionarioFormulario', '=',$id)->first();
+            $ObTitular = Titular::where('idDiccionarioFormulario', '=', $ObDicFormulario->idDiccionarioFormulario)->first();
 
-            $ObCamposMinimos = CamposMinimos::where('diccionarioFormulario','=',$ObDicFormulario[0]['iddiccionarioFormulario'])->get();
+            $ObCamposMinimos = CamposMinimos::where('idCamposMinimos','=',$ObTitular->idCamposMinimos)->get();
             
             foreach ($ObCamposMinimos as $camposMinimos) {
                 if($camposMinimos['tipoActuacion'] == 'R'){
@@ -284,8 +286,8 @@ class InformacionClienteController extends Controller
                 $camposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($camposMinimos["infoEconomica"]);
             }
             $dicFormuario = [
-                'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
-                'estado'=> $ObDicFormulario[0]['estado'],
+                'idDiccionarioFormulario'=> $ObDicFormulario['idDiccionarioFormulario'],
+                'estado'=> $ObDicFormulario['estado'],
                 'titulares'=> $ObCamposMinimos,
                 'productos'=>'productos',
                 'perfilEconomico'=>'perfilEconomico'
@@ -309,10 +311,11 @@ class InformacionClienteController extends Controller
     public function index()
     { 
         $dicFormulario = DB::table('diccionarioFormulario')->select('*')
-        ->where('estado','A')
-        ->join('camposMinimos','camposMinimos.diccionarioFormulario','=','diccionarioFormulario.iddiccionarioFormulario')
+        ->join('titular','titular.idDiccionarioFormulario','=','diccionarioFormulario.idDiccionarioFormulario')
+        ->join('camposMinimos','titular.idCamposMinimos','=','camposMinimos.idCamposMinimos')
         ->join('datosPersonales','datosPersonales.idDatosPersonales','=','camposMinimos.cliente')
-        ->orderBy('iddiccionarioFormulario', 'desc')->simplePaginate(7);
+        ->where('estado','A')
+        ->orderBy('diccionarioFormulario.idDiccionarioFormulario', 'desc')->simplePaginate(7);
         return view('contenido.oficioive7122020',compact('dicFormulario'));
     }
 
@@ -354,10 +357,10 @@ class InformacionClienteController extends Controller
             // diccionario formulario
             
             $obdFormulario = DiccionarioFormulario::updateOrCreate(
-                ['iddiccionarioFormulario'=> $request->iddiccionarioFormulario] ,
+                ['idDiccionarioFormulario'=> $request->idDiccionarioFormulario] ,
                 ["estado" => "A"]
             ); 
-            $idDiccionarioFormulario = $obdFormulario->iddiccionarioFormulario;
+            $idDiccionarioFormulario = $obdFormulario->idDiccionarioFormulario;
 
             for ($i = 0; $i < count($request->titulares); $i++) {
                 
@@ -367,15 +370,18 @@ class InformacionClienteController extends Controller
                     'fecha' => $this->formatoFechaDB($request->titulares[$i]["fecha"]),
                     'cliente' => $this->guardarDatosPersonales($request->titulares[$i]["cliente"]),
                     'infoEconomica' => $this->guardarInformacionEconomica($request->titulares[$i]["infoEconomicaInical"]),
-                    'diccionarioFormulario' => $idDiccionarioFormulario,
                     ]; 
                  if($camposMinimos["tipoActuacion"] == "R"){
                     $camposMinimos["calidadActua"] = $request->titulares[$i]["calidadActua"];
                     $camposMinimos["representante"] =  $this->guardarDatosPersonales($request->titulares[$i]["representante"]);
                 }
-                DB::table('camposMinimos')->insertGetId($camposMinimos);
+                $idCamposMinimos = DB::table('camposMinimos')->insertGetId($camposMinimos);
+                DB::table('titular')->insertGetId([
+                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
+                    'idCamposMinimos' => $idCamposMinimos,
+                ]);
             }
-             $respuesta = $this->queryDicionarioFormulario( $obdFormulario->iddiccionarioFormulario);
+            $respuesta = $this->queryDicionarioFormulario( $obdFormulario->idDiccionarioFormulario);
 
             DB::commit();
             // all good

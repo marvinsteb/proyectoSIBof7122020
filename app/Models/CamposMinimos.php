@@ -19,8 +19,6 @@ class CamposMinimos extends Model
         'fecha',
         'cliente',
         'representante',
-        'infoEconomica',
-        'diccionarioFormulario'
-
+        'infoEconomica'
     ];
 }
