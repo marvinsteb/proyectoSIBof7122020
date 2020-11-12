@@ -519,7 +519,7 @@ function templateInformacionEconomicaInicial(id) {
                                         </div>
                                         <div class="row">
                                             <div class="form-group">
-                                                <button type="button" id="agregarFuenteIngresos" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
+                                                <button type="button" id="agregarFuenteIngresos${id}" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
                                             </div>
                                         </div>
                                     </div>

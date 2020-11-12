@@ -578,7 +578,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="form-group">
-                                                    <button type="button" id="agregarFuenteIngresos" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
+                                                    <button type="button" id="agregarFuenteIngresosCliente_1" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
                                                 </div>
                                             </div>
                                         </div>
