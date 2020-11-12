@@ -1000,6 +1000,7 @@ function verificarPersonaPep(radioClientePep) {
                     </div>`;
                 $(`.datos${id}`).append(templateDatosPep);
                 cargarPais($(`#paisEntidad${id}`));
+                $(".select2").select2();
                 habilitaOtroOrigenriqueza($(`#origenRiqueza${id}`));
             } else {
                 $(`.datos${id} div`).remove();
@@ -1197,6 +1198,7 @@ function agregaAsoPep(idAsoPep) {
         5,
         `input#otroMotivoAsociacion${id}`
     );
+    $(".select2").select2();
 
     //establecemos el foco en el primer campo, para no perderse en el formulario
     $(`#datos${idAsoPep}>div.info`).find(`select#parentesco${id}`).focus();
