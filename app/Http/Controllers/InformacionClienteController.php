@@ -268,9 +268,13 @@ class InformacionClienteController extends Controller
     }
     public function queryDicionarioFormulario($id){
             $ObDicFormulario = DiccionarioFormulario::where('idDiccionarioFormulario', '=',$id)->first();
-            $ObTitular = Titular::where('idDiccionarioFormulario', '=', $ObDicFormulario->idDiccionarioFormulario)->first();
+            $ObTitular = Titular::where('idDiccionarioFormulario', '=', $ObDicFormulario->idDiccionarioFormulario)->get();
+            $listaCamposMinimos = [];
+            foreach ($ObTitular as $t) {
+                $listaCamposMinimos[] = $t["idCamposMinimos"];
+            }
+            $ObCamposMinimos = CamposMinimos::whereIn('idCamposMinimos',$listaCamposMinimos)->get();
 
-            $ObCamposMinimos = CamposMinimos::where('idCamposMinimos','=',$ObTitular->idCamposMinimos)->get();
             
             foreach ($ObCamposMinimos as $camposMinimos) {
                 if($camposMinimos['tipoActuacion'] == 'R'){
@@ -292,6 +296,7 @@ class InformacionClienteController extends Controller
                 'productos'=>'productos',
                 'perfilEconomico'=>'perfilEconomico'
             ];
+            // $dicFormuario = $ObCamposMinimos;
             return $dicFormuario;
     }
     public function diccionarioFormularioJson($id){
