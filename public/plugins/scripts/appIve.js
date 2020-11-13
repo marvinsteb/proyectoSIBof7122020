@@ -4,11 +4,11 @@ function templateInvalidTooltip(mensaje) {
     return `<div class="invalid-tooltip">${mensaje}</div>`;
 }
 function templateFormGroup(temFormGroup) {
-    let tm = `<div class="col-sm">
+    let tm = $(`<div class="col-sm">
                     <div class="form-group">
-                        ${temFormGroup}
                     </div>
-                </div>`;
+                </div>`);
+    $(tm).find("div.form-group").append(temFormGroup);
     return tm;
 }
 function templateCamposNommbres(id) {
@@ -149,7 +149,7 @@ function templateCondicionMigratoria(id) {
     return temCondicionMigratoria;
 }
 function templateFecha(id, nombre) {
-    let temCampoFecha = `<label>Fecha nacimiento</label>
+    let temCampoFecha = $(`<label>Fecha ${nombre.toLowerCase()}</label>
                         <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
                             <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
                             <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
@@ -158,8 +158,10 @@ function templateFecha(id, nombre) {
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
-                        </div>`;
-    return templateFormGroup(temCampoFecha);
+                        </div>`);
+    let cm = templateFormGroup(temCampoFecha);
+    setFormatoFecha($(cm).find("div.date"));
+    return cm;
 }
 function templateNacionalidad(id) {
     let temNacionalidad = `
@@ -531,6 +533,34 @@ function templateCamposFuenteIngreo(id, posicion) {
         </div>
     </div>`;
     return temFeIg;
+}
+function templateFilaUnoProdictoServicio(id) {
+    const cmFechaProducto = templateFecha(id, "Producto");
+    let tm = $(`<div class="row"></div>`);
+    $(tm).append(cmFechaProducto);
+    return tm;
+}
+function templateProductoServicio(id) {
+    const rowUno = templateFilaUnoProdictoServicio(id);
+    let tm = $(`
+            <div class="card card-info mt-3" id="productoServicio${id}">
+                <div class="card-header">
+                    <h3 class="card-title">Producto o servicio ${id}</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                </div>
+            </div>`);
+    $(tm).find("div.card-body").append(rowUno);
+    eliminarCard($(tm));
+    return tm;
 }
 // agrega template campos minimos con los eventos, y verificaciones
 function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
@@ -1353,9 +1383,21 @@ function AgregarTitular() {
         cargarPais(selectPaisActual);
 
         cargarDepartamentos($(`select#deptoCaMi${idTitular}`));
-        eliminarTemplateTitular($("#titulares>div"));
+        eliminarCard($("#titulares>div"));
         $(".select2").select2();
         $("div#titulares").attr("cantidad", id);
+    });
+}
+function agregarProductoServicio(poservicio) {
+    $(poservicio).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("agregando producto");
+        let indexProducto = $("div#datosProductoServicio").attr("cantidad");
+        indexProducto++;
+        let cmProductoServicio = templateProductoServicio(indexProducto);
+        $("div#datosProductoServicio").append(cmProductoServicio);
+        $("div#datosProductoServicio").attr("cantidad", indexProducto);
     });
 }
 class dicLugar {
@@ -1553,13 +1595,11 @@ function enviarDatos() {
         },
     });
 }
-function eliminarTemplateTitular(titulares) {
-    for (let i = 0; i < titulares.length; i++) {
-        $(titulares[i]).on("removed.lte.cardwidget", function (event) {
+function eliminarCard(card) {
+    for (let i = 0; i < card.length; i++) {
+        $(card[i]).on("removed.lte.cardwidget", function (event) {
             let cardActual = $(event.target).parent().parent().parent();
-            if ($(cardActual).index() > 0) {
-                $(cardActual).remove();
-            }
+            $(cardActual).remove();
         });
     }
 }
@@ -1858,6 +1898,7 @@ $(document).ready(function () {
     validarTipoFuenteIngreso($("select.fuenteIngresos"));
     agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
     AgregarTitular();
-    eliminarTemplateTitular($("#titulares>div"));
+    eliminarCard($("#titulares>div"));
+    agregarProductoServicio($("button.agregarProductoServicio"));
     validarFormulario();
 });

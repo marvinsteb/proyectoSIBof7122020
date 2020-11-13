@@ -611,12 +611,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div id="datosProductoServicioCliente_1">
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn btn-success float-right mb-4" id="btnAgregarTitular">Agregar Titular</button>
-                                </div>
+                            <div id="datosProductoServicio" cantidad="0">
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -624,9 +619,7 @@
                 </div>
                 <div class="row">
                     <div class="col clearfix">
-                        <button class="btn btn-success float-right mb-4">
-                            Agregar Producto y/o servicio
-                        </button>
+                        <button class="btn btn-success float-right mb-4 agregarProductoServicio" id="agregarProductoServicio">Agregar Producto y/o servicio</button>
                     </div>
                 </div>
                 <div class="perfilEconomicoTransaccional">
