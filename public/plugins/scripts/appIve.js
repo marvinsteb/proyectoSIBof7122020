@@ -119,10 +119,15 @@ function templatePais(
                         <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales} select2" style="width: 100%" required ${selectDesabilitado}>
                         <option value="" disabled selected>Selecciona</option>
                         </select>`);
+
     templatepais = templateFormGroup(templatepais);
     const selectPais = $(templatepais).find(`select#${id}`);
     cargarPais(selectPais);
     $(selectPais).select2();
+    if (desabilitadeptomuni == true) {
+        habilitaDepartamentoMunicipio(selectPais);
+    }
+
     return templatepais;
 }
 function templateDepartamento(id, textolabel) {
