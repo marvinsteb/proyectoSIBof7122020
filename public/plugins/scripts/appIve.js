@@ -131,18 +131,22 @@ function templatePais(
     return templatepais;
 }
 function templateDepartamento(id, textolabel) {
-    let temDepartamento = ` <label>${textolabel}</label>
+    let cmDpto = $(` <label>${textolabel}</label>
                             <select name="depto${id}" id="depto${id}" class="form-control custom-select depto getMunicipio setDepartamento select2" style="width: 100%" required disabled>
                                 <option value="" disabled selected>Selecciona</option>
-                            </select>`;
-    return templateFormGroup(temDepartamento);
+                            </select>`);
+    cmDpto = templateFormGroup(cmDpto);
+    $(cmDpto).find(`select#depto${id}`).select2();
+    return cmDpto;
 }
 function templateMunicipio(id, textolabel) {
-    let temMunicipio = `<label>${textolabel}</label>
+    let cmMuni = $(`<label>${textolabel}</label>
                         <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio select2" style="width: 100%" required disabled>
                             <option value="" disabled selected>Selecciona</option>
-                        </select>`;
-    return templateFormGroup(temMunicipio);
+                        </select>`);
+    cmMuni = templateFormGroup(cmMuni);
+    $(cmMuni).find(`select#muni${id}`).select2();
+    return cmMuni;
 }
 function templateCondicionMigratoria(id) {
     const cmCond = templateFormGroup(`
@@ -1298,21 +1302,28 @@ function templateCalidadActua(id) {
     return cmCA;
 }
 function templateLugarCM(id) {
-    let cmDepartamentoTitular = templateDepartamento(
-        `CaMi${id}`,
-        "Departamento"
-    );
-    let cmMunicipioTitular = templateMunicipio(`CaMi${id}`, "Municipio");
     //DocCaMi cambiar este id
     let camposLugar = $(`   <div class="row lugarFecha">
                                 <div class="col-sm-12 mb-3">
                                     <h4>II. LUGAR Y FECHA</h4>
                                 </div>
                             </div>`);
+
     let cmpaisTitular = templatePais(`paisCaMi${id}`, "País", true);
     $(camposLugar).append(cmpaisTitular);
+
+    let cmDepartamentoTitular = templateDepartamento(
+        `CaMi${id}`,
+        "Departamento"
+    );
+    $(camposLugar).append(cmDepartamentoTitular);
+
+    let cmMunicipioTitular = templateMunicipio(`CaMi${id}`, "Municipio");
+    $(camposLugar).append(cmMunicipioTitular);
+
     let cmFechaDoc = templateFecha(id, "DocCaMi");
     $(camposLugar).append(cmFechaDoc);
+
     return camposLugar;
 }
 function templateCamposMinimos(id, indice) {
