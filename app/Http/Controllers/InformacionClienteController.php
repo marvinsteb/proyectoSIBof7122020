@@ -315,12 +315,7 @@ class InformacionClienteController extends Controller
      */
     public function index()
     { 
-        $dicFormulario = DB::table('diccionarioFormulario')->select('*')
-        ->join('titular','titular.idDiccionarioFormulario','=','diccionarioFormulario.idDiccionarioFormulario')
-        ->join('camposMinimos','titular.idCamposMinimos','=','camposMinimos.idCamposMinimos')
-        ->join('datosPersonales','datosPersonales.idDatosPersonales','=','camposMinimos.cliente')
-        ->where('estado','A')
-        ->orderBy('diccionarioFormulario.idDiccionarioFormulario', 'desc')->simplePaginate(7);
+        $dicFormulario = DB::table('listadiccionarioformulario')->select('*')->simplePaginate(7);
         return view('contenido.oficioive7122020',compact('dicFormulario'));
     }
 
