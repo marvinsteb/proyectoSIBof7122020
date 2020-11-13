@@ -1225,9 +1225,9 @@ function AgregarTitular() {
     $("#btnAgregarTitular").click(function (event) {
         event.preventDefault();
 
-        let cantActualTitulares = $("#titulares>div").length;
+        let id = $("div#titulares").attr("cantidad");
         let tipo = "Cliente";
-        let id = cantActualTitulares + 1;
+        id ++;
 
         /*
          * variables para los id de los campos
@@ -1354,6 +1354,7 @@ function AgregarTitular() {
         cargarDepartamentos($(`select#deptoCaMi${idTitular}`));
         eliminarTemplateTitular($("#titulares>div"));
         $(".select2").select2();
+        $("div#titulares").attr("cantidad", id);
     });
 }
 class dicLugar {

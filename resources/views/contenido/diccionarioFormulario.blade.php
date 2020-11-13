@@ -40,16 +40,13 @@
             <div class="diccionarioFormulario" idDiccionario="">
                 @csrf
                 <!-- datos titular -->
-                <div class="titulares" id="titulares">
+                <div class="titulares" id="titulares" cantidad="1">
                     <div class="card card-primary" id="Cliente_1">
                         <div class="card-header">
                             <h3 class="card-title">Titular 1</h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
                                 </button>
                             </div>
                         </div>
