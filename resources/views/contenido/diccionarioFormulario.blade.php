@@ -36,7 +36,7 @@
 <section class="content">
     <div class="container-fluid">
 
-        <form action="guardarActualizar" class="needs-validation" method="post" novalidate>
+        <form action="guardarActualizar" id="diccionarioFormulario" class="needs-validation" method="post" novalidate>
             <div class="diccionarioFormulario" idDiccionario="">
                 @csrf
                 <!-- datos titular -->
@@ -610,7 +610,15 @@
                             </div>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body"></div>
+                        <div class="card-body">
+                            <div id="datosProductoServicioCliente_1">
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-success float-right mb-4" id="btnAgregarTitular">Agregar Titular</button>
+                                </div>
+                            </div>
+                        </div>
                         <!-- /.card-body -->
                     </div>
                 </div>

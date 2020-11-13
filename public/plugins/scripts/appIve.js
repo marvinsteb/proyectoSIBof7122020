@@ -1224,10 +1224,11 @@ function agregarTemplateFuenteIngresos(btnFuenteIngreso) {
 function AgregarTitular() {
     $("#btnAgregarTitular").click(function (event) {
         event.preventDefault();
+        event.stopPropagation();
 
         let id = $("div#titulares").attr("cantidad");
         let tipo = "Cliente";
-        id ++;
+        id++;
 
         /*
          * variables para los id de los campos
@@ -1824,6 +1825,15 @@ function obtenerDatos() {
     console.log(df);
     return df;
 }
+function noEnviarFormularioConEnter() {
+    $("#diccionarioFormulario").on("keyup keypress", function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+}
 $(document).ready(function () {
     // function askConfirmation(evt) {
     //     var msg =
@@ -1833,6 +1843,7 @@ $(document).ready(function () {
     // }
     // window.addEventListener("beforeunload", askConfirmation);
     console.log("Esperando a que la pagina cargue completamente ");
+    noEnviarFormularioConEnter();
     setFormatoFecha($(".date"));
     verificaActuaNombrePropio($(".actuaNombrePropio"));
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
