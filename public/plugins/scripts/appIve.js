@@ -149,7 +149,11 @@ function templateCondicionMigratoria(id) {
     return temCondicionMigratoria;
 }
 function templateFecha(id, nombre) {
-    let temCampoFecha = $(`<label>Fecha ${nombre.toLowerCase()}</label>
+    let nombrefecha = "";
+    if (nombre != "DocCaMi") {
+        nombrefecha = nombre.toLowerCase();
+    }
+    let temCampoFecha = $(`<label>Fecha ${nombrefecha}</label>
                         <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
                             <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
                             <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
@@ -471,7 +475,7 @@ function templateInformacionEconomicaInicial(id) {
                             `;
     return tmInfoEcoInicial;
 }
-function templateCamposMinimos(id, tipo) {
+function templateDatosPersonales(id, tipo) {
     let tcamposNombres = templateCamposNommbres(id);
     let tcamposNacimiento = templateCamposNacimiento(id);
     let tCamposDoc = templateCamposDocumentos(id);
@@ -563,9 +567,9 @@ function templateProductoServicio(id) {
     return tm;
 }
 // agrega template campos minimos con los eventos, y verificaciones
-function agregarCamposMinimos(divDatos, idCamposMinimos, tipo) {
+function agregarDatosPersonales(divDatos, idCamposMinimos, tipo) {
     console.log(`agregado informacion del  ${idCamposMinimos}`);
-    let templateRepresentante = templateCamposMinimos(idCamposMinimos, tipo);
+    let templateRepresentante = templateDatosPersonales(idCamposMinimos, tipo);
     $(divDatos).append(templateRepresentante);
     validarApellidoCasada($(`input#apellidoCasada${idCamposMinimos}`));
     setFormatoFecha($(`div.date`));
@@ -637,7 +641,7 @@ function verificaActuaNombrePropio(elementoActuaNomprePropio) {
             } else if (this.value === "R") {
                 inputCalidadActua[0].disabled = false;
                 $(inputCalidadActua[0]).prop("required", true);
-                agregarCamposMinimos(
+                agregarDatosPersonales(
                     divDatosRepresentante,
                     `Representante${tipo}`,
                     "representante"
@@ -1251,140 +1255,119 @@ function agregarTemplateFuenteIngresos(btnFuenteIngreso) {
         validarTipoFuenteIngreso($(`select#select${id}_${posicion}`));
     });
 }
+function templateCalidadActua(id) {
+    let cmCA = $(`
+                    <div class="row mb-3"><h4>I. TIPO DE ACTUACIÓN DEL CLIENTE</h4></div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-check">
+                                <div>
+                                    <label>El cliente actúa en nombre propio</label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="siActua${id}" class="actuaNombrePropio" name="tipoActuacion${id}" value="C" required/>
+                                    <label for="siActua${id}">Sí</label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="noActua${id}" class="actuaNombrePropio" name="tipoActuacion${id}" value="R" required />
+                                    <label for="noActua${id}">No</label>
+                                    <div class="invalid-tooltip">Indica el tipo de actuación</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label for ="calidadActua${id}" >Calidad con que actúa</label>
+                                <input name="calidadActua${id}" id="calidadActua${id}" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
+                                <div class="invalid-tooltip">Por Ejemplo: Mandatario, Patria potestad, Tutor, Otros.</div>
+                            </div>
+                        </div>
+                    </div>`);
+    const inputAcNomPro = $(cmCA).find("input.actuaNombrePropio");
+    verificaActuaNombrePropio(inputAcNomPro);
+    return cmCA;
+}
+function templateLugarCM(id) {
+    let cmpaisTitular = templatePais(`paisCaMi${id}`, "País", true);
+    let cmDepartamentoTitular = templateDepartamento(
+        `CaMi${id}`,
+        "Departamento"
+    );
+    let cmMunicipioTitular = templateMunicipio(`CaMi${id}`, "Municipio");
+    //DocCaMi cambiar este id
+    let cmFechaDoc = templateFecha(id, "");
+    let camposLugar = $(`
+                        <div class="row">
+                                        <div class="col-sm-12">
+                                            <h4>II. LUGAR Y FECHA</h4>
+                                        </div>
+                                        <br />
+                                        <br />
+                        </div>
+                        <div class="row">
+                            ${cmpaisTitular}
+                            ${cmDepartamentoTitular}
+                            ${cmMunicipioTitular}
+                            <!-- fecha -->
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label>Fecha</label>
+                                    <div class="input-group date" id="fechaDoc_${id}" data-target-input="nearest">
+                                        <input name="fechaDocCaMi${id}" id="fechaDocCaMi${id}" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_${id}" required />
+                                        <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
+                                        <div class="input-group-append" data-target="#fechaDoc_${id}" data-toggle="datetimepicker">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    `);
+    return camposLugar;
+}
+function templateCamposMinimos(id, indice) {
+    let cm = $(`
+                <div class="card card-primary" id="${id}">
+                    <div class="card-header">
+                        <h3 class="card-title">Titular ${indice}</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                </div>
+                `);
+    let dCardBody = $(cm).find("div.card-body");
+    $(dCardBody).append(templateCalidadActua(id));
+    $(dCardBody).append(templateLugarCM(id));
+
+    let cmCM = $(`<div id="camposMinimos${id}"></div>`);
+    $(dCardBody).append(cmCM);
+    let cmIE = $(`<div id="informacionEconomicaIncial${id}"></div>`);
+    $(dCardBody).append(cmIE);
+    let cmRe = $(`<div id="representante${id}"></div>`);
+    $(dCardBody).append(cmRe);
+    return cm;
+}
 function AgregarTitular() {
     $("#btnAgregarTitular").click(function (event) {
         event.preventDefault();
         event.stopPropagation();
-
-        let id = $("div#titulares").attr("cantidad");
         let tipo = "Cliente";
+        let id = $("div#titulares").attr("cantidad");
         id++;
-
-        /*
-         * variables para los id de los campos
-         * se utiliza el tipo y el id para crear un id unico para cada campo
-         */
         let idTitular = `${tipo}_${id}`;
-        let cmpaisTitular = templatePais(`paisCaMi${idTitular}`, "País", true);
-        let cmDepartamentoTitular = templateDepartamento(
-            `CaMi${idTitular}`,
-            "Departamento"
-        );
-        let cmMunicipioTitular = templateMunicipio(
-            `CaMi${idTitular}`,
-            "Municipio"
-        );
-        let templateTitular = `
-                                <div class="card card-primary" id="${idTitular}">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Titular ${id}</h3>
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <!-- /.card-header -->
-
-                                    <div class="card-body">
-                                        <div class="row mb-3"><h4>I. TIPO DE ACTUACIÓN DEL CLIENTE ${id}</h4></div>
-                                        <!-- .row -->
-
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <div class="form-check">
-                                                    <div>
-                                                        <label>El cliente actúa en nombre propio</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="siActua${idTitular}" class="actuaNombrePropio" name="tipoActuacion${idTitular}" value="C" required/>
-                                                        <label for="siActua${idTitular}">Sí</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" id="noActua${idTitular}" class="actuaNombrePropio" name="tipoActuacion${idTitular}" value="R" required />
-                                                        <label for="noActua${idTitular}">No</label>
-                                                        <div class="invalid-tooltip">Indica el tipo de actuación</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm-8">
-                                                <div class="form-group">
-                                                    <label for ="calidadActua${idTitular}" >Calidad con que actúa</label>
-                                                    <input name="calidadActua${idTitular}" id="calidadActua${idTitular}" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
-                                                    <div class="invalid-tooltip">Por Ejemplo: Mandatario, Patria potestad, Tutor, Otros.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- .row -->
-
-                                        <!-- II. LUGAR Y FECHA -->
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <h4>II. LUGAR Y FECHA</h4>
-                                            </div>
-                                            <br />
-                                            <br />
-                                        </div>
-                                        <!-- row -->
-
-                                        <div class="row">
-                                            ${cmpaisTitular}
-                                            ${cmDepartamentoTitular}
-                                            ${cmMunicipioTitular}
-                                            <!-- fecha -->
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Fecha</label>
-                                                    <div class="input-group date" id="fechaDoc_${idTitular}" data-target-input="nearest">
-                                                        <input name="fechaDocCaMi${idTitular}" id="fechaDocCaMi${idTitular}" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_${idTitular}" required />
-                                                        <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
-                                                        <div class="input-group-append" data-target="#fechaDoc_${idTitular}" data-toggle="datetimepicker">
-                                                            <div class="input-group-text">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- .row -->
-                                         <div id="camposMinimos${idTitular}"></div>
-                                         <div id="informacionEconomicaIncial${idTitular}"></div>
-                                         <div id="representante${idTitular}"></div>
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                `;
+        let templateTitular = templateCamposMinimos(idTitular, id);
         $("#titulares").append(templateTitular);
-        // agregar campos titular
-        agregarCamposMinimos(
-            $(`#camposMinimos${idTitular}`),
-            `${idTitular}`,
-            "cliente"
-        );
-        const comInfoEco = templateInformacionEconomicaInicial(idTitular);
-        $(`div#informacionEconomicaIncial${idTitular}`).append(comInfoEco);
-        validarTipoFuenteIngreso($("select.fuenteIngresos"));
-        agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
-        /*agregado validadciones para el nuevo titular*/
-        let divTitularActual = $(`#titulares>div#${idTitular}`);
-
-        let inputActuaNombrePropio = $(divTitularActual).find(
-            "input.actuaNombrePropio"
-        );
-        inputActuaNombrePropio.focus();
-        verificaActuaNombrePropio(inputActuaNombrePropio);
-        let selectPaisActual = $(`select#paisCaMi${idTitular}`);
-        habilitaDepartamentoMunicipio(selectPaisActual);
-        cargarPais(selectPaisActual);
-
-        cargarDepartamentos($(`select#deptoCaMi${idTitular}`));
-        eliminarCard($("#titulares>div"));
-        $(".select2").select2();
         $("div#titulares").attr("cantidad", id);
     });
 }
