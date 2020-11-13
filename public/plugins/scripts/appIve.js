@@ -115,11 +115,15 @@ function templatePais(
     if (deshabilitado == true) {
         selectDesabilitado = "disabled";
     }
-    let templatepais = `<label for="${id}">${textolabel}</label>
+    let templatepais = $(`<label for="${id}">${textolabel}</label>
                         <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales} select2" style="width: 100%" required ${selectDesabilitado}>
                         <option value="" disabled selected>Selecciona</option>
-                        </select>`;
-    return templateFormGroup(templatepais);
+                        </select>`);
+    templatepais = templateFormGroup(templatepais);
+    const selectPais = $(templatepais).find(`select#${id}`);
+    cargarPais(selectPais);
+    $(selectPais).select2();
+    return templatepais;
 }
 function templateDepartamento(id, textolabel) {
     let temDepartamento = ` <label>${textolabel}</label>
@@ -974,7 +978,7 @@ function verificarPersonaPep(radioClientePep) {
                     </div>`;
                 $(`.datos${id}`).append(templateDatosPep);
                 cargarPais($(`#paisEntidad${id}`));
-                $(".select2").select2();
+
                 habilitaOtroOrigenriqueza($(`#origenRiqueza${id}`));
             } else {
                 $(`.datos${id} div`).remove();
@@ -1289,43 +1293,21 @@ function templateCalidadActua(id) {
     return cmCA;
 }
 function templateLugarCM(id) {
-    let cmpaisTitular = templatePais(`paisCaMi${id}`, "País", true);
     let cmDepartamentoTitular = templateDepartamento(
         `CaMi${id}`,
         "Departamento"
     );
     let cmMunicipioTitular = templateMunicipio(`CaMi${id}`, "Municipio");
     //DocCaMi cambiar este id
-    let cmFechaDoc = templateFecha(id, "");
-    let camposLugar = $(`
-                        <div class="row">
-                                        <div class="col-sm-12">
-                                            <h4>II. LUGAR Y FECHA</h4>
-                                        </div>
-                                        <br />
-                                        <br />
-                        </div>
-                        <div class="row">
-                            ${cmpaisTitular}
-                            ${cmDepartamentoTitular}
-                            ${cmMunicipioTitular}
-                            <!-- fecha -->
-                            <div class="col-sm">
-                                <div class="form-group">
-                                    <label>Fecha</label>
-                                    <div class="input-group date" id="fechaDoc_${id}" data-target-input="nearest">
-                                        <input name="fechaDocCaMi${id}" id="fechaDocCaMi${id}" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_${id}" required />
-                                        <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
-                                        <div class="input-group-append" data-target="#fechaDoc_${id}" data-toggle="datetimepicker">
-                                            <div class="input-group-text">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                        </div>
-                                    </div>
+    let camposLugar = $(`   <div class="row lugarFecha">
+                                <div class="col-sm-12 mb-3">
+                                    <h4>II. LUGAR Y FECHA</h4>
                                 </div>
-                            </div>
-                        </div>
-    `);
+                            </div>`);
+    let cmpaisTitular = templatePais(`paisCaMi${id}`, "País", true);
+    $(camposLugar).append(cmpaisTitular);
+    let cmFechaDoc = templateFecha(id, "DocCaMi");
+    $(camposLugar).append(cmFechaDoc);
     return camposLugar;
 }
 function templateCamposMinimos(id, indice) {

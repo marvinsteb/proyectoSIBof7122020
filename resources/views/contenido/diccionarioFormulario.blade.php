@@ -85,15 +85,9 @@
 
                             <!-- II. LUGAR Y FECHA -->
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-12 mb-3">
                                     <h4>II. LUGAR Y FECHA</h4>
                                 </div>
-                                <br />
-                                <br />
-                            </div>
-                            <!-- row -->
-
-                            <div class="row">
                                 <!-- select pais -->
                                 <div class="col-sm">
                                     <div class="form-group">
