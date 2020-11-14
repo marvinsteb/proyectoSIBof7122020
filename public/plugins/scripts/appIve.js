@@ -11,47 +11,46 @@ function templateFormGroup(temFormGroup) {
     $(tm).find("div.form-group").append(temFormGroup);
     return tm;
 }
+function templateNombre(id, tipo, tamanio, textolabel, requerido) {
+    let tmNom = $(`
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label>${textolabel}</label>
+                            <input name="${tipo}${id}" id="${tipo}${id}" type="text" class="form-control ${tipo}" placeholder="${textolabel} ..." maxlength="${tamanio}"/>
+                        </div>
+                    </div>`);
+    if (requerido === true) {
+        $(tmNom).find(`input#${tipo}${id}`).prop("required", true);
+    }
+    return tmNom;
+}
 function templateCamposNommbres(id) {
-    let templateNombres = ` <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Primer Apellido</label>
-                                                    <input name="primerApellido${id}" id="primerApellido${id}" type="text" class="form-control primerApellido" placeholder="Primer Apellido ..." maxlength="15" required />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Segundo apellido</label>
-                                                    <input name="segundoApellido${id}" id="segundoApellido${id}" type="text" class="form-control segundoApellido" placeholder="Segundo apellido ..." maxlength="15" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="apellidoCasada${id}">Apellido casada</label>
-                                                    <input name="apellidoCasada${id}" id="apellidoCasada${id}" type="text" class="form-control apellidoCasada" placeholder="Apellido casada ..." maxlength="15" />
-                                                    <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Primer nombre</label>
-                                                    <input name="primerNombre${id}" id="primerNombre${id}" type="text" class="form-control primerNombre" placeholder="Primer nombre ..." maxlength="15" required />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Segundo nombre</label>
-                                                    <input name="segundoNombre${id}" id="segundoNombre${id}" type="text" class="form-control segundoNombre" placeholder="Segundo nombre ..." maxlength="15" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label>Otros nombre</label>
-                                                    <input name="otrosNombres${id}" id="otrosNombres${id}" type="text" class="form-control otrosNombres" placeholder="Otros nombres ..." maxlength="30" />
-                                                </div>
-                                            </div>
-                                        </div>`;
-    return templateNombres;
+    const priApe = templateNombre(
+        id,
+        "primerApellido",
+        15,
+        "Primer Apellido",
+        true
+    );
+    const segApe = templateNombre(
+        id,
+        "segundoApellido",
+        15,
+        "Segundo Apellido"
+    );
+
+    let apeCa = templateNombre(id, "apellidoCasada", 15, "Apellido Casada");
+    let tmInToltp = templateInvalidTooltip(
+        "No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido."
+    );
+    $(apeCa).find("div.form-group").append(tmInToltp);
+    validarApellidoCasada($(apeCa).find(`apellidoCasada${id}`));
+
+    let rowNombres = $(` <div class="row"></div>`);
+    $(rowNombres).append(priApe);
+    $(rowNombres).append(segApe);
+    $(rowNombres).append(apeCa);
+    return rowNombres;
 }
 function templateSexo(id) {
     const templatesexo = `<label for="sexo${id}">Sexo</label>
@@ -499,7 +498,7 @@ function templateDatosPersonales(id, tipo) {
     let tCpe = templateCpe(id);
     let tPep = templatePersonaPep(id);
     let tAsoPep = templateAsoPep(id);
-    let tcamposMinimos = `
+    let tcamposMinimos = $(`
     <div class="card card-info mt-3" id="${id}">
         <div class="card-header">
             <h3 class="card-title">Información del ${tipo}</h3>
@@ -510,19 +509,19 @@ function templateDatosPersonales(id, tipo) {
             </div>
         </div>
         <div class="card-body">
-            ${tcamposNombres}
-            ${tcamposNacimiento}
-            ${tCamposDoc}
-            ${tCamposProf}
-            ${tCampoDireccion}
-            ${tCamposResidencia}
-            ${tCamposNumTel}
-            ${tCpe}
-            ${tPep}
-            ${tAsoPep}
         </div>
-
-     </div>`;
+     </div>`);
+    let divCardBody = $(tcamposMinimos).find("div.card-body");
+    $(divCardBody).append(tcamposNombres);
+    $(divCardBody).append(tcamposNacimiento);
+    $(divCardBody).append(tCamposDoc);
+    $(divCardBody).append(tCamposProf);
+    $(divCardBody).append(tCampoDireccion);
+    $(divCardBody).append(tCamposResidencia);
+    $(divCardBody).append(tCamposNumTel);
+    $(divCardBody).append(tCpe);
+    $(divCardBody).append(tPep);
+    $(divCardBody).append(tAsoPep);
     return tcamposMinimos;
 }
 function templateCamposFuenteIngreo(id, posicion) {
@@ -1086,7 +1085,7 @@ function agregaAsoPep(idAsoPep) {
         "País de la institución o entidad",
         false
     );
-    let templateAsocPep = ` 
+    let templateAsocPep = `
                             <div class="card card-primary" id=${id}>
                                 <div class="card-header">
                                     <h3 class="card-title">Familiar Asociado ${indiceAsociadosAgregados}</h3>
@@ -1349,7 +1348,10 @@ function templateCamposMinimos(id, indice) {
     $(dCardBody).append(templateLugarCM(id));
 
     let cmCM = $(`<div id="camposMinimos${id}"></div>`);
+    let cmClie = templateDatosPersonales(id, "cliente");
+    $(cmCM).append(cmClie);
     $(dCardBody).append(cmCM);
+
     let cmIE = $(`<div id="informacionEconomicaIncial${id}"></div>`);
     $(dCardBody).append(cmIE);
     let cmRe = $(`<div id="representante${id}"></div>`);
