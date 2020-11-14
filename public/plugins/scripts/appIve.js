@@ -196,7 +196,7 @@ function templateFecha(id, nombre) {
     return cm;
 }
 function templateNacionalidad(id) {
-    let temNacionalidad = `
+    let temNacionalidad = $(`
         <div class="col-sm" id="nacionalidad${id}" cantidad="1">
             <div class="form-group">
                 <div class="row">
@@ -212,8 +212,11 @@ function templateNacionalidad(id) {
             <div class="form-group">
                 <button type="button" id="agregarNacionalidad${id}" class="btn btn-primary agregarNacionalidad">Agregar Nacionalidad</button>
             </div>
-        </div>
-    `;
+        </div>`);
+    const btnAgregar = $(temNacionalidad).find(
+        `button#agregarNacionalidad${id}`
+    );
+    agregarTemplateNacionalidad(btnAgregar);
     return temNacionalidad;
 }
 function templateTelefono(id, agregarBtnBorrar) {
@@ -331,12 +334,9 @@ function templateDireccion(id) {
 function templateCamposNacionalidadTelefono(id) {
     let cmNacionalidad = templateNacionalidad(id);
     let cmTelefono = templateContenedorTelefonos(id);
-    let temCNT = `
-    <div class="row">
-        ${cmNacionalidad}
-        ${cmTelefono}
-    </div>
-    `;
+    let temCNT = $(`<div class="row"></div>`);
+    $(temCNT).append(cmNacionalidad);
+    $(temCNT).append(cmTelefono);
     return temCNT;
 }
 function templateCpe(id) {
