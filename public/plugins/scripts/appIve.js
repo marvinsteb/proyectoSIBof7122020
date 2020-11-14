@@ -622,10 +622,10 @@ function agregarDatosPersonales(divDatos, idCamposMinimos, tipo) {
 function setFormatoFecha(divInputFecha) {
     for (let i = 0; i < divInputFecha.length; i++) {
         $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
-
         let inputFecha = $(divInputFecha[i]).find("input");
-        console.log(inputFecha);
-        $(inputFecha).on("focusout", function () {
+        $(inputFecha).on("focusout", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
             let hoy = new Date();
             hoy.setHours(0, 0, 0, 0);
             let fechaString = $(this).val();
@@ -635,9 +635,7 @@ function setFormatoFecha(divInputFecha) {
             if (fechaActual <= hoy) {
                 $(this).removeClass("is-invalid");
             } else {
-                $(this).focus();
-                $(this).select();
-                //$(this).val(null);
+                $(this).val(null);
                 $(this).addClass("is-invalid");
             }
         });
