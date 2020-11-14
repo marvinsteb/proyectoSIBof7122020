@@ -12,13 +12,9 @@ function templateFormGroup(temFormGroup) {
     return tm;
 }
 function templateNombre(id, tipo, tamanio, textolabel, requerido) {
-    let tmNom = $(`
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <label>${textolabel}</label>
-                            <input name="${tipo}${id}" id="${tipo}${id}" type="text" class="form-control ${tipo}" placeholder="${textolabel} ..." maxlength="${tamanio}"/>
-                        </div>
-                    </div>`);
+    let tmNom = $(`<label>${textolabel}</label>
+                   <input name="${tipo}${id}" id="${tipo}${id}" type="text" class="form-control ${tipo}" placeholder="${textolabel} ..." maxlength="${tamanio}"/>`);
+    tmNom = templateFormGroup(tmNom);
     if (requerido === true) {
         $(tmNom).find(`input#${tipo}${id}`).prop("required", true);
     }
