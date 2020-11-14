@@ -1339,6 +1339,7 @@ function templateCamposMinimos(id, indice) {
     $(dCardBody).append(cmCM);
 
     let cmIE = $(`<div id="informacionEconomicaIncial${id}"></div>`);
+    $(cmIE).append(templateInformacionEconomicaInicial(id));
     $(dCardBody).append(cmIE);
     let cmRe = $(`<div id="representante${id}"></div>`);
     $(dCardBody).append(cmRe);
