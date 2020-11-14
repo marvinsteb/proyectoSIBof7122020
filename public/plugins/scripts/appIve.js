@@ -623,18 +623,22 @@ function setFormatoFecha(divInputFecha) {
     for (let i = 0; i < divInputFecha.length; i++) {
         $(divInputFecha[i]).datetimepicker({ format: "DD/MM/YYYY" });
 
-        $(divInputFecha[i]).on("focusout", function () {
-            let fechaString = $(this).find("input").val();
+        let inputFecha = $(divInputFecha[i]).find("input");
+        console.log(inputFecha);
+        $(inputFecha).on("focusout", function () {
             let hoy = new Date();
             hoy.setHours(0, 0, 0, 0);
+            let fechaString = $(this).val();
 
             let dateMomentObject = moment(fechaString, "DD/MM/YYYY");
             let fechaActual = dateMomentObject.toDate();
             if (fechaActual <= hoy) {
-                $(this).find("input").removeClass("is-invalid");
+                $(this).removeClass("is-invalid");
             } else {
-                $(this).find("input").val(null);
-                $(this).find("input").addClass("is-invalid");
+                $(this).focus();
+                $(this).select();
+                //$(this).val(null);
+                $(this).addClass("is-invalid");
             }
         });
     }
