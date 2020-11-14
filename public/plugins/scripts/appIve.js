@@ -315,21 +315,19 @@ function templateCamposDocumentos(id) {
 function templateCamposProfecion(id) {
     let comProfOficio = templateProfecionOficio(id);
     let comEmail = templateEmail(id);
-    let temCamposProf = `
-    <div class="row">
-        ${comProfOficio}
-        ${comEmail}
-    </div>`;
+    let temCamposProf = $(`<div class="row"></div>`);
+    $(temCamposProf).append(comProfOficio);
+    $(temCamposProf).append(comEmail);
     return temCamposProf;
 }
 function templateDireccion(id) {
-    let temDirec = `
+    let temDirec = $(`
         <div class="row">
             <div class="col-sm">
                 <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
                 <input name="direccionRecidencia${id}" id="direccionRecidencia${id}" type="text" class="form-control direccionRecidencia" placeholder="Dirección de residencia completa ..." maxlength="400" required />
             </div>
-        </div>`;
+        </div>`);
     return temDirec;
 }
 function templateCamposNacionalidadTelefono(id) {
