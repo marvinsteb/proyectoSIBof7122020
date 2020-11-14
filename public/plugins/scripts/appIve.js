@@ -282,12 +282,10 @@ function templateCamposResidencia(id) {
         `Recidencia${id}`,
         "Municipio residencia"
     );
-    let tempCamResidencia = `
-    <div class="row">
-        ${comPais}
-        ${comDepartamento}
-        ${comMunicipio}
-    </div>`;
+    let tempCamResidencia = $(`<div class="row"></div>`);
+    $(tempCamResidencia).append(comPais);
+    $(tempCamResidencia).append(comDepartamento);
+    $(tempCamResidencia).append(comMunicipio);
     return tempCamResidencia;
 }
 function templateCamposDocumentos(id) {
