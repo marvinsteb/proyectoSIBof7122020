@@ -1354,6 +1354,10 @@ function AgregarTitular() {
         let idTitular = `${tipo}_${id}`;
         let templateTitular = templateCamposMinimos(idTitular, id);
         $("#titulares").append(templateTitular);
+        let inputActuaNombrePropio = $(`#${idTitular}`).find(
+            `input#siActua${idTitular}`
+        );
+        inputActuaNombrePropio.focus();
         $("div#titulares").attr("cantidad", id);
     });
 }
