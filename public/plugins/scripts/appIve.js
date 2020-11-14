@@ -389,6 +389,7 @@ function templateAsoPep(id) {
             </div>
         </div>
     `);
+    verificarAsoPep($(temAsoPep).find(`input.asoPep`));
     return temAsoPep;
 }
 function templatePersonaPep(id) {
@@ -410,7 +411,7 @@ function templatePersonaPep(id) {
                 </div>
             </div>
             <div class="datospep${id}"></div>`);
-    verificarPersonaPep($(temPersonaPep).find(".pep"));
+    verificarPersonaPep($(temPersonaPep).find(`input.pep`));
     return temPersonaPep;
 }
 function templateMontoIngresos(id) {
@@ -916,6 +917,44 @@ function habilitaPaisPasaporte(pasaportes) {
         });
     }
 }
+
+
+function templateEntidad(id) {
+    const tme = $(`<label for="entidad${id}">Entidad</label>
+                   <input name="entidad${id}" id="entidad${id}" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required>`);
+    return templateFormGroup(tme);
+}
+function templatePuestoDesempenia(id) {
+    const tpd = $(`<label for="puestoDesepenia${id}">Puesto que desempeña</label>
+                   <input name="puestoDesepenia${id}" id="puestoDesepenia${id}" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required>`);
+    return templateFormGroup(tpd);
+}
+function templateOrigenRiqueza(id) {
+    let tor = $(`
+                    <label for= "origenRiqueza${id}">Origen o procedencia de su riqueza</label>
+                    <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select select2" style="width: 100%;" required>
+                        <option value="" disabled selected>Selecciona</option>
+                        <option value="1">Bienes muebles e inmuebles por herencia</option>
+                        <option value="2">Bienes muebles e inmuebles</option>
+                        <option value="3">Negocio propio</option>
+                        <option value="4">Servicios profesionales</option>
+                        <option value="5">Préstamos bancarios</option>
+                        <option value="6">Trabajos anteriores</option>
+                        <option value="7">Trabajo actual</option>
+                        <option value="8">otro</option>
+                    </select>`);
+
+    tor = templateFormGroup(tor);
+    const selectTor = $(tor).find(`select#origenRiqueza${id}`);
+    habilitaOtroOrigenriqueza(selectTor);
+    return tor;
+}
+function templateOtroOrigenRiqueza(id) {
+    const toor = $(`
+                    <label id="otroOrigenRiqueza${id}">Especifique</label>
+                    <input name="otroOrigenRiqueza${id}" id="otroOrigenRiqueza${id}" type="text" class="form-control otroOrigenRiqueza" placeholder="Origen o procedencia de su riqueza ..." maxlength="100" required disabled>`);
+    return templateFormGroup(toor);
+}
 function verificarPersonaPep(radioClientePep) {
     for (let i = 0; i < radioClientePep.length; i++) {
         $(radioClientePep[i]).change(function () {
@@ -924,57 +963,28 @@ function verificarPersonaPep(radioClientePep) {
              * cuando el titular el id sera entidadpepCliente_1 entidad${id}
              */
             let id = $(this).attr("name");
+            const entidad = templateEntidad(id);
+            const puestoDesempenia = templatePuestoDesempenia(id);
+            const paisEntidad = templatePais(
+                `paisEntidad${id}`,
+                "País entidad",
+                false,
+                "otroOrigenRiqueza",
+                false
+            );
+            const origenRiqueza = templateOrigenRiqueza(id);
+            const otroOrigenRiqueza = templateOtroOrigenRiqueza(id);
             if ($(this).val() != "N") {
-                var templateDatosPep = `<div class="row">
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <label for="entidad${id}">Entidad</label>
-                            <input name="entidad${id}" id="entidad${id}" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required>
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <label for="puestoDesepenia${id}">Puesto que desempeña</label>
-                            <input name="puestoDesepenia${id}" id="puestoDesepenia${id}" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label for ="paisEntidad${id}">País entidad</label>
-                                <select name="paisEntidad${id}" id="paisEntidad${id}" class="form-control custom-select select2" style="width: 100%;" required>
-                                    <option value="" disabled selected>Selecciona</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label for= "origenRiqueza${id}">Origen o procedencia de su riqueza</label>
-                                <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select select2" style="width: 100%;" required>
-                                    <option value="" disabled selected>Selecciona</option>
-                                    <option value="1">Bienes muebles e inmuebles por herencia</option>
-                                    <option value="2">Bienes muebles e inmuebles</option>
-                                    <option value="3">Negocio propio</option>
-                                    <option value="4">Servicios profesionales</option>
-                                    <option value="5">Préstamos bancarios</option>
-                                    <option value="6">Trabajos anteriores</option>
-                                    <option value="7">Trabajo actual</option>
-                                    <option value="8">otro</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label id="otroOrigenRiqueza${id}">Especifique</label>
-                                <input name="otroOrigenRiqueza${id}" id="otroOrigenRiqueza${id}" type="text" class="form-control otroOrigenRiqueza" placeholder="Origen o procedencia de su riqueza ..." maxlength="100" required disabled>
-                            </div>
-                        </div>
-                    </div>`;
-                $(`.datos${id}`).append(templateDatosPep);
-                cargarPais($(`#paisEntidad${id}`));
+                var rowUno = $(`<div class="row"></div>`);
+                $(rowUno).append(entidad);
+                $(rowUno).append(puestoDesempenia);
+                $(`.datos${id}`).append(rowUno);
 
-                habilitaOtroOrigenriqueza($(`#origenRiqueza${id}`));
+                var rowDos = $(`<div class="row"></div>`);
+                $(rowDos).append(paisEntidad);
+                $(rowDos).append(origenRiqueza);
+                $(rowDos).append(otroOrigenRiqueza);
+                $(`.datos${id}`).append(rowDos);
             } else {
                 $(`.datos${id} div`).remove();
             }
