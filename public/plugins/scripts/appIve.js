@@ -44,12 +44,24 @@ function templateCamposNommbres(id) {
         "No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido."
     );
     $(apeCa).find("div.form-group").append(tmInToltp);
-    validarApellidoCasada($(apeCa).find(`apellidoCasada${id}`));
+    validarApellidoCasada($(apeCa).find(`input#apellidoCasada${id}`));
 
+    const priNom = templateNombre(
+        id,
+        "primerNombre",
+        15,
+        "Primer Nombre",
+        true
+    );
+    const segNom = templateNombre(id, "segundoNombre", 15, "Segundo Nombre");
+    const otNom = templateNombre(id, "otrosNombres", 30, "Otros Nombres");
     let rowNombres = $(` <div class="row"></div>`);
     $(rowNombres).append(priApe);
     $(rowNombres).append(segApe);
     $(rowNombres).append(apeCa);
+    $(rowNombres).append(priNom);
+    $(rowNombres).append(segNom);
+    $(rowNombres).append(otNom);
     return rowNombres;
 }
 function templateSexo(id) {
@@ -765,11 +777,10 @@ function validarApellidoCasada(apeCasada) {
                 (ac[0] == "D" && ac[1] == "e" && ac[2] === " ") ||
                 (ac[0] == "d" && ac[1] == "E" && ac[2] === " ")
             ) {
-                console.log("empiesacon DE");
-                $(this).val(null);
+                $(this).focus();
+                $(this).select();
                 $(this).addClass("is-invalid");
             } else {
-                console.log("apellido permitido ");
                 $(this).removeClass("is-invalid");
             }
         });
