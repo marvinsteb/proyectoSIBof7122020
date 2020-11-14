@@ -462,11 +462,11 @@
                                                                 <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryPepSi_1" class="pepCliente" name="pepCliente_1" value="S" required />
+                                                                <input type="radio" id="primaryPepSi_1" class="pep" name="pepCliente_1" value="S" required />
                                                                 <label for="primaryPepSi_1">Sí</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryPepNo_1" class="pepCliente" name="pepCliente_1" value="N" required />
+                                                                <input type="radio" id="primaryPepNo_1" class="pep" name="pepCliente_1" value="N" required />
                                                                 <label for="primaryPepNo_1">No</label>
                                                                 <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
                                                             </div>

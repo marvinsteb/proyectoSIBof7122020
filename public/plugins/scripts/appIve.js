@@ -342,7 +342,7 @@ function templateCamposNacionalidadTelefono(id) {
     return temCNT;
 }
 function templateCpe(id) {
-    let temCpe = `
+    let temCpe = $(`
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-check">
@@ -358,11 +358,11 @@ function templateCpe(id) {
                     </div>
                 </div>
             </div>
-        </div>`;
+        </div>`);
     return temCpe;
 }
 function templateAsoPep(id) {
-    let temAsoPep = `
+    let temAsoPep = $(`
         <div class="row">
             <div class="col-sm">
                 <div class="form-check">
@@ -388,11 +388,11 @@ function templateAsoPep(id) {
             <div class="btnadd">
             </div>
         </div>
-    `;
+    `);
     return temAsoPep;
 }
 function templatePersonaPep(id) {
-    let temPersonaPep = `
+    let temPersonaPep = $(`
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-check">
@@ -409,7 +409,8 @@ function templatePersonaPep(id) {
                     </div>
                 </div>
             </div>
-            <div class="datospep${id}"></div>`;
+            <div class="datospep${id}"></div>`);
+    verificarPersonaPep($(temPersonaPep).find(".pep"));
     return temPersonaPep;
 }
 function templateMontoIngresos(id) {
@@ -1867,7 +1868,7 @@ $(document).ready(function () {
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
     agregarTemplateNacionalidad($(".agregarNacionalidadCliente"));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
-    verificarPersonaPep($(".pepCliente"));
+    verificarPersonaPep($(".pep"));
     verificarAsoPep($(".asoPepCliente"));
     validarTipoFuenteIngreso($("select.fuenteIngresos"));
     agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
