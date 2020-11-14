@@ -156,17 +156,18 @@ function templateMunicipio(id, textolabel) {
     return cmMuni;
 }
 function templateCondicionMigratoria(id) {
-    const cmCond = templateFormGroup(`
-                <label>Condición migratoria</label>
-                <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria select2" style="width: 100%" disabled required>
-                <option value="" disabled selected>Selecciona</option>
-                </select>`);
-    const espCond = templateFormGroup(`
-                    <label>Especifique</label>
-                    <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />`);
-    let temCondicionMigratoria = `${cmCond}
-                                  ${espCond}`;
-    return temCondicionMigratoria;
+    let cmCond = $(`<label>Condición migratoria</label>
+                    <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria select2" style="width: 100%" disabled required>
+                    <option value="" disabled selected>Selecciona</option>
+                    </select>`);
+    cmCond = templateFormGroup(cmCond);
+    return cmCond;
+}
+function templateOtraCondicionMigratoria(id) {
+    let cmOtraCM = templateFormGroup(`
+                     <label>Especifique</label>
+                     <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />`);
+    return cmOtraCM;
 }
 function templateFecha(id, nombre) {
     let nombrefecha = "";
@@ -254,15 +255,14 @@ function templateCamposNacimiento(id) {
         "Municipio nacimiento"
     );
     let cmCondicionMigratoria = templateCondicionMigratoria(id);
-    let temCampoNac = `
-    <div class="row">
-        ${cmFechaNacimiento}
-        ${cmPaisNacimiento}
-        ${cmDepartamentoNacimiento}
-        ${cmMunicipio}
-        ${cmCondicionMigratoria}
-    </div>
-`;
+    let cmOtraCondicionM = templateOtraCondicionMigratoria(id);
+    let temCampoNac = $(`<div class="row"></div>`);
+    $(temCampoNac).append(cmFechaNacimiento);
+    $(temCampoNac).append(cmPaisNacimiento);
+    $(temCampoNac).append(cmDepartamentoNacimiento);
+    $(temCampoNac).append(cmMunicipio);
+    $(temCampoNac).append(cmCondicionMigratoria);
+    $(temCampoNac).append(cmOtraCondicionM);
     return temCampoNac;
 }
 function templateCamposResidencia(id) {
