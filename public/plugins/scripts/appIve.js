@@ -224,7 +224,7 @@ function templateTelefono(id, agregarBtnBorrar) {
     if (agregarBtnBorrar) {
         btnBorrar = `<button type="button" class="btn btn-danger">borrar</button>`;
     }
-    let tmTelefono = `
+    let tmTelefono = $(`
         <div class="form-group">
             <div class="row">
                 <div class="col-sm">
@@ -232,19 +232,21 @@ function templateTelefono(id, agregarBtnBorrar) {
                 </div>
                 <div class="col-sm">${btnBorrar}</div>
             </div>
-        </div>`;
+        </div>`);
     return tmTelefono;
 }
 function templateContenedorTelefonos(id) {
     let cmTel = templateTelefono(`telefono${id}_1`, false);
-    let temTelefono = `
+    let temTelefono = $(`
     <div class="col-sm" id="telefono${id}" cantidad="1">
         <label>Teléfonos</label>
-        ${cmTel}
         <div class="form-group">
             <button type="button" id="agregarTelefono${id}" class="btn btn-primary agregarTelefono">Agregar teléfono</button>
         </div>
-    </div>`;
+    </div>`);
+    $(temTelefono).children().last().before(cmTel);
+    let btnTelefono = $(temTelefono).find(`button#agregarTelefono${id}`);
+    agregarTemplateTelefono(btnTelefono);
     return temTelefono;
 }
 // div row
