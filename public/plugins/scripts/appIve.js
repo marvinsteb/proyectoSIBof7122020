@@ -558,10 +558,32 @@ function templateCamposFuenteIngreo(id, posicion) {
     </div>`;
     return temFeIg;
 }
+function templateTipoProductoServicio(id) {
+    const tm = $(`
+                    <label>Tipo producto y/o servicio</label>
+    `);
+    return templateFormGroup(tm);
+}
 function templateFilaUnoProdictoServicio(id) {
     const cmFechaProducto = templateFecha(id, "Producto", "");
+    const pais = templatePais(
+        `ProductoServicio${id}`,
+        "País en donde se contrata el producto o servicio",
+        true,
+        "",
+        false
+    );
+    const departamento = templateDepartamento(
+        `ProductoServicio${id}`,
+        "Departamento"
+    );
+    const municipio = templateMunicipio(`ProductoServicio${id}`, "Municipio");
     let tm = $(`<div class="row"></div>`);
     $(tm).append(cmFechaProducto);
+    $(tm).find(`input#fechaProducto${id}`).focus();
+    $(tm).append(pais);
+    $(tm).append(departamento);
+    $(tm).append(municipio);
     return tm;
 }
 function templateProductoServicio(id) {
