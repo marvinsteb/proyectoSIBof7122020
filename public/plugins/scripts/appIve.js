@@ -558,9 +558,8 @@ function templateCamposFuenteIngreo(id, posicion) {
     </div>`;
     return temFeIg;
 }
-function templateFilaUnoProdictoServicio(id) {
+function templateFilaUnoProductoServicio(id) {
     const cmFechaProducto = templateFecha(id, "Producto", "");
-    // templateProductoServicio
     const pais = templatePais(
         `ProductoServicio${id}`,
         "País en donde se contrata el producto o servicio",
@@ -581,8 +580,29 @@ function templateFilaUnoProdictoServicio(id) {
     $(tm).append(municipio);
     return tm;
 }
+function templateFilaDosProductoServicio(id) {
+    const cmtipoPS = templateInputText(
+        id,
+        "tipoProductoServicio",
+        100,
+        "Tipo producto y/o servicio",
+        true
+    );
+    const nombrePs = templateInputText(
+        id,
+        "nombreProductoServicio",
+        300,
+        "Nombre producto y/o servicio",
+        false
+    );
+    let tm = $(`<div class="row"></div>`);
+    $(tm).append(cmtipoPS);
+    $(tm).append(nombrePs);
+    return tm;
+}
 function templateProductoServicio(id) {
-    const rowUno = templateFilaUnoProdictoServicio(id);
+    const rowUno = templateFilaUnoProductoServicio(id);
+    const rowDos = templateFilaDosProductoServicio(id);
     let tm = $(`
             <div class="card card-info mt-3" id="productoServicio${id}">
                 <div class="card-header">
@@ -600,6 +620,7 @@ function templateProductoServicio(id) {
                 </div>
             </div>`);
     $(tm).find("div.card-body").append(rowUno);
+    $(tm).find("div.card-body").append(rowDos);
     eliminarCard($(tm));
     return tm;
 }
