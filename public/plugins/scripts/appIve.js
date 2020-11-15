@@ -176,12 +176,8 @@ function templateOtraCondicionMigratoria(id) {
                      <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />`);
     return cmOtraCM;
 }
-function templateFecha(id, nombre) {
-    let nombrefecha = "";
-    if (nombre != "DocCaMi") {
-        nombrefecha = nombre.toLowerCase();
-    }
-    let temCampoFecha = $(`<label>Fecha ${nombrefecha}</label>
+function templateFecha(id, nombre, textolabel) {
+    let temCampoFecha = $(`<label>Fecha ${textolabel}</label>
                         <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
                             <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
                             <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
@@ -252,7 +248,7 @@ function templateContenedorTelefonos(id) {
 // div row
 function templateCamposNacimiento(id) {
     //fechaNacimiento
-    let cmFechaNacimiento = templateFecha(id, "Nacimiento");
+    let cmFechaNacimiento = templateFecha(id, "Nacimiento", "Fecha nacimiento");
     let cmPaisNacimiento = templatePais(
         `paisNacimiento${id}`,
         "País nacimiento",
@@ -563,7 +559,7 @@ function templateCamposFuenteIngreo(id, posicion) {
     return temFeIg;
 }
 function templateFilaUnoProdictoServicio(id) {
-    const cmFechaProducto = templateFecha(id, "Producto");
+    const cmFechaProducto = templateFecha(id, "Producto", "");
     let tm = $(`<div class="row"></div>`);
     $(tm).append(cmFechaProducto);
     return tm;
@@ -917,7 +913,6 @@ function habilitaPaisPasaporte(pasaportes) {
         });
     }
 }
-
 
 function templateEntidad(id) {
     const tme = $(`<label for="entidad${id}">Entidad</label>
@@ -1317,7 +1312,7 @@ function templateLugarCM(id) {
     let cmMunicipioTitular = templateMunicipio(`CaMi${id}`, "Municipio");
     $(camposLugar).append(cmMunicipioTitular);
 
-    let cmFechaDoc = templateFecha(id, "DocCaMi");
+    let cmFechaDoc = templateFecha(id, "DocCaMi", "");
     $(camposLugar).append(cmFechaDoc);
 
     return camposLugar;
@@ -1340,6 +1335,7 @@ function templateCamposMinimos(id, indice) {
                     </div>
                 </div>
                 `);
+    eliminarCard($(cm));
     let dCardBody = $(cm).find("div.card-body");
     $(dCardBody).append(templateCalidadActua(id));
     $(dCardBody).append(templateLugarCM(id));
