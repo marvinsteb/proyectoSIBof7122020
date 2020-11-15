@@ -11,7 +11,7 @@ function templateFormGroup(temFormGroup) {
     $(tm).find("div.form-group").append(temFormGroup);
     return tm;
 }
-function templateNombre(id, tipo, tamanio, textolabel, requerido) {
+function templateInputText(id, tipo, tamanio, textolabel, requerido) {
     let tmNom = $(`<label>${textolabel}</label>
                    <input name="${tipo}${id}" id="${tipo}${id}" type="text" class="form-control ${tipo}" placeholder="${textolabel} ..." maxlength="${tamanio}"/>`);
     tmNom = templateFormGroup(tmNom);
@@ -21,36 +21,36 @@ function templateNombre(id, tipo, tamanio, textolabel, requerido) {
     return tmNom;
 }
 function templateCamposNommbres(id) {
-    const priApe = templateNombre(
+    const priApe = templateInputText(
         id,
         "primerApellido",
         15,
         "Primer Apellido",
         true
     );
-    const segApe = templateNombre(
+    const segApe = templateInputText(
         id,
         "segundoApellido",
         15,
         "Segundo Apellido"
     );
 
-    let apeCa = templateNombre(id, "apellidoCasada", 15, "Apellido Casada");
+    let apeCa = templateInputText(id, "apellidoCasada", 15, "Apellido Casada");
     let tmInToltp = templateInvalidTooltip(
         "No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido."
     );
     $(apeCa).find("div.form-group").append(tmInToltp);
     validarApellidoCasada($(apeCa).find(`input#apellidoCasada${id}`));
 
-    const priNom = templateNombre(
+    const priNom = templateInputText(
         id,
         "primerNombre",
         15,
         "Primer Nombre",
         true
     );
-    const segNom = templateNombre(id, "segundoNombre", 15, "Segundo Nombre");
-    const otNom = templateNombre(id, "otrosNombres", 30, "Otros Nombres");
+    const segNom = templateInputText(id, "segundoNombre", 15, "Segundo Nombre");
+    const otNom = templateInputText(id, "otrosNombres", 30, "Otros Nombres");
     let rowNombres = $(` <div class="row"></div>`);
     $(rowNombres).append(priApe);
     $(rowNombres).append(segApe);
@@ -558,14 +558,9 @@ function templateCamposFuenteIngreo(id, posicion) {
     </div>`;
     return temFeIg;
 }
-function templateTipoProductoServicio(id) {
-    const tm = $(`
-                    <label>Tipo producto y/o servicio</label>
-    `);
-    return templateFormGroup(tm);
-}
 function templateFilaUnoProdictoServicio(id) {
     const cmFechaProducto = templateFecha(id, "Producto", "");
+    // templateProductoServicio
     const pais = templatePais(
         `ProductoServicio${id}`,
         "País en donde se contrata el producto o servicio",
