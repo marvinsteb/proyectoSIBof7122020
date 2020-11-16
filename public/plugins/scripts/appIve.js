@@ -620,10 +620,23 @@ function templateDescripcion(id) {
     tm = $(tm).append(descripcion);
     return tm;
 }
+function templateNombreContrata(id) {
+    const nombreContrata = templateInputText(
+        id,
+        "nombreProductoServicio",
+        400,
+        "A nombre de quién se contrata el producto y/o servicio",
+        true
+    );
+    let tm = $(`<div class="row"></div>`);
+    tm = $(tm).append(nombreContrata);
+    return tm;
+}
 function templateProductoServicio(id) {
     const rowUno = templateFilaUnoProductoServicio(id);
     const rowDos = templateFilaDosProductoServicio(id);
     const rowTres = templateDescripcion(id);
+    const rowCuatro = templateNombreContrata(id);
     let tm = $(`
             <div class="card card-info mt-3" id="productoServicio${id}">
                 <div class="card-header">
@@ -643,6 +656,7 @@ function templateProductoServicio(id) {
     $(tm).find("div.card-body").append(rowUno);
     $(tm).find("div.card-body").append(rowDos);
     $(tm).find("div.card-body").append(rowTres);
+    $(tm).find("div.card-body").append(rowCuatro);
     eliminarCard($(tm));
     return tm;
 }
