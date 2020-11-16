@@ -3,11 +3,15 @@
 function templateInvalidTooltip(mensaje) {
     return `<div class="invalid-tooltip">${mensaje}</div>`;
 }
-function templateFormGroup(temFormGroup) {
+function templateFormGroup(temFormGroup, tamanio) {
     let tm = $(`<div class="col-sm">
                     <div class="form-group">
                     </div>
                 </div>`);
+    if (tamanio != undefined) {
+        $(tm).addClass(tamanio);
+        $(tm).removeClass("col-sm");
+    }
     $(tm).find("div.form-group").append(temFormGroup);
     return tm;
 }
@@ -608,7 +612,7 @@ function templateFilaDosProductoServicio(id) {
     $(tm).append(cmNombrePs);
     return tm;
 }
-function templateDescripcion(id) {
+function templateFilaTresProductoServicio(id) {
     const descripcion = templateInputText(
         id,
         "descripcionProductoServicio",
@@ -620,7 +624,7 @@ function templateDescripcion(id) {
     tm = $(tm).append(descripcion);
     return tm;
 }
-function templateNombreContrata(id) {
+function templateFilaCuatroProductoServicio(id) {
     const nombreContrata = templateInputText(
         id,
         "nombreProductoServicio",
@@ -632,11 +636,34 @@ function templateNombreContrata(id) {
     tm = $(tm).append(nombreContrata);
     return tm;
 }
+function templateMoneda(id) {
+    let moneda = $(`<label for="moneda${id}">Moneda</label>
+                    <select name="moneda${id}" id="moneda${id}" class="form-control custom-select moneda select2" style="width: 100%" required>
+                        <option value="" disabled selected>Selecciona</option>
+                    </select>`);
+    moneda = templateFormGroup(moneda, "col-sm-3");
+    //cargar lista de monedas
+    return moneda;
+}
+function templateValor(id) {
+    const valor = $(`<label for="valor${id}">Valor producto y/o servicio</label>
+                     <input type="number" name = "valor" id="valor${id}" class="form-control valor" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
+    return templateFormGroup(valor, "col-sm-3");
+}
+function templateFilaCincoProductoServicio(id) {
+    const moneda = templateMoneda(id);
+    const valor = templateValor(id);
+    let tm = $(`<div class="row"></div>`);
+    tm = $(tm).append(moneda);
+    tm = $(tm).append(valor);
+    return tm;
+}
 function templateProductoServicio(id) {
     const rowUno = templateFilaUnoProductoServicio(id);
     const rowDos = templateFilaDosProductoServicio(id);
-    const rowTres = templateDescripcion(id);
-    const rowCuatro = templateNombreContrata(id);
+    const rowTres = templateFilaTresProductoServicio(id);
+    const rowCuatro = templateFilaCuatroProductoServicio(id);
+    const rowCinco = templateFilaCincoProductoServicio(id);
     let tm = $(`
             <div class="card card-info mt-3" id="productoServicio${id}">
                 <div class="card-header">
@@ -657,6 +684,7 @@ function templateProductoServicio(id) {
     $(tm).find("div.card-body").append(rowDos);
     $(tm).find("div.card-body").append(rowTres);
     $(tm).find("div.card-body").append(rowCuatro);
+    $(tm).find("div.card-body").append(rowCinco);
     eliminarCard($(tm));
     return tm;
 }
