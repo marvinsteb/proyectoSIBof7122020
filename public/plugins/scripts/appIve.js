@@ -578,7 +578,6 @@ function templateFilaUnoProductoServicio(id) {
     const municipio = templateMunicipio(`ProductoServicio${id}`, "Municipio");
     let tm = $(`<div class="row"></div>`);
     $(tm).append(cmFechaProducto);
-    $(tm).find(`input#fechaProducto${id}`).focus();
     $(tm).append(pais);
     $(tm).append(departamento);
     $(tm).append(municipio);
@@ -1480,6 +1479,9 @@ function agregarProductoServicio(poservicio) {
         indexProducto++;
         let cmProductoServicio = templateProductoServicio(indexProducto);
         $("div#datosProductoServicio").append(cmProductoServicio);
+        $(cmProductoServicio)
+            .find(`input#fechaProducto${indexProducto}`)
+            .focus();
         $("div#datosProductoServicio").attr("cantidad", indexProducto);
     });
 }
