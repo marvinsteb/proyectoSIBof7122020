@@ -581,6 +581,13 @@ function templateFilaUnoProductoServicio(id) {
     return tm;
 }
 function templateFilaDosProductoServicio(id) {
+    const cmIdentificador = templateInputText(
+        id,
+        "identificadorProductoServicio",
+        50,
+        "Identificador producto y/o servicio",
+        false
+    );
     const cmtipoPS = templateInputText(
         id,
         "tipoProductoServicio",
@@ -588,7 +595,7 @@ function templateFilaDosProductoServicio(id) {
         "Tipo producto y/o servicio",
         true
     );
-    const nombrePs = templateInputText(
+    const cmNombrePs = templateInputText(
         id,
         "nombreProductoServicio",
         300,
@@ -596,8 +603,9 @@ function templateFilaDosProductoServicio(id) {
         false
     );
     let tm = $(`<div class="row"></div>`);
+    $(tm).append(cmIdentificador);
     $(tm).append(cmtipoPS);
-    $(tm).append(nombrePs);
+    $(tm).append(cmNombrePs);
     return tm;
 }
 function templateProductoServicio(id) {
