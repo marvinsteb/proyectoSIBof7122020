@@ -154,6 +154,8 @@ function templateDepartamento(id, textolabel) {
                                 <option value="" disabled selected>Selecciona</option>
                             </select>`);
     cmDpto = templateFormGroup(cmDpto);
+    const dpto = $(cmDpto).find(`select#depto${id}`);
+    cargarDepartamentos(dpto);
     $(cmDpto).find(`select#depto${id}`).select2();
     return cmDpto;
 }
@@ -565,7 +567,7 @@ function templateCamposFuenteIngreo(id, posicion) {
 function templateFilaUnoProductoServicio(id) {
     const cmFechaProducto = templateFecha(`_${id}`, "ProductoServicio", "");
     const pais = templatePais(
-        `ProductoServicio_${id}`,
+        `paisProductoServicio_${id}`,
         "País en donde se contrata el producto o servicio",
         true,
         "",
@@ -575,7 +577,7 @@ function templateFilaUnoProductoServicio(id) {
         `ProductoServicio_${id}`,
         "Departamento"
     );
-    const municipio = templateMunicipio(`ProductoServicio${id}`, "Municipio");
+    const municipio = templateMunicipio(`ProductoServicio_${id}`, "Municipio");
     let tm = $(`<div class="row"></div>`);
     $(tm).append(cmFechaProducto);
     $(tm).append(pais);
@@ -626,7 +628,7 @@ function templateFilaTresProductoServicio(id) {
 function templateFilaCuatroProductoServicio(id) {
     const nombreContrata = templateInputText(
         id,
-        "nombreProductoServicio_",
+        "nombreContrataProductoServicio_",
         400,
         "A nombre de quién se contrata el producto y/o servicio",
         true
@@ -1915,12 +1917,22 @@ function obtenerDatosInfoEconomica(infoEconomica, id) {
     return infoEc;
 }
 function obtenerDatosProductoServicio(ps) {
+    console.log("obteniendo datos de productos y servicios");
     const arrProducto = new Array();
-    console.log(ps);
     for (let i = 0; i < ps.length; i++) {
         let producto = new dicProductoServicio(0);
         const id = $(ps[i]).attr("id");
         producto.fecha = $(ps[i]).find(`input#fecha${id}`).val();
+        producto.tipo = $(ps[i]).find(`input#tipo${id}`).val();
+        producto.lugar.pais = $(ps[i])
+            .find(`select[id=pais${id}] option:selected`)
+            .val();
+        producto.lugar.departamento = $(ps[i])
+            .find(`select[id=depto${id}] option:selected`)
+            .val();
+        producto.lugar.municipio = $(ps[i])
+            .find(`select[id=muni${id}] option:selected`)
+            .val();
         arrProducto.push(producto);
     }
     return arrProducto;
