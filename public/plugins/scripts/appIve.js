@@ -616,7 +616,7 @@ function templateFilaDosProductoServicio(id) {
 function templateFilaTresProductoServicio(id) {
     const descripcion = templateInputText(
         id,
-        "descripcionProductoServicio",
+        "descripcionProductoServicio_",
         600,
         "Descripción producto y/o servicio",
         true
@@ -1923,7 +1923,6 @@ function obtenerDatosProductoServicio(ps) {
         let producto = new dicProductoServicio(0);
         const id = $(ps[i]).attr("id");
         producto.fecha = $(ps[i]).find(`input#fecha${id}`).val();
-        producto.tipo = $(ps[i]).find(`input#tipo${id}`).val();
         producto.lugar.pais = $(ps[i])
             .find(`select[id=pais${id}] option:selected`)
             .val();
@@ -1932,6 +1931,15 @@ function obtenerDatosProductoServicio(ps) {
             .val();
         producto.lugar.municipio = $(ps[i])
             .find(`select[id=muni${id}] option:selected`)
+            .val();
+        producto.identificador = $(ps[i])
+            .find(`input#identificador${id}`)
+            .val();
+        producto.tipo = $(ps[i]).find(`input#tipo${id}`).val();
+        producto.nombre = $(ps[i]).find(`input#nombre${id}`).val();
+        producto.descripcion = $(ps[i]).find(`input#descripcion${id}`).val();
+        producto.nombreContrata = $(ps[i])
+            .find(`input#nombreContrata${id}`)
             .val();
         arrProducto.push(producto);
     }
