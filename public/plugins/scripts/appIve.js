@@ -563,16 +563,16 @@ function templateCamposFuenteIngreo(id, posicion) {
     return temFeIg;
 }
 function templateFilaUnoProductoServicio(id) {
-    const cmFechaProducto = templateFecha(id, "Producto", "");
+    const cmFechaProducto = templateFecha(`_${id}`, "ProductoServicio", "");
     const pais = templatePais(
-        `ProductoServicio${id}`,
+        `ProductoServicio_${id}`,
         "País en donde se contrata el producto o servicio",
         true,
         "",
         false
     );
     const departamento = templateDepartamento(
-        `ProductoServicio${id}`,
+        `ProductoServicio_${id}`,
         "Departamento"
     );
     const municipio = templateMunicipio(`ProductoServicio${id}`, "Municipio");
@@ -586,21 +586,21 @@ function templateFilaUnoProductoServicio(id) {
 function templateFilaDosProductoServicio(id) {
     const cmIdentificador = templateInputText(
         id,
-        "identificadorProductoServicio",
+        "identificadorProductoServicio_",
         50,
         "Identificador producto y/o servicio",
         false
     );
     const cmtipoPS = templateInputText(
         id,
-        "tipoProductoServicio",
+        "tipoProductoServicio_",
         100,
         "Tipo producto y/o servicio",
         true
     );
     const cmNombrePs = templateInputText(
         id,
-        "nombreProductoServicio",
+        "nombreProductoServicio_",
         300,
         "Nombre producto y/o servicio",
         false
@@ -626,7 +626,7 @@ function templateFilaTresProductoServicio(id) {
 function templateFilaCuatroProductoServicio(id) {
     const nombreContrata = templateInputText(
         id,
-        "nombreProductoServicio",
+        "nombreProductoServicio_",
         400,
         "A nombre de quién se contrata el producto y/o servicio",
         true
@@ -637,7 +637,7 @@ function templateFilaCuatroProductoServicio(id) {
 }
 function templateMoneda(id) {
     let moneda = $(`<label for="moneda${id}">Moneda</label>
-                    <select name="moneda${id}" id="moneda${id}" class="form-control custom-select moneda select2" style="width: 100%" required>
+                    <select name="moneda" id="moneda_${id}" class="form-control custom-select moneda select2" style="width: 100%" required>
                         <option value="" disabled selected>Selecciona</option>
                     </select>`);
     moneda = templateFormGroup(moneda, "col-sm-3");
@@ -646,7 +646,7 @@ function templateMoneda(id) {
 }
 function templateValor(id) {
     const valor = $(`<label for="valor${id}">Valor producto y/o servicio</label>
-                     <input type="number" name = "valor" id="valor${id}" class="form-control valor" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
+                     <input type="number" name = "valor" id="valor_${id}" class="form-control valor" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
     return templateFormGroup(valor, "col-sm-3");
 }
 function templateFilaCincoProductoServicio(id) {
@@ -664,7 +664,7 @@ function templateProductoServicio(id) {
     const rowCuatro = templateFilaCuatroProductoServicio(id);
     const rowCinco = templateFilaCincoProductoServicio(id);
     let tm = $(`
-            <div class="card card-info mt-3" id="productoServicio${id}">
+            <div class="card card-info mt-3" id="ProductoServicio_${id}">
                 <div class="card-header">
                     <h3 class="card-title">Producto o servicio ${id}</h3>
                     <div class="card-tools">
@@ -1480,7 +1480,7 @@ function agregarProductoServicio(poservicio) {
         let cmProductoServicio = templateProductoServicio(indexProducto);
         $("div#datosProductoServicio").append(cmProductoServicio);
         $(cmProductoServicio)
-            .find(`input#fechaProducto${indexProducto}`)
+            .find(`input#fechaProductoServicio_${indexProducto}`)
             .focus();
         $("div#datosProductoServicio").attr("cantidad", indexProducto);
     });
@@ -1607,6 +1607,20 @@ class dicCamposMinimos {
         this.cliente = new dicDatosPersonales();
         this.representante = new dicDatosPersonales();
         this.infoEconomicaInical = new informacionEconomicaInicial();
+    }
+}
+class dicProductoServicio {
+    constructor(id) {
+        this.idProductoServicio = id;
+        this.lugar = new dicLugar();
+        this.fecha = null;
+        this.tipo = null;
+        this.nombre = null;
+        this.descripcion = null;
+        this.identificador = null;
+        this.nombreContrata = null;
+        this.moneda = null;
+        this.valor = null;
     }
 }
 class diccionarioFormulario {
@@ -1900,6 +1914,17 @@ function obtenerDatosInfoEconomica(infoEconomica, id) {
         });
     return infoEc;
 }
+function obtenerDatosProductoServicio(ps) {
+    const arrProducto = new Array();
+    console.log(ps);
+    for (let i = 0; i < ps.length; i++) {
+        let producto = new dicProductoServicio(0);
+        const id = $(ps[i]).attr("id");
+        producto.fecha = $(ps[i]).find(`input#fecha${id}`).val();
+        arrProducto.push(producto);
+    }
+    return arrProducto;
+}
 function obtenerDatos() {
     let df = new diccionarioFormulario(
         $(".diccionarioFormulario").attr("idDiccionario")
@@ -1947,6 +1972,8 @@ function obtenerDatos() {
         );
         df.agregarTitular(titular);
     }
+    const productoServicio = $(`div#datosProductoServicio`).children();
+    df.productos = obtenerDatosProductoServicio(productoServicio);
     console.log(df);
     return df;
 }
