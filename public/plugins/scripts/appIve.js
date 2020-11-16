@@ -608,9 +608,22 @@ function templateFilaDosProductoServicio(id) {
     $(tm).append(cmNombrePs);
     return tm;
 }
+function templateDescripcion(id) {
+    const descripcion = templateInputText(
+        id,
+        "descripcionProductoServicio",
+        600,
+        "Descripción producto y/o servicio",
+        true
+    );
+    let tm = $(`<div class="row"></div>`);
+    tm = $(tm).append(descripcion);
+    return tm;
+}
 function templateProductoServicio(id) {
     const rowUno = templateFilaUnoProductoServicio(id);
     const rowDos = templateFilaDosProductoServicio(id);
+    const rowTres = templateDescripcion(id);
     let tm = $(`
             <div class="card card-info mt-3" id="productoServicio${id}">
                 <div class="card-header">
@@ -629,6 +642,7 @@ function templateProductoServicio(id) {
             </div>`);
     $(tm).find("div.card-body").append(rowUno);
     $(tm).find("div.card-body").append(rowDos);
+    $(tm).find("div.card-body").append(rowTres);
     eliminarCard($(tm));
     return tm;
 }
