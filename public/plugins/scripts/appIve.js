@@ -639,9 +639,9 @@ function templateFilaCuatroProductoServicio(id) {
 }
 function templateMoneda(id) {
     let moneda = $(`<label for="moneda${id}">Moneda</label>
-                    <select name="moneda" id="moneda_${id}" class="form-control custom-select moneda select2" style="width: 100%" required></select>`);
+                    <select name="moneda" id="moneda${id}" class="form-control custom-select moneda select2" style="width: 100%" required></select>`);
     moneda = templateFormGroup(moneda, "col-sm-3");
-    let selectMoneda = $(moneda).find(`select#moneda_${id}`);
+    let selectMoneda = $(moneda).find(`select#moneda${id}`);
     $(selectMoneda).select2();
     cargarMoneda(selectMoneda);
     //cargar lista de monedas
@@ -649,12 +649,12 @@ function templateMoneda(id) {
 }
 function templateValor(id) {
     const valor = $(`<label for="valor${id}">Valor producto y/o servicio</label>
-                     <input type="number" name = "valor" id="valor_${id}" class="form-control valor" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
+                     <input type="number" name = "valor" id="valor${id}" class="form-control valor" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
     return templateFormGroup(valor, "col-sm-3");
 }
 function templateFilaCincoProductoServicio(id) {
-    const moneda = templateMoneda(id);
-    const valor = templateValor(id);
+    const moneda = templateMoneda(`ProductoServicio_${id}`);
+    const valor = templateValor(`ProductoServicio_${id}`);
     let tm = $(`<div class="row"></div>`);
     tm = $(tm).append(moneda);
     tm = $(tm).append(valor);
@@ -1963,6 +1963,10 @@ function obtenerDatosProductoServicio(ps) {
         producto.nombreContrata = $(ps[i])
             .find(`input#nombreContrata${id}`)
             .val();
+        producto.moneda = $(ps[i])
+            .find(`select[id=moneda${id}] option:selected`)
+            .val();
+        producto.valor = $(ps[i]).find(`input#valor${id}`).val();
         arrProducto.push(producto);
     }
     return arrProducto;
