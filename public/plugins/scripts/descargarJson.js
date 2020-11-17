@@ -20,6 +20,7 @@ function btnDescargarJson() {
         e.stopPropagation();
         let urlDc = $(this).parent().attr("href");
         getObjetoJson(function (res) {
+            console.log(res);
             let nombre = `${res.titulares[0].cliente.primerNombre}${res.titulares[0].cliente.primerApellido} `;
             descargarObjetoJson(res, nombre);
         }, urlDc);

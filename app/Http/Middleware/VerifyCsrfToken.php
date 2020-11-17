@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'login'
+        'login',
+        'oficios/7122020/guardarActualizar'
     ];
 }
