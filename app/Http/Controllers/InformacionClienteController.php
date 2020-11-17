@@ -14,6 +14,7 @@ use App\Models\DatosPep;
 use App\Models\DiccionarioProductoServicio;
 use App\Models\FuenteIngresos;
 use App\Models\InformacionEconomicaInicial;
+use App\Models\Moneda;
 use App\Models\ParienteAsociadoPep;
 use App\Models\ProductoServicio;
 use App\Models\Titular;
@@ -325,6 +326,7 @@ class InformacionClienteController extends Controller
                 $obPS = ProductoServicio::where('idProductoServicio','=',$dc["idProductoServicio"])->first();
                 $obPS["lugar"] = $this->querylugar($obPS["lugar"]);
                 $obPS["fecha"] = $this->formatoFechaJson($obPS["fecha"]);
+                $obPS["moneda"] = Moneda::select('codigoMoneda')->where('idMoneda','=',$obPS["moneda"])->first()["codigoMoneda"];
                 $listaProductosServicios[] = $obPS;
             }
             $dicFormuario = [
