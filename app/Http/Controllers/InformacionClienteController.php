@@ -14,6 +14,7 @@ use App\Models\DatosPep;
 use App\Models\FuenteIngresos;
 use App\Models\InformacionEconomicaInicial;
 use App\Models\ParienteAsociadoPep;
+use App\Models\ProductoServicio;
 use App\Models\Titular;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -158,6 +159,31 @@ class InformacionClienteController extends Controller
         return $obInfoEcoIni->idInformacionEconomicaInicial;
     }
 
+    public function guardarProductosServicios($listaProductosServicios,$idDiccionarioFormulario){
+        if(!empty($listaProductosServicios)){
+            foreach ($listaProductosServicios as  $productoServicio) {
+                $obProductoServicio = ProductoServicio::updateOrCreate(
+                    ["idProductoServicio"=>$productoServicio["idProductoServicio"]],
+                    [
+                    'lugar' => $this->guardarLugar($productoServicio["lugar"]),
+                    'fecha' => $this->formatoFechaDB($productoServicio["fecha"]),
+                    'tipo' => $productoServicio["tipo"],
+                    'nombre' => $productoServicio["nombre"],
+                    'descripcion' => $productoServicio["descripcion"],
+                    'identificador' => $productoServicio["identificador"],
+                    'nombreContrata' => $productoServicio["nombreContrata"],
+                    'moneda' => $productoServicio["moneda"],
+                    'valor' => $productoServicio["valor"]
+                    ]
+                );
+                // implementar update or create 
+                DB::table('diccionarioProductoServicio')->insertGetId([
+                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
+                    'idProductoServicio' => $obProductoServicio->idProductoServicio,
+                ]);
+            }
+        }
+    }
     public function formatoFechaDB($fecha){
         return  Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
         
@@ -381,7 +407,8 @@ class InformacionClienteController extends Controller
                     'idCamposMinimos' => $idCamposMinimos,
                 ]);
             }
-            $respuesta = $this->queryDicionarioFormulario( $obdFormulario->idDiccionarioFormulario);
+            $this->guardarProductosServicios($request->productos,$idDiccionarioFormulario);
+            $respuesta = $this->queryDicionarioFormulario($idDiccionarioFormulario);
 
             DB::commit();
             // all good
