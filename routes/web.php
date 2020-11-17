@@ -30,7 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('departamentos/municipios/{id}', [MunicipioController::class, 'getMunicipio']);
     Route::get('pais/obtenerpaises', [PaisController::class, 'getPais']);
     Route::get('departamento/obtenerdepartamento', [DepartamentoController::class, 'getDepartamento']);
-    Route::get('moneda/listaMoneda', [MonedaController::class, 'getMoneda']);
+    Route::get('moneda/listamonedas', [MonedaController::class, 'getMoneda']);
     Route::get('listacondicionmigratoria', [CondicionMigratoriaController::class, 'getCondicionMigratoria']);
 });
 

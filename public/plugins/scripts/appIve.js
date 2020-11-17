@@ -639,10 +639,11 @@ function templateFilaCuatroProductoServicio(id) {
 }
 function templateMoneda(id) {
     let moneda = $(`<label for="moneda${id}">Moneda</label>
-                    <select name="moneda" id="moneda_${id}" class="form-control custom-select moneda select2" style="width: 100%" required>
-                        <option value="" disabled selected>Selecciona</option>
-                    </select>`);
+                    <select name="moneda" id="moneda_${id}" class="form-control custom-select moneda select2" style="width: 100%" required></select>`);
     moneda = templateFormGroup(moneda, "col-sm-3");
+    let selectMoneda = $(moneda).find(`select#moneda_${id}`);
+    $(selectMoneda).select2();
+    cargarMoneda(selectMoneda);
     //cargar lista de monedas
     return moneda;
 }
@@ -828,6 +829,21 @@ function cargarDepartamentos(selectDepartamentos) {
     }
     cargarMunicipios(selectDepartamentos);
 }
+function cargarMoneda(selectMoneda) {
+    for (let i = 0; i < selectMoneda.length; i++) {
+        $(selectMoneda[i]).empty();
+        $(selectMoneda[i]).append(
+            '<option value="" disabled selected>Selecciona</option>'
+        );
+        getMoneda(function (monedas) {
+            monedas.forEach(function (moneda) {
+                $(selectMoneda[i]).append(
+                    `<option value=${moneda.idMoneda}>${moneda.codigoMoneda}-${moneda.nombreMoneda}</option>`
+                );
+            });
+        });
+    }
+}
 function cargarPais(selectPais) {
     for (let i = 0; i < selectPais.length; i++) {
         $(selectPais[i]).empty();
@@ -936,9 +952,15 @@ function getMunicipios(callback, idDepto) {
         callback(res);
     });
 }
-function getPaises(callbak) {
+function getMoneda(callback) {
+    $.get(`/moneda/listamonedas`, function (res, sta) {
+        callback(res);
+    });
+}
+
+function getPaises(callback) {
     $.get(`/pais/obtenerpaises`, function (res, sta) {
-        callbak(res);
+        callback(res);
     });
 }
 function getCondicionMigratoria(callback) {
