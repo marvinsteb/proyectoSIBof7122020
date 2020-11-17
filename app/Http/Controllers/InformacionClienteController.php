@@ -303,9 +303,8 @@ class InformacionClienteController extends Controller
             foreach ($ObTitular as $t) {
                 $listaCamposMinimos[] = $t["idCamposMinimos"];
             }
-            $ObCamposMinimos = CamposMinimos::whereIn('idCamposMinimos',$listaCamposMinimos)->get();
-
             
+            $ObCamposMinimos = CamposMinimos::whereIn('idCamposMinimos',$listaCamposMinimos)->get();
             foreach ($ObCamposMinimos as $camposMinimos) {
                 if($camposMinimos['tipoActuacion'] == 'R'){
                     $camposMinimos["representante"] = $this->queryDatosPersonales($camposMinimos["representante"]);
@@ -319,16 +318,26 @@ class InformacionClienteController extends Controller
                 $camposMinimos["cliente"] = $this->queryDatosPersonales($camposMinimos["cliente"]);
                 $camposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($camposMinimos["infoEconomica"]);
             }
+
+            $obDiccionarioFormulario = DiccionarioProductoServicio::where('idDiccionarioFormulario','=',$ObDicFormulario->idDiccionarioFormulario)->get();
+            $listaProductosServicios = [];
+            foreach ($obDiccionarioFormulario as $dc) {
+                $obPS = ProductoServicio::where('idProductoServicio','=',$dc["idProductoServicio"])->first();
+                $obPS["lugar"] = $this->querylugar($obPS["lugar"]);
+                $obPS["fecha"] = $this->formatoFechaJson($obPS["fecha"]);
+                $listaProductosServicios[] = $obPS;
+            }
             $dicFormuario = [
                 'idDiccionarioFormulario'=> $ObDicFormulario['idDiccionarioFormulario'],
                 'estado'=> $ObDicFormulario['estado'],
                 'titulares'=> $ObCamposMinimos,
-                'productos'=>'productos',
+                'productos'=> $listaProductosServicios,
                 'perfilEconomico'=>'perfilEconomico'
             ];
-            // $dicFormuario = $ObCamposMinimos;
             return $dicFormuario;
     }
+
+
     public function diccionarioFormularioJson($id){
         $respuesta = $this->queryDicionarioFormulario($id);
         return Response()->json(
