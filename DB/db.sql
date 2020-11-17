@@ -337,7 +337,7 @@ ENGINE = InnoDB;
 -- Table `oficioive7122020`.`moneda`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `oficioive7122020`.`moneda` ;
-
+ 
 CREATE TABLE IF NOT EXISTS `oficioive7122020`.`moneda` (
   `idMoneda` INT NOT NULL AUTO_INCREMENT,
   `codigoMoneda` VARCHAR(3) NOT NULL,
