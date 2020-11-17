@@ -11,6 +11,7 @@ use App\Models\Nacionalidad;
 use App\Models\Telefono;
 use App\Models\Pais;
 use App\Models\DatosPep;
+use App\Models\DiccionarioProductoServicio;
 use App\Models\FuenteIngresos;
 use App\Models\InformacionEconomicaInicial;
 use App\Models\ParienteAsociadoPep;
@@ -176,8 +177,11 @@ class InformacionClienteController extends Controller
                     'valor' => $productoServicio["valor"]
                     ]
                 );
-                // implementar update or create 
-                DB::table('diccionarioProductoServicio')->insertGetId([
+                // implementar update or create para no duplicar los valores en la tabla diccionario formulario 
+                DiccionarioProductoServicio::updateOrCreate([
+                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
+                    'idProductoServicio' => $obProductoServicio->idProductoServicio,
+                ],[
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
                     'idProductoServicio' => $obProductoServicio->idProductoServicio,
                 ]);
