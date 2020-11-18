@@ -1670,6 +1670,11 @@ class dicProductoServicio {
         this.nombreContrata = null;
         this.moneda = null;
         this.valor = null;
+        this.otrosFirmantes = new Array();
+        this.beneficiarios = new Array();
+    }
+    agregarBeneficiario(beneficiario) {
+        this.beneficiarios.push(beneficiario);
     }
 }
 class diccionarioFormulario {
@@ -1751,8 +1756,53 @@ function eliminarCard(card) {
         });
     }
 }
+function obtenerDiccionarioCamposMinimos(divContenedorCamposMinimos) {
+    let diccionarioCamposMinimos = new Array();
+    $(divContenedorCamposMinimos).each(function () {
+        let id = $(this).attr("id");
+        let camposMinimos = new dicCamposMinimos();
+        camposMinimos.tipoActuacion = $(this)
+            .find(`input:radio[name=tipoActuacion${id}]:checked`)
+            .val();
+        if (camposMinimos.tipoActuacion === "R") {
+            camposMinimos.calidadActua = $(this)
+                .find(`input:text[id=calidadActua${id}]`)
+                .val();
+            let daPeRepre = $(this).find(`div#representante${id}`);
+            camposMinimos.representante = obtenerDatosPersonales(
+                daPeRepre,
+                `Representante${id}`
+            );
+        }
+        camposMinimos.lugar.pais = $(this)
+            .find(`select[id=paisCaMi${id}] option:selected`)
+            .val();
+        if (camposMinimos.lugar.pais === "1") {
+            camposMinimos.lugar.departamento = $(this)
+                .find(`select[id=deptoCaMi${id}] option:selected`)
+                .val();
+            camposMinimos.lugar.municipio = $(this)
+                .find(`select[id=muniCaMi${id}] option:selected`)
+                .val();
+        }
+        camposMinimos.fecha = $(this)
+            .find(`input:text[id=fechaDocCaMi${id}]`)
+            .val();
+        const daPeCliente = $(this).find(`div#camposMinimos${id}`);
+        camposMinimos.cliente = obtenerDatosPersonales(daPeCliente, id);
+        const divInfoEconomica = $(this).find(
+            `div#informacionEconomicaIncial${id}`
+        );
+        camposMinimos.infoEconomicaInical = obtenerDatosInfoEconomica(
+            divInfoEconomica,
+            id
+        );
+        console.log(camposMinimos);
+        diccionarioCamposMinimos.push(camposMinimos);
+    });
+    return diccionarioCamposMinimos;
+}
 function obtenerDatosPersonales(divPadre, id) {
-    console.log(divPadre);
     let datosPersonales = new dicDatosPersonales();
     datosPersonales.primerApellido = $(divPadre)
         .find(`input:text[id=primerApellido${id}]`)
@@ -1992,6 +2042,12 @@ function obtenerDatosProductoServicio(ps) {
             .find(`select[id=moneda${id}] option:selected`)
             .val();
         producto.valor = $(ps[i]).find(`input#valor${id}`).val();
+        const beneficiarios = $(ps[i])
+            .find(`div#datosBeneficiario${id}`)
+            .children();
+        $(beneficiarios).each(function (beneficiario) {
+            console.log($(this));
+        });
         arrProducto.push(producto);
     }
     return arrProducto;
@@ -2000,49 +2056,7 @@ function obtenerDatos() {
     let df = new diccionarioFormulario(
         $(".diccionarioFormulario").attr("idDiccionario")
     );
-    let titulares = $("#titulares>div");
-    for (let i = 0; i < titulares.length; i++) {
-        let id = $(titulares[i]).attr("id");
-        let divTitularActual = $(`#titulares>div#${id}`);
-        let titular = new dicCamposMinimos();
-        titular.tipoActuacion = $(divTitularActual)
-            .find(`input:radio[name=tipoActuacion${id}]:checked`)
-            .val();
-        titular.lugar.pais = $(divTitularActual)
-            .find(`select[id=paisCaMi${id}] option:selected`)
-            .val();
-        if (titular.lugar.pais === "1") {
-            titular.lugar.departamento = $(divTitularActual)
-                .find(`select[id=deptoCaMi${id}] option:selected`)
-                .val();
-            titular.lugar.municipio = $(divTitularActual)
-                .find(`select[id=muniCaMi${id}] option:selected`)
-                .val();
-        }
-        titular.fecha = $(divTitularActual)
-            .find(`input:text[id=fechaDocCaMi${id}]`)
-            .val();
-        let daPeCliente = $(divTitularActual).find(`div#camposMinimos${id}`);
-        titular.cliente = obtenerDatosPersonales(daPeCliente, id);
-        if (titular.tipoActuacion === "R") {
-            titular.calidadActua = $(divTitularActual)
-                .find(`input:text[id=calidadActua${id}]`)
-                .val();
-            let daPeRepre = $(divTitularActual).find(`div#representante${id}`);
-            titular.representante = obtenerDatosPersonales(
-                daPeRepre,
-                `Representante${id}`
-            );
-        }
-        const divInfoEconomica = $(divTitularActual).find(
-            `div#informacionEconomicaIncial${id}`
-        );
-        titular.infoEconomicaInical = obtenerDatosInfoEconomica(
-            divInfoEconomica,
-            id
-        );
-        df.agregarTitular(titular);
-    }
+    df.titulares = obtenerDiccionarioCamposMinimos($("#titulares>div"));
     const productoServicio = $(`div#datosProductoServicio`).children();
     df.productos = obtenerDatosProductoServicio(productoServicio);
     console.log(df);
