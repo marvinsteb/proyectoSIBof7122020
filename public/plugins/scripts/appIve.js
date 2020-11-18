@@ -1477,21 +1477,20 @@ function templateCamposMinimos(id, indice) {
     $(dCardBody).append(cmRe);
     return cm;
 }
+function agregarCamposMinimos(tipo, divContenedor) {
+    let id = $(divContenedor).attr("cantidad");
+    id++;
+    let idTitular = `${tipo}_${id}`;
+    let templateTitular = templateCamposMinimos(idTitular, id);
+    $(divContenedor).append(templateTitular);
+    $(`#${idTitular}`).find(`input#siActua${idTitular}`).focus();
+    $(divContenedor).attr("cantidad", id);
+}
 function AgregarTitular() {
     $("#btnAgregarTitular").click(function (event) {
         event.preventDefault();
         event.stopPropagation();
-        let tipo = "Cliente";
-        let id = $("div#titulares").attr("cantidad");
-        id++;
-        let idTitular = `${tipo}_${id}`;
-        let templateTitular = templateCamposMinimos(idTitular, id);
-        $("#titulares").append(templateTitular);
-        let inputActuaNombrePropio = $(`#${idTitular}`).find(
-            `input#siActua${idTitular}`
-        );
-        inputActuaNombrePropio.focus();
-        $("div#titulares").attr("cantidad", id);
+        agregarCamposMinimos("Cliente", "div#titulares");
     });
 }
 function agregarProductoServicio(poservicio) {
