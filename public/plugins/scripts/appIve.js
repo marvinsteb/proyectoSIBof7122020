@@ -660,33 +660,58 @@ function templateFilaCincoProductoServicio(id) {
     tm = $(tm).append(valor);
     return tm;
 }
+function templateBeneficiario(id) {
+    let tmB = $(
+        `<div class="row"><div id="datosBeneficiarioProductoServicio_${id}" cantidad="0" ></div></div>`
+    );
+    let divBtn = $(`<div class="col-sm form-group">
+                           <button type="button" id="agregarBeneficiario${id}" class="btn btn-primary">Agregar Beneficiario</button>
+                       </div>`);
+    let btn = $(divBtn).find(`button#agregarBeneficiario${id}`);
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("agregando beneficiario");
+        agregarCamposMinimos(
+            "Beneficiario",
+            `div#datosBeneficiarioProductoServicio_${id}`
+        );
+    });
+    $(tmB).append(divBtn);
+    return tmB;
+}
+
 function templateProductoServicio(id) {
     const rowUno = templateFilaUnoProductoServicio(id);
     const rowDos = templateFilaDosProductoServicio(id);
     const rowTres = templateFilaTresProductoServicio(id);
     const rowCuatro = templateFilaCuatroProductoServicio(id);
     const rowCinco = templateFilaCincoProductoServicio(id);
+    const rowSeis = templateBeneficiario(id);
+    const rowSiete = `<div class="row"><div class="datosOtrosFirmantes"></div></div>`;
     let tm = $(`
-            <div class="card card-info mt-3" id="ProductoServicio_${id}">
-                <div class="card-header">
-                    <h3 class="card-title">Producto o servicio ${id}</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
+                <div class="card card-info mt-3" id="ProductoServicio_${id}">
+                    <div class="card-header">
+                        <h3 class="card-title">Producto o servicio ${id}</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                </div>
-            </div>`);
+                    <div class="card-body">
+                    </div>
+                </div>`);
     $(tm).find("div.card-body").append(rowUno);
     $(tm).find("div.card-body").append(rowDos);
     $(tm).find("div.card-body").append(rowTres);
     $(tm).find("div.card-body").append(rowCuatro);
     $(tm).find("div.card-body").append(rowCinco);
+    $(tm).find("div.card-body").append(rowSeis);
+    $(tm).find("div.card-body").append(rowSiete);
     eliminarCard($(tm));
     return tm;
 }
@@ -1442,11 +1467,11 @@ function templateLugarCM(id) {
 
     return camposLugar;
 }
-function templateCamposMinimos(id, indice) {
+function templateCamposMinimos(id, indice, tipo) {
     let cm = $(`
                 <div class="card card-primary" id="${id}">
                     <div class="card-header">
-                        <h3 class="card-title">Titular ${indice}</h3>
+                        <h3 class="card-title">${tipo} ${indice}</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
@@ -1479,9 +1504,10 @@ function templateCamposMinimos(id, indice) {
 }
 function agregarCamposMinimos(tipo, divContenedor) {
     let id = $(divContenedor).attr("cantidad");
+    console.log(id);
     id++;
     let idTitular = `${tipo}_${id}`;
-    let templateTitular = templateCamposMinimos(idTitular, id);
+    let templateTitular = templateCamposMinimos(idTitular, id, tipo);
     $(divContenedor).append(templateTitular);
     $(`#${idTitular}`).find(`input#siActua${idTitular}`).focus();
     $(divContenedor).attr("cantidad", id);
@@ -1490,7 +1516,7 @@ function AgregarTitular() {
     $("#btnAgregarTitular").click(function (event) {
         event.preventDefault();
         event.stopPropagation();
-        agregarCamposMinimos("Cliente", "div#titulares");
+        agregarCamposMinimos("Titular", "div#titulares");
     });
 }
 function agregarProductoServicio(poservicio) {

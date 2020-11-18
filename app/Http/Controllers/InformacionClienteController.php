@@ -356,7 +356,7 @@ class InformacionClienteController extends Controller
      */
     public function index()
     { 
-        $dicFormulario = DB::table('listadiccionarioformulario')->select('*')->orderBy('idDiccionarioFormulario','desc')->simplePaginate(7);
+        $dicFormulario = DB::table('listaDiccionarioFormulario')->select('*')->orderBy('idDiccionarioFormulario','desc')->simplePaginate(7);
         return view('contenido.oficioive7122020',compact('dicFormulario'));
     }
 
