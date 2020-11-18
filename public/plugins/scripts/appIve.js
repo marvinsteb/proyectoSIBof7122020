@@ -662,7 +662,7 @@ function templateFilaCincoProductoServicio(id) {
 }
 function templateBeneficiario(id) {
     let tmB = $(
-        `<div class="row"><div id="datosBeneficiarioProductoServicio_${id}" cantidad="0" ></div></div>`
+        `<div class="row"><div id="datosBeneficiarioProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
     );
     let divBtn = $(`<div class="col-sm form-group">
                            <button type="button" id="agregarBeneficiario${id}" class="btn btn-primary">Agregar Beneficiario</button>
