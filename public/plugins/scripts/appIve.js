@@ -1797,7 +1797,6 @@ function obtenerDiccionarioCamposMinimos(divContenedorCamposMinimos) {
             divInfoEconomica,
             id
         );
-        console.log(camposMinimos);
         diccionarioCamposMinimos.push(camposMinimos);
     });
     return diccionarioCamposMinimos;
@@ -2045,9 +2044,7 @@ function obtenerDatosProductoServicio(ps) {
         const beneficiarios = $(ps[i])
             .find(`div#datosBeneficiario${id}`)
             .children();
-        $(beneficiarios).each(function (beneficiario) {
-            console.log($(this));
-        });
+        producto.beneficiarios = obtenerDiccionarioCamposMinimos(beneficiarios);
         arrProducto.push(producto);
     }
     return arrProducto;
