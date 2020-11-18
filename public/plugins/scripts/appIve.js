@@ -1648,7 +1648,8 @@ class informacionEconomicaInicial {
     }
 }
 class dicCamposMinimos {
-    constructor() {
+    constructor(id) {
+        this.idCamposMinimos = id;
         this.tipoActuacion = null;
         this.calidadActua = null;
         this.lugar = new dicLugar();

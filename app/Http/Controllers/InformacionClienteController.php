@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Beneficiario;
 use Illuminate\Http\Request;
 use App\Models\CamposMinimos;
 use App\Models\DatosPersonales;
@@ -178,13 +179,23 @@ class InformacionClienteController extends Controller
                     'valor' => $productoServicio["valor"]
                     ]
                 );
+                $idProductoServicio = $obProductoServicio->idProductoServicio;
+                foreach ($productoServicio["beneficiarios"] as $beneficiario) {
+                     $idBeneficiario =  $this->guardarCamposMinimos($beneficiario);
+                     Beneficiario::updateOrCreate([
+                                'idProductoServicio' => $idProductoServicio,
+                                'idCamposMinimos' =>  $idBeneficiario],[
+                                'idProductoServicio' => $idProductoServicio,
+                                'idCamposMinimos' =>  $idBeneficiario]
+                            );
+                }
                 // implementar update or create para no duplicar los valores en la tabla diccionario formulario 
                 DiccionarioProductoServicio::updateOrCreate([
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
-                    'idProductoServicio' => $obProductoServicio->idProductoServicio,
+                    'idProductoServicio' => $idProductoServicio,
                 ],[
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
-                    'idProductoServicio' => $obProductoServicio->idProductoServicio,
+                    'idProductoServicio' => $idProductoServicio,
                 ]);
             }
         }
@@ -384,6 +395,24 @@ class InformacionClienteController extends Controller
     }
 
 
+    public function guardarCamposMinimos($requesCamposMinimos){
+        $camposMinimos = [
+            'tipoActuacion' => $requesCamposMinimos ["tipoActuacion"],
+            'lugar' => $this->guardarLugar($requesCamposMinimos ["lugar"]),
+            'fecha' => $this->formatoFechaDB($requesCamposMinimos ["fecha"]),
+            'cliente' => $this->guardarDatosPersonales($requesCamposMinimos ["cliente"]),
+            'infoEconomica' => $this->guardarInformacionEconomica($requesCamposMinimos ["infoEconomicaInical"]),
+            ]; 
+            if($camposMinimos["tipoActuacion"] == "R"){
+            $camposMinimos["calidadActua"] = $requesCamposMinimos ["calidadActua"];
+            $camposMinimos["representante"] =  $this->guardarDatosPersonales($requesCamposMinimos ["representante"]);
+        }
+        $obcm = CamposMinimos::updateOrCreate([
+            'idCamposMinimos'=>$requesCamposMinimos["idCamposMinimos"]
+        ],
+        $camposMinimos);
+        return $obcm->idCamposMinimos;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -404,20 +433,11 @@ class InformacionClienteController extends Controller
             $idDiccionarioFormulario = $obdFormulario->idDiccionarioFormulario;
 
             for ($i = 0; $i < count($request->titulares); $i++) {
-                
-                $camposMinimos = [
-                    'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
-                    'lugar' => $this->guardarLugar($request->titulares[$i]["lugar"]),
-                    'fecha' => $this->formatoFechaDB($request->titulares[$i]["fecha"]),
-                    'cliente' => $this->guardarDatosPersonales($request->titulares[$i]["cliente"]),
-                    'infoEconomica' => $this->guardarInformacionEconomica($request->titulares[$i]["infoEconomicaInical"]),
-                    ]; 
-                 if($camposMinimos["tipoActuacion"] == "R"){
-                    $camposMinimos["calidadActua"] = $request->titulares[$i]["calidadActua"];
-                    $camposMinimos["representante"] =  $this->guardarDatosPersonales($request->titulares[$i]["representante"]);
-                }
-                $idCamposMinimos = DB::table('camposMinimos')->insertGetId($camposMinimos);
-                DB::table('titular')->insertGetId([
+                $idCamposMinimos = $this->guardarCamposMinimos($request->titulares[$i]); 
+                Titular::updateOrCreate([
+                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
+                    'idCamposMinimos' => $idCamposMinimos,
+                ],[
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
                     'idCamposMinimos' => $idCamposMinimos,
                 ]);
