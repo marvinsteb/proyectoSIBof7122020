@@ -308,27 +308,28 @@ class InformacionClienteController extends Controller
         $obInfoEco["otrosIngresos"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'OI');
         return $obInfoEco;
     }
-    public function queryDicionarioFormulario($id){
-            $ObDicFormulario = DiccionarioFormulario::where('idDiccionarioFormulario', '=',$id)->first();
-            $ObTitular = Titular::where('idDiccionarioFormulario', '=', $ObDicFormulario->idDiccionarioFormulario)->get();
-            $listaCamposMinimos = [];
-            foreach ($ObTitular as $t) {
-                $listaCamposMinimos[] = $t["idCamposMinimos"];
-            }
-            
-            $ObCamposMinimos = CamposMinimos::whereIn('idCamposMinimos',$listaCamposMinimos)->get();
-            foreach ($ObCamposMinimos as $camposMinimos) {
-                if($camposMinimos['tipoActuacion'] == 'R'){
-                    $camposMinimos["representante"] = $this->queryDatosPersonales($camposMinimos["representante"]);
+    public function queryCamposMinimos($id){
+         $ObCamposMinimos = CamposMinimos::where('idCamposMinimos','=',$id)->first();
+                if($ObCamposMinimos['tipoActuacion'] == 'R'){
+                    $ObCamposMinimos["representante"] = $this->queryDatosPersonales($ObCamposMinimos["representante"]);
                 }else{
-                    $camposMinimos["calidadActua"] = "";
-                    $camposMinimos["representante"] = "";
+                    $ObCamposMinimos["calidadActua"] = "";
+                    $ObCamposMinimos["representante"] = "";
                 }
 
-                $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
-                $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
-                $camposMinimos["cliente"] = $this->queryDatosPersonales($camposMinimos["cliente"]);
-                $camposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($camposMinimos["infoEconomica"]);
+                $ObCamposMinimos["lugar"] = $this->queryLugar($ObCamposMinimos["lugar"]);
+                $ObCamposMinimos["fecha"] = $this->formatoFechaJson($ObCamposMinimos["fecha"]);
+                $ObCamposMinimos["cliente"] = $this->queryDatosPersonales($ObCamposMinimos["cliente"]);
+                $ObCamposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($ObCamposMinimos["infoEconomica"]);
+        return  $ObCamposMinimos;
+    }
+    public function queryDicionarioFormulario($id){
+            $ObDicFormulario = DiccionarioFormulario::where('idDiccionarioFormulario', '=',$id)->first();
+
+            $ObTitulares = Titular::where('idDiccionarioFormulario', '=', $ObDicFormulario->idDiccionarioFormulario)->get();
+            $listaTitulares = [];
+            foreach ($ObTitulares as $t) {
+                $listaTitulares[] = $this->queryCamposMinimos($t["idCamposMinimos"]);
             }
 
             $obDiccionarioFormulario = DiccionarioProductoServicio::where('idDiccionarioFormulario','=',$ObDicFormulario->idDiccionarioFormulario)->get();
@@ -338,12 +339,18 @@ class InformacionClienteController extends Controller
                 $obPS["lugar"] = $this->querylugar($obPS["lugar"]);
                 $obPS["fecha"] = $this->formatoFechaJson($obPS["fecha"]);
                 $obPS["moneda"] = Moneda::select('codigoMoneda')->where('idMoneda','=',$obPS["moneda"])->first()["codigoMoneda"];
+                $listaBeneficiarios = [];
+                $obListaBenefifiarios = Beneficiario::where('idProductoServicio','=',$obPS["idProductoServicio"])->get();
+                foreach ($obListaBenefifiarios as $beneficiario) {
+                    $listaBeneficiarios[] = $this->queryCamposMinimos($beneficiario["idCamposMinimos"]);
+                }
+                $obPS["beneficiarios"] = $listaBeneficiarios; 
                 $listaProductosServicios[] = $obPS;
             }
             $dicFormuario = [
                 'idDiccionarioFormulario'=> $ObDicFormulario['idDiccionarioFormulario'],
                 'estado'=> $ObDicFormulario['estado'],
-                'titulares'=> $ObCamposMinimos,
+                'titulares'=> $listaTitulares,
                 'productos'=> $listaProductosServicios,
                 'perfilEconomico'=>'perfilEconomico'
             ];

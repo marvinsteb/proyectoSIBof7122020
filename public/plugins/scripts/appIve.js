@@ -1367,7 +1367,7 @@ function validarTipoFuenteIngreso(fuenteIngresos) {
         let posicionActual = $(this).parent().parent().parent().index();
         let divRowFntIng = $(this).parent().parent().parent().parent();
         let divIngresosActual = $(divRowFntIng).attr("id");
-        let label = `#label${divIngresosActual}_${posicionActual}`;
+        let label = `label#label${divIngresosActual}_${posicionActual}`;
         let input = $(`input#input${divIngresosActual}_${posicionActual}`);
 
         switch ($(this).val()) {
@@ -1396,6 +1396,7 @@ function validarTipoFuenteIngreso(fuenteIngresos) {
     });
 }
 function agregarTemplateFuenteIngresos(btnFuenteIngreso) {
+    console.log("agregando fuente de ingresos");
     $(btnFuenteIngreso).click(function () {
         const divPadre = $(this).parent().parent().parent().attr("id");
         const divContenedor = $(`div#${divPadre} >div:nth-child(2)`);
@@ -1718,13 +1719,17 @@ function validarFormulario() {
                 event.preventDefault();
                 event.stopPropagation();
                 expandirCard();
-                enviarDatos();
+                //enviarDatos();
                 if (form.checkValidity() === false) {
                     form.classList.add("was-validated");
+                    alert(
+                        "No se puede guardar el formulario, verifica los campos"
+                    );
                 } else {
                     console.log("enviando formulario");
                     mostrarModal();
-                    //enviarDatos();
+                    enviarDatos();
+                    window.location.href = "/oficios/7122020";
                 }
             },
             false
