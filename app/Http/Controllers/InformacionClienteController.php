@@ -20,6 +20,7 @@ use App\Models\ParienteAsociadoPep;
 use App\Models\ProductoServicio;
 use App\Models\Titular;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -374,7 +375,7 @@ class InformacionClienteController extends Controller
      */
     public function index()
     { 
-        $dicFormulario = DB::table('listaDiccionarioFormulario')->select('*')->orderBy('idDiccionarioFormulario','desc')->simplePaginate(7);
+        $dicFormulario = DB::table('listaDiccionarioFormulario')->select('*')->where('idUser','=',Auth::id())->orderBy('idDiccionarioFormulario','desc')->simplePaginate(7);
         return view('contenido.oficioive7122020',compact('dicFormulario'));
     }
 
@@ -435,7 +436,10 @@ class InformacionClienteController extends Controller
             
             $obdFormulario = DiccionarioFormulario::updateOrCreate(
                 ['idDiccionarioFormulario'=> $request->idDiccionarioFormulario] ,
-                ["estado" => "A"]
+                [
+                    "estado" => "A",
+                    "idUser" =>  Auth::id(),
+                ]
             ); 
             $idDiccionarioFormulario = $obdFormulario->idDiccionarioFormulario;
 
@@ -449,14 +453,17 @@ class InformacionClienteController extends Controller
                     'idCamposMinimos' => $idCamposMinimos,
                 ]);
             }
+             $respuesta = [
+                'Status'=> 'Success',
+                'DiccionarioFormulario'=> $this->queryDicionarioFormulario($idDiccionarioFormulario)
+            ];
             $this->guardarProductosServicios($request->productos,$idDiccionarioFormulario);
-            $respuesta = $this->queryDicionarioFormulario($idDiccionarioFormulario);
 
             DB::commit();
             // all good
         } catch (\Exception $e) {
             $respuesta = [
-                'error'=> true,
+                'Status'=> 'Error',
                 'mensaje'=> $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
                 'code' => $e->getCode(),

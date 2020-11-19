@@ -13,6 +13,7 @@ class DiccionarioFormulario extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'estado'
+        'estado',
+        'idUser'
     ];
 }

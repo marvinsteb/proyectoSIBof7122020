@@ -1751,9 +1751,17 @@ function enviarDatos() {
         dataType: "json",
         success: function (res) {
             console.log("respuesta del servidor");
-            console.log(res);
-            const url = "/oficios/7122020";
-            $(location).attr("href", url);
+            if (res.Status == "Success") {
+                console.log(res);
+                console.log("redireccionando....");
+                const url = "/oficios/7122020";
+                $(location).attr("href", url);
+            } else {
+                console.log(res);
+                alert(
+                    "Ocurrió un error al guardar el formulario, intenta de nuevo"
+                );
+            }
         },
         error: function (jqXHR, exception) {
             var msg = "";
@@ -1773,7 +1781,6 @@ function enviarDatos() {
                 msg = "Uncaught Error.\n" + jqXHR.responseText;
             }
             alert(msg);
-            //$("#post").html(msg);
         },
     });
 }
