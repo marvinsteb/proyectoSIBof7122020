@@ -36,20 +36,17 @@
 <section class="content">
     <div class="container-fluid">
 
-        <form action="guardarActualizar" class="needs-validation" method="post" novalidate>
+        <form action="guardarActualizar" id="diccionarioFormulario" class="needs-validation" method="post" novalidate>
             <div class="diccionarioFormulario" idDiccionario="">
                 @csrf
                 <!-- datos titular -->
-                <div class="titulares" id="titulares">
+                <div class="titulares" id="titulares" cantidad="1">
                     <div class="card card-primary" id="Cliente_1">
                         <div class="card-header">
                             <h3 class="card-title">Titular 1</h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
                                 </button>
                             </div>
                         </div>
@@ -65,11 +62,11 @@
                                             <label>El cliente actúa en nombre propio</label>
                                         </div>
                                         <div class="icheck-primary d-inline">
-                                            <input type="radio" id="siActuaCliente_1" class="actuaNombrePropio" name="tipoActuacionCliente_1" value="C" required/>
+                                            <input type="radio" id="siActuaCliente_1" class="actuaNombrePropio form-check-input" name="tipoActuacionCliente_1" value="C" required/>
                                             <label for="siActuaCliente_1">Sí</label>
                                         </div>
                                         <div class="icheck-primary d-inline">
-                                            <input type="radio" id="noActuaCliente_1" class="actuaNombrePropio" name="tipoActuacionCliente_1" value="R" required />
+                                            <input type="radio" id="noActuaCliente_1" class="actuaNombrePropio form-check-input" name="tipoActuacionCliente_1" value="R" required />
                                             <label for="noActuaCliente_1">No</label>
                                             <div class="invalid-tooltip">Indica el tipo de actuación</div>
                                         </div>
@@ -88,15 +85,9 @@
 
                             <!-- II. LUGAR Y FECHA -->
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-12 mb-3">
                                     <h4>II. LUGAR Y FECHA</h4>
                                 </div>
-                                <br />
-                                <br />
-                            </div>
-                            <!-- row -->
-
-                            <div class="row">
                                 <!-- select pais -->
                                 <div class="col-sm">
                                     <div class="form-group">
@@ -452,11 +443,11 @@
                                                         <div class="form-check">
                                                             <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label></div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="cpeSiCliente_1" class="cpe" name="cpeCliente_1" value="S" required />
+                                                                <input type="radio" id="cpeSiCliente_1" class="cpe form-check-input" name="cpeCliente_1" value="S" required />
                                                                 <label for="cpeSiCliente_1">Sí</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="cpeNoCliente_1" class="cpe" name="cpeCliente_1" value="N" required />
+                                                                <input type="radio" id="cpeNoCliente_1" class="cpe form-check-input" name="cpeCliente_1" value="N" required />
                                                                 <label for="cpeNoCliente_1">No</label>
                                                                 <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
                                                             </div>
@@ -471,11 +462,11 @@
                                                                 <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryPepSi_1" class="pepCliente" name="pepCliente_1" value="S" required />
+                                                                <input type="radio" id="primaryPepSi_1" class="pep form-check-input" name="pepCliente_1" value="S" required />
                                                                 <label for="primaryPepSi_1">Sí</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryPepNo_1" class="pepCliente" name="pepCliente_1" value="N" required />
+                                                                <input type="radio" id="primaryPepNo_1" class="pep form-check-input" name="pepCliente_1" value="N" required />
                                                                 <label for="primaryPepNo_1">No</label>
                                                                 <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
                                                             </div>
@@ -492,11 +483,11 @@
                                                                 <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryAsoPepClienteSi_1" class="asoPepCliente" name="asoPepCliente_1" value="S" required />
+                                                                <input type="radio" id="primaryAsoPepClienteSi_1" class="asoPepCliente form-check-input" name="asoPepCliente_1" value="S" required />
                                                                 <label for="primaryAsoPepClienteSi_1">Sí</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryAsoPepClienteNo_1" class="asoPepCliente" name="asoPepCliente_1" value="N" required />
+                                                                <input type="radio" id="primaryAsoPepClienteNo_1" class="asoPepCliente form-check-input" name="asoPepCliente_1" value="N" required />
                                                                 <label for="primaryAsoPepClienteNo_1">No</label>
                                                                 <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
                                                             </div>
@@ -578,7 +569,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="form-group">
-                                                    <button type="button" id="agregarFuenteIngresos" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
+                                                    <button type="button" id="agregarFuenteIngresosCliente_1" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -613,15 +604,16 @@
                             </div>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body"></div>
+                        <div class="card-body">
+                            <div id="datosProductoServicio" cantidad="0">
+                            </div>
+                        </div>
                         <!-- /.card-body -->
                     </div>
                 </div>
                 <div class="row">
                     <div class="col clearfix">
-                        <button class="btn btn-success float-right mb-4">
-                            Agregar Producto y/o servicio
-                        </button>
+                        <button class="btn btn-success float-right mb-4 agregarProductoServicio" id="agregarProductoServicio">Agregar Producto y/o servicio</button>
                     </div>
                 </div>
                 <div class="perfilEconomicoTransaccional">

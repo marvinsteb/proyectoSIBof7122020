@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Beneficiario;
 use Illuminate\Http\Request;
 use App\Models\CamposMinimos;
 use App\Models\DatosPersonales;
@@ -11,10 +12,15 @@ use App\Models\Nacionalidad;
 use App\Models\Telefono;
 use App\Models\Pais;
 use App\Models\DatosPep;
+use App\Models\DiccionarioProductoServicio;
 use App\Models\FuenteIngresos;
 use App\Models\InformacionEconomicaInicial;
+use App\Models\Moneda;
 use App\Models\ParienteAsociadoPep;
+use App\Models\ProductoServicio;
+use App\Models\Titular;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -157,6 +163,44 @@ class InformacionClienteController extends Controller
         return $obInfoEcoIni->idInformacionEconomicaInicial;
     }
 
+    public function guardarProductosServicios($listaProductosServicios,$idDiccionarioFormulario){
+        if(!empty($listaProductosServicios)){
+            foreach ($listaProductosServicios as  $productoServicio) {
+                $obProductoServicio = ProductoServicio::updateOrCreate(
+                    ["idProductoServicio"=>$productoServicio["idProductoServicio"]],
+                    [
+                    'lugar' => $this->guardarLugar($productoServicio["lugar"]),
+                    'fecha' => $this->formatoFechaDB($productoServicio["fecha"]),
+                    'tipo' => $productoServicio["tipo"],
+                    'nombre' => $productoServicio["nombre"],
+                    'descripcion' => $productoServicio["descripcion"],
+                    'identificador' => $productoServicio["identificador"],
+                    'nombreContrata' => $productoServicio["nombreContrata"],
+                    'moneda' => $productoServicio["moneda"],
+                    'valor' => $productoServicio["valor"]
+                    ]
+                );
+                $idProductoServicio = $obProductoServicio->idProductoServicio;
+                foreach ($productoServicio["beneficiarios"] as $beneficiario) {
+                     $idBeneficiario =  $this->guardarCamposMinimos($beneficiario);
+                     Beneficiario::updateOrCreate([
+                                'idProductoServicio' => $idProductoServicio,
+                                'idCamposMinimos' =>  $idBeneficiario],[
+                                'idProductoServicio' => $idProductoServicio,
+                                'idCamposMinimos' =>  $idBeneficiario]
+                            );
+                }
+                // implementar update or create para no duplicar los valores en la tabla diccionario formulario 
+                DiccionarioProductoServicio::updateOrCreate([
+                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
+                    'idProductoServicio' => $idProductoServicio,
+                ],[
+                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
+                    'idProductoServicio' => $idProductoServicio,
+                ]);
+            }
+        }
+    }
     public function formatoFechaDB($fecha){
         return  Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
         
@@ -265,33 +309,56 @@ class InformacionClienteController extends Controller
         $obInfoEco["otrosIngresos"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'OI');
         return $obInfoEco;
     }
-    public function queryDicionarioFormulario($id){
-            $ObDicFormulario = DiccionarioFormulario::where('iddiccionarioFormulario', '=',$id)->get();
-
-            $ObCamposMinimos = CamposMinimos::where('diccionarioFormulario','=',$ObDicFormulario[0]['iddiccionarioFormulario'])->get();
-            
-            foreach ($ObCamposMinimos as $camposMinimos) {
-                if($camposMinimos['tipoActuacion'] == 'R'){
-                    $camposMinimos["representante"] = $this->queryDatosPersonales($camposMinimos["representante"]);
+    public function queryCamposMinimos($id){
+         $ObCamposMinimos = CamposMinimos::where('idCamposMinimos','=',$id)->first();
+                if($ObCamposMinimos['tipoActuacion'] == 'R'){
+                    $ObCamposMinimos["representante"] = $this->queryDatosPersonales($ObCamposMinimos["representante"]);
                 }else{
-                    $camposMinimos["calidadActua"] = "";
-                    $camposMinimos["representante"] = "";
+                    $ObCamposMinimos["calidadActua"] = "";
+                    $ObCamposMinimos["representante"] = "";
                 }
 
-                $camposMinimos["lugar"] = $this->queryLugar($camposMinimos["lugar"]);
-                $camposMinimos["fecha"] = $this->formatoFechaJson($camposMinimos["fecha"]);
-                $camposMinimos["cliente"] = $this->queryDatosPersonales($camposMinimos["cliente"]);
-                $camposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($camposMinimos["infoEconomica"]);
+                $ObCamposMinimos["lugar"] = $this->queryLugar($ObCamposMinimos["lugar"]);
+                $ObCamposMinimos["fecha"] = $this->formatoFechaJson($ObCamposMinimos["fecha"]);
+                $ObCamposMinimos["cliente"] = $this->queryDatosPersonales($ObCamposMinimos["cliente"]);
+                $ObCamposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($ObCamposMinimos["infoEconomica"]);
+        return  $ObCamposMinimos;
+    }
+    public function queryDicionarioFormulario($id){
+            $ObDicFormulario = DiccionarioFormulario::where('idDiccionarioFormulario', '=',$id)->first();
+
+            $ObTitulares = Titular::where('idDiccionarioFormulario', '=', $ObDicFormulario->idDiccionarioFormulario)->get();
+            $listaTitulares = [];
+            foreach ($ObTitulares as $t) {
+                $listaTitulares[] = $this->queryCamposMinimos($t["idCamposMinimos"]);
+            }
+
+            $obDiccionarioFormulario = DiccionarioProductoServicio::where('idDiccionarioFormulario','=',$ObDicFormulario->idDiccionarioFormulario)->get();
+            $listaProductosServicios = [];
+            foreach ($obDiccionarioFormulario as $dc) {
+                $obPS = ProductoServicio::where('idProductoServicio','=',$dc["idProductoServicio"])->first();
+                $obPS["lugar"] = $this->querylugar($obPS["lugar"]);
+                $obPS["fecha"] = $this->formatoFechaJson($obPS["fecha"]);
+                $obPS["moneda"] = Moneda::select('codigoMoneda')->where('idMoneda','=',$obPS["moneda"])->first()["codigoMoneda"];
+                $listaBeneficiarios = [];
+                $obListaBenefifiarios = Beneficiario::where('idProductoServicio','=',$obPS["idProductoServicio"])->get();
+                foreach ($obListaBenefifiarios as $beneficiario) {
+                    $listaBeneficiarios[] = $this->queryCamposMinimos($beneficiario["idCamposMinimos"]);
+                }
+                $obPS["beneficiarios"] = $listaBeneficiarios; 
+                $listaProductosServicios[] = $obPS;
             }
             $dicFormuario = [
-                'iddiccionarioFormulario'=> $ObDicFormulario[0]['iddiccionarioFormulario'],
-                'estado'=> $ObDicFormulario[0]['estado'],
-                'titulares'=> $ObCamposMinimos,
-                'productos'=>'productos',
+                'idDiccionarioFormulario'=> $ObDicFormulario['idDiccionarioFormulario'],
+                'estado'=> $ObDicFormulario['estado'],
+                'titulares'=> $listaTitulares,
+                'productos'=> $listaProductosServicios,
                 'perfilEconomico'=>'perfilEconomico'
             ];
             return $dicFormuario;
     }
+
+
     public function diccionarioFormularioJson($id){
         $respuesta = $this->queryDicionarioFormulario($id);
         return Response()->json(
@@ -308,11 +375,7 @@ class InformacionClienteController extends Controller
      */
     public function index()
     { 
-        $dicFormulario = DB::table('diccionarioFormulario')->select('*')
-        ->where('estado','A')
-        ->join('camposMinimos','camposMinimos.diccionarioFormulario','=','diccionarioFormulario.iddiccionarioFormulario')
-        ->join('datosPersonales','datosPersonales.idDatosPersonales','=','camposMinimos.cliente')
-        ->orderBy('iddiccionarioFormulario', 'desc')->simplePaginate(7);
+        $dicFormulario = DB::table('listaDiccionarioFormulario')->select('*')->where('idUser','=',Auth::id())->orderBy('idDiccionarioFormulario','desc')->simplePaginate(7);
         return view('contenido.oficioive7122020',compact('dicFormulario'));
     }
 
@@ -340,6 +403,24 @@ class InformacionClienteController extends Controller
     }
 
 
+    public function guardarCamposMinimos($requesCamposMinimos){
+        $camposMinimos = [
+            'tipoActuacion' => $requesCamposMinimos ["tipoActuacion"],
+            'lugar' => $this->guardarLugar($requesCamposMinimos ["lugar"]),
+            'fecha' => $this->formatoFechaDB($requesCamposMinimos ["fecha"]),
+            'cliente' => $this->guardarDatosPersonales($requesCamposMinimos ["cliente"]),
+            'infoEconomica' => $this->guardarInformacionEconomica($requesCamposMinimos ["infoEconomicaInical"]),
+            ]; 
+            if($camposMinimos["tipoActuacion"] == "R"){
+            $camposMinimos["calidadActua"] = $requesCamposMinimos ["calidadActua"];
+            $camposMinimos["representante"] =  $this->guardarDatosPersonales($requesCamposMinimos ["representante"]);
+        }
+        $obcm = CamposMinimos::updateOrCreate([
+            'idCamposMinimos'=>$requesCamposMinimos["idCamposMinimos"]
+        ],
+        $camposMinimos);
+        return $obcm->idCamposMinimos;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -354,34 +435,35 @@ class InformacionClienteController extends Controller
             // diccionario formulario
             
             $obdFormulario = DiccionarioFormulario::updateOrCreate(
-                ['iddiccionarioFormulario'=> $request->iddiccionarioFormulario] ,
-                ["estado" => "A"]
+                ['idDiccionarioFormulario'=> $request->idDiccionarioFormulario] ,
+                [
+                    "estado" => "A",
+                    "idUser" =>  Auth::id(),
+                ]
             ); 
-            $idDiccionarioFormulario = $obdFormulario->iddiccionarioFormulario;
+            $idDiccionarioFormulario = $obdFormulario->idDiccionarioFormulario;
 
             for ($i = 0; $i < count($request->titulares); $i++) {
-                
-                $camposMinimos = [
-                    'tipoActuacion' => $request->titulares[$i]["tipoActuacion"],
-                    'lugar' => $this->guardarLugar($request->titulares[$i]["lugar"]),
-                    'fecha' => $this->formatoFechaDB($request->titulares[$i]["fecha"]),
-                    'cliente' => $this->guardarDatosPersonales($request->titulares[$i]["cliente"]),
-                    'infoEconomica' => $this->guardarInformacionEconomica($request->titulares[$i]["infoEconomicaInical"]),
-                    'diccionarioFormulario' => $idDiccionarioFormulario,
-                    ]; 
-                 if($camposMinimos["tipoActuacion"] == "R"){
-                    $camposMinimos["calidadActua"] = $request->titulares[$i]["calidadActua"];
-                    $camposMinimos["representante"] =  $this->guardarDatosPersonales($request->titulares[$i]["representante"]);
-                }
-                DB::table('camposMinimos')->insertGetId($camposMinimos);
+                $idCamposMinimos = $this->guardarCamposMinimos($request->titulares[$i]); 
+                Titular::updateOrCreate([
+                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
+                    'idCamposMinimos' => $idCamposMinimos,
+                ],[
+                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
+                    'idCamposMinimos' => $idCamposMinimos,
+                ]);
             }
-             $respuesta = $this->queryDicionarioFormulario( $obdFormulario->iddiccionarioFormulario);
+             $respuesta = [
+                'Status'=> 'Success',
+                'DiccionarioFormulario'=> $this->queryDicionarioFormulario($idDiccionarioFormulario)
+            ];
+            $this->guardarProductosServicios($request->productos,$idDiccionarioFormulario);
 
             DB::commit();
             // all good
         } catch (\Exception $e) {
             $respuesta = [
-                'error'=> true,
+                'Status'=> 'Error',
                 'mensaje'=> $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
                 'code' => $e->getCode(),

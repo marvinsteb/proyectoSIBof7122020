@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DiccionarioFormulario extends Model
+class Titular extends Model
 {
     use HasFactory;
-    protected $table = 'diccionarioFormulario';
-    protected $primaryKey = 'idDiccionarioFormulario';
+    protected $table = 'titular';
+    protected $primaryKey = 'idTitular';
     public $timestamps = false;
 
     protected $fillable = [
-        'estado',
-        'idUser'
+        'idDiccionarioFormulario',
+        'idCamposMinimos',
     ];
 }
