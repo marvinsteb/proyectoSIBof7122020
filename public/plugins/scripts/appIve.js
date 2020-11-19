@@ -15,12 +15,22 @@ function templateFormGroup(temFormGroup, tamanio) {
     $(tm).find("div.form-group").append(temFormGroup);
     return tm;
 }
-function templateInputText(id, tipo, tamanio, textolabel, requerido) {
+function templateInputText(
+    id,
+    tipo,
+    tamanio,
+    textolabel,
+    requerido,
+    deshabilitado
+) {
     let tmNom = $(`<label>${textolabel}</label>
                    <input name="${tipo}${id}" id="${tipo}${id}" type="text" class="form-control ${tipo}" placeholder="${textolabel} ..." maxlength="${tamanio}"/>`);
     tmNom = templateFormGroup(tmNom);
     if (requerido === true) {
         $(tmNom).find(`input#${tipo}${id}`).prop("required", true);
+    }
+    if (deshabilitado === true) {
+        $(tmNom).find(`input#${tipo}${id}`).prop("disabled", true);
     }
     return tmNom;
 }
@@ -1014,12 +1024,16 @@ function habilitaOtroCampoDesdeSelect(
                 .parent()
                 .parent()
                 .parent()
-                .find(inputHabilitar);
-            if (event.target.value == opcionSelect) {
-                $(inputActual).prop("disabled", false);
+                .find($(inputHabilitar));
+            if (inputActual.length != 0) {
+                if (event.target.value == opcionSelect) {
+                    $(inputActual).prop("disabled", false);
+                } else {
+                    $(inputActual).prop("disabled", true);
+                    $(inputActual).val(null);
+                }
             } else {
-                $(inputActual).prop("disabled", true);
-                $(inputActual).val(null);
+                console.log("no se encotro el input");
             }
         });
     }
@@ -1211,10 +1225,46 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
     }
 }
 
+function templateParentesco(id) {
+    let tmP = ` <label for="parentesco${id}">Parentesco</label>
+                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco select2" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="1">Padre</option>
+                    <option value="2">Madre</option>
+                    <option value="3">Hijo</option>
+                    <option value="4">Hermano</option>
+                    <option value="5">Cónyuge</option>
+                    <option value="6">Otro</option>
+                </select>`;
+    tmP = templateFormGroup(tmP);
+    const selectParentesco = $(tmP).find(`select#parentesco${id}`);
+    habilitaOtroCampoDesdeSelect(
+        selectParentesco,
+        6,
+        `input#otroParentesco${id}`
+    );
+    return tmP;
+}
+function templateRowUnoAsoPep(id) {
+    let rowUno = $(`<div class="row"><div>`);
+    const cmParentesco = templateParentesco(id);
+    const cmOtroParentesco = templateInputText(
+        id,
+        "otroParentesco",
+        100,
+        "Especifique",
+        true,
+        true
+    );
+    $(rowUno).append(cmParentesco);
+    $(rowUno).append(cmOtroParentesco);
+    return rowUno;
+}
 function agregaAsoPep(idAsoPep) {
     let indiceAsociadosAgregados = $(`#datos${idAsoPep}>div.info`).attr(
         "cantidad"
     );
+    indiceAsociadosAgregados++;
     // para el id unico del pariente asociado pep se utiliza el paramento idAsopep, obtenido del atributo name del radio button
     // eje: asoPepCliente_1 concatenado con el numero de asocado obtenido en la variable indiceAsociadosAgregados
     // al concatenar queda asoPepCliente_1_1 en el siguiente asoPepCliente_1_2 susesivamente se asignara a la variable id
@@ -1227,8 +1277,7 @@ function agregaAsoPep(idAsoPep) {
         "País de la institución o entidad",
         false
     );
-    let templateAsocPep = `
-                            <div class="card card-primary" id=${id}>
+    let templateAsocPep = $(` <div class="card card-primary" id=${id}>
                                 <div class="card-header">
                                     <h3 class="card-title">Familiar Asociado ${indiceAsociadosAgregados}</h3>
                                     <div class="card-tools">
@@ -1237,96 +1286,21 @@ function agregaAsoPep(idAsoPep) {
                                     </button>
                                 </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label for="parentesco${id}">Parentesco</label>
-                                                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco select2" style="width: 100%" required>
-                                                    <option value="" disabled selected>Selecciona</option>
-                                                    <option value="1">Padre</option>
-                                                    <option value="2">Madre</option>
-                                                    <option value="3">Hijo</option>
-                                                    <option value="4">Hermano</option>
-                                                    <option value="5">Cónyuge</option>
-                                                    <option value="6">Otro</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="otroParentesco${id}">Especifique</label>
-                                                <input name="otroParentesco${id}" id="otroParentesco${id}" type="text" class="form-control otroParentesco" placeholder="Especifique ..." maxlength="100" required disabled />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="motivoAsociacion${id}">Motivo asociación</label>
-                                                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion select2" style="width: 100%" required>
-                                                    <option value="" disabled selected>Selecciona</option>
-                                                    <option value="1">Profesionales</option>
-                                                    <option value="2">Políticos</option>
-                                                    <option value="3">Comerciales</option>
-                                                    <option value="4">Negocios</option>
-                                                    <option value="5">Otros</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="otroMotivoAsociacion${id}">Especifique</label>
-                                                <input name="otroMotivoAsociacion${id}" id="otroMotivoAsociacion${id}" type="text" class="form-control otroMotivoAsociacion" placeholder="Especifique ..." maxlength="100" required disabled />
-                                            </div>
-                                        </div>
-                                        ${componenteSexoAsoPep}
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label for="condicion${id}">Condición</label>
-                                                <select name="condicion${id}" id="condicion${id}" class="form-control custom-select select2" style="width: 100%" required>
-                                                    <option value="">Selecciona</option>
-                                                    <option value="N">Nacional</option>
-                                                    <option value="E">Extranjero</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    ${rowCamposNombresAsoPep}
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="entidad${id}">Entidad</label>
-                                                <input name="entidad${id}" id="entidad${id}" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="puestoDesempenia${id}">Puesto que desempeña</label>
-                                                <input name="puestoDesempenia${id}" id="puestoDesempenia${id}" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required />
-                                            </div>
-                                        </div>
-                                        ${componentePais}
-                                    </div>
-                                </div>
-                                </div>`;
-    indiceAsociadosAgregados++;
+                                <div class="card-body"></div>
+                                </div>`);
+    const uno = templateRowUnoAsoPep(id);
+    $(templateAsocPep).find(`div.card-body`).append(uno);
     $(`#datos${idAsoPep}>div.info`).attr("cantidad", indiceAsociadosAgregados);
     $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
 
-    validarApellidoCasada($(`input#apellidoCasada${id}`));
-    cargarPais($(`select#pais${id}`));
-    habilitaOtroCampoDesdeSelect(
-        $(`select#parentesco${id}`),
-        6,
-        `input#otroParentesco${id}`
-    );
-    habilitaOtroCampoDesdeSelect(
-        $(`select#motivoAsociacion${id}`),
-        5,
-        `input#otroMotivoAsociacion${id}`
-    );
-    $(".select2").select2();
+    // validarApellidoCasada($(`input#apellidoCasada${id}`));
+    // cargarPais($(`select#pais${id}`));
+    // habilitaOtroCampoDesdeSelect(
+    //     $(`select#motivoAsociacion${id}`),
+    //     5,
+    //     `input#otroMotivoAsociacion${id}`
+    // );
+    //$(".select2").select2();
 
     //establecemos el foco en el primer campo, para no perderse en el formulario
     $(`#datos${idAsoPep}>div.info`).find(`select#parentesco${id}`).focus();
