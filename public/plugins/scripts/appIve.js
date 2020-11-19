@@ -350,11 +350,11 @@ function templateCpe(id) {
                 <div class="form-check">
                     <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label></div>
                     <div class="icheck-primary d-inline">
-                        <input type="radio" id="cpeSi${id}" class="cpe" name="cpe${id}" value="S" required />
+                        <input type="radio" id="cpeSi${id}" class="cpe form-check-input" name="cpe${id}" value="S" required />
                         <label for="cpeSi${id}">Sí</label>
                     </div>
                     <div class="icheck-primary d-inline">
-                        <input type="radio" id="cpeNo${id}" class="cpe" name="cpe${id}" value="N" required />
+                        <input type="radio" id="cpeNo${id}" class="cpe form-check-input" name="cpe${id}" value="N" required />
                         <label for="cpeNo${id}">No</label>
                         <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
                     </div>
@@ -372,11 +372,11 @@ function templateAsoPep(id) {
                         <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
                     </div>
                     <div class="icheck-primary d-inline">
-                        <input type="radio" id="primaryAsoPepSi${id}" class="asoPep" name="asoPep${id}" value="S" required />
+                        <input type="radio" id="primaryAsoPepSi${id}" class="asoPep form-check-input" name="asoPep${id}" value="S" required />
                         <label for="primaryAsoPepSi${id}">Sí</label>
                     </div>
                     <div class="icheck-primary d-inline">
-                        <input type="radio" id="primaryAsoPepNo${id}" class="asoPep" name="asoPep${id}" value="N" required />
+                        <input type="radio" id="primaryAsoPepNo${id}" class="asoPep form-check-input" name="asoPep${id}" value="N" required />
                         <label for="primaryAsoPepNo${id}">No</label>
                         <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
                     </div>
@@ -401,11 +401,11 @@ function templatePersonaPep(id) {
                     <div class="form-check">
                         <div><label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label></div>
                         <div class="icheck-primary d-inline">
-                            <input type="radio" id="pepSi${id}" class="pep" name="pep${id}" value="S" required />
+                            <input type="radio" id="pepSi${id}" class="pep form-check-input" name="pep${id}" value="S" required />
                             <label for="pepSi${id}">Sí</label>
                         </div>
                         <div class="icheck-primary d-inline">
-                            <input type="radio" id="pepNo${id}" class="pep" name="pep${id}" value="N" required />
+                            <input type="radio" id="pepNo${id}" class="pep form-check-input" name="pep${id}" value="N" required />
                             <label for="pepNo${id}">No</label>
                             <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
                         </div>
@@ -1420,11 +1420,11 @@ function templateCalidadActua(id) {
                                     <label>El cliente actúa en nombre propio</label>
                                 </div>
                                 <div class="icheck-primary d-inline">
-                                    <input type="radio" id="siActua${id}" class="actuaNombrePropio" name="tipoActuacion${id}" value="C" required/>
+                                    <input type="radio" id="siActua${id}" class="actuaNombrePropio form-check-input" name="tipoActuacion${id}" value="C" required/>
                                     <label for="siActua${id}">Sí</label>
                                 </div>
                                 <div class="icheck-primary d-inline">
-                                    <input type="radio" id="noActua${id}" class="actuaNombrePropio" name="tipoActuacion${id}" value="R" required />
+                                    <input type="radio" id="noActua${id}" class="actuaNombrePropio form-check-input" name="tipoActuacion${id}" value="R" required />
                                     <label for="noActua${id}">No</label>
                                     <div class="invalid-tooltip">Indica el tipo de actuación</div>
                                 </div>
@@ -1725,11 +1725,12 @@ function validarFormulario() {
                     alert(
                         "No se puede guardar el formulario, verifica los campos"
                     );
+                    $(form).find(".form-control:invalid").first().focus();
+                    $(form).find(".form-check-input:invalid").first().focus();
                 } else {
                     console.log("enviando formulario");
                     mostrarModal();
                     enviarDatos();
-                    window.location.href = "/oficios/7122020";
                 }
             },
             false
@@ -1751,6 +1752,28 @@ function enviarDatos() {
         success: function (res) {
             console.log("respuesta del servidor");
             console.log(res);
+            const url = "/oficios/7122020";
+            $(location).attr("href", url);
+        },
+        error: function (jqXHR, exception) {
+            var msg = "";
+            if (jqXHR.status === 0) {
+                msg = "Not connect.\n Verify Network.";
+            } else if (jqXHR.status == 404) {
+                msg = "Requested page not found. [404]";
+            } else if (jqXHR.status == 500) {
+                msg = "Internal Server Error [500].";
+            } else if (exception === "parsererror") {
+                msg = "Requested JSON parse failed.";
+            } else if (exception === "timeout") {
+                msg = "Time out error.";
+            } else if (exception === "abort") {
+                msg = "Ajax request aborted.";
+            } else {
+                msg = "Uncaught Error.\n" + jqXHR.responseText;
+            }
+            alert(msg);
+            //$("#post").html(msg);
         },
     });
 }

@@ -62,11 +62,11 @@
                                             <label>El cliente actúa en nombre propio</label>
                                         </div>
                                         <div class="icheck-primary d-inline">
-                                            <input type="radio" id="siActuaCliente_1" class="actuaNombrePropio" name="tipoActuacionCliente_1" value="C" required/>
+                                            <input type="radio" id="siActuaCliente_1" class="actuaNombrePropio form-check-input" name="tipoActuacionCliente_1" value="C" required/>
                                             <label for="siActuaCliente_1">Sí</label>
                                         </div>
                                         <div class="icheck-primary d-inline">
-                                            <input type="radio" id="noActuaCliente_1" class="actuaNombrePropio" name="tipoActuacionCliente_1" value="R" required />
+                                            <input type="radio" id="noActuaCliente_1" class="actuaNombrePropio form-check-input" name="tipoActuacionCliente_1" value="R" required />
                                             <label for="noActuaCliente_1">No</label>
                                             <div class="invalid-tooltip">Indica el tipo de actuación</div>
                                         </div>
@@ -443,11 +443,11 @@
                                                         <div class="form-check">
                                                             <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label></div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="cpeSiCliente_1" class="cpe" name="cpeCliente_1" value="S" required />
+                                                                <input type="radio" id="cpeSiCliente_1" class="cpe form-check-input" name="cpeCliente_1" value="S" required />
                                                                 <label for="cpeSiCliente_1">Sí</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="cpeNoCliente_1" class="cpe" name="cpeCliente_1" value="N" required />
+                                                                <input type="radio" id="cpeNoCliente_1" class="cpe form-check-input" name="cpeCliente_1" value="N" required />
                                                                 <label for="cpeNoCliente_1">No</label>
                                                                 <div class="invalid-tooltip">Indica si el cliente es CPE.</div>
                                                             </div>
@@ -462,11 +462,11 @@
                                                                 <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryPepSi_1" class="pep" name="pepCliente_1" value="S" required />
+                                                                <input type="radio" id="primaryPepSi_1" class="pep form-check-input" name="pepCliente_1" value="S" required />
                                                                 <label for="primaryPepSi_1">Sí</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryPepNo_1" class="pep" name="pepCliente_1" value="N" required />
+                                                                <input type="radio" id="primaryPepNo_1" class="pep form-check-input" name="pepCliente_1" value="N" required />
                                                                 <label for="primaryPepNo_1">No</label>
                                                                 <div class="invalid-tooltip">Indica si el cliente es PEP.</div>
                                                             </div>
@@ -483,11 +483,11 @@
                                                                 <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryAsoPepClienteSi_1" class="asoPepCliente" name="asoPepCliente_1" value="S" required />
+                                                                <input type="radio" id="primaryAsoPepClienteSi_1" class="asoPepCliente form-check-input" name="asoPepCliente_1" value="S" required />
                                                                 <label for="primaryAsoPepClienteSi_1">Sí</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryAsoPepClienteNo_1" class="asoPepCliente" name="asoPepCliente_1" value="N" required />
+                                                                <input type="radio" id="primaryAsoPepClienteNo_1" class="asoPepCliente form-check-input" name="asoPepCliente_1" value="N" required />
                                                                 <label for="primaryAsoPepClienteNo_1">No</label>
                                                                 <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
                                                             </div>
