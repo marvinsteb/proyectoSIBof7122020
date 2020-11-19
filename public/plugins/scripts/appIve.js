@@ -1335,6 +1335,7 @@ function agregaAsoPep(idAsoPep) {
                                 </div>`);
     const uno = templateRowUnoAsoPep(id);
     $(templateAsocPep).find(`div.card-body`).append(uno);
+    $(templateAsocPep).find(`div.card-body`).append(rowCamposNombresAsoPep);
     $(`#datos${idAsoPep}>div.info`).attr("cantidad", indiceAsociadosAgregados);
     $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
 
