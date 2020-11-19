@@ -1264,6 +1264,17 @@ function templateMotivoAsociacion(id) {
     );
     return tM;
 }
+function templateCondicion(id) {
+    let tC = `<label for="condicion${id}">Condición</label>
+                <select name="condicion${id}" id="condicion${id}" class="form-control custom-select select2" style="width: 100%" required>
+                    <option value="">Selecciona</option>
+                    <option value="N">Nacional</option>
+                    <option value="E">Extranjero</option>
+                </select>`;
+    tC = templateFormGroup(tC);
+    return tC;
+}
+
 function templateRowUnoAsoPep(id) {
     let rowUno = $(`<div class="row"><div>`);
     const cmParentesco = templateParentesco(id);
@@ -1285,11 +1296,13 @@ function templateRowUnoAsoPep(id) {
         true
     );
     const cmSexo = templateSexo(id);
+    const cmCondicion = templateCondicion(id);
     $(rowUno).append(cmParentesco);
     $(rowUno).append(cmOtroParentesco);
     $(rowUno).append(cmMotivoAsociacion);
     $(rowUno).append(cmOtroMotivoAsociacion);
     $(rowUno).append(cmSexo);
+    $(rowUno).append(cmCondicion);
     return rowUno;
 }
 function agregaAsoPep(idAsoPep) {
