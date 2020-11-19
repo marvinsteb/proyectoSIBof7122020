@@ -1245,6 +1245,25 @@ function templateParentesco(id) {
     );
     return tmP;
 }
+function templateMotivoAsociacion(id) {
+    let tM = `  <label for="motivoAsociacion${id}">Motivo asociación</label>
+                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion select2" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="1">Profesionales</option>
+                    <option value="2">Políticos</option>
+                    <option value="3">Comerciales</option>
+                    <option value="4">Negocios</option>
+                    <option value="5">Otros</option>
+                </select>`;
+    tM = templateFormGroup(tM);
+    const selectMotivo = $(tM).find(`select#motivoAsociacion${id}`);
+    habilitaOtroCampoDesdeSelect(
+        selectMotivo,
+        5,
+        `input#otroMotivoAsociacion${id}`
+    );
+    return tM;
+}
 function templateRowUnoAsoPep(id) {
     let rowUno = $(`<div class="row"><div>`);
     const cmParentesco = templateParentesco(id);
@@ -1256,8 +1275,19 @@ function templateRowUnoAsoPep(id) {
         true,
         true
     );
+    const cmMotivoAsociacion = templateMotivoAsociacion(id);
+    const cmOtroMotivoAsociacion = templateInputText(
+        id,
+        "otroMotivoAsociacion",
+        100,
+        "Especifique",
+        true,
+        true
+    );
     $(rowUno).append(cmParentesco);
     $(rowUno).append(cmOtroParentesco);
+    $(rowUno).append(cmMotivoAsociacion);
+    $(rowUno).append(cmOtroMotivoAsociacion);
     return rowUno;
 }
 function agregaAsoPep(idAsoPep) {
