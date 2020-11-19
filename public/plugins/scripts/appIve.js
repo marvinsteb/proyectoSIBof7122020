@@ -1284,10 +1284,12 @@ function templateRowUnoAsoPep(id) {
         true,
         true
     );
+    const cmSexo = templateSexo(id);
     $(rowUno).append(cmParentesco);
     $(rowUno).append(cmOtroParentesco);
     $(rowUno).append(cmMotivoAsociacion);
     $(rowUno).append(cmOtroMotivoAsociacion);
+    $(rowUno).append(cmSexo);
     return rowUno;
 }
 function agregaAsoPep(idAsoPep) {
