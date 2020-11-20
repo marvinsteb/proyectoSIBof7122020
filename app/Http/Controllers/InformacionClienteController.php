@@ -498,7 +498,8 @@ class InformacionClienteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dc = $this->queryDicionarioFormulario($id);
+        var_dump($dc);
     }
 
     /**
