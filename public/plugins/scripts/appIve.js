@@ -1305,6 +1305,28 @@ function templateRowUnoAsoPep(id) {
     $(rowUno).append(cmCondicion);
     return rowUno;
 }
+
+function templateRowTresAsoPep(id) {
+    const cmEntidad = templateEntidad(id);
+    const cmPuestoDesepenia = templateInputText(
+        id,
+        "puestoDesempenia",
+        200,
+        "Puesto que desempeña",
+        true,
+        false
+    );
+    const cmPaisEntidad = templatePais(
+        `pais${id}`,
+        "País de la institución o entidad",
+        false
+    );
+    let rowTres = $(`<div class="row"><div>`);
+    $(rowTres).append(cmEntidad);
+    $(rowTres).append(cmPuestoDesepenia);
+    $(rowTres).append(cmPaisEntidad);
+    return rowTres;
+}
 function agregaAsoPep(idAsoPep) {
     let indiceAsociadosAgregados = $(`#datos${idAsoPep}>div.info`).attr(
         "cantidad"
@@ -1316,12 +1338,7 @@ function agregaAsoPep(idAsoPep) {
     let id = `${idAsoPep}_${indiceAsociadosAgregados}`;
     // recuerda implementar las validaciones en los campos, ya  que los templates solo debuelven la estructura de html
     let rowCamposNombresAsoPep = templateCamposNommbres(id);
-    let componenteSexoAsoPep = templateSexo(id);
-    let componentePais = templatePais(
-        `pais${id}`,
-        "País de la institución o entidad",
-        false
-    );
+
     let templateAsocPep = $(` <div class="card card-primary" id=${id}>
                                 <div class="card-header">
                                     <h3 class="card-title">Familiar Asociado ${indiceAsociadosAgregados}</h3>
@@ -1334,8 +1351,10 @@ function agregaAsoPep(idAsoPep) {
                                 <div class="card-body"></div>
                                 </div>`);
     const uno = templateRowUnoAsoPep(id);
+    const tres = templateRowTresAsoPep(id);
     $(templateAsocPep).find(`div.card-body`).append(uno);
     $(templateAsocPep).find(`div.card-body`).append(rowCamposNombresAsoPep);
+    $(templateAsocPep).find(`div.card-body`).append(tres);
     $(`#datos${idAsoPep}>div.info`).attr("cantidad", indiceAsociadosAgregados);
     $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
 
