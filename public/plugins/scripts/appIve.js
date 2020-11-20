@@ -427,46 +427,30 @@ function templatePersonaPep(id) {
     return temPersonaPep;
 }
 function templateMontoIngresos(id) {
-    let tmMontoIngresos = ` <div class="row">
-                                <div class="col-sm-9">
-                                    <div class="form-group">
-                                        <label for="montoIngresos${id}" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="number" name = "montoIngresos" id="montoIngresos${id}" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>
-                                    </div>
-                                </div>
-                            </div>`;
+    let tmMontoIngresos = $(` <div class="row"></div>`);
+    let labelMontoIngresos = $(
+        `<label for="montoIngresos${id}" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>`
+    );
+    labelMontoIngresos = templateFormGroup(labelMontoIngresos, "col-sm-9");
+    let inputMontoIngresos = $(
+        `<input type="number" name = "montoIngresos" id="montoIngresos${id}" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`
+    );
+    inputMontoIngresos = templateFormGroup(inputMontoIngresos, "col-sm-3");
+    $(tmMontoIngresos).append(labelMontoIngresos);
+    $(tmMontoIngresos).append(inputMontoIngresos);
     return tmMontoIngresos;
 }
 function templatePropositoRc(id) {
-    let tempPropositoRc = `<div class="row">
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label for="propositoRC${id}">Propósito de la relación de negocios</label>
-                                        <input name="propositoRC" id="propositoRC${id}" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
-                                    </div>
-                                </div>
-                            </div>`;
+    let tempPropositoRc = $(`<div class="row"></div>`);
+    const tmPrc = `<label for="propositoRC${id}">Propósito de la relación de negocios</label>
+                   <input name="propositoRC" id="propositoRC${id}" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />`;
+    $(tempPropositoRc).append(templateFormGroup(tmPrc));
     return tempPropositoRc;
 }
 function templateInformacionEconomicaInicial(id) {
-    const comMonto = templateMontoIngresos(id);
+    const coMonto = templateMontoIngresos(id);
     const cmRc = templatePropositoRc(id);
-    let tmInfoEcoInicial = `<div class="card card-info mt-3">
-                                <div class="card-header">
-                                    <h3 class="card-title">Información económica del cliente</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    ${comMonto}
-                                    ${cmRc}
+    let cmDatosFuenteingreso = $(`
                                     <div id="datosfuenteingresos${id}">
                                         <div class="row">
                                             <div class="col-sm">
@@ -504,11 +488,21 @@ function templateInformacionEconomicaInicial(id) {
                                                 <button type="button" id="agregarFuenteIngresos${id}" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
                                             </div>
                                         </div>
+                                    </div>`);
+    let tmInfoEcoInicial = $(`<div class="card card-info mt-3">
+                                <div class="card-header">
+                                    <h3 class="card-title">Información económica del cliente</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-
-                            `;
+                                <div class="card-body">
+                                </div>
+                            </div>`);
+    $(tmInfoEcoInicial).find("div.card-body").append(coMonto);
+    $(tmInfoEcoInicial).find("div.card-body").append(cmRc);
     return tmInfoEcoInicial;
 }
 function templateDatosPersonales(id, tipo) {
@@ -548,8 +542,8 @@ function templateDatosPersonales(id, tipo) {
     $(divCardBody).append(tAsoPep);
     return tcamposMinimos;
 }
-function templateCamposFuenteIngreo(id, posicion) {
-    let temFeIg = `
+function templateCamposFuenteIngreso(id, posicion) {
+    let temFeIg = $(`
     <div class="row">
         <div class="col-sm-2">
             <div class="form-group">
@@ -571,7 +565,9 @@ function templateCamposFuenteIngreo(id, posicion) {
                     </div>
             </div>
         </div>
-    </div>`;
+    </div>`);
+    $(temFeIg).find(`select#select${id}_${posicion}`).select2();
+    //validarTipoFuenteIngreso($(`select#select${id}_${posicion}`));
     return temFeIg;
 }
 function templateFilaUnoProductoServicio(id) {
@@ -1431,11 +1427,9 @@ function agregarTemplateFuenteIngresos(btnFuenteIngreso) {
         const id = $(divContenedor).attr("id");
         let posicion = $(divContenedor).attr("cantidad");
         posicion++;
-        let cFuIn = templateCamposFuenteIngreo(id, posicion);
+        let cFuIn = templateCamposFuenteIngreso(id, posicion);
         $(divContenedor).append(cFuIn);
         $(divContenedor).attr("cantidad", posicion);
-        $(`select#select${id}_${posicion}`).select2();
-        validarTipoFuenteIngreso($(`select#select${id}_${posicion}`));
     });
 }
 function templateCalidadActua(id) {
