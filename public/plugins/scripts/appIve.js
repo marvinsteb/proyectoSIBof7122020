@@ -447,48 +447,35 @@ function templatePropositoRc(id) {
     $(tempPropositoRc).append(templateFormGroup(tmPrc));
     return tempPropositoRc;
 }
+function templateDatosIngresos(id) {
+    let btn = $(` <div class="row">
+                        <div class="form-group">
+                            <button type="button" id="agregarFuenteIngresos${id}" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
+                        </div>
+                    </div>`);
+    const btnfing = $(btn).find(`button#agregarFuenteIngresos${id}`);
+    agregarTemplateFuenteIngresos(btnfing);
+    let tmIng = $(`
+                    <div id="datosfuenteingresos${id}">
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="">Fuente de ingresos</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="fuenteingresos${id}" cantidad = "0" idinput= ""></div>
+                    </div>`);
+    $(tmIng).append(btn);
+
+    const tmCFi = templateCamposFuenteIngreso(`fuenteingresos${id}`, 0);
+    $(tmIng).find(`div#fuenteingresos${id}`).append(tmCFi);
+    return tmIng;
+}
 function templateInformacionEconomicaInicial(id) {
     const coMonto = templateMontoIngresos(id);
     const cmRc = templatePropositoRc(id);
-    let cmDatosFuenteingreso = $(`
-                                    <div id="datosfuenteingresos${id}">
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="">Fuente de ingresos</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="fuenteingresos${id}" cantidad = "0" idinput= "">
-                                            <div class="row">
-                                                <div class="col-sm-2">
-                                                    <div class="form-group">
-                                                        <select name="selectfuenteingresos" id="selectfuenteingresos${id}_0" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
-                                                            <option value="" disabled selected>Selecciona</option>
-                                                            <option value="NP">Negocio propio</option>
-                                                            <option value="RD">Relación de dependencia</option>
-                                                            <option value="OI">Otras fuentes de ingreso</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col sm">
-                                                    <div class="form-group row">
-                                                            <div class="col-sm-2">
-                                                                <label for="inputfuenteingresos${id}_0" class="ml-4" id="labelfuenteingresos${id}_0"></label>
-                                                            </div>
-                                                            <div class="col-sm ml-2">
-                                                                <input name="inputfuenteingresos" id="inputfuenteingresos${id}_0" type="text" class="form-control" required />
-                                                            </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <button type="button" id="agregarFuenteIngresos${id}" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
-                                            </div>
-                                        </div>
-                                    </div>`);
+    let cmDatosFuenteingreso = templateDatosIngresos(id);
     let tmInfoEcoInicial = $(`<div class="card card-info mt-3">
                                 <div class="card-header">
                                     <h3 class="card-title">Información económica del cliente</h3>
@@ -503,6 +490,7 @@ function templateInformacionEconomicaInicial(id) {
                             </div>`);
     $(tmInfoEcoInicial).find("div.card-body").append(coMonto);
     $(tmInfoEcoInicial).find("div.card-body").append(cmRc);
+    $(tmInfoEcoInicial).find("div.card-body").append(cmDatosFuenteingreso);
     return tmInfoEcoInicial;
 }
 function templateDatosPersonales(id, tipo) {
@@ -567,7 +555,10 @@ function templateCamposFuenteIngreso(id, posicion) {
         </div>
     </div>`);
     $(temFeIg).find(`select#select${id}_${posicion}`).select2();
-    //validarTipoFuenteIngreso($(`select#select${id}_${posicion}`));
+    const selectFuenteIngresos = $(temFeIg).find(
+        `select#select${id}_${posicion}`
+    );
+    validarTipoFuenteIngreso(selectFuenteIngresos);
     return temFeIg;
 }
 function templateFilaUnoProductoServicio(id) {
@@ -650,7 +641,6 @@ function templateMoneda(id) {
     let selectMoneda = $(moneda).find(`select#moneda${id}`);
     $(selectMoneda).select2();
     cargarMoneda(selectMoneda);
-    //cargar lista de monedas
     return moneda;
 }
 function templateValor(id) {
