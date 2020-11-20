@@ -658,7 +658,7 @@ function templateFilaCincoProductoServicio(id) {
 }
 function templateBeneficiario(id) {
     let tmB = $(
-        `<div class="row"><div id="datosBeneficiarioProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
+        `<div class="row"><H2>Beneficiarios </h2><div id="datosBeneficiarioProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
     );
     let divBtn = $(`<div class="col-sm form-group">
                            <button type="button" id="agregarBeneficiario${id}" class="btn btn-primary">Agregar Beneficiario</button>
@@ -677,6 +677,26 @@ function templateBeneficiario(id) {
     return tmB;
 }
 
+function templateOtrosFirmantes(id) {
+    let tmB = $(
+        `<div class="row"><H2>Otros Firmantes </h2><div id="datosOtrosFirmantesProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
+    );
+    let divBtn = $(`<div class="col-sm form-group">
+                           <button type="button" id="agregarOtrosFirmantes${id}" class="btn btn-primary">Agregar Otros Firmantes</button>
+                       </div>`);
+    let btn = $(divBtn).find(`button#agregarOtrosFirmantes${id}`);
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        agregarCamposMinimos(
+            "OtrosFirmantes",
+            `div#datosOtrosFirmantesProductoServicio_${id}`
+        );
+    });
+    $(tmB).append(divBtn);
+    return tmB;
+}
+
 function templateProductoServicio(id) {
     const rowUno = templateFilaUnoProductoServicio(id);
     const rowDos = templateFilaDosProductoServicio(id);
@@ -684,7 +704,7 @@ function templateProductoServicio(id) {
     const rowCuatro = templateFilaCuatroProductoServicio(id);
     const rowCinco = templateFilaCincoProductoServicio(id);
     const rowSeis = templateBeneficiario(id);
-    const rowSiete = `<div class="row"><div class="datosOtrosFirmantes"></div></div>`;
+    let rowSiete = templateOtrosFirmantes(id);
     let tm = $(`
                 <div class="card card-info mt-3" id="ProductoServicio_${id}">
                     <div class="card-header">
@@ -1481,6 +1501,7 @@ function templateLugarCM(id) {
     return camposLugar;
 }
 function templateCamposMinimos(id, indice, tipo) {
+    console.log(tipo);
     let cm = $(`
                 <div class="card card-primary" id="${id}">
                     <div class="card-header">
@@ -1507,17 +1528,17 @@ function templateCamposMinimos(id, indice, tipo) {
     let cmClie = templateDatosPersonales(id, "cliente");
     $(cmCM).append(cmClie);
     $(dCardBody).append(cmCM);
-
-    let cmIE = $(`<div id="informacionEconomicaIncial${id}"></div>`);
-    $(cmIE).append(templateInformacionEconomicaInicial(id));
-    $(dCardBody).append(cmIE);
+    if (tipo != "OtrosFirmantes") {
+        let cmIE = $(`<div id="informacionEconomicaIncial${id}"></div>`);
+        $(cmIE).append(templateInformacionEconomicaInicial(id));
+        $(dCardBody).append(cmIE);
+    }
     let cmRe = $(`<div id="representante${id}"></div>`);
     $(dCardBody).append(cmRe);
     return cm;
 }
 function agregarCamposMinimos(tipo, divContenedor) {
     let id = $(divContenedor).attr("cantidad");
-    console.log(id);
     id++;
     let idTitular = `${tipo}_${id}`;
     let templateTitular = templateCamposMinimos(idTitular, id, tipo);
@@ -1731,7 +1752,7 @@ function validarFormulario() {
                 event.preventDefault();
                 event.stopPropagation();
                 expandirCard();
-                //enviarDatos();
+                enviarDatos();
                 if (form.checkValidity() === false) {
                     form.classList.add("was-validated");
                     alert(
@@ -1742,7 +1763,7 @@ function validarFormulario() {
                 } else {
                     console.log("enviando formulario");
                     mostrarModal();
-                    enviarDatos();
+                    //enviarDatos();
                 }
             },
             false
@@ -2093,6 +2114,13 @@ function obtenerDatosProductoServicio(ps) {
             .find(`div#datosBeneficiario${id}`)
             .children();
         producto.beneficiarios = obtenerDiccionarioCamposMinimos(beneficiarios);
+        const otrosFirmantes = $(ps[i])
+            .find(`div#datosOtrosFirmantes${id}`)
+            .children();
+        producto.otrosFirmantes = obtenerDiccionarioCamposMinimos(
+            otrosFirmantes
+        );
+
         arrProducto.push(producto);
     }
     return arrProducto;
