@@ -1357,17 +1357,6 @@ function agregaAsoPep(idAsoPep) {
     $(templateAsocPep).find(`div.card-body`).append(tres);
     $(`#datos${idAsoPep}>div.info`).attr("cantidad", indiceAsociadosAgregados);
     $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
-
-    // validarApellidoCasada($(`input#apellidoCasada${id}`));
-    // cargarPais($(`select#pais${id}`));
-    // habilitaOtroCampoDesdeSelect(
-    //     $(`select#motivoAsociacion${id}`),
-    //     5,
-    //     `input#otroMotivoAsociacion${id}`
-    // );
-    //$(".select2").select2();
-
-    //establecemos el foco en el primer campo, para no perderse en el formulario
     $(`#datos${idAsoPep}>div.info`).find(`select#parentesco${id}`).focus();
 }
 function verificarAsoPep(asoPepCliente) {
