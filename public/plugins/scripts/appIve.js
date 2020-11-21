@@ -15,12 +15,22 @@ function templateFormGroup(temFormGroup, tamanio) {
     $(tm).find("div.form-group").append(temFormGroup);
     return tm;
 }
-function templateInputText(id, tipo, tamanio, textolabel, requerido) {
+function templateInputText(
+    id,
+    tipo,
+    tamanio,
+    textolabel,
+    requerido,
+    deshabilitado
+) {
     let tmNom = $(`<label>${textolabel}</label>
                    <input name="${tipo}${id}" id="${tipo}${id}" type="text" class="form-control ${tipo}" placeholder="${textolabel} ..." maxlength="${tamanio}"/>`);
     tmNom = templateFormGroup(tmNom);
     if (requerido === true) {
         $(tmNom).find(`input#${tipo}${id}`).prop("required", true);
+    }
+    if (deshabilitado === true) {
+        $(tmNom).find(`input#${tipo}${id}`).prop("disabled", true);
     }
     return tmNom;
 }
@@ -218,6 +228,11 @@ function templateNacionalidad(id) {
     const btnAgregar = $(temNacionalidad).find(
         `button#agregarNacionalidad${id}`
     );
+    let selectNacionalidadpais = $(temNacionalidad).find(
+        `select#nacionalidad${id}_1`
+    );
+    $(selectNacionalidadpais).select2();
+    cargarPais(selectNacionalidadpais);
     agregarTemplateNacionalidad(btnAgregar);
     return temNacionalidad;
 }
@@ -254,7 +269,7 @@ function templateContenedorTelefonos(id) {
 // div row
 function templateCamposNacimiento(id) {
     //fechaNacimiento
-    let cmFechaNacimiento = templateFecha(id, "Nacimiento", "Fecha nacimiento");
+    let cmFechaNacimiento = templateFecha(id, "Nacimiento", "nacimiento");
     let cmPaisNacimiento = templatePais(
         `paisNacimiento${id}`,
         "País nacimiento",
@@ -417,35 +432,56 @@ function templatePersonaPep(id) {
     return temPersonaPep;
 }
 function templateMontoIngresos(id) {
-    let tmMontoIngresos = ` <div class="row">
-                                <div class="col-sm-9">
-                                    <div class="form-group">
-                                        <label for="montoIngresos${id}" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="number" name = "montoIngresos" id="montoIngresos${id}" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>
-                                    </div>
-                                </div>
-                            </div>`;
+    let tmMontoIngresos = $(` <div class="row"></div>`);
+    let labelMontoIngresos = $(
+        `<label for="montoIngresos${id}" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>`
+    );
+    labelMontoIngresos = templateFormGroup(labelMontoIngresos, "col-sm-9");
+    let inputMontoIngresos = $(
+        `<input type="number" name = "montoIngresos" id="montoIngresos${id}" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`
+    );
+    inputMontoIngresos = templateFormGroup(inputMontoIngresos, "col-sm-3");
+    $(tmMontoIngresos).append(labelMontoIngresos);
+    $(tmMontoIngresos).append(inputMontoIngresos);
     return tmMontoIngresos;
 }
 function templatePropositoRc(id) {
-    let tempPropositoRc = `<div class="row">
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label for="propositoRC${id}">Propósito de la relación de negocios</label>
-                                        <input name="propositoRC" id="propositoRC${id}" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
-                                    </div>
-                                </div>
-                            </div>`;
+    let tempPropositoRc = $(`<div class="row"></div>`);
+    const tmPrc = `<label for="propositoRC${id}">Propósito de la relación de negocios</label>
+                   <input name="propositoRC" id="propositoRC${id}" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />`;
+    $(tempPropositoRc).append(templateFormGroup(tmPrc));
     return tempPropositoRc;
 }
+function templateDatosIngresos(id) {
+    let btn = $(` <div class="row">
+                        <div class="form-group">
+                            <button type="button" id="agregarFuenteIngresos${id}" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
+                        </div>
+                    </div>`);
+    const btnfing = $(btn).find(`button#agregarFuenteIngresos${id}`);
+    agregarTemplateFuenteIngresos(btnfing);
+    let tmIng = $(`
+                    <div id="datosfuenteingresos${id}">
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label for="">Fuente de ingresos</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="fuenteingresos${id}" cantidad = "0" idinput= ""></div>
+                    </div>`);
+    $(tmIng).append(btn);
+
+    const tmCFi = templateCamposFuenteIngreso(`fuenteingresos${id}`, 0);
+    $(tmIng).find(`div#fuenteingresos${id}`).append(tmCFi);
+    return tmIng;
+}
 function templateInformacionEconomicaInicial(id) {
-    const comMonto = templateMontoIngresos(id);
+    const coMonto = templateMontoIngresos(id);
     const cmRc = templatePropositoRc(id);
-    let tmInfoEcoInicial = `<div class="card card-info mt-3">
+    let cmDatosFuenteingreso = templateDatosIngresos(id);
+    let tmInfoEcoInicial = $(`<div class="card card-info mt-3">
                                 <div class="card-header">
                                     <h3 class="card-title">Información económica del cliente</h3>
                                     <div class="card-tools">
@@ -455,50 +491,11 @@ function templateInformacionEconomicaInicial(id) {
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    ${comMonto}
-                                    ${cmRc}
-                                    <div id="datosfuenteingresos${id}">
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="form-group">
-                                                    <label for="">Fuente de ingresos</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="fuenteingresos${id}" cantidad = "0" idinput= "">
-                                            <div class="row">
-                                                <div class="col-sm-2">
-                                                    <div class="form-group">
-                                                        <select name="selectfuenteingresos" id="selectfuenteingresos${id}_0" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
-                                                            <option value="" disabled selected>Selecciona</option>
-                                                            <option value="NP">Negocio propio</option>
-                                                            <option value="RD">Relación de dependencia</option>
-                                                            <option value="OI">Otras fuentes de ingreso</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col sm">
-                                                    <div class="form-group row">
-                                                            <div class="col-sm-2">
-                                                                <label for="inputfuenteingresos${id}_0" class="ml-4" id="labelfuenteingresos${id}_0"></label>
-                                                            </div>
-                                                            <div class="col-sm ml-2">
-                                                                <input name="inputfuenteingresos" id="inputfuenteingresos${id}_0" type="text" class="form-control" required />
-                                                            </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <button type="button" id="agregarFuenteIngresos${id}" class="btn btn-primary agregarFuenteIngresos">Agregar fuente de ingresos</button>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
-
-                            `;
+                            </div>`);
+    $(tmInfoEcoInicial).find("div.card-body").append(coMonto);
+    $(tmInfoEcoInicial).find("div.card-body").append(cmRc);
+    $(tmInfoEcoInicial).find("div.card-body").append(cmDatosFuenteingreso);
     return tmInfoEcoInicial;
 }
 function templateDatosPersonales(id, tipo) {
@@ -538,8 +535,8 @@ function templateDatosPersonales(id, tipo) {
     $(divCardBody).append(tAsoPep);
     return tcamposMinimos;
 }
-function templateCamposFuenteIngreo(id, posicion) {
-    let temFeIg = `
+function templateCamposFuenteIngreso(id, posicion) {
+    let temFeIg = $(`
     <div class="row">
         <div class="col-sm-2">
             <div class="form-group">
@@ -561,7 +558,12 @@ function templateCamposFuenteIngreo(id, posicion) {
                     </div>
             </div>
         </div>
-    </div>`;
+    </div>`);
+    $(temFeIg).find(`select#select${id}_${posicion}`).select2();
+    const selectFuenteIngresos = $(temFeIg).find(
+        `select#select${id}_${posicion}`
+    );
+    validarTipoFuenteIngreso(selectFuenteIngresos);
     return temFeIg;
 }
 function templateFilaUnoProductoServicio(id) {
@@ -644,7 +646,6 @@ function templateMoneda(id) {
     let selectMoneda = $(moneda).find(`select#moneda${id}`);
     $(selectMoneda).select2();
     cargarMoneda(selectMoneda);
-    //cargar lista de monedas
     return moneda;
 }
 function templateValor(id) {
@@ -662,7 +663,7 @@ function templateFilaCincoProductoServicio(id) {
 }
 function templateBeneficiario(id) {
     let tmB = $(
-        `<div class="row"><div id="datosBeneficiarioProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
+        `<div class="row"><H2>Beneficiarios </h2><div id="datosBeneficiarioProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
     );
     let divBtn = $(`<div class="col-sm form-group">
                            <button type="button" id="agregarBeneficiario${id}" class="btn btn-primary">Agregar Beneficiario</button>
@@ -681,6 +682,26 @@ function templateBeneficiario(id) {
     return tmB;
 }
 
+function templateOtrosFirmantes(id) {
+    let tmB = $(
+        `<div class="row"><H2>Otros Firmantes </h2><div id="datosOtrosFirmantesProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
+    );
+    let divBtn = $(`<div class="col-sm form-group">
+                           <button type="button" id="agregarOtrosFirmantes${id}" class="btn btn-primary">Agregar Otros Firmantes</button>
+                       </div>`);
+    let btn = $(divBtn).find(`button#agregarOtrosFirmantes${id}`);
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        agregarCamposMinimos(
+            "OtrosFirmantes",
+            `div#datosOtrosFirmantesProductoServicio_${id}`
+        );
+    });
+    $(tmB).append(divBtn);
+    return tmB;
+}
+
 function templateProductoServicio(id) {
     const rowUno = templateFilaUnoProductoServicio(id);
     const rowDos = templateFilaDosProductoServicio(id);
@@ -688,7 +709,7 @@ function templateProductoServicio(id) {
     const rowCuatro = templateFilaCuatroProductoServicio(id);
     const rowCinco = templateFilaCincoProductoServicio(id);
     const rowSeis = templateBeneficiario(id);
-    const rowSiete = `<div class="row"><div class="datosOtrosFirmantes"></div></div>`;
+    let rowSiete = templateOtrosFirmantes(id);
     let tm = $(`
                 <div class="card card-info mt-3" id="ProductoServicio_${id}">
                     <div class="card-header">
@@ -1014,12 +1035,16 @@ function habilitaOtroCampoDesdeSelect(
                 .parent()
                 .parent()
                 .parent()
-                .find(inputHabilitar);
-            if (event.target.value == opcionSelect) {
-                $(inputActual).prop("disabled", false);
+                .find($(inputHabilitar));
+            if (inputActual.length != 0) {
+                if (event.target.value == opcionSelect) {
+                    $(inputActual).prop("disabled", false);
+                } else {
+                    $(inputActual).prop("disabled", true);
+                    $(inputActual).val(null);
+                }
             } else {
-                $(inputActual).prop("disabled", true);
-                $(inputActual).val(null);
+                console.log("no se encotro el input");
             }
         });
     }
@@ -1211,24 +1236,121 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
     }
 }
 
+function templateParentesco(id) {
+    let tmP = ` <label for="parentesco${id}">Parentesco</label>
+                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco select2" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="1">Padre</option>
+                    <option value="2">Madre</option>
+                    <option value="3">Hijo</option>
+                    <option value="4">Hermano</option>
+                    <option value="5">Cónyuge</option>
+                    <option value="6">Otro</option>
+                </select>`;
+    tmP = templateFormGroup(tmP);
+    const selectParentesco = $(tmP).find(`select#parentesco${id}`);
+    habilitaOtroCampoDesdeSelect(
+        selectParentesco,
+        6,
+        `input#otroParentesco${id}`
+    );
+    return tmP;
+}
+function templateMotivoAsociacion(id) {
+    let tM = `  <label for="motivoAsociacion${id}">Motivo asociación</label>
+                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion select2" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="1">Profesionales</option>
+                    <option value="2">Políticos</option>
+                    <option value="3">Comerciales</option>
+                    <option value="4">Negocios</option>
+                    <option value="5">Otros</option>
+                </select>`;
+    tM = templateFormGroup(tM);
+    const selectMotivo = $(tM).find(`select#motivoAsociacion${id}`);
+    habilitaOtroCampoDesdeSelect(
+        selectMotivo,
+        5,
+        `input#otroMotivoAsociacion${id}`
+    );
+    return tM;
+}
+function templateCondicion(id) {
+    let tC = `<label for="condicion${id}">Condición</label>
+                <select name="condicion${id}" id="condicion${id}" class="form-control custom-select select2" style="width: 100%" required>
+                    <option value="">Selecciona</option>
+                    <option value="N">Nacional</option>
+                    <option value="E">Extranjero</option>
+                </select>`;
+    tC = templateFormGroup(tC);
+    return tC;
+}
+
+function templateRowUnoAsoPep(id) {
+    let rowUno = $(`<div class="row"><div>`);
+    const cmParentesco = templateParentesco(id);
+    const cmOtroParentesco = templateInputText(
+        id,
+        "otroParentesco",
+        100,
+        "Especifique",
+        true,
+        true
+    );
+    const cmMotivoAsociacion = templateMotivoAsociacion(id);
+    const cmOtroMotivoAsociacion = templateInputText(
+        id,
+        "otroMotivoAsociacion",
+        100,
+        "Especifique",
+        true,
+        true
+    );
+    const cmSexo = templateSexo(id);
+    const cmCondicion = templateCondicion(id);
+    $(rowUno).append(cmParentesco);
+    $(rowUno).append(cmOtroParentesco);
+    $(rowUno).append(cmMotivoAsociacion);
+    $(rowUno).append(cmOtroMotivoAsociacion);
+    $(rowUno).append(cmSexo);
+    $(rowUno).append(cmCondicion);
+    return rowUno;
+}
+
+function templateRowTresAsoPep(id) {
+    const cmEntidad = templateEntidad(id);
+    const cmPuestoDesepenia = templateInputText(
+        id,
+        "puestoDesempenia",
+        200,
+        "Puesto que desempeña",
+        true,
+        false
+    );
+    const cmPaisEntidad = templatePais(
+        `pais${id}`,
+        "País de la institución o entidad",
+        false
+    );
+    let rowTres = $(`<div class="row"><div>`);
+    $(rowTres).append(cmEntidad);
+    $(rowTres).append(cmPuestoDesepenia);
+    $(rowTres).append(cmPaisEntidad);
+    return rowTres;
+}
 function agregaAsoPep(idAsoPep) {
     let indiceAsociadosAgregados = $(`#datos${idAsoPep}>div.info`).attr(
         "cantidad"
     );
+    indiceAsociadosAgregados++;
     // para el id unico del pariente asociado pep se utiliza el paramento idAsopep, obtenido del atributo name del radio button
     // eje: asoPepCliente_1 concatenado con el numero de asocado obtenido en la variable indiceAsociadosAgregados
     // al concatenar queda asoPepCliente_1_1 en el siguiente asoPepCliente_1_2 susesivamente se asignara a la variable id
     let id = `${idAsoPep}_${indiceAsociadosAgregados}`;
     // recuerda implementar las validaciones en los campos, ya  que los templates solo debuelven la estructura de html
     let rowCamposNombresAsoPep = templateCamposNommbres(id);
-    let componenteSexoAsoPep = templateSexo(id);
-    let componentePais = templatePais(
-        `pais${id}`,
-        "País de la institución o entidad",
-        false
-    );
-    let templateAsocPep = `
-                            <div class="card card-primary" id=${id}>
+
+    let templateAsocPep = $(` <div class="card card-primary" id=${id}>
                                 <div class="card-header">
                                     <h3 class="card-title">Familiar Asociado ${indiceAsociadosAgregados}</h3>
                                     <div class="card-tools">
@@ -1237,98 +1359,15 @@ function agregaAsoPep(idAsoPep) {
                                     </button>
                                 </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label for="parentesco${id}">Parentesco</label>
-                                                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco select2" style="width: 100%" required>
-                                                    <option value="" disabled selected>Selecciona</option>
-                                                    <option value="1">Padre</option>
-                                                    <option value="2">Madre</option>
-                                                    <option value="3">Hijo</option>
-                                                    <option value="4">Hermano</option>
-                                                    <option value="5">Cónyuge</option>
-                                                    <option value="6">Otro</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="otroParentesco${id}">Especifique</label>
-                                                <input name="otroParentesco${id}" id="otroParentesco${id}" type="text" class="form-control otroParentesco" placeholder="Especifique ..." maxlength="100" required disabled />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="motivoAsociacion${id}">Motivo asociación</label>
-                                                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion select2" style="width: 100%" required>
-                                                    <option value="" disabled selected>Selecciona</option>
-                                                    <option value="1">Profesionales</option>
-                                                    <option value="2">Políticos</option>
-                                                    <option value="3">Comerciales</option>
-                                                    <option value="4">Negocios</option>
-                                                    <option value="5">Otros</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="otroMotivoAsociacion${id}">Especifique</label>
-                                                <input name="otroMotivoAsociacion${id}" id="otroMotivoAsociacion${id}" type="text" class="form-control otroMotivoAsociacion" placeholder="Especifique ..." maxlength="100" required disabled />
-                                            </div>
-                                        </div>
-                                        ${componenteSexoAsoPep}
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label for="condicion${id}">Condición</label>
-                                                <select name="condicion${id}" id="condicion${id}" class="form-control custom-select select2" style="width: 100%" required>
-                                                    <option value="">Selecciona</option>
-                                                    <option value="N">Nacional</option>
-                                                    <option value="E">Extranjero</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    ${rowCamposNombresAsoPep}
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="entidad${id}">Entidad</label>
-                                                <input name="entidad${id}" id="entidad${id}" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="form-group">
-                                                <label for="puestoDesempenia${id}">Puesto que desempeña</label>
-                                                <input name="puestoDesempenia${id}" id="puestoDesempenia${id}" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required />
-                                            </div>
-                                        </div>
-                                        ${componentePais}
-                                    </div>
-                                </div>
-                                </div>`;
-    indiceAsociadosAgregados++;
+                                <div class="card-body"></div>
+                                </div>`);
+    const uno = templateRowUnoAsoPep(id);
+    const tres = templateRowTresAsoPep(id);
+    $(templateAsocPep).find(`div.card-body`).append(uno);
+    $(templateAsocPep).find(`div.card-body`).append(rowCamposNombresAsoPep);
+    $(templateAsocPep).find(`div.card-body`).append(tres);
     $(`#datos${idAsoPep}>div.info`).attr("cantidad", indiceAsociadosAgregados);
     $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
-
-    validarApellidoCasada($(`input#apellidoCasada${id}`));
-    cargarPais($(`select#pais${id}`));
-    habilitaOtroCampoDesdeSelect(
-        $(`select#parentesco${id}`),
-        6,
-        `input#otroParentesco${id}`
-    );
-    habilitaOtroCampoDesdeSelect(
-        $(`select#motivoAsociacion${id}`),
-        5,
-        `input#otroMotivoAsociacion${id}`
-    );
-    $(".select2").select2();
-
-    //establecemos el foco en el primer campo, para no perderse en el formulario
     $(`#datos${idAsoPep}>div.info`).find(`select#parentesco${id}`).focus();
 }
 function verificarAsoPep(asoPepCliente) {
@@ -1403,11 +1442,9 @@ function agregarTemplateFuenteIngresos(btnFuenteIngreso) {
         const id = $(divContenedor).attr("id");
         let posicion = $(divContenedor).attr("cantidad");
         posicion++;
-        let cFuIn = templateCamposFuenteIngreo(id, posicion);
+        let cFuIn = templateCamposFuenteIngreso(id, posicion);
         $(divContenedor).append(cFuIn);
         $(divContenedor).attr("cantidad", posicion);
-        $(`select#select${id}_${posicion}`).select2();
-        validarTipoFuenteIngreso($(`select#select${id}_${posicion}`));
     });
 }
 function templateCalidadActua(id) {
@@ -1469,6 +1506,7 @@ function templateLugarCM(id) {
     return camposLugar;
 }
 function templateCamposMinimos(id, indice, tipo) {
+    console.log(tipo);
     let cm = $(`
                 <div class="card card-primary" id="${id}">
                     <div class="card-header">
@@ -1495,17 +1533,17 @@ function templateCamposMinimos(id, indice, tipo) {
     let cmClie = templateDatosPersonales(id, "cliente");
     $(cmCM).append(cmClie);
     $(dCardBody).append(cmCM);
-
-    let cmIE = $(`<div id="informacionEconomicaIncial${id}"></div>`);
-    $(cmIE).append(templateInformacionEconomicaInicial(id));
-    $(dCardBody).append(cmIE);
+    if (tipo != "OtrosFirmantes") {
+        let cmIE = $(`<div id="informacionEconomicaIncial${id}"></div>`);
+        $(cmIE).append(templateInformacionEconomicaInicial(id));
+        $(dCardBody).append(cmIE);
+    }
     let cmRe = $(`<div id="representante${id}"></div>`);
     $(dCardBody).append(cmRe);
     return cm;
 }
 function agregarCamposMinimos(tipo, divContenedor) {
     let id = $(divContenedor).attr("cantidad");
-    console.log(id);
     id++;
     let idTitular = `${tipo}_${id}`;
     let templateTitular = templateCamposMinimos(idTitular, id, tipo);
@@ -1525,6 +1563,10 @@ function agregarProductoServicio(poservicio) {
         e.preventDefault();
         e.stopPropagation();
         console.log("agregando producto");
+        $(`div.productoServicio`)
+            .find(`button[data-card-widget=collapse]`)
+            .first()
+            .CardWidget("expand");
         let indexProducto = $("div#datosProductoServicio").attr("cantidad");
         indexProducto++;
         let cmProductoServicio = templateProductoServicio(indexProducto);
@@ -1703,6 +1745,11 @@ function expandirCard() {
     for (let i = 0; i < titulares.length; i++) {
         $(titulares[i]).CardWidget("expand");
     }
+    $(`div.productoServicio`)
+        .find(`button[data-card-widget=collapse]`)
+        .each(function () {
+            $(this).CardWidget("expand");
+        });
 }
 function mostrarModal() {
     $("#myModal").modal({
@@ -1719,7 +1766,7 @@ function validarFormulario() {
                 event.preventDefault();
                 event.stopPropagation();
                 expandirCard();
-                //enviarDatos();
+                enviarDatos();
                 if (form.checkValidity() === false) {
                     form.classList.add("was-validated");
                     alert(
@@ -1730,7 +1777,7 @@ function validarFormulario() {
                 } else {
                     console.log("enviando formulario");
                     mostrarModal();
-                    enviarDatos();
+                    //enviarDatos();
                 }
             },
             false
@@ -2081,6 +2128,13 @@ function obtenerDatosProductoServicio(ps) {
             .find(`div#datosBeneficiario${id}`)
             .children();
         producto.beneficiarios = obtenerDiccionarioCamposMinimos(beneficiarios);
+        const otrosFirmantes = $(ps[i])
+            .find(`div#datosOtrosFirmantes${id}`)
+            .children();
+        producto.otrosFirmantes = obtenerDiccionarioCamposMinimos(
+            otrosFirmantes
+        );
+
         arrProducto.push(producto);
     }
     return arrProducto;

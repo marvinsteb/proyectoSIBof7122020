@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Beneficiario;
 use Illuminate\Http\Request;
 use App\Models\CamposMinimos;
+use App\Models\CamposMinimosOtrosFirmantes;
 use App\Models\DatosPersonales;
 use App\Models\DiccionarioFormulario;
 use App\Models\Lugar;
@@ -16,6 +17,7 @@ use App\Models\DiccionarioProductoServicio;
 use App\Models\FuenteIngresos;
 use App\Models\InformacionEconomicaInicial;
 use App\Models\Moneda;
+use App\Models\OtrosFirmantes;
 use App\Models\ParienteAsociadoPep;
 use App\Models\ProductoServicio;
 use App\Models\Titular;
@@ -181,15 +183,29 @@ class InformacionClienteController extends Controller
                     ]
                 );
                 $idProductoServicio = $obProductoServicio->idProductoServicio;
-                foreach ($productoServicio["beneficiarios"] as $beneficiario) {
-                     $idBeneficiario =  $this->guardarCamposMinimos($beneficiario);
-                     Beneficiario::updateOrCreate([
-                                'idProductoServicio' => $idProductoServicio,
-                                'idCamposMinimos' =>  $idBeneficiario],[
-                                'idProductoServicio' => $idProductoServicio,
-                                'idCamposMinimos' =>  $idBeneficiario]
-                            );
+                if(!empty($productoServicio["beneficiarios"])){                   
+                    foreach ($productoServicio["beneficiarios"] as $beneficiario) {
+                         $idBeneficiario =  $this->guardarCamposMinimos($beneficiario);
+                         Beneficiario::updateOrCreate([
+                                    'idProductoServicio' => $idProductoServicio,
+                                    'idCamposMinimos' =>  $idBeneficiario],[
+                                    'idProductoServicio' => $idProductoServicio,
+                                    'idCamposMinimos' =>  $idBeneficiario]
+                                );
+                    }
                 }
+                if(!empty($productoServicio["otrosFirmantes"])){
+                    foreach ($productoServicio["otrosFirmantes"] as $of) {
+                        $idOtrosFirmantes =  $this->guardarCamposMinimosFirmante($of);
+                        OtrosFirmantes::updateOrCreate([
+                                    'idProductoServicio' => $idProductoServicio,
+                                    'idCamposMinimosFirmante' =>  $idBeneficiario],[
+                                    'idProductoServicio' => $idProductoServicio,
+                                    'idCamposMinimosFirmante' =>  $idOtrosFirmantes
+                        ]);
+                    }
+                }
+                //otrosFirmantes
                 // implementar update or create para no duplicar los valores en la tabla diccionario formulario 
                 DiccionarioProductoServicio::updateOrCreate([
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
@@ -421,6 +437,23 @@ class InformacionClienteController extends Controller
         $camposMinimos);
         return $obcm->idCamposMinimos;
     }
+    public function guardarCamposMinimosFirmante($requesCamposMinimosFirmante){
+        $camposMinimosFirmante = [
+            'tipoActuacion' => $requesCamposMinimosFirmante ["tipoActuacion"],
+            'lugar' => $this->guardarLugar($requesCamposMinimosFirmante ["lugar"]),
+            'fecha' => $this->formatoFechaDB($requesCamposMinimosFirmante ["fecha"]),
+            'firmante' => $this->guardarDatosPersonales($requesCamposMinimosFirmante ["cliente"]),
+            ]; 
+            if($camposMinimosFirmante["tipoActuacion"] == "R"){
+            $camposMinimosFirmante["calidadActua"] = $requesCamposMinimosFirmante ["calidadActua"];
+            $camposMinimosFirmante["representante"] =  $this->guardarDatosPersonales($requesCamposMinimosFirmante ["representante"]);
+        }
+        $obcm = CamposMinimosOtrosFirmantes::updateOrCreate([
+            'idCamposMinimosFirmante'=>$requesCamposMinimosFirmante["idCamposMinimos"]
+        ],
+        $camposMinimosFirmante);
+        return $obcm->idCamposMinimosFirmante;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -498,7 +531,8 @@ class InformacionClienteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dc = $this->queryDicionarioFormulario($id);
+        var_dump($dc);
     }
 
     /**

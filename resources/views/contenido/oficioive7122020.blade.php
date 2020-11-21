@@ -21,7 +21,7 @@
                         <td>{{ $dc->tipoActuacion == 'C' ? 'Cliente' :'Representante' }}</td>
                         <td>{{ $dc->primerNombre." ".$dc->segundoNombre}}</td>
                         <td>
-                            <a href="#">
+                            <a href="/oficios/7122020/editar/{{$dc->idDiccionarioFormulario}}">
                                 <button class="btn btn-success">Editar</button>
                             </a>
                         </td>
