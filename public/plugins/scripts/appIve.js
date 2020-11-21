@@ -1766,7 +1766,6 @@ function validarFormulario() {
                 event.preventDefault();
                 event.stopPropagation();
                 expandirCard();
-                enviarDatos();
                 if (form.checkValidity() === false) {
                     form.classList.add("was-validated");
                     alert(
@@ -1777,7 +1776,7 @@ function validarFormulario() {
                 } else {
                     console.log("enviando formulario");
                     mostrarModal();
-                    //enviarDatos();
+                    enviarDatos();
                 }
             },
             false
@@ -1800,9 +1799,9 @@ function enviarDatos() {
             console.log("respuesta del servidor");
             if (res.Status == "Success") {
                 console.log(res);
-                console.log("redireccionando....");
-                const url = "/oficios/7122020";
-                $(location).attr("href", url);
+                //console.log("redireccionando....");
+                //const url = "/oficios/7122020";
+                //$(location).attr("href", url);
             } else {
                 console.log(res);
                 alert(

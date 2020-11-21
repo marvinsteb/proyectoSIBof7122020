@@ -340,6 +340,20 @@ class InformacionClienteController extends Controller
                 $ObCamposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($ObCamposMinimos["infoEconomica"]);
         return  $ObCamposMinimos;
     }
+    public function queryCamposMinimosOtrosFirmantes($id){
+        $ObCamposMinimosOtrosFirmantes = CamposMinimosOtrosFirmantes::where('idCamposMinimosFirmante','=',$id)->first();
+                if($ObCamposMinimosOtrosFirmantes['tipoActuacion'] == 'R'){
+                     $ObCamposMinimosOtrosFirmantes["representante"] = $this->queryDatosPersonales($ObCamposMinimosOtrosFirmantes["representante"]);
+                }else{
+                     $ObCamposMinimosOtrosFirmantes["calidadActua"] = "";
+                     $ObCamposMinimosOtrosFirmantes["representante"] = "";
+                }
+
+                 $ObCamposMinimosOtrosFirmantes["lugar"] = $this->queryLugar($ObCamposMinimosOtrosFirmantes["lugar"]);
+                 $ObCamposMinimosOtrosFirmantes["fecha"] = $this->formatoFechaJson($ObCamposMinimosOtrosFirmantes["fecha"]);
+                 $ObCamposMinimosOtrosFirmantes["firmante"] = $this->queryDatosPersonales($ObCamposMinimosOtrosFirmantes["firmante"]);
+        return  $ObCamposMinimosOtrosFirmantes;
+    }
     public function queryDicionarioFormulario($id){
             $ObDicFormulario = DiccionarioFormulario::where('idDiccionarioFormulario', '=',$id)->first();
 
@@ -362,6 +376,10 @@ class InformacionClienteController extends Controller
                 foreach ($obListaBenefifiarios as $beneficiario) {
                     $listaBeneficiarios[] = $this->queryCamposMinimos($beneficiario["idCamposMinimos"]);
                 }
+                $obListaOtrosFirmantes = OtrosFirmantes::where('idProductoServicio','=',$obPS["idProductoServicio"])->get();
+                foreach($obListaOtrosFirmantes as $otroFirmante){
+                    $listaOtrosFirmantes[] = $this->queryCamposMinimosOtrosFirmantes($otroFirmante["idCamposMinimosFirmante"]);
+                } 
                 $obPS["beneficiarios"] = $listaBeneficiarios; 
                 $obPS["otrosFirmantes"] = $listaOtrosFirmantes; 
                 $listaProductosServicios[] = $obPS;
