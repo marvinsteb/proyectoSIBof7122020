@@ -357,11 +357,13 @@ class InformacionClienteController extends Controller
                 $obPS["fecha"] = $this->formatoFechaJson($obPS["fecha"]);
                 $obPS["moneda"] = Moneda::select('codigoMoneda')->where('idMoneda','=',$obPS["moneda"])->first()["codigoMoneda"];
                 $listaBeneficiarios = [];
+                $listaOtrosFirmantes = [];
                 $obListaBenefifiarios = Beneficiario::where('idProductoServicio','=',$obPS["idProductoServicio"])->get();
                 foreach ($obListaBenefifiarios as $beneficiario) {
                     $listaBeneficiarios[] = $this->queryCamposMinimos($beneficiario["idCamposMinimos"]);
                 }
                 $obPS["beneficiarios"] = $listaBeneficiarios; 
+                $obPS["otrosFirmantes"] = $listaOtrosFirmantes; 
                 $listaProductosServicios[] = $obPS;
             }
             $dicFormuario = [
