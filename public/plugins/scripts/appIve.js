@@ -228,6 +228,11 @@ function templateNacionalidad(id) {
     const btnAgregar = $(temNacionalidad).find(
         `button#agregarNacionalidad${id}`
     );
+    let selectNacionalidadpais = $(temNacionalidad).find(
+        `select#nacionalidad${id}_1`
+    );
+    $(selectNacionalidadpais).select2();
+    cargarPais(selectNacionalidadpais);
     agregarTemplateNacionalidad(btnAgregar);
     return temNacionalidad;
 }
@@ -264,7 +269,7 @@ function templateContenedorTelefonos(id) {
 // div row
 function templateCamposNacimiento(id) {
     //fechaNacimiento
-    let cmFechaNacimiento = templateFecha(id, "Nacimiento", "Fecha nacimiento");
+    let cmFechaNacimiento = templateFecha(id, "Nacimiento", "nacimiento");
     let cmPaisNacimiento = templatePais(
         `paisNacimiento${id}`,
         "País nacimiento",
@@ -1558,6 +1563,10 @@ function agregarProductoServicio(poservicio) {
         e.preventDefault();
         e.stopPropagation();
         console.log("agregando producto");
+        $(`div.productoServicio`)
+            .find(`button[data-card-widget=collapse]`)
+            .first()
+            .CardWidget("expand");
         let indexProducto = $("div#datosProductoServicio").attr("cantidad");
         indexProducto++;
         let cmProductoServicio = templateProductoServicio(indexProducto);
@@ -1736,6 +1745,11 @@ function expandirCard() {
     for (let i = 0; i < titulares.length; i++) {
         $(titulares[i]).CardWidget("expand");
     }
+    $(`div.productoServicio`)
+        .find(`button[data-card-widget=collapse]`)
+        .each(function () {
+            $(this).CardWidget("expand");
+        });
 }
 function mostrarModal() {
     $("#myModal").modal({
