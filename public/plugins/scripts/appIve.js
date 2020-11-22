@@ -554,7 +554,7 @@ function templateCamposFuenteIngreso(id, posicion) {
                         <label for="input${id}_${posicion}" class="ml-4" id="label${id}_${posicion}"></label>
                     </div>
                     <div class="col-sm ml-2">
-                        <input name="input" id="input${id}_${posicion}" type="text" class="form-control" required />
+                        <input name="input" id="input${id}_${posicion}" type="text" class="form-control" required disabled />
                     </div>
             </div>
         </div>
@@ -1408,7 +1408,7 @@ function validarTipoFuenteIngreso(fuenteIngresos) {
         let divIngresosActual = $(divRowFntIng).attr("id");
         let label = `label#label${divIngresosActual}_${posicionActual}`;
         let input = $(`input#input${divIngresosActual}_${posicionActual}`);
-
+        $(input).prop("disabled", false);
         switch ($(this).val()) {
             case "NP":
                 $(label).text("Nombre comercial");
