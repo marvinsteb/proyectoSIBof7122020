@@ -1765,6 +1765,13 @@ class dicProductoServicio {
         this.beneficiarios.push(beneficiario);
     }
 }
+class dicPerfilEconomicoTransaccional {
+    constructor(id) {
+        this.idPerfilEconomicoTransaccional = id;
+        this.actualizacion = null;
+        this.fecha = null;
+    }
+}
 class diccionarioFormulario {
     constructor(id) {
         this.iddiccionarioFormulario = id;
@@ -1810,6 +1817,7 @@ function validarFormulario() {
                 event.preventDefault();
                 event.stopPropagation();
                 expandirCard();
+                enviarDatos();
                 if (form.checkValidity() === false) {
                     form.classList.add("was-validated");
                     alert(
@@ -1820,7 +1828,7 @@ function validarFormulario() {
                 } else {
                     console.log("enviando formulario");
                     mostrarModal();
-                    enviarDatos();
+                    //enviarDatos();
                 }
             },
             false
@@ -2182,6 +2190,17 @@ function obtenerDatosProductoServicio(ps) {
     }
     return arrProducto;
 }
+function obtenerDatosPerfilEconomicoTransaccional(pet) {
+    console.log(`perfil economico transaccinal`);
+    let dpet = null;
+    if ($(pet).children().length != 0) {
+        dpet = new dicPerfilEconomicoTransaccional();
+        dpet.actualizacion = $(pet).find("select#actualizacionPet").val();
+        dpet.fecha = $(pet).find("input#fechaPet").val();
+        // obtener Fuentes de ingresos
+    }
+    return dpet;
+}
 function obtenerDatos() {
     let df = new diccionarioFormulario(
         $(".diccionarioFormulario").attr("idDiccionario")
@@ -2189,6 +2208,9 @@ function obtenerDatos() {
     df.titulares = obtenerDiccionarioCamposMinimos($("#titulares>div"));
     const productoServicio = $(`div#datosProductoServicio`).children();
     df.productos = obtenerDatosProductoServicio(productoServicio);
+
+    const pet = $(`div#perfilEconomicoTransaccional`).find("div.card-body");
+    df.perfilEconomico = obtenerDatosPerfilEconomicoTransaccional(pet);
     console.log(df);
     return df;
 }
