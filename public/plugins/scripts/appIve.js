@@ -1586,6 +1586,41 @@ function agregarProductoServicio(poservicio) {
         $("div#datosProductoServicio").attr("cantidad", indexProducto);
     });
 }
+function templateSelectActualizacion() {
+    let sa = $(`<label for="actualizacionPet">Tipo ingreso</label>
+                  <select name="actualizacionPet" id="actualizacionPet" class="form-control custom-select actualizacionPet select2" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="I">Perfil inicial</option>
+                    <option value="A">Actualización de perfil</option>
+                  </select>`);
+    sa = templateFormGroup(sa);
+    $(sa).find("select").select2();
+    return sa;
+}
+function templatePerfilEconomicoTransacional() {
+    const cmSelectActualizacioin = templateSelectActualizacion();
+    const cmFecha = templateFecha("", "Pet", "");
+    let rowuno = $(`<div class="row"></div>`);
+    $(rowuno).append(cmSelectActualizacioin);
+    $(rowuno).append(cmFecha);
+    return rowuno;
+}
+function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
+    $(btnAgregarPerfilEconomico).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("agregando perfil economico");
+        $(`div#perfilEconomicoTransaccional`)
+            .find(`button[data-card-widget=collapse]`)
+            .first()
+            .CardWidget("expand");
+        let cmPerfilEconomico = templatePerfilEconomicoTransacional();
+        $("div#perfilEconomicoTransaccional")
+            .find("div.card-body")
+            .append(cmPerfilEconomico);
+        $(this).remove();
+    });
+}
 class dicLugar {
     constructor() {
         this.pais = null;
@@ -2192,5 +2227,6 @@ $(document).ready(function () {
     AgregarTitular();
     eliminarCard($("#titulares>div"));
     agregarProductoServicio($("button.agregarProductoServicio"));
+    agregarPerfilEconomico($("button.agregarPerfilEconomico"));
     validarFormulario();
 });

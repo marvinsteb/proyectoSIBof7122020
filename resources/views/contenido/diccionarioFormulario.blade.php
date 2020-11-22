@@ -616,7 +616,7 @@
                         <button class="btn btn-success float-right mb-4 agregarProductoServicio" id="agregarProductoServicio">Agregar Producto y/o servicio</button>
                     </div>
                 </div>
-                <div class="perfilEconomicoTransaccional">
+                <div id="perfilEconomicoTransaccional">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">
@@ -632,8 +632,14 @@
                             </div>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body"></div>
+                        <div class="card-body">
+                        </div>
                         <!-- /.card-body -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col clearfix">
+                        <button class="btn btn-success float-right mb-4 agregarPerfilEconomico" id="agregarPerfilEconomico">Agregar Perfil Económico</button>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-5" id="btnGuardar">
