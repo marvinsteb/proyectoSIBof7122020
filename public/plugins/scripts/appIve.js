@@ -239,7 +239,7 @@ function templateNacionalidad(id) {
 function templateTelefono(id, agregarBtnBorrar) {
     let btnBorrar = "";
     if (agregarBtnBorrar) {
-        btnBorrar = `<button type="button" class="btn btn-danger">borrar</button>`;
+        btnBorrar = `<button type="button" class="btn btn-danger">Borrar</button>`;
     }
     let tmTelefono = $(`
         <div class="form-group">
@@ -548,13 +548,16 @@ function templateCamposFuenteIngreso(id, posicion) {
                 </select>
             </div>
         </div>
-        <div class="col sm">
+        <div class="col-sm">
             <div class="form-group row">
                     <div class="col-sm-2">
                         <label for="input${id}_${posicion}" class="ml-4" id="label${id}_${posicion}"></label>
                     </div>
                     <div class="col-sm ml-2">
                         <input name="input" id="input${id}_${posicion}" type="text" class="form-control" required disabled />
+                    </div>
+                    <div class="col-sm-1" >
+                        <button type="button" class="btn btn-danger">Borrar</button>
                     </div>
             </div>
         </div>
@@ -563,6 +566,12 @@ function templateCamposFuenteIngreso(id, posicion) {
     const selectFuenteIngresos = $(temFeIg).find(
         `select#select${id}_${posicion}`
     );
+    $(temFeIg)
+        .find("button")
+        .click(function () {
+            console.log("eliminando fuente de ingresos");
+            $(temFeIg).remove();
+        });
     validarTipoFuenteIngreso(selectFuenteIngresos);
     return temFeIg;
 }
@@ -1196,7 +1205,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
                                     </select>
                                 </div>
                                 <div class="col-sm my-auto">
-                                    <button type="button" class="btn btn-danger">borrar</button>
+                                    <button type="button" class="btn btn-danger">Borrar</button>
                                 </div>
                             </div>
                         </div>`
