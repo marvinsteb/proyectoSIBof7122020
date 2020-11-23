@@ -192,7 +192,7 @@ function templateOtraCondicionMigratoria(id) {
                      <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />`);
     return cmOtraCM;
 }
-function templateFecha(id, nombre, textolabel) {
+function templateFecha(id, nombre, textolabel, tmformg, requerido) {
     let temCampoFecha = $(`<label>Fecha ${textolabel}</label>
                         <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
                             <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
@@ -203,7 +203,12 @@ function templateFecha(id, nombre, textolabel) {
                                 </div>
                             </div>
                         </div>`);
-    let cm = templateFormGroup(temCampoFecha);
+    let cm = templateFormGroup(temCampoFecha, tmformg);
+    if (requerido === false) {
+        let input = $(cm)
+            .find(`input#fecha${nombre}${id}`)
+            .prop("required", false);
+    }
     setFormatoFecha($(cm).find("div.date"));
     return cm;
 }
@@ -1610,8 +1615,30 @@ function templateNombreComercial(id) {
     $(row).append(tmNombreComercial);
     return row;
 }
+function templateRowDosNegocioPropioPet(id) {
+    let row = $(`<div class="row"></div>`);
+    const principalActividadEconomica = templateInputText(
+        id,
+        "principalActividadEconomica",
+        200,
+        "Principal actividad económica",
+        true,
+        false
+    );
+    const fechaInscripcionNegocio = templateFecha(
+        id,
+        "InscripcionNegocio",
+        "Fecha de inscripción del negocio",
+        "col-sm-3",
+        false
+    );
+    $(row).append(principalActividadEconomica);
+    $(row).append(fechaInscripcionNegocio);
+    return row;
+}
 function templatePerfilnegocioPropio(id) {
     const rowuno = templateNombreComercial(id);
+    const rowdos = templateRowDosNegocioPropioPet(id);
     let tm = $(`
                 <div class="card card-info mt-3" id="negocioPropio_${id}">
                     <div class="card-header">
@@ -1629,6 +1656,7 @@ function templatePerfilnegocioPropio(id) {
                     </div>
                 </div>`);
     $(tm).find(`div.card-body`).append(rowuno);
+    $(tm).find(`div.card-body`).append(rowdos);
 
     return tm;
 }
