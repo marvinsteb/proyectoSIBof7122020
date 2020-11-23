@@ -44,8 +44,7 @@
                     @foreach($dc["titulares"] as $titular)
                         @include('contenido.camposMinimos', ['titular' => $titular,
                                                              'indice' => count($dc["titulares"]),
-                                                             'tipo'=>'Cliente',
-                                                             'datosPersonales' => $titular["cliente"]
+                                                             'tipo'=>'Cliente'
                                                              ])
                     @endforeach
                 </div>
