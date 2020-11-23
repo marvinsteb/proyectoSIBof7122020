@@ -1240,6 +1240,13 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
         });
     }
 }
+function eliminarTemplateTelefono(divBorrar) {
+    $(divBorrar)
+        .find("button")
+        .click(function () {
+            $(this).parent().parent().parent().remove();
+        });
+}
 function agregarTemplateTelefono(arrBtnAgregarTelefono) {
     for (let i = 0; i < arrBtnAgregarTelefono.length; i++) {
         $(arrBtnAgregarTelefono[i]).click(function () {
@@ -1251,11 +1258,9 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
             let cmTelefono = templateTelefono(idInput, true);
             $(`#${idDivPadre}>div:nth-last-child(2)`).after(cmTelefono);
             $(divPadre).attr("cantidad", idSelect);
-            $(`#${idDivPadre}>div.form-group>div.row`)
-                .find("button")
-                .click(function () {
-                    $(this).parent().parent().parent().remove();
-                });
+            eliminarTemplateTelefono(
+                $(`#${idDivPadre}>div.form-group>div.row`)
+            );
         });
     }
 }
@@ -2437,6 +2442,7 @@ $(document).ready(function () {
     agregarTemplateNacionalidad($(".agregarNacionalidadCliente"));
     eliminarTemplateNacionalidad($(`.borrarNacionalidad`));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
+    eliminarTemplateTelefono($(`.borrarTelefono`));
     verificarPersonaPep($(".pep"));
     verificarAsoPep($(".asoPepCliente"));
     validarTipoFuenteIngreso($("select.fuenteIngresos"));
