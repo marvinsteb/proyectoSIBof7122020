@@ -98,8 +98,8 @@
                                                             <label>Sexo</label>
                                                             <select name="sexo{{$tipo}}_{{$indice}}" id="sexo{{$tipo}}_{{$indice}}" class="form-control custom-select sexo{{$tipo}} select2" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
-                                                                <option value="M">Masculino</option>
-                                                                <option value="F">Femenino</option>
+                                                                <option value="M"{{$datosPersonales->sexo == 'M' ? 'selected' : ''}}>Masculino</option>
+                                                                <option value="F" {{$datosPersonales->sexo == 'F' ? 'selected' : ''}}>Femenino</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -109,8 +109,8 @@
                                                             <label>Estado civil</label>
                                                             <select name="estadoCivil{{$tipo}}_{{$indice}}" id="estadoCivil{{$tipo}}_{{$indice}}" class="form-control custom-select estadoCivil select2" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
-                                                                <option value="S">Soltero</option>
-                                                                <option value="C">Casado</option>
+                                                                <option value="S" {{$datosPersonales->estadoCivil == 'S' ? 'selected' : ''}} >Soltero</option>
+                                                                <option value="C" {{$datosPersonales->estadoCivil == 'C' ? 'selected' : ''}} >Casado</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -119,7 +119,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Nit</label>
-                                                            <input name="nit{{$tipo}}_{{$indice}}" id="nit{{$tipo}}_{{$indice}}" type="text" class="form-control validarNit" placeholder="Nit ..." maxlength="20" />
+                                                            <input name="nit{{$tipo}}_{{$indice}}" id="nit{{$tipo}}_{{$indice}}" type="text" class="form-control validarNit" placeholder="Nit ..." maxlength="20" value="{{$datosPersonales->nit}}"/>
                                                         </div>
                                                     </div>
 
@@ -128,8 +128,8 @@
                                                             <label>Docto. identificación</label>
                                                             <select name="tipoDoctoIdentificacion{{$tipo}}_{{$indice}}" id="tipoDoctoIdentificacion{{$tipo}}_{{$indice}}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte select2" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
-                                                                <option value="D">DPI</option>
-                                                                <option value="P">Pasaporte</option>
+                                                                <option value="D" {{$datosPersonales->tipoDocumentoIdentificacion == 'D' ? 'selected' : ''}} >DPI</option>
+                                                                <option value="P" {{$datosPersonales->tipoDocumentoIdentificacion == 'P' ? 'selected' : ''}} >Pasaporte</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -137,17 +137,21 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Número identificación</label>
-                                                            <input name="noDocIdentificacion{{$tipo}}_{{$indice}}" id="noDocIdentificacion{{$tipo}}_{{$indice}}" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required disabled/>
+                                                            <input name="noDocIdentificacion{{$tipo}}_{{$indice}}" id="noDocIdentificacion{{$tipo}}_{{$indice}}" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required value="{{$datosPersonales->numeroDocumentoIdentificacion}}"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>País (Pasaporte)</label>
-                                                            <select name="emicionPasaporte{{$tipo}}_{{$indice}}" id="emicionPasaporte{{$tipo}}_{{$indice}}" class="form-control custom-select emicionPasaporte select2" style="width: 100%" disabled required>
+                                                            <select name="emicionPasaporte{{$tipo}}_{{$indice}}" id="emicionPasaporte{{$tipo}}_{{$indice}}" class="form-control custom-select emicionPasaporte select2" style="width: 100%" {{empty($datosPersonales->emisionPasaporte) ? 'disabled' : ''}} required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($paises as $pais)
-                                                                <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
+                                                                    @if($pais->codigoPais == $datosPersonales->emisionPasaporte)
+                                                                        <option value="{{$pais->idPais}}" selected>{{$pais->nombrePais}}</option>
+                                                                    @else
+                                                                        <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
+                                                                    @endif
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -159,13 +163,13 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Profesión u oficio</label>
-                                                            <input name="profecionOficio{{$tipo}}_{{$indice}}" id="profecionOficio{{$tipo}}_{{$indice}}" type="text" class="form-control profecionOficio{{$tipo}}" placeholder="Profesión u oficio ..." maxlength="100" required />
+                                                            <input name="profecionOficio{{$tipo}}_{{$indice}}" id="profecionOficio{{$tipo}}_{{$indice}}" type="text" class="form-control profecionOficio{{$tipo}}" placeholder="Profesión u oficio ..." maxlength="100" required value="{{$datosPersonales->profesionOficio}}"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Correo electrónico</label>
-                                                            <input name="email{{$tipo}}_{{$indice}}" id="email{{$tipo}}_{{$indice}}" type="email" class="form-control email{{$tipo}}" placeholder="Correo electrónico ..." maxlength="100" />
+                                                            <input name="email{{$tipo}}_{{$indice}}" id="email{{$tipo}}_{{$indice}}" type="email" class="form-control email{{$tipo}}" placeholder="Correo electrónico ..." maxlength="100"  value="{{$datosPersonales->email}}"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -183,7 +187,7 @@
                                                 <div class="row">
                                                     <div class="col-sm">
                                                         <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
-                                                        <input name="direccionRecidencia{{$tipo}}_{{$indice}}" id="direccionRecidencia{{$tipo}}_{{$indice}}" type="text" class="form-control direccionRecidencia{{$tipo}}" placeholder="Dirección de residencia completa ..." maxlength="400" required />
+                                                        <input name="direccionRecidencia{{$tipo}}_{{$indice}}" id="direccionRecidencia{{$tipo}}_{{$indice}}" type="text" class="form-control direccionRecidencia{{$tipo}}" placeholder="Dirección de residencia completa ..." maxlength="400" required  value="{{$datosPersonales->direccionResidencia~~}}" />
                                                     </div>
                                                 </div>
                                                 <!-- .row -->
