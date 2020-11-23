@@ -1,7 +1,7 @@
 <div class="col-sm">
     <div class="form-group">
         <label>País</label>
-        <select name="paisCaMi{{$tipo}}_{{$indice}}" id="paisCaMi{{$tipo}}_{{$indice}}" class="form-control custom-select paisCaMi{{$tipo}} deshabilitaDepartamentoMunicipio select2" style="width: 100%" required>
+        <select name="pais{{$tipoCampo}}{{$tipo}}_{{$indice}}" id="pais{{$tipoCampo}}{{$tipo}}_{{$indice}}" class="form-control custom-select pais{{$tipoCampo}}{{$tipo}} deshabilitaDepartamentoMunicipio select2" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
             @foreach($paises as $pais)
                 @if($pais->nombrePais == $lugar["nombrePais"])
@@ -17,7 +17,7 @@
 <div class="col-sm">
     <div class="form-group">
         <label>Departamento</label>
-        <select name="deptoCaMi{{$tipo}}_{{$indice}}" id="deptoCaMi{{$tipo}}_{{$indice}}" class="form-control custom-select deptoCaMi{{$tipo}} getMunicipio select2" style="width: 100%" required {{$lugar["pais"] == 'GT' ? '' : 'disabled'}}>
+        <select name="depto{{$tipoCampo}}{{$tipo}}_{{$indice}}" id="depto{{$tipoCampo}}{{$tipo}}_{{$indice}}" class="form-control custom-select depto{{$tipoCampo}}{{$tipo}} getMunicipio select2" style="width: 100%" required {{$lugar["pais"] == 'GT' ? '' : 'disabled'}}>
             <option value="" disabled selected>Selecciona</option>
             @foreach($departamentos as $departamento)
                 @if($departamento->nombreDepartamento == $lugar["nombreDepartamento"])
@@ -33,7 +33,7 @@
 <div class="col-sm">
     <div class="form-group">
         <label>Municipio</label>
-        <select name="muniCaMi{{$tipo}}_{{$indice}}" id="muniCaMi{{$tipo}}_{{$indice}}" class="form-control custom-select muniCaMi{{$tipo}} setMunicipio select2" style="width: 100%" required {{$lugar["pais"] == 'GT' ? '' : 'disabled'}}>
+        <select name="muni{{$tipoCampo}}{{$tipo}}_{{$indice}}" id="muni{{$tipoCampo}}{{$tipo}}_{{$indice}}" class="form-control custom-select muni{{$tipoCampo}}{{$tipo}} setMunicipio select2" style="width: 100%" required {{$lugar["pais"] == 'GT' ? '' : 'disabled'}}>
             <option value="" disabled selected>Selecciona</option>
             @foreach($municipios as $municipio)
                 @if($municipio->nombreMunicipio == $lugar["nombreMunicipio"])

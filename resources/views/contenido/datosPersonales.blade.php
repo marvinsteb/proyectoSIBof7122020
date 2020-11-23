@@ -65,7 +65,10 @@
                                                         </div>
                                                     </div>
 
-                                                    @include('contenido.camposPais',['lugar'=>$datosPersonales->nacimiento])
+                                                    @include('contenido.camposPais',[
+                                                        'lugar'=>$datosPersonales->nacimiento,
+                                                        'tipoCampo'=>'Nacimiento'
+                                                        ])
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Condición migratoria</label>

@@ -45,7 +45,10 @@
                                 <div class="col-sm-12 mb-3">
                                     <h4>II. LUGAR Y FECHA</h4>
                                 </div>
-                                @include('contenido.camposPais',['lugar'=>$titular["lugar"]])
+                                @include('contenido.camposPais',[
+                                    'lugar'=>$titular["lugar"],
+                                    'tipoCampo'=>'CaMi'
+                                ])
                                 <!-- fecha -->
                                 <div class="col-sm">
                                     <div class="form-group">
