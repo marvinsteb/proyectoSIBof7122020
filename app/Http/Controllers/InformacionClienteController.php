@@ -115,15 +115,19 @@ class InformacionClienteController extends Controller
                   }
 
                   $nacionalidadTitulares = $datosPersonales["nacionalidades"];
+                  $listaNacionalidad = Nacionalidad::where('idDatosPersonales','=',$idClienteCamposMinimos)->get()->pluck('idNacionalidad','idNacionalidad')->toArray();
                   foreach ($nacionalidadTitulares as $nacionalidad) { 
-                      Nacionalidad::updateOrCreate([
-                          'idDatosPersonales' => $idClienteCamposMinimos,
-                          'idPais' => $nacionalidad
-                      ],[
+                     $obN = Nacionalidad::updateOrCreate([
                           'idDatosPersonales' => $idClienteCamposMinimos,
                           'idPais' => $nacionalidad
                           ]);
+                     if (!empty($listaNacionalidad[$obN->idNacionalidad])) {
+                        unset($listaNacionalidad[$obN->idNacionalidad]);
+                     }
                   }
+                 if (count($listaNacionalidad)) {
+                        Nacionalidad::whereRaw(sprintf('idNacionalidad IN (%s)', implode(',', $listaNacionalidad)))->delete();
+                 }
                   return $idClienteCamposMinimos;
     }
     public function guardarFueneIngresos($id,$fuenteIng,$tipo){
@@ -532,12 +536,11 @@ class InformacionClienteController extends Controller
                     'idCamposMinimos' => $idCamposMinimos,
                 ]);
             }
-            $ob = FuenteIngresos::where('idInformacionEconomicaInicial','=',1)->get()->pluck('idFuenteIngresos','idFuenteIngresos')->toArray();
-            unset($ob[14]);
+            $ob = Nacionalidad::where('idDatosPersonales','=',1)->get()->pluck('idNacionalidad','idNacionalidad')->toArray();
              $respuesta = [
                 'Status'=> 'Success',
                 'DiccionarioFormulario'=> $this->queryDicionarioFormulario($idDiccionarioFormulario),
-                'fuenteIngreso' => $ob
+                'fuenteIngreso' => !empty($ob[10])
             ];
             $this->guardarProductosServicios($request->productos,$idDiccionarioFormulario);
 

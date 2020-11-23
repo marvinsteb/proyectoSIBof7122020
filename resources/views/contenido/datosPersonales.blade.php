@@ -203,21 +203,31 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-sm" id="nacionalidad{{$tipo}}_{{$indice}}" cantidad="1">
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-sm">
-                                                                    <label>Nacionalidad</label>
-                                                                    <select name="nacionalidad{{$tipo}}_{{$indice}}" id="nacionalidad{{$tipo}}_1_{{$indice}}" class="form-control custom-select nacionalidad select2" style="width: 100%" required>
-                                                                        <option value="" disabled selected>Selecciona</option>
-                                                                        @foreach($paises as $pais)
-                                                                        <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
-                                                                        @endforeach
-                                                                    </select>
+                                                    <div class="col-sm" id="nacionalidad{{$tipo}}_{{$indice}}" cantidad="{{count($datosPersonales->nacionalidades)}}">
+                                                        <label>Nacionalidad</label>
+                                                        @foreach($datosPersonales->nacionalidades as $nacionalidad)
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-sm">
+                                                                        <select name="nacionalidad{{$tipo}}_{{ $loop->index }}" id="nacionalidad{{$tipo}}_1_{{ $loop->index }}" class="form-control custom-select nacionalidad select2" style="width: 100%" required>
+                                                                            <option value="" disabled selected>Selecciona</option>
+                                                                            @foreach($paises as $pais)
+                                                                                @if($pais->codigoPais == $nacionalidad)
+                                                                                    <option value="{{$pais->idPais}}" selected>{{$pais->nombrePais}}</option>
+                                                                                @else
+                                                                                    <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-sm my-auto pt-2 borrarNacionalidad">
+                                                                    @if($loop->index != 0)
+                                                                        <button type="button" class="btn btn-danger">Borrar</button>
+                                                                    @endif
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-sm my-auto pt-2"></div>
                                                             </div>
-                                                        </div>
+                                                        @endforeach
                                                         <div class="form-group">
                                                             <button type="button" id="agregarNacionalidad{{$tipo}}_{{$indice}}" class="btn btn-primary agregarNacionalidad{{$tipo}}">
                                                                 Agregar Nacionalidad

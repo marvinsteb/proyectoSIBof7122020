@@ -1200,6 +1200,13 @@ function habilitaOtroOrigenriqueza(selectOrigenRiqueza) {
         });
     }
 }
+function eliminarTemplateNacionalidad(divButton) {
+    $(divButton)
+        .find("button")
+        .click(function () {
+            $(this).parent().parent().parent().remove();
+        });
+}
 function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
     for (let i = 0; i < arrBtnsAgregarNacionalidad.length; i++) {
         $(arrBtnsAgregarNacionalidad[i]).click(function () {
@@ -1223,11 +1230,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
                         </div>`
             );
             $(divPadre).attr("cantidad", id);
-            $(`#${idPadre}>div.form-group>div.row`)
-                .find("button")
-                .click(function () {
-                    $(this).parent().parent().parent().remove();
-                });
+            eliminarTemplateNacionalidad(`#${idPadre}>div.form-group>div.row`);
 
             let selectPaisActual = $(`#${idPadre}>div.form-group>div.row`).find(
                 `select#${idSelect}`
@@ -2432,6 +2435,7 @@ $(document).ready(function () {
     validarNit($(".validarNit"));
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
     agregarTemplateNacionalidad($(".agregarNacionalidadCliente"));
+    eliminarTemplateNacionalidad($(`.borrarNacionalidad`));
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
     verificarPersonaPep($(".pep"));
     verificarAsoPep($(".asoPepCliente"));
