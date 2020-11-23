@@ -1682,11 +1682,22 @@ function templatePantenteComercio(id) {
     $(row).append(libro);
     return row;
 }
+function templateCamposLugarPet(id) {
+    let comPais = templatePais(`paisPet${id}`, "País", true);
+    let comDepartamento = templateDepartamento(`Pet${id}`, "Departamento");
+    let comMunicipio = templateMunicipio(`Pet${id}`, "Municipio");
+    let tempCamResidencia = $(`<div class="row"></div>`);
+    $(tempCamResidencia).append(comPais);
+    $(tempCamResidencia).append(comDepartamento);
+    $(tempCamResidencia).append(comMunicipio);
+    return tempCamResidencia;
+}
 function templatePerfilnegocioPropio(id) {
     const rowuno = templateNombreComercial(id);
     const rowdos = templateRowDosNegocioPropioPet(id);
     const rowtres = templatePantenteComercio(id);
     const rowCuatro = templateDireccion(id, "Dirección negocio");
+    const rowCinco = templateCamposLugarPet(id);
     let tm = $(`
                 <div class="card card-info mt-3" id="negocioPropio_${id}">
                     <div class="card-header">
@@ -1707,6 +1718,7 @@ function templatePerfilnegocioPropio(id) {
     $(tm).find(`div.card-body`).append(rowdos);
     $(tm).find(`div.card-body`).append(rowtres);
     $(tm).find(`div.card-body`).append(rowCuatro);
+    $(tm).find(`div.card-body`).append(rowCinco);
 
     return tm;
 }
