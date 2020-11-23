@@ -17,6 +17,7 @@ use App\Models\DiccionarioProductoServicio;
 use App\Models\FuenteIngresos;
 use App\Models\InformacionEconomicaInicial;
 use App\Models\Moneda;
+use App\Models\Municipio;
 use App\Models\OtrosFirmantes;
 use App\Models\ParienteAsociadoPep;
 use App\Models\ProductoServicio;
@@ -556,7 +557,7 @@ class InformacionClienteController extends Controller
 
         $departamentos = DB::table('departamento');
         $departamentos = $departamentos->get();
-
+        $municipios = Municipio::all();
         $listaCondicionMigratoria = DB::table('listaCondicionMigratoria');
         $listaCondicionMigratoria = $listaCondicionMigratoria->get();
         $dc = $this->queryDicionarioFormulario($id);
@@ -564,6 +565,7 @@ class InformacionClienteController extends Controller
         return view('contenido.diccionarioFormularioedit', [
             'paises' => $paises,
             'departamentos' => $departamentos,
+            'municipios' => $municipios,
             'listaCondicionMigratoria' => $listaCondicionMigratoria,
             "dc"=>$dc
         ]);
