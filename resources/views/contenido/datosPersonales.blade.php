@@ -54,7 +54,7 @@
                                                         <div class="form-group">
                                                             <label>Fecha nacimiento</label>
                                                             <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
-                                                                <input name="fechaNacimiento{{$tipo}}_{{$indice}}" id="fechaNacimiento{{$tipo}}_{{$indice}}" type="text" class="form-control datetimepicker-input fechaNacimiento{{$tipo}}" data-target="#fechaNacimiento" required value="{{\Carbon\Carbon::parse($datosPersonales->fechaNacimiento)->format('dd/mm/yyyy')}}" />
+                                                                <input name="fechaNacimiento{{$tipo}}_{{$indice}}" id="fechaNacimiento{{$tipo}}_{{$indice}}" type="text" class="form-control datetimepicker-input fechaNacimiento{{$tipo}}" data-target="#fechaNacimiento" required value="{{\Carbon\Carbon::parse($datosPersonales->fechaNacimiento)->format('d/m/Y')}}" />
                                                                 <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                                                                 <div class="input-group-append" data-target="#fechaNacimiento" data-toggle="datetimepicker">
                                                                     <div class="input-group-text">

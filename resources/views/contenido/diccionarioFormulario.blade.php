@@ -138,7 +138,7 @@
                                 </div>
                             </div>
                             <!-- .row -->
-                            <div id="camposMinimosCliente_1">
+                            <div id="camposMinimosCliente_1" idatospersonales="">
                                  <div class="card card-info mt-3">
                                     <div class="card-header">
                                         <h3 class="card-title">Información del cliente</h3>

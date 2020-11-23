@@ -574,6 +574,7 @@ function templateCamposFuenteIngreso(id, posicion) {
     const selectFuenteIngresos = $(temFeIg).find(
         `select#select${id}_${posicion}`
     );
+    validarTipoFuenteIngreso(selectFuenteIngresos);
     if (posicion === 0) {
         $(temFeIg).find("button").remove();
     } else {
@@ -584,7 +585,6 @@ function templateCamposFuenteIngreso(id, posicion) {
                 $(temFeIg).remove();
             });
     }
-    validarTipoFuenteIngreso(selectFuenteIngresos);
     return temFeIg;
 }
 function templateFilaUnoProductoServicio(id) {
@@ -1424,11 +1424,9 @@ function verificarAsoPep(asoPepCliente) {
 }
 function validarTipoFuenteIngreso(fuenteIngresos) {
     $(fuenteIngresos).change(function () {
-        let posicionActual = $(this).parent().parent().parent().index();
-        let divRowFntIng = $(this).parent().parent().parent().parent();
-        let divIngresosActual = $(divRowFntIng).attr("id");
-        let label = `label#label${divIngresosActual}_${posicionActual}`;
-        let input = $(`input#input${divIngresosActual}_${posicionActual}`);
+        let divRowFntIng = $(this).parent().parent().parent();
+        let label = $(divRowFntIng).find("label");
+        let input = $(divRowFntIng).find("input");
         $(input).prop("disabled", false);
         switch ($(this).val()) {
             case "NP":
@@ -1827,7 +1825,8 @@ class dicParienteAsociadoPep {
     }
 }
 class dicDatosPersonales {
-    constructor() {
+    constructor(id) {
+        this.idDatosPersonales = id;
         this.primerApellido = null;
         this.segundoApellido = null;
         this.apellidoCasada = null;
@@ -2098,21 +2097,33 @@ function obtenerDiccionarioCamposMinimos(divContenedorCamposMinimos) {
         camposMinimos.fecha = $(this)
             .find(`input:text[id=fechaDocCaMi${id}]`)
             .val();
-        const daPeCliente = $(this).find(`div#camposMinimos${id}`);
-        camposMinimos.cliente = obtenerDatosPersonales(daPeCliente, id);
+        let daPeCliente = $(this).find(`div#camposMinimos${id}`);
+        const idDatosPersonales = $(`#camposMinimos${id}`).attr(
+            "idatospersonales"
+        );
+        console.log(idDatosPersonales);
+        camposMinimos.cliente = obtenerDatosPersonales(
+            daPeCliente,
+            id,
+            idDatosPersonales
+        );
         const divInfoEconomica = $(this).find(
             `div#informacionEconomicaIncial${id}`
         );
+        const idinformacioniconomicainicial = $(
+            `#informacionEconomicaIncial${id}`
+        ).attr("idinformacioniconomicainicial");
         camposMinimos.infoEconomicaInical = obtenerDatosInfoEconomica(
             divInfoEconomica,
-            id
+            id,
+            idinformacioniconomicainicial
         );
         diccionarioCamposMinimos.push(camposMinimos);
     });
     return diccionarioCamposMinimos;
 }
-function obtenerDatosPersonales(divPadre, id) {
-    let datosPersonales = new dicDatosPersonales();
+function obtenerDatosPersonales(divPadre, id, idDatosPersonales) {
+    let datosPersonales = new dicDatosPersonales(idDatosPersonales);
     datosPersonales.primerApellido = $(divPadre)
         .find(`input:text[id=primerApellido${id}]`)
         .val();
@@ -2288,8 +2299,12 @@ function obtenerDatosPersonales(divPadre, id) {
 
     return datosPersonales;
 }
-function obtenerDatosInfoEconomica(infoEconomica, id) {
-    let infoEc = new informacionEconomicaInicial();
+function obtenerDatosInfoEconomica(
+    infoEconomica,
+    id,
+    idinformacioniconomicainicial
+) {
+    let infoEc = new informacionEconomicaInicial(idinformacioniconomicainicial);
     infoEc.montoIngresos = $(infoEconomica)
         .find(`input[id=montoIngresos${id}]`)
         .val();

@@ -82,8 +82,11 @@ class InformacionClienteController extends Controller
                     ]);
 
                 };
-                $idClienteCamposMinimos = DB::table('datosPersonales')->insertGetID($camposMinimos);
-                
+                $obdatos= DatosPersonales::updateOrCreate([
+                    'idDatosPersonales'=>$datosPersonales["idDatosPersonales"]
+                ],
+                $camposMinimos);
+                $idClienteCamposMinimos = $obdatos->idDatosPersonales;
                 if($camposMinimos["parienteAsociadoPep"]=='S'){
                     $arrayDatosParienteAsociadoPep = $datosPersonales["datosParienteAsociadoPep"];
                   foreach ($arrayDatosParienteAsociadoPep as $parienteAsociadoPep) {
@@ -102,7 +105,10 @@ class InformacionClienteController extends Controller
 
                  $telefonosTitulares = $datosPersonales["telefonos"];
                   for ($a = 0; $a < count($telefonosTitulares); $a++) {
-                      $idTelefonos = DB::table('telefono')->insertGetId([
+                      Telefono::updateOrCreate([
+                          'idDatosPersonales' => $idClienteCamposMinimos,
+                          'numTelefono' => $telefonosTitulares[$a]
+                      ],[
                           'idDatosPersonales' => $idClienteCamposMinimos,
                           'numTelefono' => $telefonosTitulares[$a]
                       ]);
@@ -110,7 +116,10 @@ class InformacionClienteController extends Controller
 
                   $nacionalidadTitulares = $datosPersonales["nacionalidades"];
                   foreach ($nacionalidadTitulares as $nacionalidad) { 
-                      $idNacionalidad = DB::table('nacionalidad')->insertGetId([
+                      Nacionalidad::updateOrCreate([
+                          'idDatosPersonales' => $idClienteCamposMinimos,
+                          'idPais' => $nacionalidad
+                      ],[
                           'idDatosPersonales' => $idClienteCamposMinimos,
                           'idPais' => $nacionalidad
                           ]);
@@ -118,6 +127,7 @@ class InformacionClienteController extends Controller
                   return $idClienteCamposMinimos;
     }
     public function guardarFueneIngresos($id,$fuenteIng,$tipo){
+        FuenteIngresos::select('idFuenteIngresos')->where('idInformacionEconomicaInicial','=', $id)->delete();
         foreach($fuenteIng as $info){
             $idFuIng =[];
              $obFuenteIngresos =[
@@ -489,7 +499,7 @@ class InformacionClienteController extends Controller
             // diccionario formulario
             
             $obdFormulario = DiccionarioFormulario::updateOrCreate(
-                ['idDiccionarioFormulario'=> $request->idDiccionarioFormulario] ,
+                ['idDiccionarioFormulario'=> $request->iddiccionarioFormulario],
                 [
                     "estado" => "A",
                     "idUser" =>  Auth::id(),

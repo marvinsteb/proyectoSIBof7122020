@@ -54,7 +54,7 @@
                                     <div class="form-group">
                                         <label>Fecha</label>
                                         <div class="input-group date" id="fechaDoc_{{$indice}}" data-target-input="nearest">
-                                            <input name="fechaDocCaMi{{$tipo}}_{{$indice}}" id="fechaDocCaMi{{$tipo}}_{{$indice}}" type="text" class="form-control datetimepicker-input fechaCaMi{{$tipo}}" data-target="#fechaDoc_{{$indice}}" required value="{{\Carbon\Carbon::parse($titular["fecha"])->format('dd/mm/yyyy')}}" />
+                                            <input name="fechaDocCaMi{{$tipo}}_{{$indice}}" id="fechaDocCaMi{{$tipo}}_{{$indice}}" type="text" class="form-control datetimepicker-input fechaCaMi{{$tipo}}" data-target="#fechaDoc_{{$indice}}" required value="{{\Carbon\Carbon::parse($titular["fecha"])->format('d/m/Y')}}" />
                                             <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                                             <div class="input-group-append" data-target="#fechaDoc_{{$indice}}" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
@@ -66,12 +66,13 @@
                                 </div>
                             </div>
                             <!-- .row -->
-                            <div id="camposMinimos{{$tipo}}_{{$indice}}">
+                            <div id="camposMinimos{{$tipo}}_{{$indice}}" idatospersonales="{{$titular->cliente->idDatosPersonales}}">
                                 @include('contenido.datosPersonales',[
-                                    'tipo'=>'Cliente'
+                                    'tipo'=>'Cliente',
+                                    'datosPersonales' => $titular["cliente"]
                                     ])
                             </div>
-                            <div id="informacionEconomicaIncial{{$tipo}}_{{$indice}}">
+                            <div id="informacionEconomicaIncial{{$tipo}}_{{$indice}}" idinformacioniconomicainicial="{{$titular->infoEconomica->idInformacionEconomicaInicial}}">
                                 <div class="card card-info mt-3">
                                     <div class="card-header">
                                         <h3 class="card-title">Información económica del {{$tipo}}</h3>
