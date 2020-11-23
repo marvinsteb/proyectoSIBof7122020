@@ -265,11 +265,11 @@
                         <div class="form-check">
                             <div><label>¿El {{$tipo}} es Contratista y Proveedor del Estado (CPE)?</label></div>
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="cpeSi{{$tipo}}_{{$indice}}" class="cpe form-check-input" name="cpe{{$tipo}}_{{$indice}}" value="S" required />
+                                <input type="radio" id="cpeSi{{$tipo}}_{{$indice}}" class="cpe form-check-input" name="cpe{{$tipo}}_{{$indice}}" value="S" required  {{ $datosPersonales->cpe == 'S' ? 'checked' : ''}}/>
                                 <label for="cpeSi{{$tipo}}_{{$indice}}">Sí</label>
                             </div>
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="cpeNo{{$tipo}}_{{$indice}}" class="cpe form-check-input" name="cpe{{$tipo}}_{{$indice}}" value="N" required />
+                                <input type="radio" id="cpeNo{{$tipo}}_{{$indice}}" class="cpe form-check-input" name="cpe{{$tipo}}_{{$indice}}" value="N" required {{ $datosPersonales->cpe == 'N' ? 'checked' : ''}}/>
                                 <label for="cpeNo{{$tipo}}_{{$indice}}">No</label>
                                 <div class="invalid-tooltip">Indica si el {{$tipo}} es CPE.</div>
                             </div>
@@ -284,11 +284,11 @@
                                 <label>¿El {{$tipo}} es una Persona Expuesta Políticamente (PEP)?</label>
                             </div>
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="primaryPepSi_{{$indice}}" class="pep form-check-input" name="pep{{$tipo}}_{{$indice}}" value="S" required />
+                                <input type="radio" id="primaryPepSi_{{$indice}}" class="pep form-check-input" name="pep{{$tipo}}_{{$indice}}" value="S" required {{ $datosPersonales->pep == 'S' ? 'checked' : ''}} />
                                 <label for="primaryPepSi_{{$indice}}">Sí</label>
                             </div>
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="primaryPepNo_{{$indice}}" class="pep form-check-input" name="pep{{$tipo}}_{{$indice}}" value="N" required />
+                                <input type="radio" id="primaryPepNo_{{$indice}}" class="pep form-check-input" name="pep{{$tipo}}_{{$indice}}" value="N" required {{ $datosPersonales->pep == 'N' ? 'checked' : ''}}/>
                                 <label for="primaryPepNo_{{$indice}}">No</label>
                                 <div class="invalid-tooltip">Indica si el {{$tipo}} es PEP.</div>
                             </div>
@@ -305,11 +305,11 @@
                                 <label>¿El {{$tipo}} tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
                             </div>
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="primaryAsoPep{{$tipo}}Si_{{$indice}}" class="asoPep{{$tipo}} form-check-input" name="asoPep{{$tipo}}_{{$indice}}" value="S" required />
+                                <input type="radio" id="primaryAsoPep{{$tipo}}Si_{{$indice}}" class="asoPep{{$tipo}} form-check-input" name="asoPep{{$tipo}}_{{$indice}}" value="S" required {{ $datosPersonales->parienteAsociadoPep == 'S' ? 'checked' : ''}}/>
                                 <label for="primaryAsoPep{{$tipo}}Si_{{$indice}}">Sí</label>
                             </div>
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="primaryAsoPep{{$tipo}}No_{{$indice}}" class="asoPep{{$tipo}} form-check-input" name="asoPep{{$tipo}}_{{$indice}}" value="N" required />
+                                <input type="radio" id="primaryAsoPep{{$tipo}}No_{{$indice}}" class="asoPep{{$tipo}} form-check-input" name="asoPep{{$tipo}}_{{$indice}}" value="N" required {{ $datosPersonales->parienteAsociadoPep == 'N' ? 'checked' : ''}}/>
                                 <label for="primaryAsoPep{{$tipo}}No_{{$indice}}">No</label>
                                 <div class="invalid-tooltip">Indica si el {{$tipo}} tine un tiene parentesco o es asociadoa una Persona PEP.</div>
                             </div>
