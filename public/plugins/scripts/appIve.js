@@ -345,12 +345,12 @@ function templateCamposProfecion(id) {
     $(temCamposProf).append(comEmail);
     return temCamposProf;
 }
-function templateDireccion(id) {
+function templateDireccion(id, textolabel) {
     let temDirec = $(`
         <div class="row">
             <div class="col-sm">
-                <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
-                <input name="direccionRecidencia${id}" id="direccionRecidencia${id}" type="text" class="form-control direccionRecidencia" placeholder="Dirección de residencia completa ..." maxlength="400" required />
+                <label>${textolabel}</label>
+                <input name="direccionRecidencia${id}" id="direccionRecidencia${id}" type="text" class="form-control direccionRecidencia" placeholder="Dirección..." maxlength="400" required />
             </div>
         </div>`);
     return temDirec;
@@ -508,7 +508,10 @@ function templateDatosPersonales(id, tipo) {
     let tcamposNacimiento = templateCamposNacimiento(id);
     let tCamposDoc = templateCamposDocumentos(id);
     let tCamposProf = templateCamposProfecion(id);
-    let tCampoDireccion = templateDireccion(id);
+    let tCampoDireccion = templateDireccion(
+        id,
+        "Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)"
+    );
     let tCamposResidencia = templateCamposResidencia(id);
     let tCamposNumTel = templateCamposNacionalidadTelefono(id);
     let tCpe = templateCpe(id);
@@ -1636,9 +1639,54 @@ function templateRowDosNegocioPropioPet(id) {
     $(row).append(fechaInscripcionNegocio);
     return row;
 }
+function templateInputNumber(
+    id,
+    tipo,
+    tamanio,
+    textolabel,
+    requerido,
+    deshabilitado
+) {
+    let tmNom = $(`<label>${textolabel}</label>
+                   <input name="${tipo}${id}" id="${tipo}${id}" type="number" class="form-control ${tipo}" placeholder="${textolabel} ..." maxlength="${tamanio}"/>`);
+    tmNom = templateFormGroup(tmNom);
+    if (requerido === true) {
+        $(tmNom).find(`input#${tipo}${id}`).prop("required", true);
+    }
+    if (deshabilitado === true) {
+        $(tmNom).find(`input#${tipo}${id}`).prop("disabled", true);
+    }
+    return tmNom;
+}
+function templatePantenteComercio(id) {
+    //Número de registro
+    let row = $(`<div class="row"></div>`);
+    $(row).append(
+        templateFormGroup(
+            `<h2>Patente de comercio de empresa</h2>`,
+            "col-sm-12"
+        )
+    );
+    const numeroRegistro = templateInputNumber(
+        id,
+        "numeroRegistro",
+        15,
+        "Número de registro",
+        false,
+        false
+    );
+    const folio = templateInputNumber(id, "folio", 15, "Folio", false, false);
+    const libro = templateInputNumber(id, "libro", 15, "Libro", false, false);
+    $(row).append(numeroRegistro);
+    $(row).append(folio);
+    $(row).append(libro);
+    return row;
+}
 function templatePerfilnegocioPropio(id) {
     const rowuno = templateNombreComercial(id);
     const rowdos = templateRowDosNegocioPropioPet(id);
+    const rowtres = templatePantenteComercio(id);
+    const rowCuatro = templateDireccion(id, "Dirección negocio");
     let tm = $(`
                 <div class="card card-info mt-3" id="negocioPropio_${id}">
                     <div class="card-header">
@@ -1657,6 +1705,8 @@ function templatePerfilnegocioPropio(id) {
                 </div>`);
     $(tm).find(`div.card-body`).append(rowuno);
     $(tm).find(`div.card-body`).append(rowdos);
+    $(tm).find(`div.card-body`).append(rowtres);
+    $(tm).find(`div.card-body`).append(rowCuatro);
 
     return tm;
 }
