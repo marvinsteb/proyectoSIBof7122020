@@ -1597,7 +1597,62 @@ function templateSelectActualizacion() {
     $(sa).find("select").select2();
     return sa;
 }
-function templatePerfilEconomicoTransacional() {
+function templateNombreComercial(id) {
+    let row = $(`<div class="row"></div>`);
+    const tmNombreComercial = templateInputText(
+        id,
+        "nombreComercial",
+        400,
+        "Nombre comercial",
+        true,
+        false
+    );
+    $(row).append(tmNombreComercial);
+    return row;
+}
+function templatePerfilnegocioPropio(id) {
+    const rowuno = templateNombreComercial(id);
+    let tm = $(`
+                <div class="card card-info mt-3" id="negocioPropio_${id}">
+                    <div class="card-header">
+                        <h3 class="card-title">Negocio propio ${id}</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                </div>`);
+    $(tm).find(`div.card-body`).append(rowuno);
+
+    return tm;
+}
+function templateContenedorNegocioPropio() {
+    let tpnp = $(`<div class="row">
+                    <div class="datosNegocioPropio col-sm-12" id="datosNegocioPropio" cantidad="0"></div>
+                    <div class="form-group">
+                        <button type="button" id="agregarNegocioPropio" class="btn btn-primary agregarNegocioPropio">Agregar negocio propio</button>
+                    </div>
+                  </div>`);
+    let dnp = $(tpnp).find("div#datosNegocioPropio");
+    $(tpnp)
+        .find("button#agregarNegocioPropio")
+        .click(function () {
+            let index = $(dnp).attr("cantidad");
+            index++;
+            $(dnp).append(templatePerfilnegocioPropio(index));
+            $(dnp).find(`input#nombreComercial${index}`).focus();
+            $(dnp).attr("cantidad", index);
+        });
+
+    return tpnp;
+}
+function templateFinaUnoPerfilEconomicoTransaccional() {
     const cmSelectActualizacioin = templateSelectActualizacion();
     const cmFecha = templateFecha("", "Pet", "");
     let rowuno = $(`<div class="row"></div>`);
@@ -1614,10 +1669,16 @@ function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
             .find(`button[data-card-widget=collapse]`)
             .first()
             .CardWidget("expand");
-        let cmPerfilEconomico = templatePerfilEconomicoTransacional();
-        $("div#perfilEconomicoTransaccional")
-            .find("div.card-body")
-            .append(cmPerfilEconomico);
+        const cmPerfilEconomico = templateFinaUnoPerfilEconomicoTransaccional();
+        const cmNegocioPropio = templateContenedorNegocioPropio();
+        let cardBody = $("div#perfilEconomicoTransaccional").find(
+            "div.card-body"
+        );
+        $(cardBody).append(cmPerfilEconomico);
+        $(cardBody).append(
+            $(`<div class="row"><h2>FUENTE DE INGRESOS</h2></div>`)
+        );
+        $(cardBody).append(cmNegocioPropio);
         $(this).remove();
     });
 }
@@ -1797,6 +1858,11 @@ function expandirCard() {
         $(titulares[i]).CardWidget("expand");
     }
     $(`div.productoServicio`)
+        .find(`button[data-card-widget=collapse]`)
+        .each(function () {
+            $(this).CardWidget("expand");
+        });
+    $(`form#diccionarioFormulario>div`)
         .find(`button[data-card-widget=collapse]`)
         .each(function () {
             $(this).CardWidget("expand");
