@@ -2069,7 +2069,8 @@ function obtenerDiccionarioCamposMinimos(divContenedorCamposMinimos) {
     let diccionarioCamposMinimos = new Array();
     $(divContenedorCamposMinimos).each(function () {
         let id = $(this).attr("id");
-        let camposMinimos = new dicCamposMinimos();
+        let idCamposMinimos = $(this).attr("idCamposMinimos");
+        let camposMinimos = new dicCamposMinimos(idCamposMinimos);
         camposMinimos.tipoActuacion = $(this)
             .find(`input:radio[name=tipoActuacion${id}]:checked`)
             .val();
