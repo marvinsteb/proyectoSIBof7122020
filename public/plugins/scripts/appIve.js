@@ -574,12 +574,16 @@ function templateCamposFuenteIngreso(id, posicion) {
     const selectFuenteIngresos = $(temFeIg).find(
         `select#select${id}_${posicion}`
     );
-    $(temFeIg)
-        .find("button")
-        .click(function () {
-            console.log("eliminando fuente de ingresos");
-            $(temFeIg).remove();
-        });
+    if (posicion === 0) {
+        $(temFeIg).find("button").remove();
+    } else {
+        $(temFeIg)
+            .find("button")
+            .click(function () {
+                console.log("eliminando fuente de ingresos");
+                $(temFeIg).remove();
+            });
+    }
     validarTipoFuenteIngreso(selectFuenteIngresos);
     return temFeIg;
 }
@@ -1692,12 +1696,26 @@ function templateCamposLugarPet(id) {
     $(tempCamResidencia).append(comMunicipio);
     return tempCamResidencia;
 }
+function templateMontoAproximado(id) {
+    let tm = $(
+        `<input type="number" name = "montoIngresos" id="montoIngresos${id}" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`
+    );
+    return tm;
+}
+function templateCamposMonto(id) {
+    const tipoMoneda = templateMoneda(id);
+    const MontoAproximado = templateMontoAproximado(id);
+    let tm = $(`<div class="row"></div>`);
+    $(tm).append(tipoMoneda);
+    return tm;
+}
 function templatePerfilnegocioPropio(id) {
     const rowuno = templateNombreComercial(id);
     const rowdos = templateRowDosNegocioPropioPet(id);
     const rowtres = templatePantenteComercio(id);
     const rowCuatro = templateDireccion(id, "Dirección negocio");
     const rowCinco = templateCamposLugarPet(id);
+    const rowSeis = templateCamposMonto(id);
     let tm = $(`
                 <div class="card card-info mt-3" id="negocioPropio_${id}">
                     <div class="card-header">
@@ -1719,6 +1737,7 @@ function templatePerfilnegocioPropio(id) {
     $(tm).find(`div.card-body`).append(rowtres);
     $(tm).find(`div.card-body`).append(rowCuatro);
     $(tm).find(`div.card-body`).append(rowCinco);
+    $(tm).find(`div.card-body`).append(rowSeis);
 
     return tm;
 }

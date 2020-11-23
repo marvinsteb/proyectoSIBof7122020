@@ -551,8 +551,22 @@ class InformacionClienteController extends Controller
      */
     public function edit($id)
     {
+        $paises = DB::table('pais');
+        $paises = $paises->get();
+
+        $departamentos = DB::table('departamento');
+        $departamentos = $departamentos->get();
+
+        $listaCondicionMigratoria = DB::table('listaCondicionMigratoria');
+        $listaCondicionMigratoria = $listaCondicionMigratoria->get();
         $dc = $this->queryDicionarioFormulario($id);
-        var_dump($dc);
+
+        return view('contenido.diccionarioFormularioedit', [
+            'paises' => $paises,
+            'departamentos' => $departamentos,
+            'listaCondicionMigratoria' => $listaCondicionMigratoria,
+            "dc"=>$dc
+        ]);
     }
 
     /**
