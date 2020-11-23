@@ -104,15 +104,22 @@ class InformacionClienteController extends Controller
 
 
                  $telefonosTitulares = $datosPersonales["telefonos"];
+                 $listaTelefonos = Telefono::where('idDatosPersonales','=',$idClienteCamposMinimos)->get()->pluck('idTelefono','idTelefono')->toArray();
                   for ($a = 0; $a < count($telefonosTitulares); $a++) {
-                      Telefono::updateOrCreate([
+                      $obT = Telefono::updateOrCreate([
                           'idDatosPersonales' => $idClienteCamposMinimos,
                           'numTelefono' => $telefonosTitulares[$a]
                       ],[
                           'idDatosPersonales' => $idClienteCamposMinimos,
                           'numTelefono' => $telefonosTitulares[$a]
                       ]);
+                     if (!empty($listaTelefonos[$obT->idTelefono])) {
+                        unset($listaTelefonos[$obT->idTelefono]);
+                     }
                   }
+                  if (count($listaTelefonos)) {
+                        Telefono::whereRaw(sprintf('idTelefono IN (%s)', implode(',', $listaTelefonos)))->delete();
+                    }
 
                   $nacionalidadTitulares = $datosPersonales["nacionalidades"];
                   $listaNacionalidad = Nacionalidad::where('idDatosPersonales','=',$idClienteCamposMinimos)->get()->pluck('idNacionalidad','idNacionalidad')->toArray();
