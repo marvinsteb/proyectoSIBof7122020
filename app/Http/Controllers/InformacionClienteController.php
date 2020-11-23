@@ -127,7 +127,8 @@ class InformacionClienteController extends Controller
                   return $idClienteCamposMinimos;
     }
     public function guardarFueneIngresos($id,$fuenteIng,$tipo){
-        FuenteIngresos::select('idFuenteIngresos')->where('idInformacionEconomicaInicial','=', $id)->delete();
+        
+        //FuenteIngresos::where('idInformacionEconomicaInicial','=',$id)->delete();
         foreach($fuenteIng as $info){
             $idFuIng =[];
              $obFuenteIngresos =[
@@ -151,9 +152,21 @@ class InformacionClienteController extends Controller
                     $obFuenteIngresos['otrasFuentesIngreso'] = $info['otrasFuentesIngreso'];
                 break;
             }
-            FuenteIngresos::updateOrCreate($idFuIng,$obFuenteIngresos);
+            $createdOrUpdated = FuenteIngresos::updateOrCreate($obFuenteIngresos,$obFuenteIngresos);
+            //  if (!empty($listaFuenteIngresos[$createdOrUpdated->idFuenteIngresos])) {
+            //         unset($listaFuenteIngresos[$createdOrUpdated->idFuenteIngresos]);
+            //  }
         }
-        
+
+        //      if (count($listaFuenteIngresos)) {
+        //      FuenteIngresos::whereRaw(sprintf('idFuenteIngresos IN (%s)', implode(',', $listaFuenteIngresos)))->delete();
+
+        //      /* Alternatively you could use 
+        //      *     Model::whereIn('id', $usersRoleToDelete)->delete();
+        //      *  if the amount of ids is smaller than the maximum PDO arguments allowed
+        //      */
+        //  }
+
     }
     public function guardarInformacionEconomica($infoEconomica){
         $obInfoEcoIni = InformacionEconomicaInicial::updateOrCreate(
@@ -163,6 +176,8 @@ class InformacionClienteController extends Controller
                  'propositoRC' => $infoEconomica["propositoRC"]
             ]
         );
+        // $listaFuenteIngresos = FuenteIngresos::where('idInformacionEconomicaInicial','=',$obInfoEcoIni->idInformacionEconomicaInicial)->get()->pluck('idFuenteIngresos','idFuenteIngresos')->toArray();
+        $listaFuenteIngresos = FuenteIngresos::where('idInformacionEconomicaInicial','=',$obInfoEcoIni->idInformacionEconomicaInicial)->delete();
         if(!empty($infoEconomica["negocioPropio"])){
             $this->guardarFueneIngresos($obInfoEcoIni->idInformacionEconomicaInicial,$infoEconomica["negocioPropio"],"NP");
         }
@@ -517,9 +532,12 @@ class InformacionClienteController extends Controller
                     'idCamposMinimos' => $idCamposMinimos,
                 ]);
             }
+            $ob = FuenteIngresos::where('idInformacionEconomicaInicial','=',1)->get()->pluck('idFuenteIngresos','idFuenteIngresos')->toArray();
+            unset($ob[14]);
              $respuesta = [
                 'Status'=> 'Success',
-                'DiccionarioFormulario'=> $this->queryDicionarioFormulario($idDiccionarioFormulario)
+                'DiccionarioFormulario'=> $this->queryDicionarioFormulario($idDiccionarioFormulario),
+                'fuenteIngreso' => $ob
             ];
             $this->guardarProductosServicios($request->productos,$idDiccionarioFormulario);
 
