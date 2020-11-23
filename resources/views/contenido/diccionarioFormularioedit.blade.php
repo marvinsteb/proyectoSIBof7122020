@@ -36,9 +36,6 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <pre>
-            {{var_dump($dc)}};
-        </pre>
         <form action="guardarActualizar" id="diccionarioFormulario" class="needs-validation" method="post" novalidate>
             <div class="diccionarioFormulario" idDiccionario="{{$dc["idDiccionarioFormulario"]}}">
                 @csrf

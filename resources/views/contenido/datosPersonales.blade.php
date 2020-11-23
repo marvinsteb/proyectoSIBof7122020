@@ -65,48 +65,18 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm">
-                                                        <div class="form-group">
-                                                            <label>País nacimiento</label>
-                                                            <select name="paisNacimiento{{$tipo}}_{{$indice}}" id="paisNacimiento{{$tipo}}_{{$indice}}" class="form-control custom-select paisNacimiento{{$tipo}} deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
-                                                                <option value="" disabled selected>Selecciona</option>
-                                                                @foreach($paises as $pais)
-                                                                <option value="{{$pais->idPais}}">
-                                                                    {{$pais->nombrePais}}
-                                                                </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- select departamento -->
-                                                    <div class="col-sm">
-                                                        <div class="form-group">
-                                                            <label>Depto. nacimiento</label>
-                                                            <select name="deptoNacimiento{{$tipo}}_{{$indice}}" id="deptoNacimiento{{$tipo}}_{{$indice}}" class="form-control custom-select deptoNacimiento{{$tipo}} getMunicipio select2" style="width: 100%" required disabled>
-                                                                <option value="" disabled selected>Selecciona</option>
-                                                                @foreach($departamentos as $departamento)
-                                                                <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <!-- select muni -->
-                                                    <div class="col-sm">
-                                                        <div class="form-group">
-                                                            <label>Municipio nacimiento</label>
-                                                            <select name="muniNacimiento{{$tipo}}_{{$indice}}" id="muniNacimiento{{$tipo}}_{{$indice}}" class="form-control custom-select muniNacimiento{{$tipo}} setMunicipio select2" style="width: 100%" required disabled>
-                                                                <option value="" disabled selected>Selecciona</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                    @include('contenido.camposPais',['lugar'=>$datosPersonales->nacimiento])
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Condición migratoria</label>
-                                                            <select name="condicionMigratoria{{$tipo}}_{{$indice}}" id="condicionMigratoria{{$tipo}}_{{$indice}}" class="form-control custom-select condicionMigratoria select2" style="width: 100%" disabled required>
+                                                            <select name="condicionMigratoria{{$tipo}}_{{$indice}}" id="condicionMigratoria{{$tipo}}_{{$indice}}" class="form-control custom-select condicionMigratoria select2" style="width: 100%" {{empty($datosPersonales->condicionMigratoria) ? 'disabled' : ''}} require>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($listaCondicionMigratoria as $condicionMigratoria)
-                                                                <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">{{$condicionMigratoria->descripcion}}</option>
+                                                                    @if($condicionMigratoria->idListaCondicionMigratoria == $datosPersonales->condicionMigratoria)
+                                                                        <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}" selected>{{$condicionMigratoria->descripcion}}</option>
+                                                                    @else
+                                                                        <option value="{{$condicionMigratoria->idListaCondicionMigratoria}}">{{$condicionMigratoria->descripcion}}</option>
+                                                                    @endif
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -115,7 +85,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Especifique</label>
-                                                            <input name="otraCoMi{{$tipo}}_{{$indice}}" id="otraCoMi{{$tipo}}_{{$indice}}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
+                                                            <input name="otraCoMi{{$tipo}}_{{$indice}}" id="otraCoMi{{$tipo}}_{{$indice}}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" {{empty($datosPersonales->otraCondicionMigratoria) ? 'disabled' : ''}} required value="{{$datosPersonales->otraCondicionMigratoria}}"/>
                                                         </div>
                                                     </div>
                                                 </div>
