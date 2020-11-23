@@ -196,40 +196,10 @@
                                                 <!-- .row -->
 
                                                 <div class="row">
-                                                    <!-- select pais nacimiento {{$tipo}} -->
-                                                    <div class="col-sm">
-                                                        <div class="form-group">
-                                                            <label>País residencia</label>
-                                                            <select name="paisRecidencia{{$tipo}}_{{$indice}}" id="paisRecidencia{{$tipo}}_{{$indice}}" class="form-control custom-select paisRecidencia{{$tipo}} deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
-                                                                <option value="" disabled selected>Selecciona</option>
-                                                                @foreach($paises as $pais)
-                                                                <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- select departamento -->
-                                                    <div class="col-sm">
-                                                        <div class="form-group">
-                                                            <label>Departamento residencia</label>
-                                                            <select name="deptoRecidencia{{$tipo}}_{{$indice}}" id="deptoRecidencia{{$tipo}}_{{$indice}}" class="form-control custom-select deptoRecidencia{{$tipo}} getMunicipio select2" style="width: 100%" required disabled>
-                                                                <option value="" disabled selected>Selecciona</option>
-                                                                @foreach($departamentos as $departamento)
-                                                                <option value="{{$departamento->idDepartamento}}">{{$departamento->nombreDepartamento}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <!-- select muni -->
-                                                    <div class="col-sm">
-                                                        <div class="form-group">
-                                                            <label>Municipio residencia</label>
-                                                            <select name="muniRecidencia{{$tipo}}_{{$indice}}" id="muniRecidencia{{$tipo}}_{{$indice}}" class="form-control custom-select muniRecidencia{{$tipo}} setMunicipio select2" style="width: 100%" required disabled>
-                                                                <option value="" disabled selected>Selecciona</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                    @include('contenido.camposPais',[
+                                                        'lugar'=>$datosPersonales->residencia,
+                                                        'tipoCampo'=>'Recidencia'
+                                                        ])
                                                 </div>
 
                                                 <div class="row">
