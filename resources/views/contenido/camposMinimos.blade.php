@@ -1,10 +1,15 @@
             <div class="card card-primary" id="{{$tipo}}_{{$indice}}" idCamposMinimos="{{$titular->idCamposMinimos}}">
                         <div class="card-header">
-                            <h3 class="card-title">Titular</h3>
+                            <h3 class="card-title">Titular {{$indice + 1}}</h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
                                 </button>
+                                @if($indice != 0)
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                @endif
                             </div>
                         </div>
                         <!-- /.card-header -->

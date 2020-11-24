@@ -532,22 +532,26 @@ class InformacionClienteController extends Controller
                 ]
             ); 
             $idDiccionarioFormulario = $obdFormulario->idDiccionarioFormulario;
-
+            $listaTitular = Titular::where('idDiccionarioFormulario','=',$idDiccionarioFormulario)->get()->pluck('idTitular','idTitular')->toArray();
             for ($i = 0; $i < count($request->titulares); $i++) {
                 $idCamposMinimos = $this->guardarCamposMinimos($request->titulares[$i]); 
-                Titular::updateOrCreate([
+                $obT = Titular::updateOrCreate([
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
                     'idCamposMinimos' => $idCamposMinimos,
                 ],[
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
                     'idCamposMinimos' => $idCamposMinimos,
                 ]);
+                if (!empty($listaTitular[$obT->idTitular])) {
+                    unset($listaTitular[$obT->idTitular]);
+                    }
             }
-            $ob = Nacionalidad::where('idDatosPersonales','=',1)->get()->pluck('idNacionalidad','idNacionalidad')->toArray();
+            if (count($listaTitular)) {
+                Titular::whereRaw(sprintf('idTitular IN (%s)', implode(',', $listaTitular)))->delete();
+            }
              $respuesta = [
                 'Status'=> 'Success',
                 'DiccionarioFormulario'=> $this->queryDicionarioFormulario($idDiccionarioFormulario),
-                'fuenteIngreso' => !empty($ob[10])
             ];
             $this->guardarProductosServicios($request->productos,$idDiccionarioFormulario);
 
