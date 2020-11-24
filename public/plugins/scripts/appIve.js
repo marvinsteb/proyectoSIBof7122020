@@ -195,7 +195,7 @@ function templateOtraCondicionMigratoria(id) {
 function templateFecha(id, nombre, textolabel, tmformg, requerido) {
     let temCampoFecha = $(`<label>Fecha ${textolabel}</label>
                         <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
-                            <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
+                            <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control ${nombre} datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
                             <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                             <div class="input-group-append" data-target="#fecha${nombre}_${id}" data-toggle="datetimepicker">
                                 <div class="input-group-text">
@@ -350,7 +350,7 @@ function templateDireccion(id, textolabel) {
         <div class="row">
             <div class="col-sm">
                 <label>${textolabel}</label>
-                <input name="direccionRecidencia${id}" id="direccionRecidencia${id}" type="text" class="form-control direccionRecidencia" placeholder="Dirección..." maxlength="400" required />
+                <input name="direccionRecidencia${id}" id="direccionRecidencia${id}" type="text" class="form-control direccion" placeholder="Dirección..." maxlength="400" required />
             </div>
         </div>`);
     return temDirec;
@@ -1707,9 +1707,9 @@ function templateCamposLugarPet(id) {
     return tempCamResidencia;
 }
 function templateMontoAproximado(id) {
-    let tm = $(
-        `<input type="number" name = "montoIngresos" id="montoIngresos${id}" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`
-    );
+    let tm = $(`<label>Monto aproximado ingresos</label>
+                <input type="number" name = "montoAproximado" id="montoAproximado${id}" class="form-control d-inline montoAproximado" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
+    tm = templateFormGroup(tm);
     return tm;
 }
 function templateCamposMonto(id) {
@@ -1717,6 +1717,7 @@ function templateCamposMonto(id) {
     const MontoAproximado = templateMontoAproximado(id);
     let tm = $(`<div class="row"></div>`);
     $(tm).append(tipoMoneda);
+    $(tm).append(MontoAproximado);
     return tm;
 }
 function templatePerfilnegocioPropio(id) {
@@ -1947,11 +1948,30 @@ class dicProductoServicio {
         this.beneficiarios.push(beneficiario);
     }
 }
+class dicPerfilEconomicoNegocioPropio {
+    constructor(id) {
+        this.idDiccionarioPerfilEconomicoNegocioPropio = id;
+        this.nombreComercial = null;
+        this.principalActividadEconomica = null;
+        this.fechaInscripcionNegocio = null;
+        this.numeroRegistro = null;
+        this.folio = null;
+        this.libro = null;
+        this.direccionNegocio = null;
+        this.lugar = new dicLugar();
+        this.tipoMoneda = null;
+        this.montoAproximado = null;
+    }
+}
 class dicPerfilEconomicoTransaccional {
     constructor(id) {
         this.idPerfilEconomicoTransaccional = id;
         this.actualizacion = null;
         this.fecha = null;
+        this.negocioPropio = new Array();
+    }
+    agregarNegocioPropio(ngp) {
+        this.negocioPropio.push(ngp);
     }
 }
 class diccionarioFormulario {
@@ -2405,6 +2425,42 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
         dpet.actualizacion = $(pet).find("select#actualizacionPet").val();
         dpet.fecha = $(pet).find("input#fechaPet").val();
         // obtener Fuentes de ingresos
+        $("#datosNegocioPropio")
+            .children()
+            .each(function () {
+                let ngp = new dicPerfilEconomicoNegocioPropio();
+                ngp.nombreComercial = $(this)
+                    .find(`input.nombreComercial`)
+                    .val();
+                ngp.principalActividadEconomica = $(this)
+                    .find(`input.principalActividadEconomica`)
+                    .val();
+                ngp.fechaInscripcionNegocio = $(this)
+                    .find(`input.InscripcionNegocio`)
+                    .val();
+                ngp.numeroRegistro = $(this).find("input.numeroRegistro").val();
+                ngp.folio = $(this).find("input.folio").val();
+                ngp.libro = $(this).find("input.libro").val();
+                ngp.direccionNegocio = $(this).find(`input.direccion`).val();
+                ngp.lugar.pais = $(this)
+                    .find(`select.pais option:selected`)
+                    .val();
+                if (ngp.lugar.pais === "1") {
+                    ngp.lugar.departamento = $(this)
+                        .find(`select.depto option:selected`)
+                        .val();
+                    ngp.lugar.municipio = $(this)
+                        .find(`select.muni option:selected`)
+                        .val();
+                }
+                ngp.tipoMoneda = $(this)
+                    .find(`select.moneda option:selected`)
+                    .val();
+                ngp.montoAproximado = $(this)
+                    .find(`input.montoAproximado`)
+                    .val();
+                dpet.agregarNegocioPropio(ngp);
+            });
     }
     return dpet;
 }
