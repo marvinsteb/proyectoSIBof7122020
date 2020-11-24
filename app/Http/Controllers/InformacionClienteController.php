@@ -73,15 +73,19 @@ class InformacionClienteController extends Controller
                         'cpe' => $datosPersonales["cpe"]
                     ];
                 if($camposMinimos["pep"]== "S"){
-                    $camposMinimos['datosPep']  = DB::table("datosPep")->insertGetID([
+                    $obpep = DatosPep::updateOrCreate(['idDatosPep'=>$datosPersonales["datospep"]["idDatosPep"]],[
                         'entidad'=> $datosPersonales["datospep"]["entidad"],
                         'puestoDesempenia' => $datosPersonales["datospep"]["puestoDesempenia"],
                         'paisEntidad' => $datosPersonales["datospep"]["paisEntidad"],
                         'origenRiqueza'=> $datosPersonales["datospep"]["origenRiqueza"],
                         'otroOrigenRiqueza'=> $datosPersonales["datospep"]["otroOrigenRiqueza"],
                     ]);
-
-                };
+                        $camposMinimos['datosPep'] = $obpep->idDatosPep;
+                }else{
+                    $camposMinimos['datosPep'] = null;
+                    //DatosPep::findOrFail($datosPersonales["datospep"]["idDatosPep"])->delete();
+                    //crear un trigger para borrar los datos almacenados en la tabla pep
+                }
                 $obdatos= DatosPersonales::updateOrCreate([
                     'idDatosPersonales'=>$datosPersonales["idDatosPersonales"]
                 ],

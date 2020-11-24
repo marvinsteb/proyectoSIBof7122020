@@ -544,7 +544,6 @@ function templateDatosPersonales(id, tipo) {
     return tcamposMinimos;
 }
 function borrarTemplateFuenteIngresos(temFeIg) {
-    console.log(temFeIg);
     $(temFeIg)
         .find("button")
         .click(function () {
@@ -1810,7 +1809,8 @@ class dicLugar {
     }
 }
 class datosPep {
-    constructor() {
+    constructor(id) {
+        this.idDatosPep = id;
         this.entidad = null;
         this.puestoDesempenia = null;
         this.paisEntidad = null;
@@ -2222,6 +2222,9 @@ function obtenerDatosPersonales(divPadre, id, idDatosPersonales) {
         .find(`input:radio[name=pep${id}]:checked`)
         .val());
     if (esPep === "S") {
+        datosPersonales.datospep.idDatosPep = $(
+            `input[id=idDatosPep${id}]`
+        ).val();
         datosPersonales.datospep.entidad = $(divPadre)
             .find(`input[id=entidadpep${id}]`)
             .val();

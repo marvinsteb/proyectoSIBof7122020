@@ -295,8 +295,14 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="datospep{{$tipo}}_{{$indice}}"></div>
+                @if($datosPersonales->pep == 'S')
+                <input type="hidden" id="idDatosPep{{$tipo}}_{{$indice}}" value="{{$datosPersonales->datosPep->idDatosPep}}">        
+                @endif
+                <div class="datospep{{$tipo}}_{{$indice}}">
+                    @if($datosPersonales->pep == 'S')
+                        @include('contenido.datosPep',['datosPep'=>$datosPersonales->datosPep])
+                    @endif
+                </div>
 
                 <div class="row">
                     <div class="col-sm">
