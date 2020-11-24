@@ -83,8 +83,7 @@ class InformacionClienteController extends Controller
                         $camposMinimos['datosPep'] = $obpep->idDatosPep;
                 }else{
                     $camposMinimos['datosPep'] = null;
-                    //DatosPep::findOrFail($datosPersonales["datospep"]["idDatosPep"])->delete();
-                    //crear un trigger para borrar los datos almacenados en la tabla pep
+                    //implementar un trigger para eliminar los datos pep;
                 }
                 $obdatos= DatosPersonales::updateOrCreate([
                     'idDatosPersonales'=>$datosPersonales["idDatosPersonales"]

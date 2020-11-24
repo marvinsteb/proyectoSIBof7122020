@@ -18,7 +18,7 @@
                     <div class="col-sm">
                         <div class="form-group">
                             <label>Segundo apellido</label>
-                            <input name="segundoApellido{{$tipo}}_{{$indice}}" id="segundoApellido{{$tipo}}_{{$indice}}" type="text" class="form-control segundoApellido{{$tipo}}" placeholder="Segundo apellido ..." maxlength="15" value="{{$datosPersonales->segundoApellido}}" />
+                            <input name="segundoApellido{{$tipo}}_{{$indice}}" id="segundoApellido{{$tipo}}_{{$indice}}" type="text" class="form-control segundoApellido{{$tipo}}" placeholder="Segundo apellido ..." maxlength="15" value="{{$datosPersonales->segundoApellido == 'SOA' ? '' : $datosPersonales->segundoApellido}}" />
                         </div>
                     </div>
                     <div class="col-sm">
@@ -37,7 +37,7 @@
                     <div class="col-sm">
                         <div class="form-group">
                             <label>Segundo nombre</label>
-                            <input name="segundoNombre{{$tipo}}_{{$indice}}" id="segundoNombre{{$tipo}}_{{$indice}}" type="text" class="form-control segundoNombre{{$tipo}}" placeholder="Segundo nombre ..." maxlength="15" value="{{$datosPersonales->segundoNombre}}"/>
+                            <input name="segundoNombre{{$tipo}}_{{$indice}}" id="segundoNombre{{$tipo}}_{{$indice}}" type="text" class="form-control segundoNombre{{$tipo}}" placeholder="Segundo nombre ..." maxlength="15" value="{{$datosPersonales->segundoNombre == 'SON' ? '' : $datosPersonales->segundoNombre}}"/>
                         </div>
                     </div>
                     <div class="col-sm">

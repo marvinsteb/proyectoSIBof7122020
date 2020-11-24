@@ -43,7 +43,7 @@
                 <div class="titulares" id="titulares" cantidad="{{count($dc["titulares"])}}">
                     @foreach($dc["titulares"] as $titular)
                         @include('contenido.camposMinimos', ['titular' => $titular,
-                                                             'indice' => count($dc["titulares"]),
+                                                             'indice' => $loop->index,
                                                              'tipo'=>'Cliente'
                                                              ])
                     @endforeach
