@@ -91,7 +91,7 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="form-group">
-                                                    <input type="number" name = "montoIngresos" id="montoIngresos{{$tipo}}_{{$indice}}" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>
+                                                    <input type="number" name = "montoIngresos" id="montoIngresos{{$tipo}}_{{$indice}}" class="form-control d-inline" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required value="{{$titular->infoEconomica->montoIngresos}}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -99,7 +99,7 @@
                                             <div class="col-sm">
                                                 <div class="form-group">
                                                     <label for="propositoRC{{$tipo}}_{{$indice}}">Propósito de la relación de negocios</label>
-                                                    <input name="propositoRC" id="propositoRC{{$tipo}}_{{$indice}}" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
+                                                    <input name="propositoRC" id="propositoRC{{$tipo}}_{{$indice}}" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required  value="{{$titular->infoEconomica->propositoRC}}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,29 +111,33 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="fuenteingresos{{$tipo}}_{{$indice}}" cantidad = "0" idinput= "">
-                                                <div class="row">
-                                                    <div class="col-sm-2">
-                                                        <div class="form-group">
-                                                            <select name="selectfuenteingresos" id="selectfuenteingresos{{$tipo}}_1_0" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
-                                                                <option value="" disabled selected>Selecciona</option>
-                                                                <option value="NP">Negocio propio</option>
-                                                                <option value="RD">Relación de dependencia</option>
-                                                                <option value="OI">Otras fuentes de ingreso</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm">
-                                                        <div class="form-group row">
-                                                                <div class="col-sm-2">
-                                                                    <label for="inputfuenteingresos{{$tipo}}_1_0" class="ml-4" id="labelfuenteingresos{{$tipo}}_1_0"></label>
-                                                                </div>
-                                                                <div class="col-sm ml-2">
-                                                                    <input name="inputfuenteingresos" id="inputfuenteingresos{{$tipo}}_1_0" type="text" class="form-control" required disabled/>
-                                                                </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div id="fuenteingresos{{$tipo}}_{{$indice}}" cantidad = "{{count($titular->infoEconomica->negocioPropio) + count($titular->infoEconomica->relacionDependencia) + count($titular->infoEconomica->otrosIngresos)}}" idinput= "">
+                                                @foreach($titular->infoEconomica->negocioPropio as $negocio)
+                                                    @include('contenido.fuentesIngreso',['valueFN'=>$negocio["nombreComercial"],
+                                                                                         'textoFN'=>'Nombre comercial',
+                                                                                         'nameFN'=>'nombreComercial',
+                                                                                         'tipoFN'=>'NP',
+                                                                                         'indice' => $loop->index
+                                                                                         ])
+                                                @endforeach
+                                                @foreach($titular->infoEconomica->relacionDependencia as $rd)
+                                                    @include('contenido.fuentesIngreso',['valueFN'=>$rd["nombreEmpleador"],
+                                                                                            'textoFN'=>'Nombre empleador',
+                                                                                            'nameFN'=>'nombreEmpleador',
+                                                                                            'tipoFN'=>'RD',
+                                                                                            'indice' => 2
+
+                                                                                            ])
+                                                @endforeach
+                                                @foreach($titular->infoEconomica->otrosIngresos as $rd)
+                                                    @include('contenido.fuentesIngreso',['valueFN'=>$rd["otrasFuentesIngreso"],
+                                                                                            'textoFN'=>'Otras fuentes de ingreso',
+                                                                                            'nameFN'=>'otrasFuentesIngresos',
+                                                                                            'tipoFN'=>'OI',
+                                                                                            'indice' => 2
+
+                                                                                            ])
+                                                @endforeach
                                             </div>
                                             <div class="row">
                                                 <div class="form-group">

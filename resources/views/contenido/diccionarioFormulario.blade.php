@@ -563,6 +563,8 @@
                                                                 <div class="col-sm ml-2">
                                                                     <input name="inputfuenteingresos" id="inputfuenteingresosCliente_1_0" type="text" class="form-control" required disabled/>
                                                                 </div>
+                                                            <div class="col-sm-1" >
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

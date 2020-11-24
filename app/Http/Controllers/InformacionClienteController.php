@@ -109,9 +109,6 @@ class InformacionClienteController extends Controller
                       $obT = Telefono::updateOrCreate([
                           'idDatosPersonales' => $idClienteCamposMinimos,
                           'numTelefono' => $telefonosTitulares[$a]
-                      ],[
-                          'idDatosPersonales' => $idClienteCamposMinimos,
-                          'numTelefono' => $telefonosTitulares[$a]
                       ]);
                      if (!empty($listaTelefonos[$obT->idTelefono])) {
                         unset($listaTelefonos[$obT->idTelefono]);

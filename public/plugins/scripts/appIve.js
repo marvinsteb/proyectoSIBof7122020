@@ -543,6 +543,15 @@ function templateDatosPersonales(id, tipo) {
     $(divCardBody).append(tAsoPep);
     return tcamposMinimos;
 }
+function borrarTemplateFuenteIngresos(temFeIg) {
+    console.log(temFeIg);
+    $(temFeIg)
+        .find("button")
+        .click(function () {
+            console.log("eliminando fuente de ingresos");
+            console.log($(this).parent().parent().parent().parent().remove());
+        });
+}
 function templateCamposFuenteIngreso(id, posicion) {
     let temFeIg = $(`
     <div class="row">
@@ -564,7 +573,7 @@ function templateCamposFuenteIngreso(id, posicion) {
                     <div class="col-sm ml-2">
                         <input name="input" id="input${id}_${posicion}" type="text" class="form-control" required disabled />
                     </div>
-                    <div class="col-sm-1" >
+                    <div class="col-sm-1 borrarFuenteIngreso" >
                         <button type="button" class="btn btn-danger">Borrar</button>
                     </div>
             </div>
@@ -578,12 +587,8 @@ function templateCamposFuenteIngreso(id, posicion) {
     if (posicion === 0) {
         $(temFeIg).find("button").remove();
     } else {
-        $(temFeIg)
-            .find("button")
-            .click(function () {
-                console.log("eliminando fuente de ingresos");
-                $(temFeIg).remove();
-            });
+        let divborrar = $(temFeIg).find(`div.borrarFuenteIngreso`);
+        borrarTemplateFuenteIngresos(divborrar);
     }
     return temFeIg;
 }
@@ -2447,6 +2452,7 @@ $(document).ready(function () {
     verificarAsoPep($(".asoPepCliente"));
     validarTipoFuenteIngreso($("select.fuenteIngresos"));
     agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
+    borrarTemplateFuenteIngresos($(`.borrarFuenteIngreso`));
     AgregarTitular();
     eliminarCard($("#titulares>div"));
     agregarProductoServicio($("button.agregarProductoServicio"));
