@@ -1772,6 +1772,55 @@ function templateContenedorNegocioPropio() {
 
     return tpnp;
 }
+function templateSelectActualizacion(id) {
+    let sa = $(`<label for="sectorPet">Sector</label>
+                  <select name="sectorPet" id="sectorPet${id}" class="form-control custom-select sector select2" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="PU">Sector Público</option>
+                    <option value="PR">Sector Privado</option>
+                  </select>`);
+    sa = templateFormGroup(sa);
+    $(sa).find("select").select2();
+    return sa;
+}
+function templateRelacionDependencia(id) {
+    const cmSector = templateSelectActualizacion(id);
+    let tm = $(`
+                <div class="card card-info mt-3" id="relacoinDependencia_${id}">
+                    <div class="card-header">
+                        <h3 class="card-title">Relación de dependencia ${id}</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                </div>`);
+    $(tm).find(`div.card-body`).append(cmSector);
+    return tm;
+}
+function templateContenedorRelacionDependencia() {
+    let trd = $(`<div class="row">
+                    <div class="datosRelacionDependencia col-sm-12" id="datosRelacionDependencia" cantidad="0"></div>
+                    <div class="form-group">
+                        <button type="button" id="agregarRelacionDependencia" class="btn btn-primary agregarRelacionDependencia">Agregar Relación de Dependencia</button>
+                    </div>
+                  </div>`);
+    $(trd)
+        .find(`button#agregarRelacionDependencia`)
+        .click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const tmdrd = templateRelacionDependencia(1);
+            $(`div#datosRelacionDependencia`).append(tmdrd);
+        });
+    return trd;
+}
 function templateFinaUnoPerfilEconomicoTransaccional() {
     const cmSelectActualizacioin = templateSelectActualizacion();
     const cmFecha = templateFecha("", "Pet", "");
@@ -1791,6 +1840,7 @@ function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
             .CardWidget("expand");
         const cmPerfilEconomico = templateFinaUnoPerfilEconomicoTransaccional();
         const cmNegocioPropio = templateContenedorNegocioPropio();
+        const cmRD = templateContenedorRelacionDependencia();
         let cardBody = $("div#perfilEconomicoTransaccional").find(
             "div.card-body"
         );
@@ -1799,6 +1849,7 @@ function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
             $(`<div class="row"><h2>FUENTE DE INGRESOS</h2></div>`)
         );
         $(cardBody).append(cmNegocioPropio);
+        $(cardBody).append(cmRD);
         $(this).remove();
     });
 }
