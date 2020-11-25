@@ -1900,12 +1900,23 @@ function templateSelectOtrosIngresos(id) {
 }
 function templateRowUnoOtrosIngresos(id) {
     const cmSelectOtrosIngresos = templateSelectOtrosIngresos(id);
+    const cmDeatalleOtrosIngresos = templateInputText(
+        id,
+        "DetalleOtrosIngresos",
+        400,
+        "Especificar otra fuente de ingresos",
+        true,
+        false
+    );
     let cmRow = $(`<div class="row"></div>`);
     $(cmRow).append(cmSelectOtrosIngresos);
+    $(cmRow).append(cmDeatalleOtrosIngresos);
     return cmRow;
 }
+
 function templateOtrosIngresos(id) {
     const cmRowUno = templateRowUnoOtrosIngresos(id);
+    const cmMontos = templateCamposMonto(id);
     let tm = $(`
                 <div class="card card-info mt-3" id="otrosIngresos_${id}">
                     <div class="card-header">
@@ -1923,6 +1934,7 @@ function templateOtrosIngresos(id) {
                     </div>
                 </div>`);
     $(tm).find(`div.card-body`).append(cmRowUno);
+    $(tm).find(`div.card-body`).append(cmMontos);
     return tm;
 }
 function templateContenedorOtrosIngresos() {
