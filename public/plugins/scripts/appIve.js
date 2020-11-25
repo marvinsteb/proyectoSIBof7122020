@@ -1783,8 +1783,22 @@ function templateSelectActualizacion(id) {
     $(sa).find("select").select2();
     return sa;
 }
-function templateRelacionDependencia(id) {
+function templateFilaUnord(id) {
     const cmSector = templateSelectActualizacion(id);
+    const cmNombreEmpleador = templateInputText(
+        id,
+        "NombreEmpleador",
+        200,
+        "Nombre del empleaodor",
+        true
+    );
+    let tm = $(`<div class="row"></div>`);
+    $(tm).append(cmSector);
+    $(tm).append(cmNombreEmpleador);
+    return tm;
+}
+function templateRelacionDependencia(id) {
+    const cmRowUno = templateFilaUnord(id);
     let tm = $(`
                 <div class="card card-info mt-3" id="relacoinDependencia_${id}">
                     <div class="card-header">
@@ -1801,7 +1815,7 @@ function templateRelacionDependencia(id) {
                     <div class="card-body">
                     </div>
                 </div>`);
-    $(tm).find(`div.card-body`).append(cmSector);
+    $(tm).find(`div.card-body`).append(cmRowUno);
     return tm;
 }
 function templateContenedorRelacionDependencia() {
