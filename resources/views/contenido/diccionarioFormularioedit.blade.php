@@ -43,7 +43,7 @@
                 <div class="titulares" id="titulares" cantidad="{{count($dc["titulares"])}}">
                     @foreach($dc["titulares"] as $titular)
                         @include('contenido.camposMinimos', ['titular' => $titular,
-                                                             'indice' => count($dc["titulares"]),
+                                                             'indice' => $loop->index,
                                                              'tipo'=>'Cliente'
                                                              ])
                     @endforeach
@@ -63,9 +63,6 @@
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
                                 </button>
                             </div>
                         </div>
@@ -91,9 +88,6 @@
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
                                 </button>
                             </div>
                         </div>

@@ -14,7 +14,7 @@ class DatosPep extends Model
     protected $fillable = [
         'entidad',
         'puestoDesempenia',
-        'pais',
+        'paisEntidad',
         'origenRiqueza', 
         'otroOrigenRiqueza' 
     ];
