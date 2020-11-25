@@ -345,12 +345,12 @@ function templateCamposProfecion(id) {
     $(temCamposProf).append(comEmail);
     return temCamposProf;
 }
-function templateDireccion(id, textolabel) {
+function templateDireccion(id, textolabel, tipo) {
     let temDirec = $(`
         <div class="row">
             <div class="col-sm">
                 <label>${textolabel}</label>
-                <input name="direccionRecidencia${id}" id="direccionRecidencia${id}" type="text" class="form-control direccion" placeholder="Dirección..." maxlength="400" required />
+                <input name="direccion${tipo}${id}" id="direccion${tipo}${id}" type="text" class="form-control direccion" placeholder="Dirección..." maxlength="400" required />
             </div>
         </div>`);
     return temDirec;
@@ -510,7 +510,8 @@ function templateDatosPersonales(id, tipo) {
     let tCamposProf = templateCamposProfecion(id);
     let tCampoDireccion = templateDireccion(
         id,
-        "Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)"
+        "Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)",
+        "Recidencia"
     );
     let tCamposResidencia = templateCamposResidencia(id);
     let tCamposNumTel = templateCamposNacionalidadTelefono(id);
@@ -1724,7 +1725,7 @@ function templatePerfilnegocioPropio(id) {
     const rowuno = templateNombreComercial(id);
     const rowdos = templateRowDosNegocioPropioPet(id);
     const rowtres = templatePantenteComercio(id);
-    const rowCuatro = templateDireccion(id, "Dirección negocio");
+    const rowCuatro = templateDireccion(id, "Dirección negocio", "Negocio");
     const rowCinco = templateCamposLugarPet(id);
     const rowSeis = templateCamposMonto(id);
     let tm = $(`
@@ -1779,7 +1780,7 @@ function templateSelectActualizacion(id) {
                     <option value="PU">Sector Público</option>
                     <option value="PR">Sector Privado</option>
                   </select>`);
-    sa = templateFormGroup(sa);
+    sa = templateFormGroup(sa, "col-sm-2");
     $(sa).find("select").select2();
     return sa;
 }
@@ -1789,7 +1790,7 @@ function templateFilaUnord(id) {
         id,
         "NombreEmpleador",
         200,
-        "Nombre del empleaodor",
+        "Nombre del empleador",
         true
     );
     let tm = $(`<div class="row"></div>`);
@@ -1797,8 +1798,31 @@ function templateFilaUnord(id) {
     $(tm).append(cmNombreEmpleador);
     return tm;
 }
+function templateFilaDosrd(id) {
+    const prinActiEcoEmple = templateInputText(
+        id,
+        "prinActiEcoEmple",
+        200,
+        `Principal actividad económica empleador`,
+        true,
+        false
+    );
+    const puestoDesempenia = templateInputText(
+        id,
+        "puestoDesempenia",
+        200,
+        "Puesto que desempeña",
+        true,
+        false
+    );
+    let tm = $(`<div class="row"></div>`);
+    $(tm).append(prinActiEcoEmple);
+    $(tm).append(puestoDesempenia);
+    return tm;
+}
 function templateRelacionDependencia(id) {
     const cmRowUno = templateFilaUnord(id);
+    const cmRowDos = templateFilaDosrd(id);
     let tm = $(`
                 <div class="card card-info mt-3" id="relacoinDependencia_${id}">
                     <div class="card-header">
@@ -1816,6 +1840,7 @@ function templateRelacionDependencia(id) {
                     </div>
                 </div>`);
     $(tm).find(`div.card-body`).append(cmRowUno);
+    $(tm).find(`div.card-body`).append(cmRowDos);
     return tm;
 }
 function templateContenedorRelacionDependencia() {
@@ -1825,13 +1850,17 @@ function templateContenedorRelacionDependencia() {
                         <button type="button" id="agregarRelacionDependencia" class="btn btn-primary agregarRelacionDependencia">Agregar Relación de Dependencia</button>
                     </div>
                   </div>`);
+    let drd = $(trd).find(`div#datosRelacionDependencia`);
     $(trd)
         .find(`button#agregarRelacionDependencia`)
         .click(function (e) {
             e.preventDefault();
             e.stopPropagation();
-            const tmdrd = templateRelacionDependencia(1);
+            let index = $(drd).attr("cantidad");
+            index++;
+            const tmdrd = templateRelacionDependencia(index);
             $(`div#datosRelacionDependencia`).append(tmdrd);
+            $(drd).attr("cantidad", index);
         });
     return trd;
 }
