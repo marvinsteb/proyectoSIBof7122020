@@ -1710,7 +1710,7 @@ function templateCamposLugarPet(id) {
 function templateMontoAproximado(id) {
     let tm = $(`<label>Monto aproximado ingresos</label>
                 <input type="number" name = "montoAproximado" id="montoAproximado${id}" class="form-control d-inline montoAproximado" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
-    tm = templateFormGroup(tm);
+    tm = templateFormGroup(tm, "col-sm-2");
     return tm;
 }
 function templateCamposMonto(id) {
@@ -1833,6 +1833,7 @@ function templateCamposLugarRd(id) {
 function templateRelacionDependencia(id) {
     const cmRowUno = templateFilaUnord(id);
     const cmRowDos = templateFilaDosrd(id);
+    const rowTres = templateCamposMonto(id);
     const direccionEmpleador = templateDireccion(
         id,
         "Dirección empleador",
@@ -1859,6 +1860,7 @@ function templateRelacionDependencia(id) {
     $(tm).find(`div.card-body`).append(cmRowDos);
     $(tm).find(`div.card-body`).append(direccionEmpleador);
     $(tm).find(`div.card-body`).append(lugarRd);
+    $(tm).find(`div.card-body`).append(rowTres);
     return tm;
 }
 function templateContenedorRelacionDependencia() {
