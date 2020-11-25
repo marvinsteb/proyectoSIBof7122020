@@ -1884,6 +1884,69 @@ function templateContenedorRelacionDependencia() {
         });
     return trd;
 }
+function templateSelectOtrosIngresos(id) {
+    let sa = $(`<label for="tipoOtrosIngresosPet">Tipo de ingreso</label>
+                  <select name="tipoOtrosIngresosPet" id="tipoOtrosIngresosPet${id}" class="form-control custom-select tipoOtrosIngresos select2" style="width: 100%" required>
+                    <option value="" disabled selected>Selecciona</option>
+                    <option value="1">Actividades profecionales</option>
+                    <option value="2">Manutención</option>
+                    <option value="3">Rentas</option>
+                    <option value="3">Jubilación</option>
+                    <option value="3">Otra</option>
+                  </select>`);
+    sa = templateFormGroup(sa, "col-sm-2");
+    $(sa).find("select").select2();
+    return sa;
+}
+function templateRowUnoOtrosIngresos(id) {
+    const cmSelectOtrosIngresos = templateSelectOtrosIngresos(id);
+    let cmRow = $(`<div class="row"></div>`);
+    $(cmRow).append(cmSelectOtrosIngresos);
+    return cmRow;
+}
+function templateOtrosIngresos(id) {
+    const cmRowUno = templateRowUnoOtrosIngresos(id);
+    let tm = $(`
+                <div class="card card-info mt-3" id="otrosIngresos_${id}">
+                    <div class="card-header">
+                        <h3 class="card-title">Otros ingreso ${id}</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                </div>`);
+    $(tm).find(`div.card-body`).append(cmRowUno);
+    return tm;
+}
+function templateContenedorOtrosIngresos() {
+    let trd = $(`<div class="row">
+                    <div class="datosOtrosIngresos col-sm-12" id="datosOtrosIngresos" cantidad="0"></div>
+                    <div class="form-group">
+                        <button type="button" id="agregarOtrosIngresos" class="btn btn-primary agregarOtrosIngresos">Agregar Otros Ingresos</button>
+                    </div>
+                  </div>`);
+    let drd = $(trd).find(`div#datosOtrosIngresos`);
+    $(trd)
+        .find(`button#agregarOtrosIngresos`)
+        .click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let index = $(drd).attr("cantidad");
+            index++;
+            const tmdrd = templateOtrosIngresos(index);
+            $(`div#datosOtrosIngresos`).append(tmdrd);
+            $(tmdrd).find(`select.tipoOtrosIngresos`).focus();
+            $(drd).attr("cantidad", index);
+        });
+    return trd;
+}
 function templateFinaUnoPerfilEconomicoTransaccional() {
     const cmSelectActualizacioin = templateSelectActualizacion();
     const cmFecha = templateFecha("", "Pet", "");
@@ -1904,6 +1967,7 @@ function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
         const cmPerfilEconomico = templateFinaUnoPerfilEconomicoTransaccional();
         const cmNegocioPropio = templateContenedorNegocioPropio();
         const cmRD = templateContenedorRelacionDependencia();
+        const cmCoi = templateContenedorOtrosIngresos();
         let cardBody = $("div#perfilEconomicoTransaccional").find(
             "div.card-body"
         );
@@ -1913,6 +1977,7 @@ function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
         );
         $(cardBody).append(cmNegocioPropio);
         $(cardBody).append(cmRD);
+        $(cardBody).append(cmCoi);
         $(this).remove();
     });
 }
