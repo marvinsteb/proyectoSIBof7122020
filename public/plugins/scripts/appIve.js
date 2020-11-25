@@ -1820,9 +1820,25 @@ function templateFilaDosrd(id) {
     $(tm).append(puestoDesempenia);
     return tm;
 }
+function templateCamposLugarRd(id) {
+    let comPais = templatePais(`paisRd${id}`, "País", true);
+    let comDepartamento = templateDepartamento(`Rd${id}`, "Departamento");
+    let comMunicipio = templateMunicipio(`Rd${id}`, "Municipio");
+    let tempCamResidencia = $(`<div class="row"></div>`);
+    $(tempCamResidencia).append(comPais);
+    $(tempCamResidencia).append(comDepartamento);
+    $(tempCamResidencia).append(comMunicipio);
+    return tempCamResidencia;
+}
 function templateRelacionDependencia(id) {
     const cmRowUno = templateFilaUnord(id);
     const cmRowDos = templateFilaDosrd(id);
+    const direccionEmpleador = templateDireccion(
+        id,
+        "Dirección empleador",
+        "Empleador"
+    );
+    const lugarRd = templateCamposLugarRd(id);
     let tm = $(`
                 <div class="card card-info mt-3" id="relacoinDependencia_${id}">
                     <div class="card-header">
@@ -1841,6 +1857,8 @@ function templateRelacionDependencia(id) {
                 </div>`);
     $(tm).find(`div.card-body`).append(cmRowUno);
     $(tm).find(`div.card-body`).append(cmRowDos);
+    $(tm).find(`div.card-body`).append(direccionEmpleador);
+    $(tm).find(`div.card-body`).append(lugarRd);
     return tm;
 }
 function templateContenedorRelacionDependencia() {
