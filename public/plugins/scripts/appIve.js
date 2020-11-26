@@ -2387,9 +2387,14 @@ function obtenerDiccionarioCamposMinimos(divContenedorCamposMinimos) {
                 .find(`input:text[id=calidadActua${id}]`)
                 .val();
             let daPeRepre = $(this).find(`div#representante${id}`);
+            //idrepresentante
+            const idrepresentante = $(`div#representante${id}`).attr(
+                "idrepresentante"
+            );
             camposMinimos.representante = obtenerDatosPersonales(
                 daPeRepre,
-                `Representante${id}`
+                `Representante${id}`,
+                idrepresentante
             );
         }
         camposMinimos.lugar.pais = $(this)
@@ -2410,7 +2415,6 @@ function obtenerDiccionarioCamposMinimos(divContenedorCamposMinimos) {
         const idDatosPersonales = $(`#camposMinimos${id}`).attr(
             "idatospersonales"
         );
-        console.log(idDatosPersonales);
         camposMinimos.cliente = obtenerDatosPersonales(
             daPeCliente,
             id,
