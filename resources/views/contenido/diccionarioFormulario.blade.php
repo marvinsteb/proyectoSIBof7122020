@@ -638,7 +638,7 @@
                         <button class="btn btn-success float-right mb-4 agregarPerfilEconomico" id="agregarPerfilEconomico">Agregar Perfil Económico</button>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-5" id="btnGuardar">
+                <button type="submit" class="btn btn-primary mt-5 mb-5" id="btnGuardar">
                     Guardar formulario
                 </button>
             </div>

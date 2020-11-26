@@ -192,7 +192,7 @@ function templateOtraCondicionMigratoria(id) {
                      <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />`);
     return cmOtraCM;
 }
-function templateFecha(id, nombre, textolabel, tmformg, requerido) {
+function templateFecha(id, nombre, textolabel, tamanio, requerido) {
     let temCampoFecha = $(`<label>Fecha ${textolabel}</label>
                         <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
                             <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control ${nombre} datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
@@ -203,7 +203,7 @@ function templateFecha(id, nombre, textolabel, tmformg, requerido) {
                                 </div>
                             </div>
                         </div>`);
-    let cm = templateFormGroup(temCampoFecha, tmformg);
+    let cm = templateFormGroup(temCampoFecha, tamanio);
     if (requerido === false) {
         let input = $(cm)
             .find(`input#fecha${nombre}${id}`)
@@ -1967,6 +1967,81 @@ function templateFinaUnoPerfilEconomicoTransaccional() {
     $(rowuno).append(cmFecha);
     return rowuno;
 }
+function templateRowUnoPSperfilTransaccional(id) {
+    const fecha = templateFecha(
+        id,
+        "Pspt",
+        "Fecha de elaboración del perfil",
+        "col-sm-3",
+        true
+    );
+    const descripcion = templateInputText(
+        id,
+        "productoServicioPspt",
+        100,
+        "Producto y/o servicio"
+    );
+    let rowuno = $(`<div class="row"></div>`);
+    $(rowuno).append(fecha);
+    $(rowuno).append(descripcion);
+    return rowuno;
+}
+
+function templateProductoServicioPerfilTransaccional(id) {
+    const rowuno = templateRowUnoPSperfilTransaccional(id);
+    let tm = $(`
+                <div class="card card-info mt-3" id="otrosIngresos_${id}">
+                    <div class="card-header">
+                        <h3 class="card-title">Producto del perfil transaccional ${id}</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                </div>`);
+    $(tm).find(`div.card-body`).append(rowuno);
+    return tm;
+}
+
+function templatePerfiltransaccional() {
+    let tm = $(`
+                <div class="card card-primary mt-3" id="perfilTransaccional">
+                    <div class="card-header">
+                        <h3 class="card-title">PERFIL TRANSACCIONAL</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                <div class="row">
+                    <div class="datosPerfilTransaccional col-sm-12" id="datosPerfilTransaccional" cantidad="0"></div>
+                    <div class="form-group">
+                            <button type="button" id="agregarPerfilTransaccional" class="btn btn-primary agregarOtrosIngresos">Agregar Producto y/o Servicio Perfil Transaccinal</button>
+                    </div>
+                  </div>
+                    </div>
+                </div>`);
+    let dpt = $(tm).find(`div#datosPerfilTransaccional`);
+    $(tm)
+        .find("button#agregarPerfilTransaccional")
+        .click(function () {
+            let index = $(dpt).attr("cantidad");
+            index++;
+            const cmPSPT = templateProductoServicioPerfilTransaccional(index);
+            $(tm).find(`div#datosPerfilTransaccional`).append(cmPSPT);
+            //$(tmdrd).find(`select.tipoOtrosIngresos`).focus();
+            $(dpt).attr("cantidad", index);
+        });
+    return $(tm);
+}
 function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
     $(btnAgregarPerfilEconomico).click(function (e) {
         e.preventDefault();
@@ -1980,6 +2055,7 @@ function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
         const cmNegocioPropio = templateContenedorNegocioPropio();
         const cmRD = templateContenedorRelacionDependencia();
         const cmCoi = templateContenedorOtrosIngresos();
+        const cmPet = templatePerfiltransaccional();
         let cardBody = $("div#perfilEconomicoTransaccional").find(
             "div.card-body"
         );
@@ -1990,6 +2066,7 @@ function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
         $(cardBody).append(cmNegocioPropio);
         $(cardBody).append(cmRD);
         $(cardBody).append(cmCoi);
+        $(cardBody).append(cmPet);
         $(this).remove();
     });
 }
