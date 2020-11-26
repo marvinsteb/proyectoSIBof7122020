@@ -153,7 +153,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="representante{{$tipo}}_{{$indice}}">
+                            <div id="representante{{$tipo}}_{{$indice}}" idrepresentante="{{$titular->representante->idDatosPersonales}}">
                                 @if($titular->tipoActuacion == 'R')
                                  @include('contenido.datosPersonales',[
                                     'tipo'=>'RepresentanteCliente',
