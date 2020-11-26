@@ -1707,15 +1707,15 @@ function templateCamposLugarPet(id) {
     $(tempCamResidencia).append(comMunicipio);
     return tempCamResidencia;
 }
-function templateMontoAproximado(id) {
-    let tm = $(`<label>Monto aproximado ingresos</label>
+function templateMontoAproximado(id, textolabel) {
+    let tm = $(`<label>${textolabel}</label>
                 <input type="number" name = "montoAproximado" id="montoAproximado${id}" class="form-control d-inline montoAproximado" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
-    tm = templateFormGroup(tm, "col-sm-2");
+    tm = templateFormGroup(tm, "col-sm-3");
     return tm;
 }
-function templateCamposMonto(id) {
+function templateCamposMonto(id, textolabelMonto) {
     const tipoMoneda = templateMoneda(id);
-    const MontoAproximado = templateMontoAproximado(id);
+    const MontoAproximado = templateMontoAproximado(id, textolabelMonto);
     let tm = $(`<div class="row"></div>`);
     $(tm).append(tipoMoneda);
     $(tm).append(MontoAproximado);
@@ -1727,7 +1727,7 @@ function templatePerfilnegocioPropio(id) {
     const rowtres = templatePantenteComercio(id);
     const rowCuatro = templateDireccion(id, "Dirección negocio", "Negocio");
     const rowCinco = templateCamposLugarPet(id);
-    const rowSeis = templateCamposMonto(id);
+    const rowSeis = templateCamposMonto(id, "Monto aproximado ingresos");
     let tm = $(`
                 <div class="card card-info mt-3" id="negocioPropio_${id}">
                     <div class="card-header">
@@ -1833,7 +1833,7 @@ function templateCamposLugarRd(id) {
 function templateRelacionDependencia(id) {
     const cmRowUno = templateFilaUnord(id);
     const cmRowDos = templateFilaDosrd(id);
-    const rowTres = templateCamposMonto(id);
+    const rowTres = templateCamposMonto(id, "Monto aproximado ingresos");
     const direccionEmpleador = templateDireccion(
         id,
         "Dirección empleador",
@@ -1916,7 +1916,7 @@ function templateRowUnoOtrosIngresos(id) {
 
 function templateOtrosIngresos(id) {
     const cmRowUno = templateRowUnoOtrosIngresos(id);
-    const cmMontos = templateCamposMonto(id);
+    const cmMontos = templateCamposMonto(id, "Monto aproximado ingresos");
     let tm = $(`
                 <div class="card card-info mt-3" id="otrosIngresos_${id}">
                     <div class="card-header">
@@ -1986,9 +1986,9 @@ function templateRowUnoPSperfilTransaccional(id) {
     $(rowuno).append(descripcion);
     return rowuno;
 }
-
 function templateProductoServicioPerfilTransaccional(id) {
     const rowuno = templateRowUnoPSperfilTransaccional(id);
+    const rowdos = templateCamposMonto(id, "Monto promedio mensual (6 meses)");
     let tm = $(`
                 <div class="card card-info mt-3" id="otrosIngresos_${id}">
                     <div class="card-header">
@@ -2006,6 +2006,7 @@ function templateProductoServicioPerfilTransaccional(id) {
                     </div>
                 </div>`);
     $(tm).find(`div.card-body`).append(rowuno);
+    $(tm).find(`div.card-body`).append(rowdos);
     return tm;
 }
 
@@ -2024,7 +2025,7 @@ function templatePerfiltransaccional() {
                 <div class="row">
                     <div class="datosPerfilTransaccional col-sm-12" id="datosPerfilTransaccional" cantidad="0"></div>
                     <div class="form-group">
-                            <button type="button" id="agregarPerfilTransaccional" class="btn btn-primary agregarOtrosIngresos">Agregar Producto y/o Servicio Perfil Transaccinal</button>
+                            <button type="button" id="agregarPerfilTransaccional" class="btn btn-primary agregarOtrosIngresos mt-3">Agregar Producto y/o Servicio Perfil Transaccinal</button>
                     </div>
                   </div>
                     </div>
