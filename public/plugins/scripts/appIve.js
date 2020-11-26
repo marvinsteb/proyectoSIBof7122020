@@ -2769,7 +2769,8 @@ $(document).ready(function () {
     verificaActuaNombrePropio($(".actuaNombrePropio"));
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     cargarMunicipios($(".getMunicipio"));
-    validarApellidoCasada($(".apellidoCasadaCliente"));
+    validarApellidoCasada($(".apellidoCasada"));
+    habilitaOtraCondicionMigratoria($(`select.condicionMigratoria`));
     validarNit($(".validarNit"));
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
     agregarTemplateNacionalidad($(".agregarNacionalidadCliente"));
@@ -2777,7 +2778,7 @@ $(document).ready(function () {
     agregarTemplateTelefono($(".agregarTelefonoCliente"));
     eliminarTemplateTelefono($(`.borrarTelefono`));
     verificarPersonaPep($(".pep"));
-    verificarAsoPep($(".asoPepCliente"));
+    verificarAsoPep($(".asoPep"));
     validarTipoFuenteIngreso($("select.fuenteIngresos"));
     agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
     borrarTemplateFuenteIngresos($(`.borrarFuenteIngreso`));

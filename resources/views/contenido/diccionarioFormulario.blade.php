@@ -126,7 +126,7 @@
                                     <div class="form-group">
                                         <label>Fecha</label>
                                         <div class="input-group date" id="fechaDoc_1" data-target-input="nearest">
-                                            <input name="fechaDocCaMiCliente_1" id="fechaDocCaMiCliente_1" type="text" class="form-control datetimepicker-input fechaCaMiCliente" data-target="#fechaDoc_1" required />
+                                            <input name="fechaDocCaMiCliente_1" id="fechaDocCaMiCliente_1" type="text" class="form-control datetimepicker-input fechaCaMi" data-target="#fechaDoc_1" required />
                                             <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                                             <div class="input-group-append" data-target="#fechaDoc_1" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
@@ -153,38 +153,38 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Primer Apellido</label>
-                                                            <input name="primerApellidoCliente_1" id="primerApellidoCliente_1" type="text" class="form-control primerApellidoCliente" placeholder="Primer Apellido ..." maxlength="15" required />
+                                                            <input name="primerApellidoCliente_1" id="primerApellidoCliente_1" type="text" class="form-control primerApellido" placeholder="Primer Apellido ..." maxlength="15" required />
                                                         </div>
                                                     </div>
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Segundo apellido</label>
-                                                            <input name="segundoApellidoCliente_1" id="segundoApellidoCliente_1" type="text" class="form-control segundoApellidoCliente" placeholder="Segundo apellido ..." maxlength="15" />
+                                                            <input name="segundoApellidoCliente_1" id="segundoApellidoCliente_1" type="text" class="form-control segundoApellido" placeholder="Segundo apellido ..." maxlength="15" />
                                                         </div>
                                                     </div>
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label for="apellidoCasadaCliente_1">Apellido casada</label>
-                                                            <input name="apellidoCasadaCliente_1" id="apellidoCasadaCliente_1" type="text" class="form-control apellidoCasadaCliente" placeholder="Apellido casada ..." maxlength="15" />
+                                                            <input name="apellidoCasadaCliente_1" id="apellidoCasadaCliente_1" type="text" class="form-control apellidoCasada" placeholder="Apellido casada ..." maxlength="15" />
                                                             <div class="invalid-tooltip">No debe anteponerse a la palabra “DE” al referirse al apellido de casada. Especificar únicamente el apellido. </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Primer nombre</label>
-                                                            <input name="primerNombreCliente_1" id="primerNombreCliente_1" type="text" class="form-control primerNombreCliente" placeholder="Primer nombre ..." maxlength="15" required />
+                                                            <input name="primerNombreCliente_1" id="primerNombreCliente_1" type="text" class="form-control primerNombre" placeholder="Primer nombre ..." maxlength="15" required />
                                                         </div>
                                                     </div>
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Segundo nombre</label>
-                                                            <input name="segundoNombreCliente_1" id="segundoNombreCliente_1" type="text" class="form-control segundoNombreCliente" placeholder="Segundo nombre ..." maxlength="15" />
+                                                            <input name="segundoNombreCliente_1" id="segundoNombreCliente_1" type="text" class="form-control segundoNombre" placeholder="Segundo nombre ..." maxlength="15" />
                                                         </div>
                                                     </div>
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Otros nombre</label>
-                                                            <input name="otrosNombresCliente_1" id="otrosNombresCliente_1" type="text" class="form-control otrosNombresCliente" placeholder="Otros nombres ..." maxlength="30" />
+                                                            <input name="otrosNombresCliente_1" id="otrosNombresCliente_1" type="text" class="form-control otrosNombres" placeholder="Otros nombres ..." maxlength="30" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -195,7 +195,7 @@
                                                         <div class="form-group">
                                                             <label>Fecha nacimiento</label>
                                                             <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
-                                                                <input name="fechaNacimientoCliente_1" id="fechaNacimientoCliente_1" type="text" class="form-control datetimepicker-input fechaNacimientoCliente" data-target="#fechaNacimiento" required />
+                                                                <input name="fechaNacimientoCliente_1" id="fechaNacimientoCliente_1" type="text" class="form-control datetimepicker-input fechaNacimiento" data-target="#fechaNacimiento" required />
                                                                 <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                                                                 <div class="input-group-append" data-target="#fechaNacimiento" data-toggle="datetimepicker">
                                                                     <div class="input-group-text">
@@ -330,13 +330,13 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Profesión u oficio</label>
-                                                            <input name="profecionOficioCliente_1" id="profecionOficioCliente_1" type="text" class="form-control profecionOficioCliente" placeholder="Profesión u oficio ..." maxlength="100" required />
+                                                            <input name="profecionOficioCliente_1" id="profecionOficioCliente_1" type="text" class="form-control profecionOficio" placeholder="Profesión u oficio ..." maxlength="100" required />
                                                         </div>
                                                     </div>
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>Correo electrónico</label>
-                                                            <input name="emailCliente_1" id="emailCliente_1" type="email" class="form-control emailCliente" placeholder="Correo electrónico ..." maxlength="100" />
+                                                            <input name="emailCliente_1" id="emailCliente_1" type="email" class="form-control email" placeholder="Correo electrónico ..." maxlength="100" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -354,7 +354,7 @@
                                                 <div class="row">
                                                     <div class="col-sm">
                                                         <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
-                                                        <input name="direccionRecidenciaCliente_1" id="direccionRecidenciaCliente_1" type="text" class="form-control direccionRecidenciaCliente" placeholder="Dirección de residencia completa ..." maxlength="400" required />
+                                                        <input name="direccionRecidenciaCliente_1" id="direccionRecidenciaCliente_1" type="text" class="form-control direccionRecidencia" placeholder="Dirección de residencia completa ..." maxlength="400" required />
                                                     </div>
                                                 </div>
                                                 <!-- .row -->
@@ -364,7 +364,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group">
                                                             <label>País residencia</label>
-                                                            <select name="paisRecidenciaCliente_1" id="paisRecidenciaCliente_1" class="form-control custom-select paisRecidenciaCliente deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
+                                                            <select name="paisRecidenciaCliente_1" id="paisRecidenciaCliente_1" class="form-control custom-select paisRecidencia deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($paises as $pais)
                                                                 <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
@@ -413,7 +413,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <button type="button" id="agregarNacionalidadCliente_1" class="btn btn-primary agregarNacionalidadCliente">
+                                                            <button type="button" id="agregarNacionalidadCliente_1" class="btn btn-primary agregarNacionalidad">
                                                                 Agregar Nacionalidad
                                                             </button>
                                                         </div>
@@ -430,7 +430,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <button type="button" id="agregarTelefonoCliente_1" class="btn btn-primary agregarTelefonoCliente">
+                                                            <button type="button" id="agregarTelefonoCliente_1" class="btn btn-primary agregarTelefono">
                                                                 Agregar teléfono
                                                             </button>
                                                         </div>
@@ -483,11 +483,11 @@
                                                                 <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryAsoPepClienteSi_1" class="asoPepCliente form-check-input" name="asoPepCliente_1" value="S" required />
+                                                                <input type="radio" id="primaryAsoPepClienteSi_1" class="asoPep form-check-input" name="asoPepCliente_1" value="S" required />
                                                                 <label for="primaryAsoPepClienteSi_1">Sí</label>
                                                             </div>
                                                             <div class="icheck-primary d-inline">
-                                                                <input type="radio" id="primaryAsoPepClienteNo_1" class="asoPepCliente form-check-input" name="asoPepCliente_1" value="N" required />
+                                                                <input type="radio" id="primaryAsoPepClienteNo_1" class="asoPep form-check-input" name="asoPepCliente_1" value="N" required />
                                                                 <label for="primaryAsoPepClienteNo_1">No</label>
                                                                 <div class="invalid-tooltip">Indica si el cliente tine un tiene parentesco o es asociadoa una Persona PEP.</div>
                                                             </div>
