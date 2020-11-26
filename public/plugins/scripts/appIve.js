@@ -687,23 +687,24 @@ function templateFilaCincoProductoServicio(id) {
     tm = $(tm).append(valor);
     return tm;
 }
+function btnAgregarBeneficiario(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("agregando beneficiario");
+        const id = $(this).parent().parent().parent().parent().attr("id");
+        agregarCamposMinimos("Beneficiario", `div#datosBeneficiario${id}`);
+    });
+}
 function templateBeneficiario(id) {
     let tmB = $(
         `<div class="row"><H2>Beneficiarios </h2><div id="datosBeneficiarioProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
     );
     let divBtn = $(`<div class="col-sm form-group">
-                           <button type="button" id="agregarBeneficiario${id}" class="btn btn-primary">Agregar Beneficiario</button>
+                           <button type="button" id="agregarBeneficiario${id}" class="btn btn-primary agregarBeneficiario">Agregar Beneficiario</button>
                        </div>`);
-    let btn = $(divBtn).find(`button#agregarBeneficiario${id}`);
-    $(btn).click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("agregando beneficiario");
-        agregarCamposMinimos(
-            "Beneficiario",
-            `div#datosBeneficiarioProductoServicio_${id}`
-        );
-    });
+    const btn = $(divBtn).find(`button#agregarBeneficiario${id}`);
+    btnAgregarBeneficiario(btn);
     $(tmB).append(divBtn);
     return tmB;
 }
@@ -2805,6 +2806,7 @@ $(document).ready(function () {
     eliminarCard($("#titulares>div"));
     eliminarCard($("#datosProductoServicio>div"));
     agregarProductoServicio($("button.agregarProductoServicio"));
+    btnAgregarBeneficiario($("button.agregarBeneficiario"));
     agregarPerfilEconomico($("button.agregarPerfilEconomico"));
     validarFormulario();
 });

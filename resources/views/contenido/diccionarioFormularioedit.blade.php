@@ -44,7 +44,8 @@
                     @foreach($dc["titulares"] as $titular)
                         @include('contenido.camposMinimos', ['titular' => $titular,
                                                              'indice' => $loop->index,
-                                                             'tipo'=>'Cliente'
+                                                             'tipo'=>'Cliente',
+                                                             'tipolabel'=>'Titular'
                                                              ])
                     @endforeach
                 </div>

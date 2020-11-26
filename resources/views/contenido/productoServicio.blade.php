@@ -137,9 +137,19 @@
     </div>
     <div class="row">
       <h2>Beneficiarios</h2>
-      <div id="datosBeneficiarioProductoServicio_{{ $indicePro }}" class="col-sm-12" cantidad="0"></div>
+      <div id="datosBeneficiarioProductoServicio_{{ $indicePro }}" class="col-sm-12" cantidad="{{count($producto->beneficiarios)}}">
+        @if(!empty($producto->beneficiarios))
+          @foreach($producto->beneficiarios as $benefi)
+           @include('contenido.camposMinimos', ['titular' => $benefi,
+                                                'indice' => $loop->index,
+                                                'tipo'=>'Beneficiario',
+                                                'tipolabel'=>'Beneficiario'
+                                                ])
+          @endforeach
+        @endif
+      </div>
       <div class="col-sm form-group">
-        <button type="button" id="agregarBeneficiario1" class="btn btn-primary">
+        <button type="button" id="agregarBeneficiario{{ $indicePro }}" class="btn btn-primary agregarBeneficiario">
           Agregar Beneficiario
         </button>
       </div>
