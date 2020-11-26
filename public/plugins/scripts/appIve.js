@@ -1404,6 +1404,12 @@ function agregaAsoPep(idAsoPep) {
     $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
     $(`#datos${idAsoPep}>div.info`).find(`select#parentesco${id}`).focus();
 }
+function btnaddfamasopep(btn) {
+    $(btn).click(function () {
+        agregaAsoPep($(this).attr("name"));
+    });
+}
+
 function verificarAsoPep(asoPepCliente) {
     for (let i = 0; i < asoPepCliente.length; i++) {
         $(asoPepCliente[i]).change(function () {
@@ -2089,7 +2095,8 @@ class datosPep {
     }
 }
 class dicParienteAsociadoPep {
-    constructor() {
+    constructor(id) {
+        this.idDatosParienteAsociadoPep = id;
         this.parentesco = null;
         this.otroParentesco = null;
         this.motivoAsociacion = null;
@@ -2549,7 +2556,13 @@ function obtenerDatosPersonales(divPadre, id, idDatosPersonales) {
             // $(`div#asoPepCliente_1_0`).find(`select#parentescoasoPepCliente_1_0`).val();
 
             let idAsociado = $(asociados[a]).attr("id");
-            let datosAsoPep = new dicParienteAsociadoPep();
+            let idDatosParienteAsociadoPep = $(asociados[a]).attr(
+                "idDatosParienteAsociadoPep"
+            );
+
+            let datosAsoPep = new dicParienteAsociadoPep(
+                idDatosParienteAsociadoPep
+            );
             let divactual = `div#${idAsociado}`;
             datosAsoPep.parentesco = $(divactual)
                 .find(`select#parentesco${idAsociado}`)
@@ -2779,6 +2792,7 @@ $(document).ready(function () {
     eliminarTemplateTelefono($(`.borrarTelefono`));
     verificarPersonaPep($(".pep"));
     verificarAsoPep($(".asoPep"));
+    btnaddfamasopep($(`button.agregarFamiliarAsociado`));
     validarTipoFuenteIngreso($("select.fuenteIngresos"));
     agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
     borrarTemplateFuenteIngresos($(`.borrarFuenteIngreso`));

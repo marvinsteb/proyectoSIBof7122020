@@ -210,11 +210,11 @@
                             <select name="nacionalidad{{$tipo}}_{{ $loop->index }}" id="nacionalidad{{$tipo}}_{{$indice}}_{{ $loop->index }}" class="form-control custom-select nacionalidad select2" style="width: 100%" required>
                                 <option value="" disabled selected>Selecciona</option>
                                 @foreach($paises as $pais)
-                                    @if($pais->codigoPais == $nacionalidad)
-                                    <option value="{{$pais->idPais}}" selected>{{$pais->nombrePais}}</option>
-                                    @else
-                                    <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
-                                    @endif
+                                @if($pais->codigoPais == $nacionalidad)
+                                <option value="{{$pais->idPais}}" selected>{{$pais->nombrePais}}</option>
+                                @else
+                                <option value="{{$pais->idPais}}">{{$pais->nombrePais}}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>
@@ -324,14 +324,27 @@
         <div id="datosasoPep{{$tipo}}_{{$indice}}">
             <div class="info" cantidad="{{$datosPersonales->parienteAsociadoPep == 'S' ? count($datosPersonales->datosParienteAsociadoPep) : 0 }}">
                 @if($datosPersonales->parienteAsociadoPep == 'S')
-                    @foreach($datosPersonales->datosParienteAsociadoPep as $dp)
-                    @include('contenido.datosAsoPep',[
-                    'datosParienteAsociadoPep'=>$dp,
-                    'indicePep' => $loop->index,
-                    ])
-                    @endforeach
+                @foreach($datosPersonales->datosParienteAsociadoPep as $dp)
+                @include('contenido.datosAsoPep',[
+                'datosParienteAsociadoPep'=>$dp,
+                'indicePep' => $loop->index,
+                ])
+                @endforeach
                 @endif
             </div>
+            @if($datosPersonales->parienteAsociadoPep == 'S')
+            <div class="btnadd">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary agregarFamiliarAsociado" name="asoPep{{$tipo}}_{{$indice}}" id="agregarFamiliarAsociadoPepasoPep{{$tipo}}_{{$indice}}">
+                                Agregar Familiar/Asociado PEP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>
