@@ -262,12 +262,22 @@ class InformacionClienteController extends Controller
     public function formatoFechaJson($fecha){
         return  Carbon::createFromFormat('Y-m-d', $fecha)->format('Ymd');
     }
-    public function querylugar($idLugar){
+    public function querylugar($idLugar,$jsonive){
         $arrLugarCM = Lugar::select('lugar.idlugar','pais.codigoPais as pais','departamento.codigoDepartamento as departamento','municipio.codigoMunicipio as municipio', 'pais.nombrePais','departamento.nombreDepartamento','municipio.nombreMunicipio')
                             ->join('pais', 'lugar.pais', '=', 'pais.idPais')
                             ->leftJoin('departamento', 'lugar.departamento', '=', 'departamento.idDepartamento')
                             ->leftJoin('municipio', 'lugar.municipio', '=', 'municipio.idMunicipio')
                             ->where('lugar.idLugar','=',$idLugar)->get()[0];
+        if($arrLugarCM["pais"] != 'GT'){
+            $arrLugarCM["departamento"] = "";
+            $arrLugarCM["municipio"] = "";
+        }
+        if($jsonive){
+            unset($arrLugarCM["idlugar"]);
+            unset($arrLugarCM["nombrePais"]);
+            unset($arrLugarCM["nombreDepartamento"]);
+            unset($arrLugarCM["nombreMunicipio"]);
+        }
         return $arrLugarCM;
     }
     public function arrayNacionalidades($idNacionalidad){
@@ -307,11 +317,11 @@ class InformacionClienteController extends Controller
         }
         return $arrParienteAsociadoPep;
     }
-    public function queryDatosPersonales($idDatosPersonales){
+    public function queryDatosPersonales($idDatosPersonales,$jsonive){
                     $datosPersonales = DatosPersonales::where('idDatosPersonales','=',$idDatosPersonales)->get()[0];
                     $datosPersonales["fechaNacimiento"] = $this->formatoFechaJson($datosPersonales["fechaNacimiento"]);
                     $datosPersonales["nacionalidades"] = $this->arrayNacionalidades($datosPersonales["idDatosPersonales"]);
-                    $datosPersonales["nacimiento"] = $this->querylugar($datosPersonales["nacimiento"]);
+                    $datosPersonales["nacimiento"] = $this->querylugar($datosPersonales["nacimiento"],$jsonive);
                     $datosPersonales["nit"] = $this->formatoNit($datosPersonales["nit"]);
                     $datosPersonales["numeroDocumentoIdentificacion"] = $this->formatoDPI($datosPersonales["numeroDocumentoIdentificacion"]);
                     if($datosPersonales["tipoDocumentoIdentificacion"] == 'P'){
@@ -319,11 +329,14 @@ class InformacionClienteController extends Controller
                     } else {
                         $datosPersonales["emisionPasaporte"] = "";
                     }
-                    $datosPersonales["residencia"] = $this->querylugar($datosPersonales["residencia"]);
+                    $datosPersonales["residencia"] = $this->querylugar($datosPersonales["residencia"],$jsonive);
                     $datosPersonales["telefonos"] = $this->arrayTelefonos($datosPersonales["idDatosPersonales"]);
                     if($datosPersonales["pep"] == 'S'){
                         $datosPersonales["datosPep"] = DatosPep::where('idDatosPep','=',$datosPersonales["datosPep"])->get()[0];
                         $datosPersonales["datosPep"] ["paisEntidad"] =  $this->obtenerCodigoPais($datosPersonales["datosPep"] ["paisEntidad"]);
+                        if($jsonive){
+                            unset($datosPersonales["datosPep"]["idDatosPep"]);
+                        }
                     } else {
                         $datosPersonales["datosPep"] = "";
                     }
@@ -331,6 +344,27 @@ class InformacionClienteController extends Controller
                         $datosPersonales["datosParienteAsociadoPep"] = $this->queryDatosParienteAsociadoPep($datosPersonales["idDatosPersonales"]);
                     } else {
                         $datosPersonales["datosParienteAsociadoPep"] = "";
+                    }
+                    if($datosPersonales["apellidoCasada"] == null){
+                        $datosPersonales["apellidoCasada"] = "";
+                    }
+                    if($datosPersonales["otrosNombres"] == null){
+                        $datosPersonales["otrosNombres"] = "";
+                    }
+                    if($datosPersonales["condicionMigratoria"] == null){
+                        $datosPersonales["condicionMigratoria"] = "";
+                    }
+                    if($datosPersonales["otraCondicionMigratoria"] == null){
+                        $datosPersonales["otraCondicionMigratoria"] = "";
+                    }
+                    if($datosPersonales["email"] == null){
+                        $datosPersonales["email"] = "";
+                    }
+                    if($datosPersonales["nit"] == null){
+                        $datosPersonales["nit"] = "";
+                    }
+                    if($jsonive){
+                        unset($datosPersonales["idDatosPersonales"]);
                     }
                     return $datosPersonales;
     }
@@ -355,67 +389,71 @@ class InformacionClienteController extends Controller
         }
         return $arrFuentIngresos;
     }
-    public function queryInfoEconommicaInicial($infoEconomicaCamposMinimos){
+    public function queryInfoEconommicaInicial($infoEconomicaCamposMinimos,$jsonive){
         $obInfoEco = InformacionEconomicaInicial::where('idInformacionEconomicaInicial','=',$infoEconomicaCamposMinimos)->first();
         $obInfoEco["negocioPropio"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'NP');
         $obInfoEco["relacionDependencia"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'RD');
         $obInfoEco["otrosIngresos"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial,'OI');
         return $obInfoEco;
     }
-    public function queryCamposMinimos($id){
+    public function queryCamposMinimos($id,$jsonive){
          $ObCamposMinimos = CamposMinimos::where('idCamposMinimos','=',$id)->first();
                 if($ObCamposMinimos['tipoActuacion'] == 'R'){
-                    $ObCamposMinimos["representante"] = $this->queryDatosPersonales($ObCamposMinimos["representante"]);
+                    $ObCamposMinimos["representante"] = $this->queryDatosPersonales($ObCamposMinimos["representante"],$jsonive);
                 }else{
                     $ObCamposMinimos["calidadActua"] = "";
                     $ObCamposMinimos["representante"] = "";
                 }
 
-                $ObCamposMinimos["lugar"] = $this->queryLugar($ObCamposMinimos["lugar"]);
+                $ObCamposMinimos["lugar"] = $this->queryLugar($ObCamposMinimos["lugar"],$jsonive);
                 $ObCamposMinimos["fecha"] = $this->formatoFechaJson($ObCamposMinimos["fecha"]);
-                $ObCamposMinimos["cliente"] = $this->queryDatosPersonales($ObCamposMinimos["cliente"]);
-                $ObCamposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($ObCamposMinimos["infoEconomica"]);
+                $ObCamposMinimos["cliente"] = $this->queryDatosPersonales($ObCamposMinimos["cliente"],$jsonive);
+                $ObCamposMinimos["infoEconomica"] = $this->queryInfoEconommicaInicial($ObCamposMinimos["infoEconomica"],$jsonive);
+
+                if($jsonive){
+                    unset($ObCamposMinimos["idCamposMinimos"]);
+                }
         return  $ObCamposMinimos;
     }
-    public function queryCamposMinimosOtrosFirmantes($id){
+    public function queryCamposMinimosOtrosFirmantes($id,$jsonive){
         $ObCamposMinimosOtrosFirmantes = CamposMinimosOtrosFirmantes::where('idCamposMinimosFirmante','=',$id)->first();
                 if($ObCamposMinimosOtrosFirmantes['tipoActuacion'] == 'R'){
-                     $ObCamposMinimosOtrosFirmantes["representante"] = $this->queryDatosPersonales($ObCamposMinimosOtrosFirmantes["representante"]);
+                     $ObCamposMinimosOtrosFirmantes["representante"] = $this->queryDatosPersonales($ObCamposMinimosOtrosFirmantes["representante"],$jsonive);
                 }else{
                      $ObCamposMinimosOtrosFirmantes["calidadActua"] = "";
                      $ObCamposMinimosOtrosFirmantes["representante"] = "";
                 }
 
-                 $ObCamposMinimosOtrosFirmantes["lugar"] = $this->queryLugar($ObCamposMinimosOtrosFirmantes["lugar"]);
+                 $ObCamposMinimosOtrosFirmantes["lugar"] = $this->queryLugar($ObCamposMinimosOtrosFirmantes["lugar"],$jsonive);
                  $ObCamposMinimosOtrosFirmantes["fecha"] = $this->formatoFechaJson($ObCamposMinimosOtrosFirmantes["fecha"]);
-                 $ObCamposMinimosOtrosFirmantes["firmante"] = $this->queryDatosPersonales($ObCamposMinimosOtrosFirmantes["firmante"]);
+                 $ObCamposMinimosOtrosFirmantes["firmante"] = $this->queryDatosPersonales($ObCamposMinimosOtrosFirmantes["firmante"],$jsonive);
         return  $ObCamposMinimosOtrosFirmantes;
     }
-    public function queryDicionarioFormulario($id){
+    public function queryDicionarioFormulario($id,$jsonive){
             $ObDicFormulario = DiccionarioFormulario::where('idDiccionarioFormulario', '=',$id)->first();
 
             $ObTitulares = Titular::where('idDiccionarioFormulario', '=', $ObDicFormulario->idDiccionarioFormulario)->get();
             $listaTitulares = [];
             foreach ($ObTitulares as $t) {
-                $listaTitulares[] = $this->queryCamposMinimos($t["idCamposMinimos"]);
+                $listaTitulares[] = $this->queryCamposMinimos($t["idCamposMinimos"],$jsonive);
             }
 
             $obDiccionarioFormulario = DiccionarioProductoServicio::where('idDiccionarioFormulario','=',$ObDicFormulario->idDiccionarioFormulario)->get();
             $listaProductosServicios = [];
             foreach ($obDiccionarioFormulario as $dc) {
                 $obPS = ProductoServicio::where('idProductoServicio','=',$dc["idProductoServicio"])->first();
-                $obPS["lugar"] = $this->querylugar($obPS["lugar"]);
+                $obPS["lugar"] = $this->querylugar($obPS["lugar"],$jsonive);
                 $obPS["fecha"] = $this->formatoFechaJson($obPS["fecha"]);
                 $obPS["moneda"] = Moneda::select('codigoMoneda')->where('idMoneda','=',$obPS["moneda"])->first()["codigoMoneda"];
                 $listaBeneficiarios = [];
                 $listaOtrosFirmantes = [];
                 $obListaBenefifiarios = Beneficiario::where('idProductoServicio','=',$obPS["idProductoServicio"])->get();
                 foreach ($obListaBenefifiarios as $beneficiario) {
-                    $listaBeneficiarios[] = $this->queryCamposMinimos($beneficiario["idCamposMinimos"]);
+                    $listaBeneficiarios[] = $this->queryCamposMinimos($beneficiario["idCamposMinimos"],$jsonive);
                 }
                 $obListaOtrosFirmantes = OtrosFirmantes::where('idProductoServicio','=',$obPS["idProductoServicio"])->get();
                 foreach($obListaOtrosFirmantes as $otroFirmante){
-                    $listaOtrosFirmantes[] = $this->queryCamposMinimosOtrosFirmantes($otroFirmante["idCamposMinimosFirmante"]);
+                    $listaOtrosFirmantes[] = $this->queryCamposMinimosOtrosFirmantes($otroFirmante["idCamposMinimosFirmante"],$jsonive);
                 } 
                 $obPS["beneficiarios"] = $listaBeneficiarios; 
                 $obPS["otrosFirmantes"] = $listaOtrosFirmantes; 
@@ -428,12 +466,16 @@ class InformacionClienteController extends Controller
                 'productos'=> $listaProductosServicios,
                 'perfilEconomico'=>'perfilEconomico'
             ];
+            if($jsonive){
+                unset($dicFormuario["idDiccionarioFormulario"]);
+                unset($dicFormuario["estado"]);
+            }
             return $dicFormuario;
     }
 
 
     public function diccionarioFormularioJson($id){
-        $respuesta = $this->queryDicionarioFormulario($id);
+        $respuesta = $this->queryDicionarioFormulario($id,true);
         return Response()->json(
         $respuesta,
         200,
@@ -551,7 +593,7 @@ class InformacionClienteController extends Controller
             }
              $respuesta = [
                 'Status'=> 'Success',
-                'DiccionarioFormulario'=> $this->queryDicionarioFormulario($idDiccionarioFormulario),
+                'DiccionarioFormulario'=> $this->queryDicionarioFormulario($idDiccionarioFormulario,false),
             ];
             $this->guardarProductosServicios($request->productos,$idDiccionarioFormulario);
 
@@ -602,7 +644,7 @@ class InformacionClienteController extends Controller
         $municipios = Municipio::all();
         $listaCondicionMigratoria = DB::table('listaCondicionMigratoria');
         $listaCondicionMigratoria = $listaCondicionMigratoria->get();
-        $dc = $this->queryDicionarioFormulario($id);
+        $dc = $this->queryDicionarioFormulario($id,false);
 
         return view('contenido.diccionarioFormularioedit', [
             'paises' => $paises,
