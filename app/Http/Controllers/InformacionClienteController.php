@@ -337,13 +337,22 @@ class InformacionClienteController extends Controller
     {
         return Pais::select("codigoPais")->where('idPais', '=', $idPais)->get()[0]["codigoPais"];
     }
-    public function queryDatosParienteAsociadoPep($idDatosPersonales)
+    public function queryDatosParienteAsociadoPep($idDatosPersonales,$jsonive)
     {
         $arrParienteAsociadoPep = ParienteAsociadoPep::select('datosParienteAsociadoPep.*')
             ->join('datosParienteAsociadoPep', 'datosParienteAsociadoPep.idDatosParienteAsociadoPep', '=', 'parienteAsociadoPep.idDatosParienteAsociadoPep')
             ->where('parienteAsociadoPep.idDatosPersonales', '=', $idDatosPersonales)->get();
         foreach ($arrParienteAsociadoPep as $dt) {
             $dt['paisEntidad'] = $this->obtenerCodigoPais($dt['paisEntidad']);
+            if ($dt["apellidoCasada"] == null) {
+                $dt["apellidoCasada"] = "";
+            }
+            if ($dt["otrosNombres"] == null) {
+                $dt["otrosNombres"] = "";
+            }
+            if($jsonive){
+                unset($dt["idDatosParienteAsociadoPep"]);
+            }
         }
         return $arrParienteAsociadoPep;
     }
@@ -372,7 +381,7 @@ class InformacionClienteController extends Controller
             $datosPersonales["datosPep"] = "";
         }
         if ($datosPersonales["parienteAsociadoPep"] == 'S') {
-            $datosPersonales["datosParienteAsociadoPep"] = $this->queryDatosParienteAsociadoPep($datosPersonales["idDatosPersonales"]);
+            $datosPersonales["datosParienteAsociadoPep"] = $this->queryDatosParienteAsociadoPep($datosPersonales["idDatosPersonales"],$jsonive);
         } else {
             $datosPersonales["datosParienteAsociadoPep"] = "";
         }
@@ -427,6 +436,9 @@ class InformacionClienteController extends Controller
         $obInfoEco["negocioPropio"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial, 'NP');
         $obInfoEco["relacionDependencia"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial, 'RD');
         $obInfoEco["otrosIngresos"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial, 'OI');
+        if($jsonive){
+            unset($obInfoEco["idInformacionEconomicaInicial"]);
+        }
         return $obInfoEco;
     }
     public function queryCamposMinimos($id, $jsonive)
@@ -567,6 +579,9 @@ class InformacionClienteController extends Controller
         if ($camposMinimos["tipoActuacion"] == "R") {
             $camposMinimos["calidadActua"] = $requesCamposMinimos["calidadActua"];
             $camposMinimos["representante"] =  $this->guardarDatosPersonales($requesCamposMinimos["representante"]);
+        }else{
+            $camposMinimos["representante"] = null;
+            $camposMinimos["calidadActua"] = null;
         }
         $obcm = CamposMinimos::updateOrCreate(
             [

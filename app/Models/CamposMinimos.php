@@ -12,7 +12,6 @@ class CamposMinimos extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'idCamposMinimos',
         'tipoActuacion',
         'calidadActua',
         'lugar',

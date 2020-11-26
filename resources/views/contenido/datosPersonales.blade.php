@@ -227,7 +227,7 @@
                 </div>
                 @endforeach
                 <div class="form-group">
-                    <button type="button" id="agregarNacionalidad{{$tipo}}_{{$indice}}" class="btn btn-primary agregarNacionalidad{{$tipo}}">
+                    <button type="button" id="agregarNacionalidad{{$tipo}}_{{$indice}}" class="btn btn-primary agregarNacionalidad">
                         Agregar Nacionalidad
                     </button>
                 </div>
@@ -250,7 +250,7 @@
                 </div>
                 @endforeach
                 <div class="form-group">
-                    <button type="button" id="agregarTelefono{{$tipo}}_{{$indice}}" class="btn btn-primary agregarTelefono{{$tipo}}">
+                    <button type="button" id="agregarTelefono{{$tipo}}_{{$indice}}" class="btn btn-primary agregarTelefono">
                         Agregar teléfono
                     </button>
                 </div>
@@ -282,12 +282,12 @@
                         <label>¿El {{$tipo}} es una Persona Expuesta Políticamente (PEP)?</label>
                     </div>
                     <div class="icheck-primary d-inline">
-                        <input type="radio" id="primaryPepSi_{{$indice}}" class="pep form-check-input" name="pep{{$tipo}}_{{$indice}}" value="S" required {{ $datosPersonales->pep == 'S' ? 'checked' : ''}} />
-                        <label for="primaryPepSi_{{$indice}}">Sí</label>
+                        <input type="radio" id="primaryPepSi_{{$tipo}}_{{$indice}}" class="pep form-check-input" name="pep{{$tipo}}_{{$indice}}" value="S" required {{ $datosPersonales->pep == 'S' ? 'checked' : ''}} />
+                        <label for="primaryPepSi_{{$tipo}}_{{$indice}}">Sí</label>
                     </div>
                     <div class="icheck-primary d-inline">
-                        <input type="radio" id="primaryPepNo_{{$indice}}" class="pep form-check-input" name="pep{{$tipo}}_{{$indice}}" value="N" required {{ $datosPersonales->pep == 'N' ? 'checked' : ''}} />
-                        <label for="primaryPepNo_{{$indice}}">No</label>
+                        <input type="radio" id="primaryPepNo_{{$tipo}}_{{$indice}}" class="pep form-check-input" name="pep{{$tipo}}_{{$indice}}" value="N" required {{ $datosPersonales->pep == 'N' ? 'checked' : ''}} />
+                        <label for="primaryPepNo_{{$tipo}}_{{$indice}}">No</label>
                         <div class="invalid-tooltip">Indica si el {{$tipo}} es PEP.</div>
                     </div>
                 </div>

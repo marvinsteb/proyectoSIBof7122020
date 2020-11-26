@@ -2786,9 +2786,9 @@ $(document).ready(function () {
     habilitaOtraCondicionMigratoria($(`select.condicionMigratoria`));
     validarNit($(".validarNit"));
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
-    agregarTemplateNacionalidad($(".agregarNacionalidadCliente"));
+    agregarTemplateNacionalidad($(".agregarNacionalidad"));
     eliminarTemplateNacionalidad($(`.borrarNacionalidad`));
-    agregarTemplateTelefono($(".agregarTelefonoCliente"));
+    agregarTemplateTelefono($(".agregarTelefono"));
     eliminarTemplateTelefono($(`.borrarTelefono`));
     verificarPersonaPep($(".pep"));
     verificarAsoPep($(".asoPep"));

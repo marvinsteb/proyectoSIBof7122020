@@ -154,6 +154,12 @@
                                 </div>
                             </div>
                             <div id="representante{{$tipo}}_{{$indice}}">
+                                @if($titular->tipoActuacion == 'R')
+                                 @include('contenido.datosPersonales',[
+                                    'tipo'=>'RepresentanteCliente',
+                                    'datosPersonales' => $titular["representante"]
+                                    ])
+                                @endif
                             </div>
                         </div>
                         <!-- /.card-body -->
