@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-sm-2">
         <div class="form-group">
-            <select name="selectfuenteingresos" id="selectfuenteingresos{{$tipo}}_1_0" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
+            <select name="selectfuenteingresos" class="form-control custom-select select2 fuenteIngresos" style="width: 100%" required>
                 <option value="" disabled selected>Selecciona</option>
                 //$negocio
                 <option value="NP" {{ $tipoFN == 'NP' ? 'selected' : ''}}>Negocio propio</option>

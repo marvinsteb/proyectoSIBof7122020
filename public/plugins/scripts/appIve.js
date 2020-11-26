@@ -192,7 +192,7 @@ function templateOtraCondicionMigratoria(id) {
                      <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />`);
     return cmOtraCM;
 }
-function templateFecha(id, nombre, textolabel, tmformg, requerido) {
+function templateFecha(id, nombre, textolabel, tamanio, requerido) {
     let temCampoFecha = $(`<label>Fecha ${textolabel}</label>
                         <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
                             <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control ${nombre} datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
@@ -203,7 +203,7 @@ function templateFecha(id, nombre, textolabel, tmformg, requerido) {
                                 </div>
                             </div>
                         </div>`);
-    let cm = templateFormGroup(temCampoFecha, tmformg);
+    let cm = templateFormGroup(temCampoFecha, tamanio);
     if (requerido === false) {
         let input = $(cm)
             .find(`input#fecha${nombre}${id}`)
@@ -1404,6 +1404,12 @@ function agregaAsoPep(idAsoPep) {
     $(`#datos${idAsoPep}>div.info`).append(templateAsocPep);
     $(`#datos${idAsoPep}>div.info`).find(`select#parentesco${id}`).focus();
 }
+function btnaddfamasopep(btn) {
+    $(btn).click(function () {
+        agregaAsoPep($(this).attr("name"));
+    });
+}
+
 function verificarAsoPep(asoPepCliente) {
     for (let i = 0; i < asoPepCliente.length; i++) {
         $(asoPepCliente[i]).change(function () {
@@ -1707,15 +1713,15 @@ function templateCamposLugarPet(id) {
     $(tempCamResidencia).append(comMunicipio);
     return tempCamResidencia;
 }
-function templateMontoAproximado(id) {
-    let tm = $(`<label>Monto aproximado ingresos</label>
+function templateMontoAproximado(id, textolabel) {
+    let tm = $(`<label>${textolabel}</label>
                 <input type="number" name = "montoAproximado" id="montoAproximado${id}" class="form-control d-inline montoAproximado" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
-    tm = templateFormGroup(tm, "col-sm-2");
+    tm = templateFormGroup(tm, "col-sm-3");
     return tm;
 }
-function templateCamposMonto(id) {
+function templateCamposMonto(id, textolabelMonto) {
     const tipoMoneda = templateMoneda(id);
-    const MontoAproximado = templateMontoAproximado(id);
+    const MontoAproximado = templateMontoAproximado(id, textolabelMonto);
     let tm = $(`<div class="row"></div>`);
     $(tm).append(tipoMoneda);
     $(tm).append(MontoAproximado);
@@ -1727,7 +1733,7 @@ function templatePerfilnegocioPropio(id) {
     const rowtres = templatePantenteComercio(id);
     const rowCuatro = templateDireccion(id, "Dirección negocio", "Negocio");
     const rowCinco = templateCamposLugarPet(id);
-    const rowSeis = templateCamposMonto(id);
+    const rowSeis = templateCamposMonto(id, "Monto aproximado ingresos");
     let tm = $(`
                 <div class="card card-info mt-3" id="negocioPropio_${id}">
                     <div class="card-header">
@@ -1833,7 +1839,7 @@ function templateCamposLugarRd(id) {
 function templateRelacionDependencia(id) {
     const cmRowUno = templateFilaUnord(id);
     const cmRowDos = templateFilaDosrd(id);
-    const rowTres = templateCamposMonto(id);
+    const rowTres = templateCamposMonto(id, "Monto aproximado ingresos");
     const direccionEmpleador = templateDireccion(
         id,
         "Dirección empleador",
@@ -1916,7 +1922,7 @@ function templateRowUnoOtrosIngresos(id) {
 
 function templateOtrosIngresos(id) {
     const cmRowUno = templateRowUnoOtrosIngresos(id);
-    const cmMontos = templateCamposMonto(id);
+    const cmMontos = templateCamposMonto(id, "Monto aproximado ingresos");
     let tm = $(`
                 <div class="card card-info mt-3" id="otrosIngresos_${id}">
                     <div class="card-header">
@@ -1967,6 +1973,82 @@ function templateFinaUnoPerfilEconomicoTransaccional() {
     $(rowuno).append(cmFecha);
     return rowuno;
 }
+function templateRowUnoPSperfilTransaccional(id) {
+    const fecha = templateFecha(
+        id,
+        "Pspt",
+        "Fecha de elaboración del perfil",
+        "col-sm-3",
+        true
+    );
+    const descripcion = templateInputText(
+        id,
+        "productoServicioPspt",
+        100,
+        "Producto y/o servicio"
+    );
+    let rowuno = $(`<div class="row"></div>`);
+    $(rowuno).append(fecha);
+    $(rowuno).append(descripcion);
+    return rowuno;
+}
+function templateProductoServicioPerfilTransaccional(id) {
+    const rowuno = templateRowUnoPSperfilTransaccional(id);
+    const rowdos = templateCamposMonto(id, "Monto promedio mensual (6 meses)");
+    let tm = $(`
+                <div class="card card-info mt-3" id="otrosIngresos_${id}">
+                    <div class="card-header">
+                        <h3 class="card-title">Producto del perfil transaccional ${id}</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                </div>`);
+    $(tm).find(`div.card-body`).append(rowuno);
+    $(tm).find(`div.card-body`).append(rowdos);
+    return tm;
+}
+
+function templatePerfiltransaccional() {
+    let tm = $(`
+                <div class="card card-primary mt-3" id="perfilTransaccional">
+                    <div class="card-header">
+                        <h3 class="card-title">PERFIL TRANSACCIONAL</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                <div class="row">
+                    <div class="datosPerfilTransaccional col-sm-12" id="datosPerfilTransaccional" cantidad="0"></div>
+                    <div class="form-group">
+                            <button type="button" id="agregarPerfilTransaccional" class="btn btn-primary agregarOtrosIngresos mt-3">Agregar Producto y/o Servicio Perfil Transaccinal</button>
+                    </div>
+                  </div>
+                    </div>
+                </div>`);
+    let dpt = $(tm).find(`div#datosPerfilTransaccional`);
+    $(tm)
+        .find("button#agregarPerfilTransaccional")
+        .click(function () {
+            let index = $(dpt).attr("cantidad");
+            index++;
+            const cmPSPT = templateProductoServicioPerfilTransaccional(index);
+            $(tm).find(`div#datosPerfilTransaccional`).append(cmPSPT);
+            //$(tmdrd).find(`select.tipoOtrosIngresos`).focus();
+            $(dpt).attr("cantidad", index);
+        });
+    return $(tm);
+}
 function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
     $(btnAgregarPerfilEconomico).click(function (e) {
         e.preventDefault();
@@ -1980,6 +2062,7 @@ function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
         const cmNegocioPropio = templateContenedorNegocioPropio();
         const cmRD = templateContenedorRelacionDependencia();
         const cmCoi = templateContenedorOtrosIngresos();
+        const cmPet = templatePerfiltransaccional();
         let cardBody = $("div#perfilEconomicoTransaccional").find(
             "div.card-body"
         );
@@ -1990,6 +2073,7 @@ function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
         $(cardBody).append(cmNegocioPropio);
         $(cardBody).append(cmRD);
         $(cardBody).append(cmCoi);
+        $(cardBody).append(cmPet);
         $(this).remove();
     });
 }
@@ -2011,7 +2095,8 @@ class datosPep {
     }
 }
 class dicParienteAsociadoPep {
-    constructor() {
+    constructor(id) {
+        this.idDatosParienteAsociadoPep = id;
         this.parentesco = null;
         this.otroParentesco = null;
         this.motivoAsociacion = null;
@@ -2471,7 +2556,13 @@ function obtenerDatosPersonales(divPadre, id, idDatosPersonales) {
             // $(`div#asoPepCliente_1_0`).find(`select#parentescoasoPepCliente_1_0`).val();
 
             let idAsociado = $(asociados[a]).attr("id");
-            let datosAsoPep = new dicParienteAsociadoPep();
+            let idDatosParienteAsociadoPep = $(asociados[a]).attr(
+                "idDatosParienteAsociadoPep"
+            );
+
+            let datosAsoPep = new dicParienteAsociadoPep(
+                idDatosParienteAsociadoPep
+            );
             let divactual = `div#${idAsociado}`;
             datosAsoPep.parentesco = $(divactual)
                 .find(`select#parentesco${idAsociado}`)
@@ -2691,15 +2782,17 @@ $(document).ready(function () {
     verificaActuaNombrePropio($(".actuaNombrePropio"));
     habilitaDepartamentoMunicipio($(".deshabilitaDepartamentoMunicipio"));
     cargarMunicipios($(".getMunicipio"));
-    validarApellidoCasada($(".apellidoCasadaCliente"));
+    validarApellidoCasada($(".apellidoCasada"));
+    habilitaOtraCondicionMigratoria($(`select.condicionMigratoria`));
     validarNit($(".validarNit"));
     habilitaPaisPasaporte($(".validaPaisPasaporte"));
-    agregarTemplateNacionalidad($(".agregarNacionalidadCliente"));
+    agregarTemplateNacionalidad($(".agregarNacionalidad"));
     eliminarTemplateNacionalidad($(`.borrarNacionalidad`));
-    agregarTemplateTelefono($(".agregarTelefonoCliente"));
+    agregarTemplateTelefono($(".agregarTelefono"));
     eliminarTemplateTelefono($(`.borrarTelefono`));
     verificarPersonaPep($(".pep"));
-    verificarAsoPep($(".asoPepCliente"));
+    verificarAsoPep($(".asoPep"));
+    btnaddfamasopep($(`button.agregarFamiliarAsociado`));
     validarTipoFuenteIngreso($("select.fuenteIngresos"));
     agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));
     borrarTemplateFuenteIngresos($(`.borrarFuenteIngreso`));
