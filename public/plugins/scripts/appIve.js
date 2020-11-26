@@ -2663,8 +2663,9 @@ function obtenerDatosProductoServicio(ps) {
     console.log("obteniendo datos de productos y servicios");
     const arrProducto = new Array();
     for (let i = 0; i < ps.length; i++) {
-        let producto = new dicProductoServicio(0);
         const id = $(ps[i]).attr("id");
+        const idProductoServicio = $(ps[i]).attr("idproductoservicio");
+        let producto = new dicProductoServicio(idProductoServicio);
         producto.fecha = $(ps[i]).find(`input#fecha${id}`).val();
         producto.lugar.pais = $(ps[i])
             .find(`select[id=pais${id}] option:selected`)
@@ -2802,6 +2803,7 @@ $(document).ready(function () {
     borrarTemplateFuenteIngresos($(`.borrarFuenteIngreso`));
     AgregarTitular();
     eliminarCard($("#titulares>div"));
+    eliminarCard($("#datosProductoServicio>div"));
     agregarProductoServicio($("button.agregarProductoServicio"));
     agregarPerfilEconomico($("button.agregarPerfilEconomico"));
     validarFormulario();

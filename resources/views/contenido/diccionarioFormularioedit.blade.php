@@ -68,7 +68,13 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div id="datosProductoServicio" cantidad="0">
+                            <div id="datosProductoServicio" cantidad="{{count($dc["productos"])}}">
+                                @foreach($dc["productos"] as $producto)
+                                     @include('contenido.productoServicio',[
+                                        'pro'=>$producto,
+                                        'indicePro' => $loop->index
+                                     ])
+                                @endforeach
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -109,6 +115,9 @@
         </form>
     </div>
     <!--/.container-fluid -->
+    <pre>
+        {{var_dump($dc)}}
+    </pre>
 </section>
 <!-- /.content -->
 

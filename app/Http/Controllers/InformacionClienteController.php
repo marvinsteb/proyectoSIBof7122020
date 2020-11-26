@@ -223,6 +223,7 @@ class InformacionClienteController extends Controller
 
     public function guardarProductosServicios($listaProductosServicios, $idDiccionarioFormulario)
     {
+        $listaProductos = DiccionarioProductoServicio::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->get()->pluck('idDiccionarioProductoServicio', 'idDiccionarioProductoServicio')->toArray();
         if (!empty($listaProductosServicios)) {
             foreach ($listaProductosServicios as  $productoServicio) {
                 $obProductoServicio = ProductoServicio::updateOrCreate(
@@ -263,16 +264,21 @@ class InformacionClienteController extends Controller
                             'idCamposMinimosFirmante' =>  $idOtrosFirmantes
                         ]);
                     }
-                }
-                //otrosFirmantes
-                // implementar update or create para no duplicar los valores en la tabla diccionario formulario 
-                DiccionarioProductoServicio::updateOrCreate([
-                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
-                    'idProductoServicio' => $idProductoServicio,
-                ], [
+                } 
+                $obPS = DiccionarioProductoServicio::updateOrCreate([
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
                     'idProductoServicio' => $idProductoServicio,
                 ]);
+                if (!empty($listaProductos[$obPS->idDiccionarioProductoServicio])) {
+                    unset($listaProductos[$obPS->idDiccionarioProductoServicio]);
+                }
+            }
+             if (count($listaProductos)) {
+                DiccionarioProductoServicio::whereRaw(sprintf('idDiccionarioProductoServicio IN (%s)', implode(',', $listaProductos)))->delete();
+            }
+        }else{
+             if (count($listaProductos)) {
+                DiccionarioProductoServicio::whereRaw(sprintf('idDiccionarioProductoServicio IN (%s)', implode(',', $listaProductos)))->delete();
             }
         }
     }
@@ -652,6 +658,7 @@ class InformacionClienteController extends Controller
             $respuesta = [
                 'Status' => 'Success',
                 'DiccionarioFormulario' => $this->queryDicionarioFormulario($idDiccionarioFormulario, false),
+                'prodserv' =>  DiccionarioProductoServicio::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->get()->pluck('idDiccionarioProductoServicio', 'idDiccionarioProductoServicio')->toArray()
             ];
             $this->guardarProductosServicios($request->productos, $idDiccionarioFormulario);
 
@@ -700,6 +707,7 @@ class InformacionClienteController extends Controller
         $departamentos = DB::table('departamento');
         $departamentos = $departamentos->get();
         $municipios = Municipio::all();
+        $monedas = Moneda::all();
         $listaCondicionMigratoria = DB::table('listaCondicionMigratoria');
         $listaCondicionMigratoria = $listaCondicionMigratoria->get();
         $dc = $this->queryDicionarioFormulario($id, false);
@@ -708,6 +716,7 @@ class InformacionClienteController extends Controller
             'paises' => $paises,
             'departamentos' => $departamentos,
             'municipios' => $municipios,
+            'monedas' => $monedas,
             'listaCondicionMigratoria' => $listaCondicionMigratoria,
             "dc" => $dc
         ]);
