@@ -44,7 +44,8 @@
                     @foreach($dc["titulares"] as $titular)
                         @include('contenido.camposMinimos', ['titular' => $titular,
                                                              'indice' => $loop->index,
-                                                             'tipo'=>'Cliente'
+                                                             'tipo'=>'Cliente',
+                                                             'tipolabel'=>'Titular'
                                                              ])
                     @endforeach
                 </div>
@@ -68,7 +69,13 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div id="datosProductoServicio" cantidad="0">
+                            <div id="datosProductoServicio" cantidad="{{count($dc["productos"])}}">
+                                @foreach($dc["productos"] as $producto)
+                                     @include('contenido.productoServicio',[
+                                        'pro'=>$producto,
+                                        'indicePro' => $loop->index
+                                     ])
+                                @endforeach
                             </div>
                         </div>
                         <!-- /.card-body -->
