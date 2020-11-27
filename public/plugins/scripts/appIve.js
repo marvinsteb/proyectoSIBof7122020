@@ -1780,7 +1780,7 @@ function templateContenedorNegocioPropio() {
 
     return tpnp;
 }
-function templateSelectActualizacion(id) {
+function templateSelectSector(id) {
     let sa = $(`<label for="sectorPet">Sector</label>
                   <select name="sectorPet" id="sectorPet${id}" class="form-control custom-select sector select2" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
@@ -1792,7 +1792,7 @@ function templateSelectActualizacion(id) {
     return sa;
 }
 function templateFilaUnord(id) {
-    const cmSector = templateSelectActualizacion(id);
+    const cmSector = templateSelectSector(id);
     const cmNombreEmpleador = templateInputText(
         id,
         "NombreEmpleador",
@@ -2321,6 +2321,7 @@ function validarFormulario() {
 }
 function enviarDatos() {
     let nuevoDiccionarioFormulario = obtenerDatos();
+    console.log(JSON.stringify(nuevoDiccionarioFormulario));
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -2397,6 +2398,8 @@ function obtenerDiccionarioCamposMinimos(divContenedorCamposMinimos) {
                 `Representante${id}`,
                 idrepresentante
             );
+        } else {
+            camposMinimos.representante = null;
         }
         camposMinimos.lugar.pais = $(this)
             .find(`select[id=paisCaMi${id}] option:selected`)
@@ -2750,6 +2753,7 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
                 dpet.agregarNegocioPropio(ngp);
             });
     }
+    //console.log(dpet);
     return dpet;
 }
 function obtenerDatos() {
@@ -2809,6 +2813,5 @@ $(document).ready(function () {
     btnAgregarBeneficiario($("button.agregarBeneficiario"));
     agregarPerfilEconomico($("button.agregarPerfilEconomico"));
     btnAgregarOtroFirmantes($("button.agregarOtrosFirmantes"));
-    
     validarFormulario();
 });

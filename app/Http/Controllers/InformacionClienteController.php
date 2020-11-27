@@ -241,27 +241,39 @@ class InformacionClienteController extends Controller
                     ]
                 );
                 $idProductoServicio = $obProductoServicio->idProductoServicio;
+                $listaBenef = Beneficiario::where('idProductoServicio', '=', $idProductoServicio)->get()->pluck('idBeneficiario', 'idBeneficiario')->toArray();
                 if (!empty($productoServicio["beneficiarios"])) {
                     foreach ($productoServicio["beneficiarios"] as $beneficiario) {
                         $idBeneficiario =  $this->guardarCamposMinimos($beneficiario);
-                        Beneficiario::updateOrCreate([
+                       $obB =  Beneficiario::updateOrCreate([
                             'idProductoServicio' => $idProductoServicio,
                             'idCamposMinimos' =>  $idBeneficiario
                         ], [
                             'idProductoServicio' => $idProductoServicio,
                             'idCamposMinimos' =>  $idBeneficiario
                         ]);
+                        if (!empty($listaBenef[$obB->idBeneficiario])) {
+                            unset($listaBenef[$obB->idBeneficiario]);
+                        }
                     }
+                    if (count($listaBenef)) {
+                        Beneficiario::whereRaw(sprintf('idBeneficiario IN (%s)', implode(',', $listaBenef)))->delete();
+                    }
+                }else{
+                        if (count($listaBenef)) {
+                            Beneficiario::whereRaw(sprintf('idBeneficiario IN (%s)', implode(',', $listaBenef)))->delete();
+                        }
                 }
+
                 if (!empty($productoServicio["otrosFirmantes"])) {
                     foreach ($productoServicio["otrosFirmantes"] as $of) {
                         $idOtrosFirmantes =  $this->guardarCamposMinimosFirmante($of);
                         OtrosFirmantes::updateOrCreate([
-                            'idProductoServicio' => $idProductoServicio,
-                            'idCamposMinimosFirmante' =>  $idBeneficiario
+                            'idCamposMinimosFirmante' =>  $idOtrosFirmantes,
+                            'idProductoServicio' => $idProductoServicio
                         ], [
-                            'idProductoServicio' => $idProductoServicio,
-                            'idCamposMinimosFirmante' =>  $idOtrosFirmantes
+                            'idCamposMinimosFirmante' =>  $idOtrosFirmantes,
+                            'idProductoServicio' => $idProductoServicio
                         ]);
                     }
                 } 
@@ -614,6 +626,9 @@ class InformacionClienteController extends Controller
         if ($camposMinimosFirmante["tipoActuacion"] == "R") {
             $camposMinimosFirmante["calidadActua"] = $requesCamposMinimosFirmante["calidadActua"];
             $camposMinimosFirmante["representante"] =  $this->guardarDatosPersonales($requesCamposMinimosFirmante["representante"]);
+        }else {
+            $camposMinimosFirmante["calidadActua"] = null;
+            $camposMinimosFirmante["representante"] = null;
         }
         $obcm = CamposMinimosOtrosFirmantes::updateOrCreate(
             [
@@ -648,9 +663,6 @@ class InformacionClienteController extends Controller
             for ($i = 0; $i < count($request->titulares); $i++) {
                 $idCamposMinimos = $this->guardarCamposMinimos($request->titulares[$i]);
                 $obT = Titular::updateOrCreate([
-                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
-                    'idCamposMinimos' => $idCamposMinimos,
-                ], [
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
                     'idCamposMinimos' => $idCamposMinimos,
                 ]);

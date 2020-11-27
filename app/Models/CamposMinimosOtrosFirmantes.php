@@ -13,7 +13,6 @@ class CamposMinimosOtrosFirmantes extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'idCamposMinimosFirmante',
         'tipoActuacion',
         'calidadActua',
         'lugar',
