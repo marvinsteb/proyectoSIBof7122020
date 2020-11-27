@@ -2712,7 +2712,8 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
     console.log(`perfil economico transaccinal`);
     let dpet = null;
     if ($(pet).children().length != 0) {
-        dpet = new dicPerfilEconomicoTransaccional();
+        const idpet = $(pet).attr("idperfileconomicotransaccional");
+        dpet = new dicPerfilEconomicoTransaccional(idpet);
         dpet.actualizacion = $(pet).find("select#actualizacionPet").val();
         dpet.fecha = $(pet).find("input#fechaPet").val();
         // obtener Fuentes de ingresos

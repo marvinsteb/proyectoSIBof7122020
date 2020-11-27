@@ -110,9 +110,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col clearfix">
-                        <button class="btn btn-success float-right mb-4 agregarPerfilEconomico" id="agregarPerfilEconomico">Agregar Perfil Económico</button>
-                    </div>
+                    @if(empty($dc["perfilEconomico"]))
+                        <div class="col clearfix">
+                            <button class="btn btn-success float-right mb-4 agregarPerfilEconomico" id="agregarPerfilEconomico">Agregar Perfil Económico</button>
+                        </div>
+                    @endif
                 </div>
                 <button type="submit" class="btn btn-primary mt-5 mb-5" id="btnGuardar">
                     Guardar formulario

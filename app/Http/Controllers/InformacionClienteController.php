@@ -21,6 +21,7 @@ use App\Models\Moneda;
 use App\Models\Municipio;
 use App\Models\OtrosFirmantes;
 use App\Models\ParienteAsociadoPep;
+use App\Models\PerfilEconomicoNegocioPropio;
 use App\Models\PerfilEconomicoTransaccional;
 use App\Models\ProductoServicio;
 use App\Models\Titular;
@@ -223,14 +224,37 @@ class InformacionClienteController extends Controller
     }
     public function guardarPerfilEconomicoTransaccional($perEco,$idDiccionarioFormulario){
         if (!empty($perEco)){
-            PerfilEconomicoTransaccional::updateOrCreate(
+            $obpet =PerfilEconomicoTransaccional::updateOrCreate(
                 ['idPerfilEconomicoTransaccional'=>$perEco["idPerfilEconomicoTransaccional"]],
                 [
                     'idDiccionarioFormulario'=>$idDiccionarioFormulario,
                     'actualizacion'=>$perEco["actualizacion"],
                     'fecha'=>$this->formatoFechaDB($perEco["fecha"])
-                ]
-        );
+                ]);
+            $idObpet = $obpet->idPerfilEconomicoTransaccional;
+            if(!empty($perEco["negocioPropio"])){
+                foreach ($perEco["negocioPropio"] as $ngp) {
+                    PerfilEconomicoNegocioPropio::updateOrCreate(
+                        [
+                            'idDiccionarioPerfilEconomicoNegocioPropio'=>$ngp['idDiccionarioPerfilEconomicoNegocioPropio']
+                        ],
+                        [
+                            'idPerfilEconomicoTransaccional'=>$idObpet,
+                            'nombreComercial'=>$ngp["nombreComercial"],
+                            'principalActividadEconomica'=>$ngp["principalActividadEconomica"],
+                            'fechaInscripcionNegocio'=>$this->formatoFechaDB($ngp["fechaInscripcionNegocio"]),
+                            'numeroRegistro'=>$ngp["numeroRegistro"],
+                            'folio'=>$ngp["folio"],
+                            'libro'=>$ngp["libro"],
+                            'direccionNegocio'=>$ngp["direccionNegocio"],
+                            'lugar'=>$this->guardarLugar($ngp["lugar"]),
+                            'tipoMoneda'=>$ngp["tipoMoneda"],
+                            'montoAproximado'=>$ngp["montoAproximado"]
+                        ]
+                    );
+
+                }
+            }
         }
     }
     public function guardarProductosServicios($listaProductosServicios, $idDiccionarioFormulario)
@@ -523,12 +547,40 @@ class InformacionClienteController extends Controller
     }
     public function queryPerfilEconomicoTransacional($idDiccionarioFormulario, $jsonive){
           $obtransac = PerfilEconomicoTransaccional::where('idPerfilEconomicoTransaccional', '=', $idDiccionarioFormulario)->first();
-          $obtransac["fecha"] = $this->formatoFechaJson($obtransac["fecha"]);
-
-          if($jsonive){
-            unset($obtransac["idPerfilEconomicoTransaccional"]);
-            unset($obtransac["idDiccionarioFormulario"]);
+          if(!empty($obtransac)){
+              $obtransac["fecha"] = $this->formatoFechaJson($obtransac["fecha"]);
+              $arrNgp = [];
+              $listaObNegoP = PerfilEconomicoNegocioPropio::where('idPerfilEconomicoTransaccional',$idDiccionarioFormulario)->get();
+              foreach ($listaObNegoP as $obngp) {
+                  $obngp["lugar"] = $this->querylugar($obngp["lugar"],$jsonive);
+                  $obngp["fechaInscripcionNegocio"] = $this->formatoFechaJson($obngp["fechaInscripcionNegocio"]);
+                  if($jsonive){
+                      $obngp['ingresos'] = [
+                          'tipoMoneda'=>$obngp['tipoMoneda'],
+                          'montoAproximado'=>$obngp['montoAproximado']
+                      ];
+                      $obngp["numeroRegistro"] = empty($obngp["numeroRegistro"]) ? "" : $obngp["numeroRegistro"] ; 
+                      $obngp["folio"] = empty($obngp["folio"]) ? "" : $obngp["folio"] ; 
+                      $obngp["libro"] = empty($obngp["libro"]) ? "" : $obngp["libro"] ; 
+                      unset($obngp['tipoMoneda']);
+                      unset($obngp['montoAproximado']);
+                      unset($obngp['idDiccionarioPerfilEconomicoNegocioPropio']);
+                      unset($obngp['idPerfilEconomicoTransaccional']);
+                  }
+                  $arrNgp[] = $obngp;
+              }
+              $obtransac["negocioPropio"] = $arrNgp; 
+              $obtransac["relacionDependencia"] =[];
+              $obtransac["otrosIngresos"] = [];
+              $obtransac["perfilTransaccional"] = [];
+              if($jsonive){
+                unset($obtransac["idPerfilEconomicoTransaccional"]);
+                unset($obtransac["idDiccionarioFormulario"]);
+              }
+          } else {
+              $obtransac = ""; 
           }
+
           return $obtransac;
     }
     public function queryDicionarioFormulario($id, $jsonive)
@@ -709,8 +761,7 @@ class InformacionClienteController extends Controller
             }
             $respuesta = [
                 'Status' => 'Success',
-                'DiccionarioFormulario' => $this->queryDicionarioFormulario($idDiccionarioFormulario, false),
-                'prodserv' =>  DiccionarioProductoServicio::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->get()->pluck('idDiccionarioProductoServicio', 'idDiccionarioProductoServicio')->toArray()
+                'DiccionarioFormulario' => $this->queryDicionarioFormulario($idDiccionarioFormulario, false)
             ];
             $this->guardarProductosServicios($request->productos, $idDiccionarioFormulario);
             $this->guardarPerfilEconomicoTransaccional($request->perfilEconomico,$idDiccionarioFormulario);
