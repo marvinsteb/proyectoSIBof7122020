@@ -99,7 +99,12 @@
                             </div>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body">
+                        <div class="card-body" idperfileconomicotransaccional="{{ !empty($dc["perfilEconomico"]) ? $dc["perfilEconomico"]->idPerfilEconomicoTransaccional : '' }}">
+                            @if(!empty($dc["perfilEconomico"]))
+                                 @include('contenido.perfilEconomicoTransaccional',[
+                                       'perfil'=>$dc["perfilEconomico"]
+                                    ])
+                            @endif
                         </div>
                         <!-- /.card-body -->
                     </div>

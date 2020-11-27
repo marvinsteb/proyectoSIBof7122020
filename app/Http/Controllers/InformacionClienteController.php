@@ -21,6 +21,7 @@ use App\Models\Moneda;
 use App\Models\Municipio;
 use App\Models\OtrosFirmantes;
 use App\Models\ParienteAsociadoPep;
+use App\Models\PerfilEconomicoTransaccional;
 use App\Models\ProductoServicio;
 use App\Models\Titular;
 use Carbon\Carbon;
@@ -220,7 +221,18 @@ class InformacionClienteController extends Controller
 
         return $obInfoEcoIni->idInformacionEconomicaInicial;
     }
-
+    public function guardarPerfilEconomicoTransaccional($perEco,$idDiccionarioFormulario){
+        if (!empty($perEco)){
+            PerfilEconomicoTransaccional::updateOrCreate(
+                ['idPerfilEconomicoTransaccional'=>$perEco["idPerfilEconomicoTransaccional"]],
+                [
+                    'idDiccionarioFormulario'=>$idDiccionarioFormulario,
+                    'actualizacion'=>$perEco["actualizacion"],
+                    'fecha'=>$this->formatoFechaDB($perEco["fecha"])
+                ]
+        );
+        }
+    }
     public function guardarProductosServicios($listaProductosServicios, $idDiccionarioFormulario)
     {
         $listaProductos = DiccionarioProductoServicio::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->get()->pluck('idDiccionarioProductoServicio', 'idDiccionarioProductoServicio')->toArray();
@@ -509,6 +521,16 @@ class InformacionClienteController extends Controller
         }
         return  $ObCamposMinimosOtrosFirmantes;
     }
+    public function queryPerfilEconomicoTransacional($idDiccionarioFormulario, $jsonive){
+          $obtransac = PerfilEconomicoTransaccional::where('idPerfilEconomicoTransaccional', '=', $idDiccionarioFormulario)->first();
+          $obtransac["fecha"] = $this->formatoFechaJson($obtransac["fecha"]);
+
+          if($jsonive){
+            unset($obtransac["idPerfilEconomicoTransaccional"]);
+            unset($obtransac["idDiccionarioFormulario"]);
+          }
+          return $obtransac;
+    }
     public function queryDicionarioFormulario($id, $jsonive)
     {
         $ObDicFormulario = DiccionarioFormulario::where('idDiccionarioFormulario', '=', $id)->first();
@@ -548,7 +570,7 @@ class InformacionClienteController extends Controller
             'estado' => $ObDicFormulario['estado'],
             'titulares' => $listaTitulares,
             'productos' => $listaProductosServicios,
-            'perfilEconomico' => 'perfilEconomico'
+            'perfilEconomico' => $this->queryPerfilEconomicoTransacional($ObDicFormulario->idDiccionarioFormulario, $jsonive)
         ];
         if ($jsonive) {
             unset($dicFormuario["idDiccionarioFormulario"]);
@@ -691,6 +713,7 @@ class InformacionClienteController extends Controller
                 'prodserv' =>  DiccionarioProductoServicio::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->get()->pluck('idDiccionarioProductoServicio', 'idDiccionarioProductoServicio')->toArray()
             ];
             $this->guardarProductosServicios($request->productos, $idDiccionarioFormulario);
+            $this->guardarPerfilEconomicoTransaccional($request->perfilEconomico,$idDiccionarioFormulario);
 
             DB::commit();
             // all good
