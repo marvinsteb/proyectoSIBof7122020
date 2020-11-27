@@ -241,6 +241,7 @@ class InformacionClienteController extends Controller
                     ]
                 );
                 $idProductoServicio = $obProductoServicio->idProductoServicio;
+                //Beneficiarios
                 $listaBenef = Beneficiario::where('idProductoServicio', '=', $idProductoServicio)->get()->pluck('idBeneficiario', 'idBeneficiario')->toArray();
                 if (!empty($productoServicio["beneficiarios"])) {
                     foreach ($productoServicio["beneficiarios"] as $beneficiario) {
@@ -264,17 +265,28 @@ class InformacionClienteController extends Controller
                             Beneficiario::whereRaw(sprintf('idBeneficiario IN (%s)', implode(',', $listaBenef)))->delete();
                         }
                 }
-
+                //otros firmantes
+                $listaOtFi = OtrosFirmantes::where('idProductoServicio', '=', $idProductoServicio)->get()->pluck('idOtrosFirmantes', 'idOtrosFirmantes')->toArray();
                 if (!empty($productoServicio["otrosFirmantes"])) {
                     foreach ($productoServicio["otrosFirmantes"] as $of) {
                         $idOtrosFirmantes =  $this->guardarCamposMinimosFirmante($of);
-                        OtrosFirmantes::updateOrCreate([
+                       $oOF =  OtrosFirmantes::updateOrCreate([
                             'idCamposMinimosFirmante' =>  $idOtrosFirmantes,
                             'idProductoServicio' => $idProductoServicio
                         ], [
                             'idCamposMinimosFirmante' =>  $idOtrosFirmantes,
                             'idProductoServicio' => $idProductoServicio
                         ]);
+                        if (!empty($listaOtFi[$oOF->idOtrosFirmantes])) {
+                            unset($listaOtFi[$oOF->idOtrosFirmantes]);
+                        }
+                    }
+                    if (count($listaOtFi)) {
+                        OtrosFirmantes::whereRaw(sprintf('idOtrosFirmantes IN (%s)', implode(',', $listaOtFi)))->delete();
+                    }
+                }else {
+                    if (count($listaOtFi)) {
+                        OtrosFirmantes::whereRaw(sprintf('idOtrosFirmantes IN (%s)', implode(',', $listaOtFi)))->delete();
                     }
                 } 
                 $obPS = DiccionarioProductoServicio::updateOrCreate([
