@@ -708,23 +708,23 @@ function templateBeneficiario(id) {
     $(tmB).append(divBtn);
     return tmB;
 }
-
+function btnAgregarOtroFirmantes(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = $(this).parent().parent().parent().parent().attr("id");
+        agregarCamposMinimos("OtrosFirmantes", `div#datosOtrosFirmantes${id}`);
+    });
+}
 function templateOtrosFirmantes(id) {
     let tmB = $(
         `<div class="row"><H2>Otros Firmantes </h2><div id="datosOtrosFirmantesProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
     );
     let divBtn = $(`<div class="col-sm form-group">
-                           <button type="button" id="agregarOtrosFirmantes${id}" class="btn btn-primary">Agregar Otros Firmantes</button>
+                           <button type="button" id="agregarOtrosFirmantes${id}" class="btn btn-primary agregarOtrosFirmantes">Agregar Otros Firmantes</button>
                        </div>`);
-    let btn = $(divBtn).find(`button#agregarOtrosFirmantes${id}`);
-    $(btn).click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        agregarCamposMinimos(
-            "OtrosFirmantes",
-            `div#datosOtrosFirmantesProductoServicio_${id}`
-        );
-    });
+    const btn = $(divBtn).find(`button#agregarOtrosFirmantes${id}`);
+    btnAgregarOtroFirmantes(btn);
     $(tmB).append(divBtn);
     return tmB;
 }
@@ -2808,5 +2808,7 @@ $(document).ready(function () {
     agregarProductoServicio($("button.agregarProductoServicio"));
     btnAgregarBeneficiario($("button.agregarBeneficiario"));
     agregarPerfilEconomico($("button.agregarPerfilEconomico"));
+    btnAgregarOtroFirmantes($("button.agregarOtrosFirmantes"));
+    
     validarFormulario();
 });

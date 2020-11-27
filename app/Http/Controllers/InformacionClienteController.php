@@ -480,6 +480,9 @@ class InformacionClienteController extends Controller
         $ObCamposMinimosOtrosFirmantes["lugar"] = $this->queryLugar($ObCamposMinimosOtrosFirmantes["lugar"], $jsonive);
         $ObCamposMinimosOtrosFirmantes["fecha"] = $this->formatoFechaJson($ObCamposMinimosOtrosFirmantes["fecha"]);
         $ObCamposMinimosOtrosFirmantes["firmante"] = $this->queryDatosPersonales($ObCamposMinimosOtrosFirmantes["firmante"], $jsonive);
+        if($jsonive){
+            unset($ObCamposMinimosOtrosFirmantes["idCamposMinimosFirmante"]);
+        }
         return  $ObCamposMinimosOtrosFirmantes;
     }
     public function queryDicionarioFormulario($id, $jsonive)
@@ -511,6 +514,9 @@ class InformacionClienteController extends Controller
             }
             $obPS["beneficiarios"] = $listaBeneficiarios;
             $obPS["otrosFirmantes"] = $listaOtrosFirmantes;
+            if($jsonive){
+                unset($obPS["idProductoServicio"]);
+            }
             $listaProductosServicios[] = $obPS;
         }
         $dicFormuario = [

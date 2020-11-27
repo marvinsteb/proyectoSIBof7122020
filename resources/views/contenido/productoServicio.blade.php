@@ -156,11 +156,19 @@
     </div>
     <div class="row">
       <h2>Otros Firmantes</h2>
-      <div id="datosOtrosFirmantesProductoServicio_{{ $indicePro }}" class="col-sm-12" cantidad="0"></div>
+      <div id="datosOtrosFirmantesProductoServicio_{{ $indicePro }}" class="col-sm-12" cantidad="{{count($producto->otrosFirmantes)}}">
+          @if(!empty($producto->otrosFirmantes))
+              @foreach($producto->otrosFirmantes as $of)
+              @include('contenido.camposMinimosFirmantes', ['titular' => $of,
+                                                    'indice' => $loop->index,
+                                                    'tipo'=>'OtrosFirmantes',
+                                                    'tipolabel'=>'Otros Firmantes'
+                                                    ])
+              @endforeach
+            @endif
+      </div>
       <div class="col-sm form-group">
-        <button type="button" id="agregarOtrosFirmantes1" class="btn btn-primary">
-          Agregar Otros Firmantes
-        </button>
+        <button type="button" id="agregarOtrosFirmantes{{$indicePro}}" class="btn btn-primary agregarOtrosFirmantes">Agregar Otros Firmantes</button>
       </div>
     </div>
   </div>

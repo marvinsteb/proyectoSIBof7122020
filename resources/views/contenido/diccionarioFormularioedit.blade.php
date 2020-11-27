@@ -116,9 +116,6 @@
         </form>
     </div>
     <!--/.container-fluid -->
-    <pre>
-        {{var_dump($dc)}}
-    </pre>
 </section>
 <!-- /.content -->
 
