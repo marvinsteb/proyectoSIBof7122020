@@ -1,6 +1,6 @@
 <div class="card card-info mt-3">
     <div class="card-header">
-        <h3 class="card-title">Información del {{$tipo}}</h3>
+        <h3 class="card-title">Información del {{$tituloLabel}}</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
@@ -146,7 +146,7 @@
                 <div class="form-group">
                     <label>País (Pasaporte)</label>
                     <select name="emicionPasaporte{{$tipo}}_{{$indice}}" id="emicionPasaporte{{$tipo}}_{{$indice}}" class="form-control custom-select emicionPasaporte select2" style="width: 100%" {{empty($datosPersonales->emisionPasaporte) ? 'disabled' : ''}} required>
-                        <option value="" disabled selected>Selecciona</option>
+                        <option value="" disabled>Selecciona</option>
                         @foreach($paises as $pais)
                         @if($pais->codigoPais == $datosPersonales->emisionPasaporte)
                         <option value="{{$pais->idPais}}" selected>{{$pais->nombrePais}}</option>

@@ -44,7 +44,8 @@
                     @foreach($dc["titulares"] as $titular)
                         @include('contenido.camposMinimos', ['titular' => $titular,
                                                              'indice' => $loop->index,
-                                                             'tipo'=>'Cliente'
+                                                             'tipo'=>'Cliente',
+                                                             'tipolabel'=>'Titular'
                                                              ])
                     @endforeach
                 </div>
@@ -68,7 +69,13 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div id="datosProductoServicio" cantidad="0">
+                            <div id="datosProductoServicio" cantidad="{{count($dc["productos"])}}">
+                                @foreach($dc["productos"] as $producto)
+                                     @include('contenido.productoServicio',[
+                                        'pro'=>$producto,
+                                        'indicePro' => $loop->index
+                                     ])
+                                @endforeach
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -92,15 +99,22 @@
                             </div>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body">
+                        <div class="card-body" idperfileconomicotransaccional="{{ !empty($dc["perfilEconomico"]) ? $dc["perfilEconomico"]->idPerfilEconomicoTransaccional : '' }}">
+                            @if(!empty($dc["perfilEconomico"]))
+                                 @include('contenido.perfilEconomicoTransaccional',[
+                                       'perfil'=>$dc["perfilEconomico"]
+                                    ])
+                            @endif
                         </div>
                         <!-- /.card-body -->
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col clearfix">
-                        <button class="btn btn-success float-right mb-4 agregarPerfilEconomico" id="agregarPerfilEconomico">Agregar Perfil Económico</button>
-                    </div>
+                    @if(empty($dc["perfilEconomico"]))
+                        <div class="col clearfix">
+                            <button class="btn btn-success float-right mb-4 agregarPerfilEconomico" id="agregarPerfilEconomico">Agregar Perfil Económico</button>
+                        </div>
+                    @endif
                 </div>
                 <button type="submit" class="btn btn-primary mt-5 mb-5" id="btnGuardar">
                     Guardar formulario

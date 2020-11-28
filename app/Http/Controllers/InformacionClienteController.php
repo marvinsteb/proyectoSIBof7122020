@@ -21,6 +21,8 @@ use App\Models\Moneda;
 use App\Models\Municipio;
 use App\Models\OtrosFirmantes;
 use App\Models\ParienteAsociadoPep;
+use App\Models\PerfilEconomicoNegocioPropio;
+use App\Models\PerfilEconomicoTransaccional;
 use App\Models\ProductoServicio;
 use App\Models\Titular;
 use Carbon\Carbon;
@@ -220,9 +222,44 @@ class InformacionClienteController extends Controller
 
         return $obInfoEcoIni->idInformacionEconomicaInicial;
     }
+    public function guardarPerfilEconomicoTransaccional($perEco,$idDiccionarioFormulario){
+        if (!empty($perEco)){
+            $obpet =PerfilEconomicoTransaccional::updateOrCreate(
+                ['idPerfilEconomicoTransaccional'=>$perEco["idPerfilEconomicoTransaccional"]],
+                [
+                    'idDiccionarioFormulario'=>$idDiccionarioFormulario,
+                    'actualizacion'=>$perEco["actualizacion"],
+                    'fecha'=>$this->formatoFechaDB($perEco["fecha"])
+                ]);
+            $idObpet = $obpet->idPerfilEconomicoTransaccional;
+            if(!empty($perEco["negocioPropio"])){
+                foreach ($perEco["negocioPropio"] as $ngp) {
+                    PerfilEconomicoNegocioPropio::updateOrCreate(
+                        [
+                            'idDiccionarioPerfilEconomicoNegocioPropio'=>$ngp['idDiccionarioPerfilEconomicoNegocioPropio']
+                        ],
+                        [
+                            'idPerfilEconomicoTransaccional'=>$idObpet,
+                            'nombreComercial'=>$ngp["nombreComercial"],
+                            'principalActividadEconomica'=>$ngp["principalActividadEconomica"],
+                            'fechaInscripcionNegocio'=>$this->formatoFechaDB($ngp["fechaInscripcionNegocio"]),
+                            'numeroRegistro'=>$ngp["numeroRegistro"],
+                            'folio'=>$ngp["folio"],
+                            'libro'=>$ngp["libro"],
+                            'direccionNegocio'=>$ngp["direccionNegocio"],
+                            'lugar'=>$this->guardarLugar($ngp["lugar"]),
+                            'tipoMoneda'=>$ngp["tipoMoneda"],
+                            'montoAproximado'=>$ngp["montoAproximado"]
+                        ]
+                    );
 
+                }
+            }
+        }
+    }
     public function guardarProductosServicios($listaProductosServicios, $idDiccionarioFormulario)
     {
+        $listaProductos = DiccionarioProductoServicio::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->get()->pluck('idDiccionarioProductoServicio', 'idDiccionarioProductoServicio')->toArray();
         if (!empty($listaProductosServicios)) {
             foreach ($listaProductosServicios as  $productoServicio) {
                 $obProductoServicio = ProductoServicio::updateOrCreate(
@@ -240,39 +277,68 @@ class InformacionClienteController extends Controller
                     ]
                 );
                 $idProductoServicio = $obProductoServicio->idProductoServicio;
+                //Beneficiarios
+                $listaBenef = Beneficiario::where('idProductoServicio', '=', $idProductoServicio)->get()->pluck('idBeneficiario', 'idBeneficiario')->toArray();
                 if (!empty($productoServicio["beneficiarios"])) {
                     foreach ($productoServicio["beneficiarios"] as $beneficiario) {
                         $idBeneficiario =  $this->guardarCamposMinimos($beneficiario);
-                        Beneficiario::updateOrCreate([
+                       $obB =  Beneficiario::updateOrCreate([
                             'idProductoServicio' => $idProductoServicio,
                             'idCamposMinimos' =>  $idBeneficiario
                         ], [
                             'idProductoServicio' => $idProductoServicio,
                             'idCamposMinimos' =>  $idBeneficiario
                         ]);
+                        if (!empty($listaBenef[$obB->idBeneficiario])) {
+                            unset($listaBenef[$obB->idBeneficiario]);
+                        }
                     }
+                    if (count($listaBenef)) {
+                        Beneficiario::whereRaw(sprintf('idBeneficiario IN (%s)', implode(',', $listaBenef)))->delete();
+                    }
+                }else{
+                        if (count($listaBenef)) {
+                            Beneficiario::whereRaw(sprintf('idBeneficiario IN (%s)', implode(',', $listaBenef)))->delete();
+                        }
                 }
+                //otros firmantes
+                $listaOtFi = OtrosFirmantes::where('idProductoServicio', '=', $idProductoServicio)->get()->pluck('idOtrosFirmantes', 'idOtrosFirmantes')->toArray();
                 if (!empty($productoServicio["otrosFirmantes"])) {
                     foreach ($productoServicio["otrosFirmantes"] as $of) {
                         $idOtrosFirmantes =  $this->guardarCamposMinimosFirmante($of);
-                        OtrosFirmantes::updateOrCreate([
-                            'idProductoServicio' => $idProductoServicio,
-                            'idCamposMinimosFirmante' =>  $idBeneficiario
+                       $oOF =  OtrosFirmantes::updateOrCreate([
+                            'idCamposMinimosFirmante' =>  $idOtrosFirmantes,
+                            'idProductoServicio' => $idProductoServicio
                         ], [
-                            'idProductoServicio' => $idProductoServicio,
-                            'idCamposMinimosFirmante' =>  $idOtrosFirmantes
+                            'idCamposMinimosFirmante' =>  $idOtrosFirmantes,
+                            'idProductoServicio' => $idProductoServicio
                         ]);
+                        if (!empty($listaOtFi[$oOF->idOtrosFirmantes])) {
+                            unset($listaOtFi[$oOF->idOtrosFirmantes]);
+                        }
                     }
-                }
-                //otrosFirmantes
-                // implementar update or create para no duplicar los valores en la tabla diccionario formulario 
-                DiccionarioProductoServicio::updateOrCreate([
-                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
-                    'idProductoServicio' => $idProductoServicio,
-                ], [
+                    if (count($listaOtFi)) {
+                        OtrosFirmantes::whereRaw(sprintf('idOtrosFirmantes IN (%s)', implode(',', $listaOtFi)))->delete();
+                    }
+                }else {
+                    if (count($listaOtFi)) {
+                        OtrosFirmantes::whereRaw(sprintf('idOtrosFirmantes IN (%s)', implode(',', $listaOtFi)))->delete();
+                    }
+                } 
+                $obPS = DiccionarioProductoServicio::updateOrCreate([
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
                     'idProductoServicio' => $idProductoServicio,
                 ]);
+                if (!empty($listaProductos[$obPS->idDiccionarioProductoServicio])) {
+                    unset($listaProductos[$obPS->idDiccionarioProductoServicio]);
+                }
+            }
+             if (count($listaProductos)) {
+                DiccionarioProductoServicio::whereRaw(sprintf('idDiccionarioProductoServicio IN (%s)', implode(',', $listaProductos)))->delete();
+            }
+        }else{
+             if (count($listaProductos)) {
+                DiccionarioProductoServicio::whereRaw(sprintf('idDiccionarioProductoServicio IN (%s)', implode(',', $listaProductos)))->delete();
             }
         }
     }
@@ -474,7 +540,48 @@ class InformacionClienteController extends Controller
         $ObCamposMinimosOtrosFirmantes["lugar"] = $this->queryLugar($ObCamposMinimosOtrosFirmantes["lugar"], $jsonive);
         $ObCamposMinimosOtrosFirmantes["fecha"] = $this->formatoFechaJson($ObCamposMinimosOtrosFirmantes["fecha"]);
         $ObCamposMinimosOtrosFirmantes["firmante"] = $this->queryDatosPersonales($ObCamposMinimosOtrosFirmantes["firmante"], $jsonive);
+        if($jsonive){
+            unset($ObCamposMinimosOtrosFirmantes["idCamposMinimosFirmante"]);
+        }
         return  $ObCamposMinimosOtrosFirmantes;
+    }
+    public function queryPerfilEconomicoTransacional($idDiccionarioFormulario, $jsonive){
+          $obtransac = PerfilEconomicoTransaccional::where('idPerfilEconomicoTransaccional', '=', $idDiccionarioFormulario)->first();
+          if(!empty($obtransac)){
+              $obtransac["fecha"] = $this->formatoFechaJson($obtransac["fecha"]);
+              $arrNgp = [];
+              $listaObNegoP = PerfilEconomicoNegocioPropio::where('idPerfilEconomicoTransaccional',$idDiccionarioFormulario)->get();
+              foreach ($listaObNegoP as $obngp) {
+                  $obngp["lugar"] = $this->querylugar($obngp["lugar"],$jsonive);
+                  $obngp["fechaInscripcionNegocio"] = $this->formatoFechaJson($obngp["fechaInscripcionNegocio"]);
+                  if($jsonive){
+                      $obngp['ingresos'] = [
+                          'tipoMoneda'=>$obngp['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $obngp['tipoMoneda'])->first()["codigoMoneda"],
+                          'montoAproximado'=>$obngp['montoAproximado']
+                      ];
+                      $obngp["numeroRegistro"] = empty($obngp["numeroRegistro"]) ? "" : $obngp["numeroRegistro"] ; 
+                      $obngp["folio"] = empty($obngp["folio"]) ? "" : $obngp["folio"] ; 
+                      $obngp["libro"] = empty($obngp["libro"]) ? "" : $obngp["libro"] ; 
+                      unset($obngp['tipoMoneda']);
+                      unset($obngp['montoAproximado']);
+                      unset($obngp['idDiccionarioPerfilEconomicoNegocioPropio']);
+                      unset($obngp['idPerfilEconomicoTransaccional']);
+                  }
+                  $arrNgp[] = $obngp;
+              }
+              $obtransac["negocioPropio"] = $arrNgp; 
+              $obtransac["relacionDependencia"] =[];
+              $obtransac["otrosIngresos"] = [];
+              $obtransac["perfilTransaccional"] = [];
+              if($jsonive){
+                unset($obtransac["idPerfilEconomicoTransaccional"]);
+                unset($obtransac["idDiccionarioFormulario"]);
+              }
+          } else {
+              $obtransac = ""; 
+          }
+
+          return $obtransac;
     }
     public function queryDicionarioFormulario($id, $jsonive)
     {
@@ -505,6 +612,9 @@ class InformacionClienteController extends Controller
             }
             $obPS["beneficiarios"] = $listaBeneficiarios;
             $obPS["otrosFirmantes"] = $listaOtrosFirmantes;
+            if($jsonive){
+                unset($obPS["idProductoServicio"]);
+            }
             $listaProductosServicios[] = $obPS;
         }
         $dicFormuario = [
@@ -512,7 +622,7 @@ class InformacionClienteController extends Controller
             'estado' => $ObDicFormulario['estado'],
             'titulares' => $listaTitulares,
             'productos' => $listaProductosServicios,
-            'perfilEconomico' => 'perfilEconomico'
+            'perfilEconomico' => $this->queryPerfilEconomicoTransacional($ObDicFormulario->idDiccionarioFormulario, $jsonive)
         ];
         if ($jsonive) {
             unset($dicFormuario["idDiccionarioFormulario"]);
@@ -524,7 +634,7 @@ class InformacionClienteController extends Controller
 
     public function diccionarioFormularioJson($id)
     {
-        $respuesta = $this->queryDicionarioFormulario($id, true);
+        $respuesta = $this->queryDicionarioFormulario($id, false);
         return Response()->json(
             $respuesta,
             200,
@@ -602,6 +712,9 @@ class InformacionClienteController extends Controller
         if ($camposMinimosFirmante["tipoActuacion"] == "R") {
             $camposMinimosFirmante["calidadActua"] = $requesCamposMinimosFirmante["calidadActua"];
             $camposMinimosFirmante["representante"] =  $this->guardarDatosPersonales($requesCamposMinimosFirmante["representante"]);
+        }else {
+            $camposMinimosFirmante["calidadActua"] = null;
+            $camposMinimosFirmante["representante"] = null;
         }
         $obcm = CamposMinimosOtrosFirmantes::updateOrCreate(
             [
@@ -638,9 +751,6 @@ class InformacionClienteController extends Controller
                 $obT = Titular::updateOrCreate([
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
                     'idCamposMinimos' => $idCamposMinimos,
-                ], [
-                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
-                    'idCamposMinimos' => $idCamposMinimos,
                 ]);
                 if (!empty($listaTitular[$obT->idTitular])) {
                     unset($listaTitular[$obT->idTitular]);
@@ -651,9 +761,10 @@ class InformacionClienteController extends Controller
             }
             $respuesta = [
                 'Status' => 'Success',
-                'DiccionarioFormulario' => $this->queryDicionarioFormulario($idDiccionarioFormulario, false),
+                'DiccionarioFormulario' => $this->queryDicionarioFormulario($idDiccionarioFormulario, false)
             ];
             $this->guardarProductosServicios($request->productos, $idDiccionarioFormulario);
+            $this->guardarPerfilEconomicoTransaccional($request->perfilEconomico,$idDiccionarioFormulario);
 
             DB::commit();
             // all good
@@ -700,6 +811,7 @@ class InformacionClienteController extends Controller
         $departamentos = DB::table('departamento');
         $departamentos = $departamentos->get();
         $municipios = Municipio::all();
+        $monedas = Moneda::all();
         $listaCondicionMigratoria = DB::table('listaCondicionMigratoria');
         $listaCondicionMigratoria = $listaCondicionMigratoria->get();
         $dc = $this->queryDicionarioFormulario($id, false);
@@ -708,6 +820,7 @@ class InformacionClienteController extends Controller
             'paises' => $paises,
             'departamentos' => $departamentos,
             'municipios' => $municipios,
+            'monedas' => $monedas,
             'listaCondicionMigratoria' => $listaCondicionMigratoria,
             "dc" => $dc
         ]);

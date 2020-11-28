@@ -1,6 +1,6 @@
             <div class="card card-primary" id="{{$tipo}}_{{$indice}}" idCamposMinimos="{{$titular->idCamposMinimos}}">
                         <div class="card-header">
-                            <h3 class="card-title">Titular {{$indice + 1}}</h3>
+                            <h3 class="card-title">{{$tipolabel}} {{$indice + 1}}</h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
@@ -73,8 +73,9 @@
                             <!-- .row -->
                             <div id="camposMinimos{{$tipo}}_{{$indice}}" idatospersonales="{{$titular->cliente->idDatosPersonales}}">
                                 @include('contenido.datosPersonales',[
-                                    'tipo'=>'Cliente',
-                                    'datosPersonales' => $titular["cliente"]
+                                    'tipo'=>$tipo,
+                                    'datosPersonales' => $titular["cliente"],
+                                    'tituloLabel'=> $tipo
                                     ])
                             </div>
                             <div id="informacionEconomicaIncial{{$tipo}}_{{$indice}}" idinformacioniconomicainicial="{{$titular->infoEconomica->idInformacionEconomicaInicial}}">
@@ -153,11 +154,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="representante{{$tipo}}_{{$indice}}" idrepresentante="{{$titular->representante->idDatosPersonales}}">
+                            <div id="representante{{$tipo}}_{{$indice}}" idrepresentante="{{$titular->tipoActuacion == 'R' ? $titular->representante->idDatosPersonales : ''}}">
                                 @if($titular->tipoActuacion == 'R')
                                  @include('contenido.datosPersonales',[
-                                    'tipo'=>'RepresentanteCliente',
-                                    'datosPersonales' => $titular["representante"]
+                                    'tipo'=>'Representante'.$tipo,
+                                    'datosPersonales' => $titular["representante"],
+                                    'tituloLabel'=>'representante'
                                     ])
                                 @endif
                             </div>

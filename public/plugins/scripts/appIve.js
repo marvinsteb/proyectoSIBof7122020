@@ -687,43 +687,44 @@ function templateFilaCincoProductoServicio(id) {
     tm = $(tm).append(valor);
     return tm;
 }
+function btnAgregarBeneficiario(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("agregando beneficiario");
+        const id = $(this).parent().parent().parent().parent().attr("id");
+        agregarCamposMinimos("Beneficiario", `div#datosBeneficiario${id}`);
+    });
+}
 function templateBeneficiario(id) {
     let tmB = $(
         `<div class="row"><H2>Beneficiarios </h2><div id="datosBeneficiarioProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
     );
     let divBtn = $(`<div class="col-sm form-group">
-                           <button type="button" id="agregarBeneficiario${id}" class="btn btn-primary">Agregar Beneficiario</button>
+                           <button type="button" id="agregarBeneficiario${id}" class="btn btn-primary agregarBeneficiario">Agregar Beneficiario</button>
                        </div>`);
-    let btn = $(divBtn).find(`button#agregarBeneficiario${id}`);
-    $(btn).click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("agregando beneficiario");
-        agregarCamposMinimos(
-            "Beneficiario",
-            `div#datosBeneficiarioProductoServicio_${id}`
-        );
-    });
+    const btn = $(divBtn).find(`button#agregarBeneficiario${id}`);
+    btnAgregarBeneficiario(btn);
     $(tmB).append(divBtn);
     return tmB;
 }
-
+function btnAgregarOtroFirmantes(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = $(this).parent().parent().parent().parent().attr("id");
+        agregarCamposMinimos("OtrosFirmantes", `div#datosOtrosFirmantes${id}`);
+    });
+}
 function templateOtrosFirmantes(id) {
     let tmB = $(
         `<div class="row"><H2>Otros Firmantes </h2><div id="datosOtrosFirmantesProductoServicio_${id}"  class="col-sm-12" cantidad="0" ></div></div>`
     );
     let divBtn = $(`<div class="col-sm form-group">
-                           <button type="button" id="agregarOtrosFirmantes${id}" class="btn btn-primary">Agregar Otros Firmantes</button>
+                           <button type="button" id="agregarOtrosFirmantes${id}" class="btn btn-primary agregarOtrosFirmantes">Agregar Otros Firmantes</button>
                        </div>`);
-    let btn = $(divBtn).find(`button#agregarOtrosFirmantes${id}`);
-    $(btn).click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        agregarCamposMinimos(
-            "OtrosFirmantes",
-            `div#datosOtrosFirmantesProductoServicio_${id}`
-        );
-    });
+    const btn = $(divBtn).find(`button#agregarOtrosFirmantes${id}`);
+    btnAgregarOtroFirmantes(btn);
     $(tmB).append(divBtn);
     return tmB;
 }
@@ -1779,7 +1780,7 @@ function templateContenedorNegocioPropio() {
 
     return tpnp;
 }
-function templateSelectActualizacion(id) {
+function templateSelectSector(id) {
     let sa = $(`<label for="sectorPet">Sector</label>
                   <select name="sectorPet" id="sectorPet${id}" class="form-control custom-select sector select2" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
@@ -1791,7 +1792,7 @@ function templateSelectActualizacion(id) {
     return sa;
 }
 function templateFilaUnord(id) {
-    const cmSector = templateSelectActualizacion(id);
+    const cmSector = templateSelectSector(id);
     const cmNombreEmpleador = templateInputText(
         id,
         "NombreEmpleador",
@@ -2320,6 +2321,7 @@ function validarFormulario() {
 }
 function enviarDatos() {
     let nuevoDiccionarioFormulario = obtenerDatos();
+    console.log(JSON.stringify(nuevoDiccionarioFormulario));
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -2396,6 +2398,8 @@ function obtenerDiccionarioCamposMinimos(divContenedorCamposMinimos) {
                 `Representante${id}`,
                 idrepresentante
             );
+        } else {
+            camposMinimos.representante = null;
         }
         camposMinimos.lugar.pais = $(this)
             .find(`select[id=paisCaMi${id}] option:selected`)
@@ -2663,8 +2667,9 @@ function obtenerDatosProductoServicio(ps) {
     console.log("obteniendo datos de productos y servicios");
     const arrProducto = new Array();
     for (let i = 0; i < ps.length; i++) {
-        let producto = new dicProductoServicio(0);
         const id = $(ps[i]).attr("id");
+        const idProductoServicio = $(ps[i]).attr("idproductoservicio");
+        let producto = new dicProductoServicio(idProductoServicio);
         producto.fecha = $(ps[i]).find(`input#fecha${id}`).val();
         producto.lugar.pais = $(ps[i])
             .find(`select[id=pais${id}] option:selected`)
@@ -2707,14 +2712,18 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
     console.log(`perfil economico transaccinal`);
     let dpet = null;
     if ($(pet).children().length != 0) {
-        dpet = new dicPerfilEconomicoTransaccional();
+        const idpet = $(pet).attr("idperfileconomicotransaccional");
+        dpet = new dicPerfilEconomicoTransaccional(idpet);
         dpet.actualizacion = $(pet).find("select#actualizacionPet").val();
         dpet.fecha = $(pet).find("input#fechaPet").val();
         // obtener Fuentes de ingresos
         $("#datosNegocioPropio")
             .children()
             .each(function () {
-                let ngp = new dicPerfilEconomicoNegocioPropio();
+                const iddpenp = $(this).attr(
+                    "iddiccionarioperfileconomiconegociopropio"
+                );
+                let ngp = new dicPerfilEconomicoNegocioPropio(iddpenp);
                 ngp.nombreComercial = $(this)
                     .find(`input.nombreComercial`)
                     .val();
@@ -2748,6 +2757,7 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
                 dpet.agregarNegocioPropio(ngp);
             });
     }
+    //console.log(dpet);
     return dpet;
 }
 function obtenerDatos() {
@@ -2802,7 +2812,11 @@ $(document).ready(function () {
     borrarTemplateFuenteIngresos($(`.borrarFuenteIngreso`));
     AgregarTitular();
     eliminarCard($("#titulares>div"));
+    eliminarCard($("#datosProductoServicio>div"));
+    eliminarCard($("#perfilEconomicoTransaccional>div"));
     agregarProductoServicio($("button.agregarProductoServicio"));
+    btnAgregarBeneficiario($("button.agregarBeneficiario"));
     agregarPerfilEconomico($("button.agregarPerfilEconomico"));
+    btnAgregarOtroFirmantes($("button.agregarOtrosFirmantes"));
     validarFormulario();
 });
