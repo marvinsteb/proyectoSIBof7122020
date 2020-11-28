@@ -1760,6 +1760,17 @@ function templatePerfilnegocioPropio(id) {
 
     return tm;
 }
+function agregarPerfilEconomicoNegocioPropio(btn) {
+    console.log(btn);
+    $(btn).click(function () {
+        const dnp = $("div#datosNegocioPropio");
+        let index = $(dnp).attr("cantidad");
+        index++;
+        $(dnp).append(templatePerfilnegocioPropio(index));
+        $(dnp).find(`input#nombreComercial${index}`).focus();
+        $(dnp).attr("cantidad", index);
+    });
+}
 function templateContenedorNegocioPropio() {
     let tpnp = $(`<div class="row">
                     <div class="datosNegocioPropio col-sm-12" id="datosNegocioPropio" cantidad="0"></div>
@@ -1767,17 +1778,8 @@ function templateContenedorNegocioPropio() {
                         <button type="button" id="agregarNegocioPropio" class="btn btn-primary agregarNegocioPropio">Agregar negocio propio</button>
                     </div>
                   </div>`);
-    let dnp = $(tpnp).find("div#datosNegocioPropio");
-    $(tpnp)
-        .find("button#agregarNegocioPropio")
-        .click(function () {
-            let index = $(dnp).attr("cantidad");
-            index++;
-            $(dnp).append(templatePerfilnegocioPropio(index));
-            $(dnp).find(`input#nombreComercial${index}`).focus();
-            $(dnp).attr("cantidad", index);
-        });
-
+    const btnaddng = $(tpnp).find("button#agregarNegocioPropio");
+    agregarPerfilEconomicoNegocioPropio(btnaddng);
     return tpnp;
 }
 function templateSelectSector(id) {
@@ -2818,5 +2820,6 @@ $(document).ready(function () {
     btnAgregarBeneficiario($("button.agregarBeneficiario"));
     agregarPerfilEconomico($("button.agregarPerfilEconomico"));
     btnAgregarOtroFirmantes($("button.agregarOtrosFirmantes"));
+    agregarPerfilEconomicoNegocioPropio($(`button#agregarNegocioPropio`));
     validarFormulario();
 });
