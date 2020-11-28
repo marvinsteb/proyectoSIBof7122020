@@ -146,7 +146,7 @@
                 <div class="form-group">
                     <label>País (Pasaporte)</label>
                     <select name="emicionPasaporte{{$tipo}}_{{$indice}}" id="emicionPasaporte{{$tipo}}_{{$indice}}" class="form-control custom-select emicionPasaporte select2" style="width: 100%" {{empty($datosPersonales->emisionPasaporte) ? 'disabled' : ''}} required>
-                        <option value="" disabled selected>Selecciona</option>
+                        <option value="" disabled>Selecciona</option>
                         @foreach($paises as $pais)
                         @if($pais->codigoPais == $datosPersonales->emisionPasaporte)
                         <option value="{{$pais->idPais}}" selected>{{$pais->nombrePais}}</option>

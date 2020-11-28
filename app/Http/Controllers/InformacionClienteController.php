@@ -556,7 +556,7 @@ class InformacionClienteController extends Controller
                   $obngp["fechaInscripcionNegocio"] = $this->formatoFechaJson($obngp["fechaInscripcionNegocio"]);
                   if($jsonive){
                       $obngp['ingresos'] = [
-                          'tipoMoneda'=>$obngp['tipoMoneda'],
+                          'tipoMoneda'=>$obngp['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $obngp['tipoMoneda'])->first()["codigoMoneda"],
                           'montoAproximado'=>$obngp['montoAproximado']
                       ];
                       $obngp["numeroRegistro"] = empty($obngp["numeroRegistro"]) ? "" : $obngp["numeroRegistro"] ; 
@@ -634,7 +634,7 @@ class InformacionClienteController extends Controller
 
     public function diccionarioFormularioJson($id)
     {
-        $respuesta = $this->queryDicionarioFormulario($id, true);
+        $respuesta = $this->queryDicionarioFormulario($id, false);
         return Response()->json(
             $respuesta,
             200,

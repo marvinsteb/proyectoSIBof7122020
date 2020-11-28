@@ -2720,7 +2720,10 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
         $("#datosNegocioPropio")
             .children()
             .each(function () {
-                let ngp = new dicPerfilEconomicoNegocioPropio();
+                const iddpenp = $(this).attr(
+                    "iddiccionarioperfileconomiconegociopropio"
+                );
+                let ngp = new dicPerfilEconomicoNegocioPropio(iddpenp);
                 ngp.nombreComercial = $(this)
                     .find(`input.nombreComercial`)
                     .val();
@@ -2810,6 +2813,7 @@ $(document).ready(function () {
     AgregarTitular();
     eliminarCard($("#titulares>div"));
     eliminarCard($("#datosProductoServicio>div"));
+    eliminarCard($("#perfilEconomicoTransaccional>div"));
     agregarProductoServicio($("button.agregarProductoServicio"));
     btnAgregarBeneficiario($("button.agregarBeneficiario"));
     agregarPerfilEconomico($("button.agregarPerfilEconomico"));
