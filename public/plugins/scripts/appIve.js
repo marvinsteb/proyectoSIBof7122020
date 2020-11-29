@@ -2368,7 +2368,7 @@ function enviarDatos() {
                 //console.log("redireccionando....");
                 //const url = "/oficios/7122020";
                 //$(location).attr("href", url);
-            } else {
+            } else if (res.Status == "Error") {
                 console.log(res);
                 alert(
                     "Ocurrió un error al guardar el formulario, intenta de nuevo"

@@ -120,9 +120,9 @@
             <option value="" disabled selected>Selecciona</option>
               @foreach($monedas as $moneda)
                   @if($moneda->codigoMoneda == $producto->moneda)
-                      <option value="{{$moneda->idMoneda}}" selected>{{$moneda->nombreMoneda}}</option>
+                      <option value="{{$moneda->idMoneda}}" selected>{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
                   @else
-                      <option value="{{$moneda->idMoneda}}">{{$moneda->nombreMoneda}}</option>
+                      <option value="{{$moneda->idMoneda}}">{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
                   @endif
               @endforeach
           </select>

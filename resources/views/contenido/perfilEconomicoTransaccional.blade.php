@@ -44,7 +44,12 @@
 <div class="row">
   <div class="datosRelacionDependencia col-sm-12" id="datosRelacionDependencia" cantidad="{{!empty($perfil->relacionDependencia) ? count($perfil->relacionDependencia) : 0}}">
          @if(!empty($perfil->relacionDependencia))
-         hola
+              @foreach($perfil->relacionDependencia as $drd)
+                @include('contenido.perfilEconomicoTransaccionalRelacionDependencia',[
+                  'drd'=>$drd,
+                  'indiceRd' => $loop->index
+                ])
+              @endforeach
          @endif
   </div>
   <div class="form-group">

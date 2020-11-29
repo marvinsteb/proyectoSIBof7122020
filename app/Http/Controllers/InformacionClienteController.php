@@ -282,8 +282,8 @@ class InformacionClienteController extends Controller
                             'sector' =>  $prd["sector"],
                             'nombreEmpleador' => $prd["nombreEmpleador"],
                             'principalActividadEconomicaEmpleador' => $prd["priActEcoE"],
-                            'puestoDesempenia' => $prd["priActEcoE"],
-                            'direccionEmpleador' => $prd["puestoDesempenia"],
+                            'puestoDesempenia' => $prd["puestoDesempenia"],
+                            'direccionEmpleador' => $prd["direccionEmpleador"],
                             'lugar' => $this->guardarLugar($prd["lugar"]),
                             'tipoMoneda'=>$prd["tipoMoneda"],
                             'montoAproximado'=>$prd["montoAproximado"]
@@ -627,7 +627,6 @@ class InformacionClienteController extends Controller
             }
             $arraRd[] = $rd;
         }
-        $arraRd = $listaPerRd;
         return $arraRd;
     }
     public function queryPerfilEconomicoTransacional($idDiccionarioFormulario, $jsonive){

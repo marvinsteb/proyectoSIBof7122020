@@ -126,10 +126,10 @@
               <select name="moneda" id="moneda{{$indiceNeg}}" class="form-control custom-select moneda select2 select2-hidden-accessible" style="width: 100%" required="" data-select2-id="moneda1" tabindex="-1" aria-hidden="true">
                 <option value="" disabled>Selecciona</option>
                       @foreach($monedas as $moneda)
-                          @if($moneda->idMoneda == $producto->tipoMoneda)
-                              <option value="{{$moneda->idMoneda}}" selected>{{$moneda->nombreMoneda}}</option>
+                          @if($moneda->idMoneda == $negp->tipoMoneda)
+                              <option value="{{$moneda->idMoneda}}" selected>{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
                           @else
-                              <option value="{{$moneda->idMoneda}}">{{$moneda->nombreMoneda}}</option>
+                              <option value="{{$moneda->idMoneda}}">{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
                           @endif
                       @endforeach
               </select>
