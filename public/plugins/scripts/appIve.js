@@ -2789,7 +2789,9 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
         $("div#datosRelacionDependencia")
             .children()
             .each(function () {
-                let drd = new dicPerfilEconomicoRelacionDependencia();
+                let drd = new dicPerfilEconomicoRelacionDependencia(
+                    $(this).attr("idrd")
+                );
                 drd.sector = $(this).find("select.sector").val();
                 drd.nombreEmpleador = $(this)
                     .find("input.NombreEmpleador")

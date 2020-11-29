@@ -622,6 +622,12 @@ class InformacionClienteController extends Controller
         foreach ($listaPerRd as $rd) {
             $rd["lugar"] = $this->querylugar($rd["lugar"],$jsonive);
             if($jsonive){
+                $rd['ingresos'] = [
+                    'tipoMoneda'=>$rd['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $rd['tipoMoneda'])->first()["codigoMoneda"],
+                    'montoAproximado'=>$rd['montoAproximado']
+                ];
+                unset($rd['tipoMoneda']);
+                unset($rd['montoAproximado']);
                 unset($rd["idPerfilEconommicoRelacionDependencia"]);
                 unset($rd["idPerfilEconomicoTransaccional"]);
             }
