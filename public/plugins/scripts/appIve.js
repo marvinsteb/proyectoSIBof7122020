@@ -1761,8 +1761,9 @@ function templatePerfilnegocioPropio(id) {
     return tm;
 }
 function agregarPerfilEconomicoNegocioPropio(btn) {
-    console.log(btn);
     $(btn).click(function () {
+        e.preventDefault();
+        e.stopPropagation();
         const dnp = $("div#datosNegocioPropio");
         let index = $(dnp).attr("cantidad");
         index++;
@@ -1872,6 +1873,18 @@ function templateRelacionDependencia(id) {
     $(tm).find(`div.card-body`).append(rowTres);
     return tm;
 }
+function agregarPerfilEconomicoRelacionDependencia(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const drd = $("div#datosRelacionDependencia");
+        let index = $(drd).attr("cantidad");
+        index++;
+        $(drd).append(templateRelacionDependencia(index));
+        $(drd).find("select.sector").focus();
+        $(drd).attr("cantidad", index);
+    });
+}
 function templateContenedorRelacionDependencia() {
     let trd = $(`<div class="row">
                     <div class="datosRelacionDependencia col-sm-12" id="datosRelacionDependencia" cantidad="0"></div>
@@ -1880,19 +1893,8 @@ function templateContenedorRelacionDependencia() {
                     </div>
                   </div>`);
     let drd = $(trd).find(`div#datosRelacionDependencia`);
-    $(trd)
-        .find(`button#agregarRelacionDependencia`)
-        .click(function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let index = $(drd).attr("cantidad");
-            index++;
-            const tmdrd = templateRelacionDependencia(index);
-            $(`div#datosRelacionDependencia`).append(tmdrd);
-            $(drd).find("select.sector").focus();
-
-            $(drd).attr("cantidad", index);
-        });
+    const btnaddrd = $(trd).find(`button#agregarRelacionDependencia`);
+    agregarPerfilEconomicoRelacionDependencia(btnaddrd);
     return trd;
 }
 function templateSelectOtrosIngresos(id) {
@@ -2874,6 +2876,9 @@ $(document).ready(function () {
     btnAgregarOtroFirmantes($("button.agregarOtrosFirmantes"));
 
     agregarPerfilEconomico($("button.agregarPerfilEconomico"));
-    agregarPerfilEconomicoNegocioPropio($(`button#agregarNegocioPropio`));
+    agregarPerfilEconomicoNegocioPropio($("button#agregarNegocioPropio"));
+    agregarPerfilEconomicoRelacionDependencia(
+        $("button#agregarRelacionDependencia")
+    );
     validarFormulario();
 });
