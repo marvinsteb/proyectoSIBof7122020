@@ -100,6 +100,7 @@ function templateDoctoIdentificacion(id) {
                                <option value="P">Pasaporte</option>
                            </select>`);
     temDoctoIdent = templateFormGroup(temDoctoIdent);
+    $(temDoctoIdent).find(`select#tipoDoctoIdentificacion${id}`).select2();
     habilitaPaisPasaporte(
         $(temDoctoIdent).find(`select#tipoDoctoIdentificacion${id}`)
     );
@@ -128,7 +129,9 @@ function templateEstadoCivil(id) {
                     <option value="S">Soltero</option>
                     <option value="C">Casado</option>
                  </select>`);
-    return templateFormGroup(temEs);
+    temEs = templateFormGroup(temEs);
+    $(temEs).find("select").select2();
+    return temEs;
 }
 function templatePais(
     id,
@@ -1144,7 +1147,8 @@ function templateOrigenRiqueza(id) {
                     </select>`);
 
     tor = templateFormGroup(tor);
-    const selectTor = $(tor).find(`select#origenRiqueza${id}`);
+    let selectTor = $(tor).find(`select#origenRiqueza${id}`);
+    $(selectTor).select2();
     habilitaOtroOrigenriqueza(selectTor);
     return tor;
 }
@@ -1322,6 +1326,7 @@ function templateCondicion(id) {
                     <option value="E">Extranjero</option>
                 </select>`;
     tC = templateFormGroup(tC);
+    $(tC).find("select").select2();
     return tC;
 }
 
