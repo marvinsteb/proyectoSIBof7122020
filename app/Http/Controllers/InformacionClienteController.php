@@ -270,7 +270,37 @@ class InformacionClienteController extends Controller
                 }
             }
             //relacion de dependencia 
-
+            $listaPerfilErd = PerfilEconomicoRelacionDependencia::where('idPerfilEconomicoTransaccional', '=',  $idObpet)->get()->pluck('idPerfilEconommicoRelacionDependencia', 'idPerfilEconommicoRelacionDependencia')->toArray();
+            if(!empty($perEco["relacionDependencia"])){
+                foreach ($perEco["relacionDependencia"] as $prd) {
+                    $oprd = PerfilEconomicoRelacionDependencia::updateOrCreate(
+                        [
+                            'idPerfilEconommicoRelacionDependencia'=>$prd['idPerd']
+                        ],
+                        [
+                            'idPerfilEconomicoTransaccional' => $idObpet,
+                            'sector' =>  $prd["sector"],
+                            'nombreEmpleador' => $prd["nombreEmpleador"],
+                            'principalActividadEconomicaEmpleador' => $prd["priActEcoE"],
+                            'puestoDesempenia' => $prd["priActEcoE"],
+                            'direccionEmpleador' => $prd["puestoDesempenia"],
+                            'lugar' => $this->guardarLugar($prd["lugar"]),
+                            'tipoMoneda'=>$prd["tipoMoneda"],
+                            'montoAproximado'=>$prd["montoAproximado"]
+                        ]
+                    );
+                    if (!empty($listaPerfilErd[$oprd->idPerfilEconommicoRelacionDependencia])) {
+                        unset($listaPerfilErd[$oprd->idPerfilEconommicoRelacionDependencia]);
+                    }
+                }
+                if (count($listaPerfilErd)) {
+                    PerfilEconomicoRelacionDependencia::whereRaw(sprintf('idPerfilEconommicoRelacionDependencia IN (%s)', implode(',', $listaPerfilErd)))->delete();
+                }
+            }else{
+                if (count($listaPerfilErd)) {
+                    PerfilEconomicoRelacionDependencia::whereRaw(sprintf('idPerfilEconommicoRelacionDependencia IN (%s)', implode(',', $listaPerfilErd)))->delete();
+                }
+            }
 
         }
     }
@@ -562,32 +592,50 @@ class InformacionClienteController extends Controller
         }
         return  $ObCamposMinimosOtrosFirmantes;
     }
+    public function queryPerfilEconomicoNegocioPropio($idPerfilEconomicoTransaccional,$jsonive){
+        $arrNgp = [];
+        $listaObNegoP = PerfilEconomicoNegocioPropio::where('idPerfilEconomicoTransaccional',$idPerfilEconomicoTransaccional)->get();
+        foreach ($listaObNegoP as $obngp) {
+            $obngp["lugar"] = $this->querylugar($obngp["lugar"],$jsonive);
+            $obngp["fechaInscripcionNegocio"] = $this->formatoFechaJson($obngp["fechaInscripcionNegocio"]);
+            if($jsonive){
+                $obngp['ingresos'] = [
+                    'tipoMoneda'=>$obngp['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $obngp['tipoMoneda'])->first()["codigoMoneda"],
+                    'montoAproximado'=>$obngp['montoAproximado']
+                ];
+                $obngp["numeroRegistro"] = empty($obngp["numeroRegistro"]) ? "" : $obngp["numeroRegistro"] ; 
+                $obngp["folio"] = empty($obngp["folio"]) ? "" : $obngp["folio"] ; 
+                $obngp["libro"] = empty($obngp["libro"]) ? "" : $obngp["libro"] ; 
+                unset($obngp['tipoMoneda']);
+                unset($obngp['montoAproximado']);
+                unset($obngp['idDiccionarioPerfilEconomicoNegocioPropio']);
+                unset($obngp['idPerfilEconomicoTransaccional']);
+            }
+            $arrNgp[] = $obngp;
+        }
+        return $arrNgp;
+    }
+
+    public function queryPerfilEconomicoRelacionDependencia($idPerfilEconomicoTransaccional,$jsonive){
+        $arraRd = [];
+        $listaPerRd = PerfilEconomicoRelacionDependencia::where('idPerfilEconomicoTransaccional',$idPerfilEconomicoTransaccional)->get();
+        foreach ($listaPerRd as $rd) {
+            $rd["lugar"] = $this->querylugar($rd["lugar"],$jsonive);
+            if($jsonive){
+                unset($rd["idPerfilEconommicoRelacionDependencia"]);
+                unset($rd["idPerfilEconomicoTransaccional"]);
+            }
+            $arraRd[] = $rd;
+        }
+        $arraRd = $listaPerRd;
+        return $arraRd;
+    }
     public function queryPerfilEconomicoTransacional($idDiccionarioFormulario, $jsonive){
           $obtransac = PerfilEconomicoTransaccional::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->first();
           if(!empty($obtransac)){
               $obtransac["fecha"] = $this->formatoFechaJson($obtransac["fecha"]);
-              $arrNgp = [];
-              $listaObNegoP = PerfilEconomicoNegocioPropio::where('idPerfilEconomicoTransaccional',$idDiccionarioFormulario)->get();
-              foreach ($listaObNegoP as $obngp) {
-                  $obngp["lugar"] = $this->querylugar($obngp["lugar"],$jsonive);
-                  $obngp["fechaInscripcionNegocio"] = $this->formatoFechaJson($obngp["fechaInscripcionNegocio"]);
-                  if($jsonive){
-                      $obngp['ingresos'] = [
-                          'tipoMoneda'=>$obngp['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $obngp['tipoMoneda'])->first()["codigoMoneda"],
-                          'montoAproximado'=>$obngp['montoAproximado']
-                      ];
-                      $obngp["numeroRegistro"] = empty($obngp["numeroRegistro"]) ? "" : $obngp["numeroRegistro"] ; 
-                      $obngp["folio"] = empty($obngp["folio"]) ? "" : $obngp["folio"] ; 
-                      $obngp["libro"] = empty($obngp["libro"]) ? "" : $obngp["libro"] ; 
-                      unset($obngp['tipoMoneda']);
-                      unset($obngp['montoAproximado']);
-                      unset($obngp['idDiccionarioPerfilEconomicoNegocioPropio']);
-                      unset($obngp['idPerfilEconomicoTransaccional']);
-                  }
-                  $arrNgp[] = $obngp;
-              }
-              $obtransac["negocioPropio"] = $arrNgp; 
-              $obtransac["relacionDependencia"] =[];
+              $obtransac["negocioPropio"] = $this->queryPerfilEconomicoNegocioPropio($obtransac->idPerfilEconomicoTransaccional,$jsonive); 
+              $obtransac["relacionDependencia"] = $this->queryPerfilEconomicoRelacionDependencia($obtransac->idPerfilEconomicoTransaccional,$jsonive);
               $obtransac["otrosIngresos"] = [];
               $obtransac["perfilTransaccional"] = [];
               if($jsonive){
