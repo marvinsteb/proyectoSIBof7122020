@@ -1889,6 +1889,8 @@ function templateContenedorRelacionDependencia() {
             index++;
             const tmdrd = templateRelacionDependencia(index);
             $(`div#datosRelacionDependencia`).append(tmdrd);
+            $(drd).find("select.sector").focus();
+
             $(drd).attr("cantidad", index);
         });
     return trd;
@@ -2242,15 +2244,40 @@ class dicPerfilEconomicoNegocioPropio {
         this.montoAproximado = null;
     }
 }
+class dicPerfilEconomicoRelacionDependencia {
+    constructor(id) {
+        this.idPerd = id;
+        this.sector = null;
+        this.nombreEmpleador = null;
+        this.priActEcoE = null;
+        this.puestoDesempenia = null;
+        this.direccionEmpleador = null;
+        this.lugar = new dicLugar();
+        this.tipoMoneda = null;
+        this.montoAproximado = null;
+    }
+}
 class dicPerfilEconomicoTransaccional {
     constructor(id) {
         this.idPerfilEconomicoTransaccional = id;
         this.actualizacion = null;
         this.fecha = null;
         this.negocioPropio = new Array();
+        this.relacionDependencia = new Array();
+        this.otrosIngresos = new Array();
+        this.perfilTransaccional = new Array();
     }
     agregarNegocioPropio(ngp) {
         this.negocioPropio.push(ngp);
+    }
+    agregarRelacionDependencia(rd) {
+        this.relacionDependencia.push(rd);
+    }
+    agregarotrosIngresos(oi) {
+        this.otrosIngresos.push(oi);
+    }
+    agregarPerfilTransaccional(pt) {
+        this.perfilTransaccional.push(pt);
     }
 }
 class diccionarioFormulario {
@@ -2758,8 +2785,32 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
                     .val();
                 dpet.agregarNegocioPropio(ngp);
             });
+        // relacion de dependencia
+        $("div#datosRelacionDependencia")
+            .children()
+            .each(function () {
+                let drd = new dicPerfilEconomicoRelacionDependencia();
+                drd.sector = $(this).find("select.sector").val();
+                drd.nombreEmpleador = $(this)
+                    .find("input.NombreEmpleador")
+                    .val();
+                drd.priActEcoE = $(this).find("input.prinActiEcoEmple").val();
+                drd.puestoDesempenia = $(this)
+                    .find("input.puestoDesempenia")
+                    .val();
+                drd.direccionEmpleador = $(this).find("input.direccion").val();
+                drd.lugar.pais = $(this).find("select.pais").val();
+                drd.lugar.departamento = $(this).find("select.depto").val();
+                drd.lugar.municipio = $(this).find("select.muni").val();
+                drd.tipoMoneda = $(this).find("select.moneda ").val();
+                drd.montoAproximado = $(this)
+                    .find("input.montoAproximado ")
+                    .val();
+                dpet.agregarRelacionDependencia(drd);
+            });
+        // otros ingresos
     }
-    //console.log(dpet);
+
     return dpet;
 }
 function obtenerDatos() {
@@ -2818,8 +2869,9 @@ $(document).ready(function () {
     eliminarCard($("#perfilEconomicoTransaccional>div"));
     agregarProductoServicio($("button.agregarProductoServicio"));
     btnAgregarBeneficiario($("button.agregarBeneficiario"));
-    agregarPerfilEconomico($("button.agregarPerfilEconomico"));
     btnAgregarOtroFirmantes($("button.agregarOtrosFirmantes"));
+
+    agregarPerfilEconomico($("button.agregarPerfilEconomico"));
     agregarPerfilEconomicoNegocioPropio($(`button#agregarNegocioPropio`));
     validarFormulario();
 });

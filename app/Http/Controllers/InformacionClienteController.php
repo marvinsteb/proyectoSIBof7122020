@@ -22,6 +22,7 @@ use App\Models\Municipio;
 use App\Models\OtrosFirmantes;
 use App\Models\ParienteAsociadoPep;
 use App\Models\PerfilEconomicoNegocioPropio;
+use App\Models\PerfilEconomicoRelacionDependencia;
 use App\Models\PerfilEconomicoTransaccional;
 use App\Models\ProductoServicio;
 use App\Models\Titular;
@@ -232,9 +233,13 @@ class InformacionClienteController extends Controller
                     'fecha'=>$this->formatoFechaDB($perEco["fecha"])
                 ]);
             $idObpet = $obpet->idPerfilEconomicoTransaccional;
+            
+
+            // negocio propio 
+            $listapenp = PerfilEconomicoNegocioPropio::where('idPerfilEconomicoTransaccional', '=',  $idObpet)->get()->pluck('idDiccionarioPerfilEconomicoNegocioPropio', 'idDiccionarioPerfilEconomicoNegocioPropio')->toArray();
             if(!empty($perEco["negocioPropio"])){
                 foreach ($perEco["negocioPropio"] as $ngp) {
-                    PerfilEconomicoNegocioPropio::updateOrCreate(
+                    $obpenp = PerfilEconomicoNegocioPropio::updateOrCreate(
                         [
                             'idDiccionarioPerfilEconomicoNegocioPropio'=>$ngp['idDiccionarioPerfilEconomicoNegocioPropio']
                         ],
@@ -252,9 +257,21 @@ class InformacionClienteController extends Controller
                             'montoAproximado'=>$ngp["montoAproximado"]
                         ]
                     );
-
+                    if (!empty($listapenp[$obpenp->idDiccionarioPerfilEconomicoNegocioPropio])) {
+                        unset($listapenp[$obpenp->idDiccionarioPerfilEconomicoNegocioPropio]);
+                    }
+                }
+                if (count($listapenp)) {
+                    PerfilEconomicoNegocioPropio::whereRaw(sprintf('idDiccionarioPerfilEconomicoNegocioPropio IN (%s)', implode(',', $listapenp)))->delete();
+                }
+            }else{
+                if (count($listapenp)) {
+                    PerfilEconomicoNegocioPropio::whereRaw(sprintf('idDiccionarioPerfilEconomicoNegocioPropio IN (%s)', implode(',', $listapenp)))->delete();
                 }
             }
+            //relacion de dependencia 
+
+
         }
     }
     public function guardarProductosServicios($listaProductosServicios, $idDiccionarioFormulario)
@@ -546,7 +563,7 @@ class InformacionClienteController extends Controller
         return  $ObCamposMinimosOtrosFirmantes;
     }
     public function queryPerfilEconomicoTransacional($idDiccionarioFormulario, $jsonive){
-          $obtransac = PerfilEconomicoTransaccional::where('idPerfilEconomicoTransaccional', '=', $idDiccionarioFormulario)->first();
+          $obtransac = PerfilEconomicoTransaccional::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->first();
           if(!empty($obtransac)){
               $obtransac["fecha"] = $this->formatoFechaJson($obtransac["fecha"]);
               $arrNgp = [];
@@ -634,7 +651,7 @@ class InformacionClienteController extends Controller
 
     public function diccionarioFormularioJson($id)
     {
-        $respuesta = $this->queryDicionarioFormulario($id, false);
+        $respuesta = $this->queryDicionarioFormulario($id, true);
         return Response()->json(
             $respuesta,
             200,
