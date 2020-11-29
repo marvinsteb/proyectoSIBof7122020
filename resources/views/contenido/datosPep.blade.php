@@ -31,7 +31,7 @@
     <div class="col-sm">
       <div class="form-group">
         <label for="origenRiquezapep{{$tipo}}_{{$indice}}">Origen o procedencia de su riqueza</label>
-        <select name="origenRiquezapep{{$tipo}}_{{$indice}}" id="origenRiquezapep{{$tipo}}_{{$indice}}" class="form-control custom-select select2" style="width: 100%" required="">
+        <select name="origenRiquezapep{{$tipo}}_{{$indice}}" id="origenRiquezapep{{$tipo}}_{{$indice}}" class="form-control custom-select otroOrigenRiqueza select2" style="width: 100%" required="">
           <option value="" disabled="" selected="">Selecciona</option>
           <option value="1" {{ $datosPep->origenRiqueza == '1' ? 'selected' : ''}}>Bienes muebles e inmuebles por herencia </option>
           <option value="2" {{ $datosPep->origenRiqueza == '2' ? 'selected' : ''}}>Bienes muebles e inmuebles</option>

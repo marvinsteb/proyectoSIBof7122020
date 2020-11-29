@@ -488,6 +488,7 @@ class InformacionClienteController extends Controller
             $datosPersonales["datosPep"] = DatosPep::where('idDatosPep', '=', $datosPersonales["datosPep"])->get()[0];
             $datosPersonales["datosPep"]["paisEntidad"] =  $this->obtenerCodigoPais($datosPersonales["datosPep"]["paisEntidad"]);
             if ($jsonive) {
+                $datosPersonales["datosPep"]["otroOrigenRiqueza"] = $datosPersonales["datosPep"]["origenRiqueza"] == 8 ? $datosPersonales["datosPep"]["otroOrigenRiqueza"] : "";                 
                 unset($datosPersonales["datosPep"]["idDatosPep"]);
             }
         } else {

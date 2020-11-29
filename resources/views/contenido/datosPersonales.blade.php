@@ -332,19 +332,19 @@
                 @endforeach
                 @endif
             </div>
-            @if($datosPersonales->parienteAsociadoPep == 'S')
             <div class="btnadd">
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary agregarFamiliarAsociado" name="asoPep{{$tipo}}_{{$indice}}" id="agregarFamiliarAsociadoPepasoPep{{$tipo}}_{{$indice}}">
-                                Agregar Familiar/Asociado PEP
-                            </button>
+                @if($datosPersonales->parienteAsociadoPep == 'S')
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary agregarFamiliarAsociado" name="asoPep{{$tipo}}_{{$indice}}" id="agregarFamiliarAsociadoPepasoPep{{$tipo}}_{{$indice}}">
+                                    Agregar Familiar/Asociado PEP
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
-            @endif
         </div>
     </div>
 </div>

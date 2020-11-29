@@ -75,13 +75,15 @@ function templateCamposNommbres(id) {
     return rowNombres;
 }
 function templateSexo(id) {
-    const templatesexo = $(`<label for="sexo${id}">Sexo</label>
+    let templatesexo = $(`<label for="sexo${id}">Sexo</label>
                           <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo select2" style="width: 100%" required>
                               <option value="" disabled selected>Selecciona</option>
                               <option value="M">Masculino</option>
                               <option value="F">Femenino</option>
                           </select>`);
-    return templateFormGroup(templatesexo);
+    templatesexo = templateFormGroup(templatesexo);
+    $(templatesexo).find("select").select2();
+    return templatesexo;
 }
 function templateNit(id) {
     let temNit = $(`<label>Nit</label>
@@ -1129,7 +1131,7 @@ function templatePuestoDesempenia(id) {
 function templateOrigenRiqueza(id) {
     let tor = $(`
                     <label for= "origenRiqueza${id}">Origen o procedencia de su riqueza</label>
-                    <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select select2" style="width: 100%;" required>
+                    <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select select2 origenRiqueza" style="width: 100%;" required>
                         <option value="" disabled selected>Selecciona</option>
                         <option value="1">Bienes muebles e inmuebles por herencia</option>
                         <option value="2">Bienes muebles e inmuebles</option>
@@ -1284,6 +1286,7 @@ function templateParentesco(id) {
                 </select>`;
     tmP = templateFormGroup(tmP);
     const selectParentesco = $(tmP).find(`select#parentesco${id}`);
+    $(selectParentesco).select2();
     habilitaOtroCampoDesdeSelect(
         selectParentesco,
         6,
@@ -1303,6 +1306,7 @@ function templateMotivoAsociacion(id) {
                 </select>`;
     tM = templateFormGroup(tM);
     const selectMotivo = $(tM).find(`select#motivoAsociacion${id}`);
+    $(selectMotivo).select2();
     habilitaOtroCampoDesdeSelect(
         selectMotivo,
         5,
@@ -2862,6 +2866,7 @@ $(document).ready(function () {
     agregarTemplateTelefono($(".agregarTelefono"));
     eliminarTemplateTelefono($(`.borrarTelefono`));
     verificarPersonaPep($(".pep"));
+    habilitaOtroOrigenriqueza($("select.otroOrigenRiqueza"));
     verificarAsoPep($(".asoPep"));
     btnaddfamasopep($(`button.agregarFamiliarAsociado`));
     validarTipoFuenteIngreso($("select.fuenteIngresos"));
