@@ -56,3 +56,19 @@
     <button type="button" id="agregarRelacionDependencia" class="btn btn-primary agregarRelacionDependencia">Agregar Relación de Dependencia</button>
   </div>
 </div>
+
+<div class="row">
+  <div class="datosOtrosIngresos col-sm-12" id="datosOtrosIngresos" cantidad="1">
+         @if(!empty($perfil->otrosIngresos))
+              @foreach($perfil->otrosIngresos as $doi)
+                @include('contenido.perfilEconomicoTransaccionalOtrosIngresos',[
+                  'doi'=>$doi,
+                  'indiceoi' => $loop->index
+                ])
+              @endforeach
+         @endif
+  </div>
+  <div class="form-group">
+    <button type="button" id="agregarOtrosIngresos" class="btn btn-primary agregarOtrosIngresos">Agregar Otros Ingresos</button>
+  </div>
+</div>

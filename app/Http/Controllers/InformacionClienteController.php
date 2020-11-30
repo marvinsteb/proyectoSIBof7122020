@@ -23,6 +23,7 @@ use App\Models\OtrosFirmantes;
 use App\Models\ParienteAsociadoPep;
 use App\Models\PerfilEconomicoNegocioPropio;
 use App\Models\PerfilEconomicoRelacionDependencia;
+use App\Models\PerfilEconomicoOtrosIngresos;
 use App\Models\PerfilEconomicoTransaccional;
 use App\Models\ProductoServicio;
 use App\Models\Titular;
@@ -223,6 +224,35 @@ class InformacionClienteController extends Controller
 
         return $obInfoEcoIni->idInformacionEconomicaInicial;
     }
+    public function guardarPerfilEconomicoTransaccionalOtrosIngresos($perEco,$idpet){
+            $listapeoi = PerfilEconomicoOtrosIngresos::where('idPerfilEconomicoTransaccional', '=',  $idpet)->get()->pluck('idPerfilEconomicoOtrosIngresos', 'idPerfilEconomicoOtrosIngresos')->toArray();
+            if(!empty($perEco)){
+                foreach ($perEco as $peoi) {
+                    $obpenp = PerfilEconomicoOtrosIngresos::updateOrCreate(
+                        [
+                            'idPerfilEconomicoOtrosIngresos'=>$peoi["idOI"]
+                        ],
+                        [
+                            'idPerfilEconomicoTransaccional'=>$idpet,
+                            'tipoOtrosIngresos'=>$peoi["tipoOI"],
+                            'detalleOtrosIngresos'=>$peoi["detalleOI"],
+                            'tipoMoneda'=>$peoi["tipoMoneda"],
+                            'montoAproximado'=>$peoi["montoAproximado"]
+                        ]
+                    );
+                    if (!empty($listapeoi[$obpenp->idPerfilEconomicoOtrosIngresos])) {
+                        unset($listapeoi[$obpenp->idPerfilEconomicoOtrosIngresos]);
+                    }
+                }
+                if (count($listapeoi)) {
+                    PerfilEconomicoOtrosIngresos::whereRaw(sprintf('idPerfilEconomicoOtrosIngresos IN (%s)', implode(',', $listapeoi)))->delete();
+                }
+            }else{
+                if (count($listapeoi)) {
+                    PerfilEconomicoOtrosIngresos::whereRaw(sprintf('idPerfilEconomicoOtrosIngresos IN (%s)', implode(',', $listapeoi)))->delete();
+                }
+            }
+    }
     public function guardarPerfilEconomicoTransaccional($perEco,$idDiccionarioFormulario){
         if (!empty($perEco)){
             $obpet =PerfilEconomicoTransaccional::updateOrCreate(
@@ -301,7 +331,7 @@ class InformacionClienteController extends Controller
                     PerfilEconomicoRelacionDependencia::whereRaw(sprintf('idPerfilEconommicoRelacionDependencia IN (%s)', implode(',', $listaPerfilErd)))->delete();
                 }
             }
-
+            $this->guardarPerfilEconomicoTransaccionalOtrosIngresos($perEco["otrosIngresos"],$idObpet);
         }
     }
     public function guardarProductosServicios($listaProductosServicios, $idDiccionarioFormulario)
@@ -636,13 +666,31 @@ class InformacionClienteController extends Controller
         }
         return $arraRd;
     }
+    public function queryPerfilEconomicoOtrosIngresos($idPerfilEconomicoTransaccional,$jsonive){
+        $arraOi = [];
+        $listaPeoi = PerfilEconomicoOtrosIngresos::where('idPerfilEconomicoTransaccional',$idPerfilEconomicoTransaccional)->get();
+        foreach ($listaPeoi as $oi) {
+             $oi['ingresos'] = [
+                    'tipoMoneda'=>$oi['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $oi['tipoMoneda'])->first()["codigoMoneda"],
+                    'montoAproximado'=>$oi['montoAproximado']
+                ];
+            if($jsonive){
+                unset($oi["tipoMoneda"]);
+                unset($oi["montoAproximado"]);
+                unset($oi["idPerfilEconomicoOtrosIngresos"]);
+                unset($oi["idPerfilEconomicoTransaccional"]);
+            }
+            $arraOi[] = $oi;
+        }
+        return $arraOi;
+    }
     public function queryPerfilEconomicoTransacional($idDiccionarioFormulario, $jsonive){
           $obtransac = PerfilEconomicoTransaccional::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->first();
           if(!empty($obtransac)){
               $obtransac["fecha"] = $this->formatoFechaJson($obtransac["fecha"]);
               $obtransac["negocioPropio"] = $this->queryPerfilEconomicoNegocioPropio($obtransac->idPerfilEconomicoTransaccional,$jsonive); 
               $obtransac["relacionDependencia"] = $this->queryPerfilEconomicoRelacionDependencia($obtransac->idPerfilEconomicoTransaccional,$jsonive);
-              $obtransac["otrosIngresos"] = [];
+              $obtransac["otrosIngresos"] =$this->queryPerfilEconomicoOtrosIngresos($obtransac->idPerfilEconomicoTransaccional,$jsonive);
               $obtransac["perfilTransaccional"] = [];
               if($jsonive){
                 unset($obtransac["idPerfilEconomicoTransaccional"]);

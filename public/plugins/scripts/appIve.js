@@ -672,9 +672,9 @@ function templateFilaCuatroProductoServicio(id) {
 }
 function templateMoneda(id) {
     let moneda = $(`<label for="moneda${id}">Moneda</label>
-                    <select name="moneda" id="moneda${id}" class="form-control custom-select moneda select2" style="width: 100%" required></select>`);
+                    <select name="moneda" class="form-control custom-select moneda select2" style="width: 100%" required></select>`);
     moneda = templateFormGroup(moneda, "col-sm-3");
-    let selectMoneda = $(moneda).find(`select#moneda${id}`);
+    let selectMoneda = $(moneda).find("select.moneda");
     $(selectMoneda).select2();
     cargarMoneda(selectMoneda);
     return moneda;
@@ -1662,7 +1662,7 @@ function templateRowDosNegocioPropioPet(id) {
     const fechaInscripcionNegocio = templateFecha(
         id,
         "InscripcionNegocio",
-        "Fecha de inscripción del negocio",
+        "de inscripción del negocio",
         "col-sm-3",
         false
     );
@@ -1725,7 +1725,7 @@ function templateCamposLugarPet(id) {
 }
 function templateMontoAproximado(id, textolabel) {
     let tm = $(`<label>${textolabel}</label>
-                <input type="number" name = "montoAproximado" id="montoAproximado${id}" class="form-control d-inline montoAproximado" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
+                <input type="number" name = "montoAproximado" class="form-control d-inline montoAproximado" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
     tm = templateFormGroup(tm, "col-sm-3");
     return tm;
 }
@@ -1770,7 +1770,7 @@ function templatePerfilnegocioPropio(id) {
     return tm;
 }
 function agregarPerfilEconomicoNegocioPropio(btn) {
-    $(btn).click(function () {
+    $(btn).click(function (e) {
         e.preventDefault();
         e.stopPropagation();
         const dnp = $("div#datosNegocioPropio");
@@ -1913,8 +1913,8 @@ function templateSelectOtrosIngresos(id) {
                     <option value="1">Actividades profecionales</option>
                     <option value="2">Manutención</option>
                     <option value="3">Rentas</option>
-                    <option value="3">Jubilación</option>
-                    <option value="3">Otra</option>
+                    <option value="4">Jubilación</option>
+                    <option value="5">Otra</option>
                   </select>`);
     sa = templateFormGroup(sa, "col-sm-2");
     $(sa).find("select").select2();
@@ -2264,6 +2264,15 @@ class dicPerfilEconomicoRelacionDependencia {
         this.puestoDesempenia = null;
         this.direccionEmpleador = null;
         this.lugar = new dicLugar();
+        this.tipoMoneda = null;
+        this.montoAproximado = null;
+    }
+}
+class dicPerfilEconomicoOtrosIngresos {
+    constructor(id) {
+        this.idOI = id;
+        this.tipoOI = null;
+        this.detalleOI = null;
         this.tipoMoneda = null;
         this.montoAproximado = null;
     }
@@ -2748,6 +2757,21 @@ function obtenerDatosProductoServicio(ps) {
     }
     return arrProducto;
 }
+function obtenerDatosOtrosIngresos() {
+    let otrosIngresos = new Array();
+    $("div#datosOtrosIngresos")
+        .children()
+        .each(function () {
+            let doi = new dicPerfilEconomicoOtrosIngresos($(this).attr("idoi"));
+            doi.tipoOI = $(this).find("select.tipoOtrosIngresos").val();
+            doi.detalleOI = $(this).find("input.DetalleOtrosIngresos").val();
+            doi.tipoMoneda = $(this).find("select.moneda ").val();
+            doi.montoAproximado = $(this).find("input.montoAproximado ").val();
+            otrosIngresos.push(doi);
+        });
+    return otrosIngresos;
+}
+
 function obtenerDatosPerfilEconomicoTransaccional(pet) {
     console.log(`perfil economico transaccinal`);
     let dpet = null;
@@ -2822,6 +2846,7 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
                 dpet.agregarRelacionDependencia(drd);
             });
         // otros ingresos
+        dpet.otrosIngresos = obtenerDatosOtrosIngresos();
     }
 
     return dpet;

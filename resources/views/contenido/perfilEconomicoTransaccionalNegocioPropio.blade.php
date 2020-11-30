@@ -28,7 +28,7 @@
           </div>
           <div class="col-sm-3">
             <div class="form-group">
-              <label>Fecha Fecha de inscripción del negocio</label>
+              <label>Fecha de inscripción del negocio</label>
               <div class="input-group date" id="fechaInscripcionNegocio_{{$indiceNeg}}" data-target-input="nearest">
                 <input name="fechaInscripcionNegocio{{$indiceNeg}}" id="fechaInscripcionNegocio{{$indiceNeg}}" type="text" class="form-control InscripcionNegocio datetimepicker-input" data-target="#fechaInscripcionNegocio_{{$indiceNeg}}" value="{{\Carbon\Carbon::parse($negp->fechaInscripcionNegocio)->format('d/m/Y')}}">
                 <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
@@ -123,10 +123,10 @@
           <div class="col-sm-3">
             <div class="form-group">
               <label for="moneda{{$indiceNeg}}">Moneda</label>
-              <select name="moneda" id="moneda{{$indiceNeg}}" class="form-control custom-select moneda select2 select2-hidden-accessible" style="width: 100%" required="" data-select2-id="moneda1" tabindex="-1" aria-hidden="true">
+              <select name="moneda" class="form-control custom-select moneda select2 select2-hidden-accessible" style="width: 100%" required="" data-select2-id="moneda1" tabindex="-1" aria-hidden="true">
                 <option value="" disabled>Selecciona</option>
                       @foreach($monedas as $moneda)
-                          @if($moneda->idMoneda == $negp->tipoMoneda)
+                          @if($moneda->codigoMoneda == $negp->tipoMoneda)
                               <option value="{{$moneda->idMoneda}}" selected>{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
                           @else
                               <option value="{{$moneda->idMoneda}}">{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
@@ -138,7 +138,7 @@
           <div class="col-sm-3">
             <div class="form-group">
               <label>Monto aproximado ingresos</label>
-              <input type="number" name="montoAproximado" id="montoAproximado{{$indiceNeg}}" class="form-control d-inline montoAproximado" placeholder="0.00" min="0" step=".01" style="text-align:right;" required value="{{$negp->montoAproximado}}">
+              <input type="number" name="montoAproximado" class="form-control d-inline montoAproximado" placeholder="0.00" min="0" step=".01" style="text-align:right;" required value="{{$negp->montoAproximado}}">
             </div>
           </div>
         </div>
