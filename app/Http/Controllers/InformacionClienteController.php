@@ -14,6 +14,7 @@ use App\Models\Nacionalidad;
 use App\Models\Telefono;
 use App\Models\Pais;
 use App\Models\DatosPep;
+use App\Models\DiccionarioPerfilTransaccional;
 use App\Models\DiccionarioProductoServicio;
 use App\Models\FuenteIngresos;
 use App\Models\InformacionEconomicaInicial;
@@ -224,35 +225,7 @@ class InformacionClienteController extends Controller
 
         return $obInfoEcoIni->idInformacionEconomicaInicial;
     }
-    public function guardarPerfilEconomicoTransaccionalOtrosIngresos($perEco,$idpet){
-            $listapeoi = PerfilEconomicoOtrosIngresos::where('idPerfilEconomicoTransaccional', '=',  $idpet)->get()->pluck('idPerfilEconomicoOtrosIngresos', 'idPerfilEconomicoOtrosIngresos')->toArray();
-            if(!empty($perEco)){
-                foreach ($perEco as $peoi) {
-                    $obpenp = PerfilEconomicoOtrosIngresos::updateOrCreate(
-                        [
-                            'idPerfilEconomicoOtrosIngresos'=>$peoi["idOI"]
-                        ],
-                        [
-                            'idPerfilEconomicoTransaccional'=>$idpet,
-                            'tipoOtrosIngresos'=>$peoi["tipoOI"],
-                            'detalleOtrosIngresos'=>$peoi["detalleOI"],
-                            'tipoMoneda'=>$peoi["tipoMoneda"],
-                            'montoAproximado'=>$peoi["montoAproximado"]
-                        ]
-                    );
-                    if (!empty($listapeoi[$obpenp->idPerfilEconomicoOtrosIngresos])) {
-                        unset($listapeoi[$obpenp->idPerfilEconomicoOtrosIngresos]);
-                    }
-                }
-                if (count($listapeoi)) {
-                    PerfilEconomicoOtrosIngresos::whereRaw(sprintf('idPerfilEconomicoOtrosIngresos IN (%s)', implode(',', $listapeoi)))->delete();
-                }
-            }else{
-                if (count($listapeoi)) {
-                    PerfilEconomicoOtrosIngresos::whereRaw(sprintf('idPerfilEconomicoOtrosIngresos IN (%s)', implode(',', $listapeoi)))->delete();
-                }
-            }
-    }
+    
     public function guardarPerfilEconomicoTransaccional($perEco,$idDiccionarioFormulario){
         if (!empty($perEco)){
             $obpet =PerfilEconomicoTransaccional::updateOrCreate(
@@ -331,7 +304,62 @@ class InformacionClienteController extends Controller
                     PerfilEconomicoRelacionDependencia::whereRaw(sprintf('idPerfilEconommicoRelacionDependencia IN (%s)', implode(',', $listaPerfilErd)))->delete();
                 }
             }
-            $this->guardarPerfilEconomicoTransaccionalOtrosIngresos($perEco["otrosIngresos"],$idObpet);
+            // otros ingresos
+            $listapeoi = PerfilEconomicoOtrosIngresos::where('idPerfilEconomicoTransaccional', '=',  $idObpet)->get()->pluck('idPerfilEconomicoOtrosIngresos', 'idPerfilEconomicoOtrosIngresos')->toArray();
+            if(!empty($perEco["otrosIngresos"])){
+                foreach ($perEco["otrosIngresos"] as $peoi) {
+                    $obpenp = PerfilEconomicoOtrosIngresos::updateOrCreate(
+                        [
+                            'idPerfilEconomicoOtrosIngresos'=>$peoi["idOI"]
+                        ],
+                        [
+                            'idPerfilEconomicoTransaccional'=>$idObpet,
+                            'tipoOtrosIngresos'=>$peoi["tipoOI"],
+                            'detalleOtrosIngresos'=>$peoi["detalleOI"],
+                            'tipoMoneda'=>$peoi["tipoMoneda"],
+                            'montoAproximado'=>$peoi["montoAproximado"]
+                        ]
+                    );
+                    if (!empty($listapeoi[$obpenp->idPerfilEconomicoOtrosIngresos])) {
+                        unset($listapeoi[$obpenp->idPerfilEconomicoOtrosIngresos]);
+                    }
+                }
+                if (count($listapeoi)) {
+                    PerfilEconomicoOtrosIngresos::whereRaw(sprintf('idPerfilEconomicoOtrosIngresos IN (%s)', implode(',', $listapeoi)))->delete();
+                }
+            }else{
+                if (count($listapeoi)) {
+                    PerfilEconomicoOtrosIngresos::whereRaw(sprintf('idPerfilEconomicoOtrosIngresos IN (%s)', implode(',', $listapeoi)))->delete();
+                }
+            }
+            // perfil transaccional 
+            $listapt = DiccionarioPerfilTransaccional::where('idPerfilEconomicoTransaccional', '=',  $idObpet)->get()->pluck('idDiccionarioPerfilTransaccional', 'idDiccionarioPerfilTransaccional')->toArray();
+            if(!empty($perEco["perfilTransaccional"])){
+                foreach ($perEco["perfilTransaccional"] as $peoi) {
+                    $obdpt = DiccionarioPerfilTransaccional::updateOrCreate(
+                        [
+                            'idDiccionarioPerfilTransaccional'=>$peoi["iddpet"]
+                        ],
+                        [
+                            'idPerfilEconomicoTransaccional'=>$idObpet,
+                            'fecha'=>$this->formatoFechaDB($peoi["fecha"]),
+                            'productoServicio'=>$peoi["productoServicio"],
+                            'tipoMoneda'=>$peoi["tipoMoneda"],
+                            'montoPromedioMensual'=>$peoi["montoPromedioMensual"]
+                        ]
+                    );
+                    if (!empty($listapt[$obdpt->idDiccionarioPerfilTransaccional])) {
+                        unset($listapt[$obdpt->idDiccionarioPerfilTransaccional]);
+                    }
+                }
+                if (count($listapt)) {
+                    DiccionarioPerfilTransaccional::whereRaw(sprintf('idDiccionarioPerfilTransaccional IN (%s)', implode(',', $listapt)))->delete();
+                }
+            }else{
+                if (count($listapt)) {
+                    DiccionarioPerfilTransaccional::whereRaw(sprintf('idDiccionarioPerfilTransaccional IN (%s)', implode(',', $listapt)))->delete();
+                }
+            }
         }
     }
     public function guardarProductosServicios($listaProductosServicios, $idDiccionarioFormulario)
