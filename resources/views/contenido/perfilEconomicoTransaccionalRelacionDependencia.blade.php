@@ -103,7 +103,7 @@
           <select name="moneda" id="moneda{{$indiceRd}}" class="form-control custom-select moneda select2 select2-hidden-accessible" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
                       @foreach($monedas as $moneda)
-                          @if($moneda->codigoMoneda == $drd->tipoMoneda)
+                          @if($moneda->idMoneda == $drd->tipoMoneda)
                               <option value="{{$moneda->idMoneda}}" selected>{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
                           @else
                               <option value="{{$moneda->idMoneda}}">{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>

@@ -26,6 +26,7 @@ use App\Models\PerfilEconomicoNegocioPropio;
 use App\Models\PerfilEconomicoRelacionDependencia;
 use App\Models\PerfilEconomicoOtrosIngresos;
 use App\Models\PerfilEconomicoTransaccional;
+use App\Models\PrincipalesUbicacionesGeograficas;
 use App\Models\ProductoServicio;
 use App\Models\Titular;
 use Carbon\Carbon;
@@ -335,28 +336,39 @@ class InformacionClienteController extends Controller
             // perfil transaccional 
             $listapt = DiccionarioPerfilTransaccional::where('idPerfilEconomicoTransaccional', '=',  $idObpet)->get()->pluck('idDiccionarioPerfilTransaccional', 'idDiccionarioPerfilTransaccional')->toArray();
             if(!empty($perEco["perfilTransaccional"])){
-                foreach ($perEco["perfilTransaccional"] as $peoi) {
+                foreach ($perEco["perfilTransaccional"] as $dpt) {
                     $obdpt = DiccionarioPerfilTransaccional::updateOrCreate(
                         [
-                            'idDiccionarioPerfilTransaccional'=>$peoi["iddpet"]
+                            'idDiccionarioPerfilTransaccional'=>$dpt["iddpet"]
                         ],
                         [
                             'idPerfilEconomicoTransaccional'=>$idObpet,
-                            'fecha'=>$this->formatoFechaDB($peoi["fecha"]),
-                            'productoServicio'=>$peoi["productoServicio"],
-                            'tipoMoneda'=>$peoi["tipoMoneda"],
-                            'montoPromedioMensual'=>$peoi["montoPromedioMensual"]
+                            'fecha'=>$this->formatoFechaDB($dpt["fecha"]),
+                            'productoServicio'=>$dpt["productoServicio"],
+                            'tipoMoneda'=>$dpt["tipoMoneda"],
+                            'montoPromedioMensual'=>$dpt["montoPromedioMensual"]
                         ]
                     );
+                    PrincipalesUbicacionesGeograficas::where('idDiccionarioPerfilTransaccional',$obdpt->idDiccionarioPerfilTransaccional)->delete();
+                    foreach ($dpt["pubGeo"] as $lugar) {
+                        $idLugar = $this->guardarLugar($lugar);
+                        PrincipalesUbicacionesGeograficas::updateOrCreate([
+                                                                'idDiccionarioPerfilTransaccional'=>$obdpt->idDiccionarioPerfilTransaccional,
+                                                                'idLugar'=> $idLugar
+                                                            ]);
+                    }
                     if (!empty($listapt[$obdpt->idDiccionarioPerfilTransaccional])) {
                         unset($listapt[$obdpt->idDiccionarioPerfilTransaccional]);
                     }
                 }
                 if (count($listapt)) {
+                    PrincipalesUbicacionesGeograficas::whereRaw(sprintf('idDiccionarioPerfilTransaccional IN (%s)', implode(',', $listapt)))->delete();
                     DiccionarioPerfilTransaccional::whereRaw(sprintf('idDiccionarioPerfilTransaccional IN (%s)', implode(',', $listapt)))->delete();
+
                 }
             }else{
                 if (count($listapt)) {
+                    PrincipalesUbicacionesGeograficas::whereRaw(sprintf('idDiccionarioPerfilTransaccional IN (%s)', implode(',', $listapt)))->delete();
                     DiccionarioPerfilTransaccional::whereRaw(sprintf('idDiccionarioPerfilTransaccional IN (%s)', implode(',', $listapt)))->delete();
                 }
             }

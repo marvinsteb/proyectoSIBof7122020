@@ -2843,7 +2843,23 @@ function obtenerDatosOtrosIngresos() {
     return otrosIngresos;
 }
 function obtenerUbicacionesGeograficas(ubgeo) {
-    console.log(ubgeo);
+    let UbicacionesGeograficas = new Array();
+    $(ubgeo)
+        .children()
+        .each(function () {
+            let lgubg = new dicLugar();
+            lgubg.pais = $(this).find(`select.pais option:selected`).val();
+            if (lgubg.pais === "1") {
+                lgubg.departamento = $(this)
+                    .find(`select.depto option:selected`)
+                    .val();
+                lgubg.municipio = $(this)
+                    .find(`select.muni option:selected`)
+                    .val();
+            }
+            UbicacionesGeograficas.push(lgubg);
+        });
+    return UbicacionesGeograficas;
 }
 function obtenerDatosPerfilTransaccional() {
     let dperfilTransaccional = new Array();
