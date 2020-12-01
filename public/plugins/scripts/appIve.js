@@ -75,13 +75,15 @@ function templateCamposNommbres(id) {
     return rowNombres;
 }
 function templateSexo(id) {
-    const templatesexo = $(`<label for="sexo${id}">Sexo</label>
+    let templatesexo = $(`<label for="sexo${id}">Sexo</label>
                           <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo select2" style="width: 100%" required>
                               <option value="" disabled selected>Selecciona</option>
                               <option value="M">Masculino</option>
                               <option value="F">Femenino</option>
                           </select>`);
-    return templateFormGroup(templatesexo);
+    templatesexo = templateFormGroup(templatesexo);
+    $(templatesexo).find("select").select2();
+    return templatesexo;
 }
 function templateNit(id) {
     let temNit = $(`<label>Nit</label>
@@ -98,6 +100,7 @@ function templateDoctoIdentificacion(id) {
                                <option value="P">Pasaporte</option>
                            </select>`);
     temDoctoIdent = templateFormGroup(temDoctoIdent);
+    $(temDoctoIdent).find(`select#tipoDoctoIdentificacion${id}`).select2();
     habilitaPaisPasaporte(
         $(temDoctoIdent).find(`select#tipoDoctoIdentificacion${id}`)
     );
@@ -126,7 +129,9 @@ function templateEstadoCivil(id) {
                     <option value="S">Soltero</option>
                     <option value="C">Casado</option>
                  </select>`);
-    return templateFormGroup(temEs);
+    temEs = templateFormGroup(temEs);
+    $(temEs).find("select").select2();
+    return temEs;
 }
 function templatePais(
     id,
@@ -667,9 +672,9 @@ function templateFilaCuatroProductoServicio(id) {
 }
 function templateMoneda(id) {
     let moneda = $(`<label for="moneda${id}">Moneda</label>
-                    <select name="moneda" id="moneda${id}" class="form-control custom-select moneda select2" style="width: 100%" required></select>`);
+                    <select name="moneda" class="form-control custom-select moneda select2" style="width: 100%" required></select>`);
     moneda = templateFormGroup(moneda, "col-sm-3");
-    let selectMoneda = $(moneda).find(`select#moneda${id}`);
+    let selectMoneda = $(moneda).find("select.moneda");
     $(selectMoneda).select2();
     cargarMoneda(selectMoneda);
     return moneda;
@@ -1129,7 +1134,7 @@ function templatePuestoDesempenia(id) {
 function templateOrigenRiqueza(id) {
     let tor = $(`
                     <label for= "origenRiqueza${id}">Origen o procedencia de su riqueza</label>
-                    <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select select2" style="width: 100%;" required>
+                    <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select select2 origenRiqueza" style="width: 100%;" required>
                         <option value="" disabled selected>Selecciona</option>
                         <option value="1">Bienes muebles e inmuebles por herencia</option>
                         <option value="2">Bienes muebles e inmuebles</option>
@@ -1142,7 +1147,8 @@ function templateOrigenRiqueza(id) {
                     </select>`);
 
     tor = templateFormGroup(tor);
-    const selectTor = $(tor).find(`select#origenRiqueza${id}`);
+    let selectTor = $(tor).find(`select#origenRiqueza${id}`);
+    $(selectTor).select2();
     habilitaOtroOrigenriqueza(selectTor);
     return tor;
 }
@@ -1284,6 +1290,7 @@ function templateParentesco(id) {
                 </select>`;
     tmP = templateFormGroup(tmP);
     const selectParentesco = $(tmP).find(`select#parentesco${id}`);
+    $(selectParentesco).select2();
     habilitaOtroCampoDesdeSelect(
         selectParentesco,
         6,
@@ -1303,6 +1310,7 @@ function templateMotivoAsociacion(id) {
                 </select>`;
     tM = templateFormGroup(tM);
     const selectMotivo = $(tM).find(`select#motivoAsociacion${id}`);
+    $(selectMotivo).select2();
     habilitaOtroCampoDesdeSelect(
         selectMotivo,
         5,
@@ -1318,6 +1326,7 @@ function templateCondicion(id) {
                     <option value="E">Extranjero</option>
                 </select>`;
     tC = templateFormGroup(tC);
+    $(tC).find("select").select2();
     return tC;
 }
 
@@ -1653,7 +1662,7 @@ function templateRowDosNegocioPropioPet(id) {
     const fechaInscripcionNegocio = templateFecha(
         id,
         "InscripcionNegocio",
-        "Fecha de inscripción del negocio",
+        "de inscripción del negocio",
         "col-sm-3",
         false
     );
@@ -1716,7 +1725,7 @@ function templateCamposLugarPet(id) {
 }
 function templateMontoAproximado(id, textolabel) {
     let tm = $(`<label>${textolabel}</label>
-                <input type="number" name = "montoAproximado" id="montoAproximado${id}" class="form-control d-inline montoAproximado" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
+                <input type="number" name = "montoAproximado" class="form-control d-inline montoAproximado" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
     tm = templateFormGroup(tm, "col-sm-3");
     return tm;
 }
@@ -1760,6 +1769,18 @@ function templatePerfilnegocioPropio(id) {
 
     return tm;
 }
+function agregarPerfilEconomicoNegocioPropio(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const dnp = $("div#datosNegocioPropio");
+        let index = $(dnp).attr("cantidad");
+        index++;
+        $(dnp).append(templatePerfilnegocioPropio(index));
+        $(dnp).find(`input#nombreComercial${index}`).focus();
+        $(dnp).attr("cantidad", index);
+    });
+}
 function templateContenedorNegocioPropio() {
     let tpnp = $(`<div class="row">
                     <div class="datosNegocioPropio col-sm-12" id="datosNegocioPropio" cantidad="0"></div>
@@ -1767,17 +1788,8 @@ function templateContenedorNegocioPropio() {
                         <button type="button" id="agregarNegocioPropio" class="btn btn-primary agregarNegocioPropio">Agregar negocio propio</button>
                     </div>
                   </div>`);
-    let dnp = $(tpnp).find("div#datosNegocioPropio");
-    $(tpnp)
-        .find("button#agregarNegocioPropio")
-        .click(function () {
-            let index = $(dnp).attr("cantidad");
-            index++;
-            $(dnp).append(templatePerfilnegocioPropio(index));
-            $(dnp).find(`input#nombreComercial${index}`).focus();
-            $(dnp).attr("cantidad", index);
-        });
-
+    const btnaddng = $(tpnp).find("button#agregarNegocioPropio");
+    agregarPerfilEconomicoNegocioPropio(btnaddng);
     return tpnp;
 }
 function templateSelectSector(id) {
@@ -1870,6 +1882,18 @@ function templateRelacionDependencia(id) {
     $(tm).find(`div.card-body`).append(rowTres);
     return tm;
 }
+function agregarPerfilEconomicoRelacionDependencia(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const drd = $("div#datosRelacionDependencia");
+        let index = $(drd).attr("cantidad");
+        index++;
+        $(drd).append(templateRelacionDependencia(index));
+        $(drd).find("select.sector").focus();
+        $(drd).attr("cantidad", index);
+    });
+}
 function templateContenedorRelacionDependencia() {
     let trd = $(`<div class="row">
                     <div class="datosRelacionDependencia col-sm-12" id="datosRelacionDependencia" cantidad="0"></div>
@@ -1878,17 +1902,8 @@ function templateContenedorRelacionDependencia() {
                     </div>
                   </div>`);
     let drd = $(trd).find(`div#datosRelacionDependencia`);
-    $(trd)
-        .find(`button#agregarRelacionDependencia`)
-        .click(function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let index = $(drd).attr("cantidad");
-            index++;
-            const tmdrd = templateRelacionDependencia(index);
-            $(`div#datosRelacionDependencia`).append(tmdrd);
-            $(drd).attr("cantidad", index);
-        });
+    const btnaddrd = $(trd).find(`button#agregarRelacionDependencia`);
+    agregarPerfilEconomicoRelacionDependencia(btnaddrd);
     return trd;
 }
 function templateSelectOtrosIngresos(id) {
@@ -1898,8 +1913,8 @@ function templateSelectOtrosIngresos(id) {
                     <option value="1">Actividades profecionales</option>
                     <option value="2">Manutención</option>
                     <option value="3">Rentas</option>
-                    <option value="3">Jubilación</option>
-                    <option value="3">Otra</option>
+                    <option value="4">Jubilación</option>
+                    <option value="5">Otra</option>
                   </select>`);
     sa = templateFormGroup(sa, "col-sm-2");
     $(sa).find("select").select2();
@@ -1944,6 +1959,18 @@ function templateOtrosIngresos(id) {
     $(tm).find(`div.card-body`).append(cmMontos);
     return tm;
 }
+function agregarTemplateOtrosIngresos(btnaddoi) {
+    $(btnaddoi).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const tmdrd = $("div#datosOtrosIngresos");
+        let index = $(tmdrd).attr("cantidad");
+        index++;
+        $(tmdrd).append(templateOtrosIngresos(index));
+        $(tmdrd).find(`select.tipoOtrosIngresos`).focus();
+        $(tmdrd).attr("cantidad", index);
+    });
+}
 function templateContenedorOtrosIngresos() {
     let trd = $(`<div class="row">
                     <div class="datosOtrosIngresos col-sm-12" id="datosOtrosIngresos" cantidad="0"></div>
@@ -1952,18 +1979,8 @@ function templateContenedorOtrosIngresos() {
                     </div>
                   </div>`);
     let drd = $(trd).find(`div#datosOtrosIngresos`);
-    $(trd)
-        .find(`button#agregarOtrosIngresos`)
-        .click(function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let index = $(drd).attr("cantidad");
-            index++;
-            const tmdrd = templateOtrosIngresos(index);
-            $(`div#datosOtrosIngresos`).append(tmdrd);
-            $(tmdrd).find(`select.tipoOtrosIngresos`).focus();
-            $(drd).attr("cantidad", index);
-        });
+    const btnaddoi = $(trd).find("button#agregarOtrosIngresos");
+    agregarTemplateOtrosIngresos(btnaddoi);
     return trd;
 }
 function templateFinaUnoPerfilEconomicoTransaccional() {
@@ -1978,7 +1995,7 @@ function templateRowUnoPSperfilTransaccional(id) {
     const fecha = templateFecha(
         id,
         "Pspt",
-        "Fecha de elaboración del perfil",
+        "de elaboración del perfil",
         "col-sm-3",
         true
     );
@@ -1986,16 +2003,69 @@ function templateRowUnoPSperfilTransaccional(id) {
         id,
         "productoServicioPspt",
         100,
-        "Producto y/o servicio"
+        "Producto y/o servicio",
+        true,
+        false
     );
     let rowuno = $(`<div class="row"></div>`);
     $(rowuno).append(fecha);
     $(rowuno).append(descripcion);
     return rowuno;
 }
+function borrarUbicacionGeografica(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log($(this).parent().parent().remove());
+    });
+}
+function templateCamposLugarUbigeo(id, btnBorrar) {
+    let comPais = templatePais(`paispug${id}`, "País", true);
+    let comDepartamento = templateDepartamento(`pug${id}`, "Departamento");
+    let comMunicipio = templateMunicipio(`pug${id}`, "Municipio");
+    let divCborrar = $(`<div class="col-sm-1 my-auto btnborrar"></div>`);
+    let temUbiGeo = $(`<div class="row"></div>`);
+    $(temUbiGeo).append(comPais);
+    $(temUbiGeo).append(comDepartamento);
+    $(temUbiGeo).append(comMunicipio);
+    if (btnBorrar) {
+        const btnBorrar = $(
+            `<button type="button" class="btn btn-danger btnUbicacionGeografica mt-3">Borrar</button>`
+        );
+        borrarUbicacionGeografica(btnBorrar);
+        $(divCborrar).append(btnBorrar);
+    }
+    $(temUbiGeo).append(divCborrar);
+    return temUbiGeo;
+}
+function agregarPUG(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const tmdrd = $(this)
+            .parent()
+            .parent()
+            .parent()
+            .find("div#ubicacionesGeoraficas");
+        let index = $(tmdrd).attr("cantidad");
+        let idug = $(tmdrd).attr("idug");
+        index++;
+        $(tmdrd).append(templateCamposLugarUbigeo(`${idug}${index}`, true));
+        $(tmdrd).find(`select.pais`).focus();
+        $(tmdrd).attr("cantidad", index);
+    });
+}
 function templateProductoServicioPerfilTransaccional(id) {
     const rowuno = templateRowUnoPSperfilTransaccional(id);
     const rowdos = templateCamposMonto(id, "Monto promedio mensual (6 meses)");
+    const clg = templateCamposLugarUbigeo(`${id}1`);
+    const rowUbicacionesGeo = $(`<h4>Principales ubicaciones geográficas</h4>
+                                 <div id="ubicacionesGeoraficas" idug=${id} cantidad="1"></div>
+                                 <div class="row">
+                                <div class="col clearfix">
+                                <button class="btn btn-primary float-right mb-4 agregarUbicacionGeo" id="agregarUbicacionGeo${id}">Agregar ubicación</button>
+                                </div>
+                                </div>`);
     let tm = $(`
                 <div class="card card-info mt-3" id="otrosIngresos_${id}">
                     <div class="card-header">
@@ -2014,9 +2084,24 @@ function templateProductoServicioPerfilTransaccional(id) {
                 </div>`);
     $(tm).find(`div.card-body`).append(rowuno);
     $(tm).find(`div.card-body`).append(rowdos);
+    $(tm).find(`div.card-body`).append(rowUbicacionesGeo);
+    $(tm).find(`div#ubicacionesGeoraficas`).append(clg);
+    const btnaddpug = $(tm).find("button.agregarUbicacionGeo");
+    agregarPUG(btnaddpug);
     return tm;
 }
 
+function agregarTemplatePerfilTransaccional(btnadd) {
+    $(btnadd).click(function () {
+        let dpt = $(`div#datosPerfilTransaccional`);
+        let index = $(dpt).attr("cantidad");
+        index++;
+        const cmPSPT = templateProductoServicioPerfilTransaccional(index);
+        $(dpt).append(cmPSPT);
+        $(dpt).find("input.Pspt").focus();
+        $(dpt).attr("cantidad", index);
+    });
+}
 function templatePerfiltransaccional() {
     let tm = $(`
                 <div class="card card-primary mt-3" id="perfilTransaccional">
@@ -2037,17 +2122,8 @@ function templatePerfiltransaccional() {
                   </div>
                     </div>
                 </div>`);
-    let dpt = $(tm).find(`div#datosPerfilTransaccional`);
-    $(tm)
-        .find("button#agregarPerfilTransaccional")
-        .click(function () {
-            let index = $(dpt).attr("cantidad");
-            index++;
-            const cmPSPT = templateProductoServicioPerfilTransaccional(index);
-            $(tm).find(`div#datosPerfilTransaccional`).append(cmPSPT);
-            //$(tmdrd).find(`select.tipoOtrosIngresos`).focus();
-            $(dpt).attr("cantidad", index);
-        });
+    const btnadd = $(tm).find("button#agregarPerfilTransaccional");
+    agregarTemplatePerfilTransaccional(btnadd);
     return $(tm);
 }
 function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
@@ -2240,15 +2316,59 @@ class dicPerfilEconomicoNegocioPropio {
         this.montoAproximado = null;
     }
 }
+class dicPerfilEconomicoRelacionDependencia {
+    constructor(id) {
+        this.idPerd = id;
+        this.sector = null;
+        this.nombreEmpleador = null;
+        this.priActEcoE = null;
+        this.puestoDesempenia = null;
+        this.direccionEmpleador = null;
+        this.lugar = new dicLugar();
+        this.tipoMoneda = null;
+        this.montoAproximado = null;
+    }
+}
+class dicPerfilEconomicoOtrosIngresos {
+    constructor(id) {
+        this.idOI = id;
+        this.tipoOI = null;
+        this.detalleOI = null;
+        this.tipoMoneda = null;
+        this.montoAproximado = null;
+    }
+}
+class dicPerfilTransaccional {
+    constructor(id) {
+        this.iddpet = id;
+        this.fecha = null;
+        this.productoServicio = null;
+        this.tipoMoneda = null;
+        this.montoPromedioMensual = null;
+        this.pubGeo = new Array();
+    }
+}
 class dicPerfilEconomicoTransaccional {
     constructor(id) {
         this.idPerfilEconomicoTransaccional = id;
         this.actualizacion = null;
         this.fecha = null;
         this.negocioPropio = new Array();
+        this.relacionDependencia = new Array();
+        this.otrosIngresos = new Array();
+        this.perfilTransaccional = new Array();
     }
     agregarNegocioPropio(ngp) {
         this.negocioPropio.push(ngp);
+    }
+    agregarRelacionDependencia(rd) {
+        this.relacionDependencia.push(rd);
+    }
+    agregarotrosIngresos(oi) {
+        this.otrosIngresos.push(oi);
+    }
+    agregarPerfilTransaccional(pt) {
+        this.perfilTransaccional.push(pt);
     }
 }
 class diccionarioFormulario {
@@ -2708,6 +2828,60 @@ function obtenerDatosProductoServicio(ps) {
     }
     return arrProducto;
 }
+function obtenerDatosOtrosIngresos() {
+    let otrosIngresos = new Array();
+    $("div#datosOtrosIngresos")
+        .children()
+        .each(function () {
+            let doi = new dicPerfilEconomicoOtrosIngresos($(this).attr("idoi"));
+            doi.tipoOI = $(this).find("select.tipoOtrosIngresos").val();
+            doi.detalleOI = $(this).find("input.DetalleOtrosIngresos").val();
+            doi.tipoMoneda = $(this).find("select.moneda ").val();
+            doi.montoAproximado = $(this).find("input.montoAproximado ").val();
+            otrosIngresos.push(doi);
+        });
+    return otrosIngresos;
+}
+function obtenerUbicacionesGeograficas(ubgeo) {
+    let UbicacionesGeograficas = new Array();
+    $(ubgeo)
+        .children()
+        .each(function () {
+            let lgubg = new dicLugar();
+            lgubg.pais = $(this).find(`select.pais option:selected`).val();
+            if (lgubg.pais === "1") {
+                lgubg.departamento = $(this)
+                    .find(`select.depto option:selected`)
+                    .val();
+                lgubg.municipio = $(this)
+                    .find(`select.muni option:selected`)
+                    .val();
+            }
+            UbicacionesGeograficas.push(lgubg);
+        });
+    return UbicacionesGeograficas;
+}
+function obtenerDatosPerfilTransaccional() {
+    let dperfilTransaccional = new Array();
+    $("div#datosPerfilTransaccional")
+        .children()
+        .each(function () {
+            let dpt = new dicPerfilTransaccional($(this).attr("iddpt"));
+            dpt.fecha = $(this).find("div.date>input.Pspt").val();
+            dpt.productoServicio = $(this)
+                .find("input.productoServicioPspt")
+                .val();
+            dpt.tipoMoneda = $(this).find("select.moneda ").val();
+            dpt.montoPromedioMensual = $(this)
+                .find("input.montoAproximado ")
+                .val();
+            dpt.pubGeo = obtenerUbicacionesGeograficas(
+                $(this).find("div#ubicacionesGeoraficas")
+            );
+            dperfilTransaccional.push(dpt);
+        });
+    return dperfilTransaccional;
+}
 function obtenerDatosPerfilEconomicoTransaccional(pet) {
     console.log(`perfil economico transaccinal`);
     let dpet = null;
@@ -2756,8 +2930,36 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
                     .val();
                 dpet.agregarNegocioPropio(ngp);
             });
+        // relacion de dependencia
+        $("div#datosRelacionDependencia")
+            .children()
+            .each(function () {
+                let drd = new dicPerfilEconomicoRelacionDependencia(
+                    $(this).attr("idrd")
+                );
+                drd.sector = $(this).find("select.sector").val();
+                drd.nombreEmpleador = $(this)
+                    .find("input.NombreEmpleador")
+                    .val();
+                drd.priActEcoE = $(this).find("input.prinActiEcoEmple").val();
+                drd.puestoDesempenia = $(this)
+                    .find("input.puestoDesempenia")
+                    .val();
+                drd.direccionEmpleador = $(this).find("input.direccion").val();
+                drd.lugar.pais = $(this).find("select.pais").val();
+                drd.lugar.departamento = $(this).find("select.depto").val();
+                drd.lugar.municipio = $(this).find("select.muni").val();
+                drd.tipoMoneda = $(this).find("select.moneda ").val();
+                drd.montoAproximado = $(this)
+                    .find("input.montoAproximado ")
+                    .val();
+                dpet.agregarRelacionDependencia(drd);
+            });
+        // otros ingresos
+        dpet.otrosIngresos = obtenerDatosOtrosIngresos();
+        dpet.perfilTransaccional = obtenerDatosPerfilTransaccional();
     }
-    //console.log(dpet);
+
     return dpet;
 }
 function obtenerDatos() {
@@ -2805,6 +3007,7 @@ $(document).ready(function () {
     agregarTemplateTelefono($(".agregarTelefono"));
     eliminarTemplateTelefono($(`.borrarTelefono`));
     verificarPersonaPep($(".pep"));
+    habilitaOtroOrigenriqueza($("select.otroOrigenRiqueza"));
     verificarAsoPep($(".asoPep"));
     btnaddfamasopep($(`button.agregarFamiliarAsociado`));
     validarTipoFuenteIngreso($("select.fuenteIngresos"));
@@ -2816,7 +3019,14 @@ $(document).ready(function () {
     eliminarCard($("#perfilEconomicoTransaccional>div"));
     agregarProductoServicio($("button.agregarProductoServicio"));
     btnAgregarBeneficiario($("button.agregarBeneficiario"));
-    agregarPerfilEconomico($("button.agregarPerfilEconomico"));
     btnAgregarOtroFirmantes($("button.agregarOtrosFirmantes"));
+
+    agregarPerfilEconomico($("button.agregarPerfilEconomico"));
+    agregarPerfilEconomicoNegocioPropio($("button#agregarNegocioPropio"));
+    agregarPerfilEconomicoRelacionDependencia(
+        $("button#agregarRelacionDependencia")
+    );
+    agregarTemplateOtrosIngresos("button#agregarOtrosIngresos");
+    agregarTemplatePerfilTransaccional("button#agregarPerfilTransaccional");
     validarFormulario();
 });
