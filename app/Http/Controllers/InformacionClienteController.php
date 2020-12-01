@@ -712,6 +712,22 @@ class InformacionClienteController extends Controller
         }
         return $arraOi;
     }
+
+    public function queryDiccionarioPerfilTransaccional($idPerfilEconomicoTransaccional,$jsonive){
+        $arraDpt = [];
+        $listaDpt = DiccionarioPerfilTransaccional::where('idPerfilEconomicoTransaccional',$idPerfilEconomicoTransaccional)->get();
+        foreach ($listaDpt as $dpt) {
+            $dpt["tipoMoneda"] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $dpt['tipoMoneda'])->first()["codigoMoneda"];
+            if($jsonive){
+                $dpt["fecha"] = $this->formatoFechaJson($dpt["fecha"]);
+                unset($dpt["idDiccionarioPerfilTransaccional"]);
+                unset($dpt["idPerfilEconomicoTransaccional"]);
+            }
+            $arraDpt[] = $dpt;
+        }
+        return $arraDpt;
+
+    }
     public function queryPerfilEconomicoTransacional($idDiccionarioFormulario, $jsonive){
           $obtransac = PerfilEconomicoTransaccional::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->first();
           if(!empty($obtransac)){
@@ -719,7 +735,7 @@ class InformacionClienteController extends Controller
               $obtransac["negocioPropio"] = $this->queryPerfilEconomicoNegocioPropio($obtransac->idPerfilEconomicoTransaccional,$jsonive); 
               $obtransac["relacionDependencia"] = $this->queryPerfilEconomicoRelacionDependencia($obtransac->idPerfilEconomicoTransaccional,$jsonive);
               $obtransac["otrosIngresos"] =$this->queryPerfilEconomicoOtrosIngresos($obtransac->idPerfilEconomicoTransaccional,$jsonive);
-              $obtransac["perfilTransaccional"] = [];
+              $obtransac["perfilTransaccional"] = $this->queryDiccionarioPerfilTransaccional($obtransac->idPerfilEconomicoTransaccional,$jsonive);
               if($jsonive){
                 unset($obtransac["idPerfilEconomicoTransaccional"]);
                 unset($obtransac["idDiccionarioFormulario"]);

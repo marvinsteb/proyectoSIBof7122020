@@ -2035,7 +2035,17 @@ function templateProductoServicioPerfilTransaccional(id) {
     $(tm).find(`div.card-body`).append(rowdos);
     return tm;
 }
-
+"button#agregarPerfilTransaccional"
+function agregarTemplatePerfilTransaccional(btnadd) {
+    $(btnadd).click(function () {
+        let dpt = $(`div#datosPerfilTransaccional`);
+        let index = $(dpt).attr("cantidad");
+        index++;
+        const cmPSPT = templateProductoServicioPerfilTransaccional(index);
+        $(dpt).append(cmPSPT);
+        $(dpt).attr("cantidad", index);
+    });
+}
 function templatePerfiltransaccional() {
     let tm = $(`
                 <div class="card card-primary mt-3" id="perfilTransaccional">
@@ -2056,17 +2066,8 @@ function templatePerfiltransaccional() {
                   </div>
                     </div>
                 </div>`);
-    let dpt = $(tm).find(`div#datosPerfilTransaccional`);
-    $(tm)
-        .find("button#agregarPerfilTransaccional")
-        .click(function () {
-            let index = $(dpt).attr("cantidad");
-            index++;
-            const cmPSPT = templateProductoServicioPerfilTransaccional(index);
-            $(tm).find(`div#datosPerfilTransaccional`).append(cmPSPT);
-            //$(tmdrd).find(`select.tipoOtrosIngresos`).focus();
-            $(dpt).attr("cantidad", index);
-        });
+    const btnadd = $(tm).find("button#agregarPerfilTransaccional");
+    agregarTemplatePerfilTransaccional(btnadd);
     return $(tm);
 }
 function agregarPerfilEconomico(btnAgregarPerfilEconomico) {
@@ -2948,5 +2949,6 @@ $(document).ready(function () {
         $("button#agregarRelacionDependencia")
     );
     agregarTemplateOtrosIngresos("button#agregarOtrosIngresos");
+    agregarTemplatePerfilTransaccional("button#agregarPerfilTransaccional");
     validarFormulario();
 });
