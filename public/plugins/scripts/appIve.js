@@ -2012,9 +2012,55 @@ function templateRowUnoPSperfilTransaccional(id) {
     $(rowuno).append(descripcion);
     return rowuno;
 }
+function borrarUbicacionGeografica(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log($(this).parent().parent().remove());
+    });
+}
+function templateCamposLugarUbigeo(id, btnBorrar) {
+    let comPais = templatePais(`paispug${id}`, "País", true);
+    let comDepartamento = templateDepartamento(`pug${id}`, "Departamento");
+    let comMunicipio = templateMunicipio(`pug${id}`, "Municipio");
+    let divCborrar = $(`<div class="col-sm-1 my-auto btnborrar"></div>`);
+    let temUbiGeo = $(`<div class="row"></div>`);
+    $(temUbiGeo).append(comPais);
+    $(temUbiGeo).append(comDepartamento);
+    $(temUbiGeo).append(comMunicipio);
+    if (btnBorrar) {
+        const btnBorrar = $(
+            `<button type="button" class="btn btn-danger btnUbicacionGeografica mt-3">Borrar</button>`
+        );
+        borrarUbicacionGeografica(btnBorrar);
+        $(divCborrar).append(btnBorrar);
+    }
+    $(temUbiGeo).append(divCborrar);
+    return temUbiGeo;
+}
+function agregarPUG(btn) {
+    $(btn).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const tmdrd = $("div#ubicacionesGeorafica");
+        let index = $(tmdrd).attr("cantidad");
+        index++;
+        $(tmdrd).append(templateCamposLugarUbigeo(index, true));
+        $(tmdrd).find(`select.pais`).focus();
+        $(tmdrd).attr("cantidad", index);
+    });
+}
 function templateProductoServicioPerfilTransaccional(id) {
     const rowuno = templateRowUnoPSperfilTransaccional(id);
     const rowdos = templateCamposMonto(id, "Monto promedio mensual (6 meses)");
+    const clg = templateCamposLugarUbigeo(id);
+    const rowUbicacionesGeo = $(`<h4>Principales ubicaciones geográficas</h4>
+                                 <div id="ubicacionesGeorafica" cantidad="0"></div>
+                                 <div class="row">
+                                <div class="col clearfix">
+                                <button class="btn btn-primary float-right mb-4 agregarUbicacionGeo" id="agregarUbicacionGeo${id}">Agregar ubicación</button>
+                                </div>
+                                </div>`);
     let tm = $(`
                 <div class="card card-info mt-3" id="otrosIngresos_${id}">
                     <div class="card-header">
@@ -2033,9 +2079,13 @@ function templateProductoServicioPerfilTransaccional(id) {
                 </div>`);
     $(tm).find(`div.card-body`).append(rowuno);
     $(tm).find(`div.card-body`).append(rowdos);
+    $(tm).find(`div.card-body`).append(rowUbicacionesGeo);
+    $(tm).find(`div#ubicacionesGeorafica`).append(clg);
+    const btnaddpug = $(tm).find("button.agregarUbicacionGeo");
+    agregarPUG(btnaddpug);
     return tm;
 }
-"button#agregarPerfilTransaccional"
+
 function agregarTemplatePerfilTransaccional(btnadd) {
     $(btnadd).click(function () {
         let dpt = $(`div#datosPerfilTransaccional`);
@@ -2043,6 +2093,7 @@ function agregarTemplatePerfilTransaccional(btnadd) {
         index++;
         const cmPSPT = templateProductoServicioPerfilTransaccional(index);
         $(dpt).append(cmPSPT);
+        $(dpt).find("input.Pspt").focus();
         $(dpt).attr("cantidad", index);
     });
 }

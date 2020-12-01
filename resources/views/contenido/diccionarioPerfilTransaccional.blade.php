@@ -56,5 +56,8 @@
         </div>
       </div>
     </div>
+    <h4>Principales ubicaciones geográficas</h4>
+    <div class="ubicacionesGeorafica">
+    </div>
   </div>
 </div>
