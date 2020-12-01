@@ -2042,10 +2042,15 @@ function agregarPUG(btn) {
     $(btn).click(function (e) {
         e.preventDefault();
         e.stopPropagation();
-        const tmdrd = $("div#ubicacionesGeorafica");
+        const tmdrd = $(this)
+            .parent()
+            .parent()
+            .parent()
+            .find("div#ubicacionesGeoraficas");
         let index = $(tmdrd).attr("cantidad");
+        let idug = $(tmdrd).attr("idug");
         index++;
-        $(tmdrd).append(templateCamposLugarUbigeo(index, true));
+        $(tmdrd).append(templateCamposLugarUbigeo(`${idug}${index}`, true));
         $(tmdrd).find(`select.pais`).focus();
         $(tmdrd).attr("cantidad", index);
     });
@@ -2053,9 +2058,9 @@ function agregarPUG(btn) {
 function templateProductoServicioPerfilTransaccional(id) {
     const rowuno = templateRowUnoPSperfilTransaccional(id);
     const rowdos = templateCamposMonto(id, "Monto promedio mensual (6 meses)");
-    const clg = templateCamposLugarUbigeo(id);
+    const clg = templateCamposLugarUbigeo(`${id}1`);
     const rowUbicacionesGeo = $(`<h4>Principales ubicaciones geográficas</h4>
-                                 <div id="ubicacionesGeorafica" cantidad="0"></div>
+                                 <div id="ubicacionesGeoraficas" idug=${id} cantidad="1"></div>
                                  <div class="row">
                                 <div class="col clearfix">
                                 <button class="btn btn-primary float-right mb-4 agregarUbicacionGeo" id="agregarUbicacionGeo${id}">Agregar ubicación</button>
@@ -2080,7 +2085,7 @@ function templateProductoServicioPerfilTransaccional(id) {
     $(tm).find(`div.card-body`).append(rowuno);
     $(tm).find(`div.card-body`).append(rowdos);
     $(tm).find(`div.card-body`).append(rowUbicacionesGeo);
-    $(tm).find(`div#ubicacionesGeorafica`).append(clg);
+    $(tm).find(`div#ubicacionesGeoraficas`).append(clg);
     const btnaddpug = $(tm).find("button.agregarUbicacionGeo");
     agregarPUG(btnaddpug);
     return tm;
@@ -2837,6 +2842,9 @@ function obtenerDatosOtrosIngresos() {
         });
     return otrosIngresos;
 }
+function obtenerUbicacionesGeograficas(ubgeo) {
+    console.log(ubgeo);
+}
 function obtenerDatosPerfilTransaccional() {
     let dperfilTransaccional = new Array();
     $("div#datosPerfilTransaccional")
@@ -2851,6 +2859,9 @@ function obtenerDatosPerfilTransaccional() {
             dpt.montoPromedioMensual = $(this)
                 .find("input.montoAproximado ")
                 .val();
+            dpt.pubGeo = obtenerUbicacionesGeograficas(
+                $(this).find("div#ubicacionesGeoraficas")
+            );
             dperfilTransaccional.push(dpt);
         });
     return dperfilTransaccional;

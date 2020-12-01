@@ -39,13 +39,13 @@
           <label>Moneda</label>
           <select name="moneda" class="form-control custom-select moneda select2 " style="width: 100%" required>
             <option value="" disabled="" selected>Selecciona</option>
-              @foreach($monedas as $moneda)
-                  @if($moneda->codigoMoneda == $dpt->tipoMoneda)
-                      <option value="{{$moneda->idMoneda}}" selected>{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
-                  @else
-                      <option value="{{$moneda->idMoneda}}">{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
-                  @endif
-              @endforeach
+            @foreach($monedas as $moneda)
+            @if($moneda->codigoMoneda == $dpt->tipoMoneda)
+            <option value="{{$moneda->idMoneda}}" selected>{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
+            @else
+            <option value="{{$moneda->idMoneda}}">{{$moneda->codigoMoneda."-".$moneda->nombreMoneda}}</option>
+            @endif
+            @endforeach
           </select>
         </div>
       </div>
@@ -57,7 +57,8 @@
       </div>
     </div>
     <h4>Principales ubicaciones geográficas</h4>
-    <div class="ubicacionesGeorafica">
+    <div id="ubicacionesGeoraficas" cantidad="0">
+
     </div>
   </div>
 </div>
