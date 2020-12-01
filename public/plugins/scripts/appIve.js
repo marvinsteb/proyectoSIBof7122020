@@ -1959,6 +1959,18 @@ function templateOtrosIngresos(id) {
     $(tm).find(`div.card-body`).append(cmMontos);
     return tm;
 }
+function agregarTemplateOtrosIngresos(btnaddoi) {
+    $(btnaddoi).click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const tmdrd = $("div#datosOtrosIngresos");
+        let index = $(tmdrd).attr("cantidad");
+        index++;
+        $(tmdrd).append(templateOtrosIngresos(index));
+        $(tmdrd).find(`select.tipoOtrosIngresos`).focus();
+        $(tmdrd).attr("cantidad", index);
+    });
+}
 function templateContenedorOtrosIngresos() {
     let trd = $(`<div class="row">
                     <div class="datosOtrosIngresos col-sm-12" id="datosOtrosIngresos" cantidad="0"></div>
@@ -1967,18 +1979,8 @@ function templateContenedorOtrosIngresos() {
                     </div>
                   </div>`);
     let drd = $(trd).find(`div#datosOtrosIngresos`);
-    $(trd)
-        .find(`button#agregarOtrosIngresos`)
-        .click(function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            let index = $(drd).attr("cantidad");
-            index++;
-            const tmdrd = templateOtrosIngresos(index);
-            $(`div#datosOtrosIngresos`).append(tmdrd);
-            $(tmdrd).find(`select.tipoOtrosIngresos`).focus();
-            $(drd).attr("cantidad", index);
-        });
+    const btnaddoi = $(trd).find("button#agregarOtrosIngresos");
+    agregarTemplateOtrosIngresos(btnaddoi);
     return trd;
 }
 function templateFinaUnoPerfilEconomicoTransaccional() {
@@ -1993,7 +1995,7 @@ function templateRowUnoPSperfilTransaccional(id) {
     const fecha = templateFecha(
         id,
         "Pspt",
-        "Fecha de elaboración del perfil",
+        "de elaboración del perfil",
         "col-sm-3",
         true
     );
@@ -2001,7 +2003,9 @@ function templateRowUnoPSperfilTransaccional(id) {
         id,
         "productoServicioPspt",
         100,
-        "Producto y/o servicio"
+        "Producto y/o servicio",
+        true,
+        false
     );
     let rowuno = $(`<div class="row"></div>`);
     $(rowuno).append(fecha);
@@ -2275,6 +2279,16 @@ class dicPerfilEconomicoOtrosIngresos {
         this.detalleOI = null;
         this.tipoMoneda = null;
         this.montoAproximado = null;
+    }
+}
+class dicPerfilTransaccional {
+    constructor(id) {
+        this.iddpet = id;
+        this.fecha = null;
+        this.productoServicio = null;
+        this.tipoMoneda = null;
+        this.montoPromedioMensual = null;
+        this.pubGeo = new Array();
     }
 }
 class dicPerfilEconomicoTransaccional {
@@ -2771,7 +2785,24 @@ function obtenerDatosOtrosIngresos() {
         });
     return otrosIngresos;
 }
-
+function obtenerDatosPerfilTransaccional() {
+    let dperfilTransaccional = new Array();
+    $("div#datosPerfilTransaccional")
+        .children()
+        .each(function () {
+            let dpt = new dicPerfilTransaccional($(this).attr("iddpt"));
+            dpt.fecha = $(this).find("div.date>input.Pspt").val();
+            dpt.productoServicio = $(this)
+                .find("input.productoServicioPspt")
+                .val();
+            dpt.tipoMoneda = $(this).find("select.moneda ").val();
+            dpt.montoPromedioMensual = $(this)
+                .find("input.montoAproximado ")
+                .val();
+            dperfilTransaccional.push(dpt);
+        });
+    return dperfilTransaccional;
+}
 function obtenerDatosPerfilEconomicoTransaccional(pet) {
     console.log(`perfil economico transaccinal`);
     let dpet = null;
@@ -2847,6 +2878,7 @@ function obtenerDatosPerfilEconomicoTransaccional(pet) {
             });
         // otros ingresos
         dpet.otrosIngresos = obtenerDatosOtrosIngresos();
+        dpet.perfilTransaccional = obtenerDatosPerfilTransaccional();
     }
 
     return dpet;
@@ -2915,5 +2947,6 @@ $(document).ready(function () {
     agregarPerfilEconomicoRelacionDependencia(
         $("button#agregarRelacionDependencia")
     );
+    agregarTemplateOtrosIngresos("button#agregarOtrosIngresos");
     validarFormulario();
 });
