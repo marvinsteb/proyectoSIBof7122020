@@ -1052,22 +1052,19 @@ function getDepartamentos(callback) {
     });
 }
 
-function habilitaOtroCampoDesdeSelect(
-    inputSelect,
-    opcionSelect,
-    inputHabilitar
-) {
+function habilitaOtroCampoDesdeSelect(inputSelect, opcionSelect) {
     // la funcion recibe uno o varios objetos select select.nombreclase  o select#id
     // opcionSelect, es la opcion que habilita el campo otroCondicionmigratoria, otroParentesco, etc. recibe el value otro del select
     // input habilitar puede recibir input.nommbreClase o input#id
     for (let a = 0; a < inputSelect.length; a++) {
         $(inputSelect[a]).change(function (event) {
             // la variable inputActual se utiliza, cuando se envia una input.nombreClase
+            const inputOtro = $(this).attr("targetOtro");
             let inputActual = $(this)
                 .parent()
                 .parent()
                 .parent()
-                .find($(inputHabilitar));
+                .find(`input.${inputOtro}`);
             if (inputActual.length != 0) {
                 if (event.target.value == opcionSelect) {
                     $(inputActual).prop("disabled", false);
@@ -1279,7 +1276,7 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
 
 function templateParentesco(id) {
     let tmP = ` <label for="parentesco${id}">Parentesco</label>
-                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco select2" style="width: 100%" required>
+                <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco select2" targetOtro="otroParentesco" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
                     <option value="1">Padre</option>
                     <option value="2">Madre</option>
@@ -1291,16 +1288,12 @@ function templateParentesco(id) {
     tmP = templateFormGroup(tmP);
     const selectParentesco = $(tmP).find(`select#parentesco${id}`);
     $(selectParentesco).select2();
-    habilitaOtroCampoDesdeSelect(
-        selectParentesco,
-        6,
-        `input#otroParentesco${id}`
-    );
+    habilitaOtroCampoDesdeSelect(selectParentesco, 6);
     return tmP;
 }
 function templateMotivoAsociacion(id) {
     let tM = `  <label for="motivoAsociacion${id}">Motivo asociación</label>
-                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion select2" style="width: 100%" required>
+                <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion select2" targetOtro="otroMotivoAsociacion" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
                     <option value="1">Profesionales</option>
                     <option value="2">Políticos</option>
@@ -1311,11 +1304,7 @@ function templateMotivoAsociacion(id) {
     tM = templateFormGroup(tM);
     const selectMotivo = $(tM).find(`select#motivoAsociacion${id}`);
     $(selectMotivo).select2();
-    habilitaOtroCampoDesdeSelect(
-        selectMotivo,
-        5,
-        `input#otroMotivoAsociacion${id}`
-    );
+    habilitaOtroCampoDesdeSelect(selectMotivo, 5);
     return tM;
 }
 function templateCondicion(id) {
@@ -3009,6 +2998,8 @@ $(document).ready(function () {
     verificarPersonaPep($(".pep"));
     habilitaOtroOrigenriqueza($("select.otroOrigenRiqueza"));
     verificarAsoPep($(".asoPep"));
+    habilitaOtroCampoDesdeSelect($("select.parentesco"), 6);
+    habilitaOtroCampoDesdeSelect($("select.motivoAsociacion"), 5);
     btnaddfamasopep($(`button.agregarFamiliarAsociado`));
     validarTipoFuenteIngreso($("select.fuenteIngresos"));
     agregarTemplateFuenteIngresos($("button.agregarFuenteIngresos"));

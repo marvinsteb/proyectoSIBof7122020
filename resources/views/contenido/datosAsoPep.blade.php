@@ -14,7 +14,7 @@
       <div class="col-sm">
         <div class="form-group">
           <label for="parentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}">Parentesco</label>
-          <select name="parentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" id="parentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" class="form-control custom-select parentesco select2" style="width: 100%" required="">
+          <select name="parentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" id="parentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" class="form-control custom-select parentesco select2" targetOtro="otroParentesco" style="width: 100%" required>
             <option value="" disabled="" selected="">Selecciona</option>
             <option value="1" {{$datosParienteAsociadoPep->parentesco == '1' ? 'selected' : ''}}>Padre</option>
             <option value="2" {{$datosParienteAsociadoPep->parentesco == '2' ? 'selected' : ''}}>Madre</option>
@@ -33,7 +33,7 @@
       <div class="col-sm">
         <div class="form-group">
           <label for="motivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}">Motivo asociación</label>
-          <select name="motivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" id="motivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" class="form-control custom-select motivoAsociacion select2" style="width: 100%" required="">
+          <select name="motivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" id="motivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" class="form-control custom-select motivoAsociacion select2" targetOtro="otroMotivoAsociacion" style="width: 100%" required>
             <option value="" disabled="" selected="">Selecciona</option>
             <option value="1" {{$datosParienteAsociadoPep->motivoAsociacion == '1' ? 'selected' : ''}}>Profesionales</option>
             <option value="2" {{$datosParienteAsociadoPep->motivoAsociacion == '2' ? 'selected' : ''}}>Políticos</option>
