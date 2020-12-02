@@ -2410,7 +2410,6 @@ function validarFormulario() {
                 event.preventDefault();
                 event.stopPropagation();
                 expandirCard();
-                //enviarDatos();
                 if (form.checkValidity() === false) {
                     form.classList.add("was-validated");
                     alert(
@@ -2418,9 +2417,21 @@ function validarFormulario() {
                     );
                     $(form).find(".form-control:invalid").first().focus();
                     $(form).find(".form-check-input:invalid").first().focus();
+                    $(this).find("button#btnGuardar").prop("disabled", false);
+                    $(this)
+                        .find("button#btnGuardar")
+                        .html("Guardar formulario");
                 } else {
                     console.log("enviando formulario");
-                    mostrarModal();
+                    //mostrarModal();
+                    $(this).find("button#btnGuardar").prop("disabled", true);
+                    $(this).find("button#btnGuardar").html("");
+                    $(this).find("button#btnGuardar").append(
+                        `
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Guardando formulario...
+                         `
+                    );
                     enviarDatos();
                 }
             },
@@ -2453,6 +2464,8 @@ function enviarDatos() {
                 alert(
                     "Ocurrió un error al guardar el formulario, intenta de nuevo"
                 );
+                $("button#btnGuardar").prop("disabled", false);
+                $("button#btnGuardar").html("Guardar formulario");
             }
         },
         error: function (jqXHR, exception) {
