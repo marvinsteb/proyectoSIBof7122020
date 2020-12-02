@@ -1,4 +1,4 @@
-<div class="card card-info mt-3" id="otrosIngresos_1">
+<div class="card card-info mt-3" id="otrosIngresos_1" idOI="{{$doi->idPerfilEconomicoOtrosIngresos}}">
   <div class="card-header">
     <h3 class="card-title">Otros ingreso {{$indiceoi +1}}</h3>
     <div class="card-tools">
