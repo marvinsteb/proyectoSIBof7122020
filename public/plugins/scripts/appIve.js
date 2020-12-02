@@ -2441,7 +2441,7 @@ function validarFormulario() {
 }
 function enviarDatos() {
     let nuevoDiccionarioFormulario = obtenerDatos();
-    console.log(JSON.stringify(nuevoDiccionarioFormulario));
+    //console.log(JSON.stringify(nuevoDiccionarioFormulario));
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -3028,5 +3028,7 @@ $(document).ready(function () {
     );
     agregarTemplateOtrosIngresos("button#agregarOtrosIngresos");
     agregarTemplatePerfilTransaccional("button#agregarPerfilTransaccional");
+    agregarPUG($("button.agregarUbicacionGeo"));
+    borrarUbicacionGeografica("button.btnUbicacionGeografica");
     validarFormulario();
 });
