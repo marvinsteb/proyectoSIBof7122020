@@ -73,7 +73,7 @@ class InformacionClienteController extends Controller
             'profesionOficio' => strtoupper($datosPersonales["profesionOficio"]),
             'tipoDocumentoIdentificacion' => strtoupper($datosPersonales["tipoDocumentoIdentificacion"]),
             'numeroDocumentoIdentificacion' => strtoupper($datosPersonales["numeroDocumentoIdentificacion"]),
-            'emisionPasaporte' => strtoupper($datosPersonales["emisionPasaporte"]),
+            'emisionPasaporte' => $datosPersonales["emisionPasaporte"],
             'email' => strtoupper($datosPersonales["email"]),
             'direccionResidencia' => strtoupper($datosPersonales["direccionResidencia"]),
             'residencia' => $this->guardarLugar($datosPersonales["residencia"]),
@@ -818,7 +818,7 @@ class InformacionClienteController extends Controller
 
     public function diccionarioFormularioJson($id)
     {
-        $respuesta = $this->queryDicionarioFormulario($id, false);
+        $respuesta = $this->queryDicionarioFormulario($id, true);
         return Response()->json(
             $respuesta,
             200,
@@ -831,10 +831,15 @@ class InformacionClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dicFormulario = DB::table('listaDiccionarioFormulario')->select('*')->where('idUser', '=', Auth::id())->orderBy('idDiccionarioFormulario', 'desc')->simplePaginate(7);
-        return view('contenido.oficioive7122020', compact('dicFormulario'));
+        $query = trim($request->get('searchText'));
+        $dicFormulario = DB::table('listaDiccionarioFormulario')->select('*')
+        ->where('idUser', '=', Auth::id())
+        ->where('primerNombre','LIKE','%'.$query.'%')
+        ->orderBy('idDiccionarioFormulario', 'desc')
+        ->simplePaginate(15);
+        return view('contenido.oficioive7122020', ["dicFormulario"=>$dicFormulario,"searchText"=>$query]);
     }
 
     /**
