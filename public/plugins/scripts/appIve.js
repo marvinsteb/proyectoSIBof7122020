@@ -2762,7 +2762,6 @@ function obtenerDatosInfoEconomica(
     $(fuenteIngresos)
         .children()
         .each(function (elemento) {
-            console.log($(this).find(`input`).val());
             switch ($(this).find(`input`).attr("name")) {
                 case "nombreComercial":
                     let ngp = new informacionNegocioPropio();
@@ -2993,6 +2992,7 @@ $(document).ready(function () {
     // }
     // window.addEventListener("beforeunload", askConfirmation);
     console.log("Esperando a que la pagina cargue completamente ");
+    $("input[type=text]");
     noEnviarFormularioConEnter();
     setFormatoFecha($(".date"));
     verificaActuaNombrePropio($(".actuaNombrePropio"));
