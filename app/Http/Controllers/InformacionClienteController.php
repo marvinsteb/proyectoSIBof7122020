@@ -345,7 +345,7 @@ class InformacionClienteController extends Controller
                         [
                             'idPerfilEconomicoTransaccional'=>$idObpet,
                             'fecha'=>$this->formatoFechaDB($dpt["fecha"]),
-                            'productoServicio'=>$dpt["productoServicio"],
+                            'productoServicio'=>strtoupper($dpt["productoServicio"]),
                             'tipoMoneda'=>$dpt["tipoMoneda"],
                             'montoPromedioMensual'=>$dpt["montoPromedioMensual"]
                         ]

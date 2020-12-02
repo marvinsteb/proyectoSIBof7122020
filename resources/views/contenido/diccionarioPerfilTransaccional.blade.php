@@ -1,4 +1,4 @@
-<div class="card card-info mt-3" id="otrosIngresos_{{$indicept}}">
+<div class="card card-info mt-3" id="otrosIngresos_{{$indicept}}" iddpet="{{$dpt->idDiccionarioPerfilTransaccional}}">
   <div class="card-header">
     <h3 class="card-title">Producto del perfil transaccional {{$indicept + 1}}</h3>
     <div class="card-tools">

@@ -2865,7 +2865,7 @@ function obtenerDatosPerfilTransaccional() {
     $("div#datosPerfilTransaccional")
         .children()
         .each(function () {
-            let dpt = new dicPerfilTransaccional($(this).attr("iddpt"));
+            let dpt = new dicPerfilTransaccional($(this).attr("iddpet"));
             dpt.fecha = $(this).find("div.date>input.Pspt").val();
             dpt.productoServicio = $(this)
                 .find("input.productoServicioPspt")
