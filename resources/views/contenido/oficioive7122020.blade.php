@@ -26,9 +26,10 @@
                     </a>
                 </td>
                 <td>
-                    <a href="/eliminarFormulario/{{$dc->idDiccionarioFormulario}}">
-                        <button class="btn btn-danger btnEliminar">Eliminar</button>
+                    <a href="" data-target="#modal-delete-{{$dc->idDiccionarioFormulario}}" data-toggle="modal">
+                        <button class="btn btn-danger">Eliminar</button>
                     </a>
+
                 </td>
                 <td>
                     <a href="{{'/descargarjson/'.$dc->idDiccionarioFormulario}}">
