@@ -57,8 +57,20 @@
       </div>
     </div>
     <h4>Principales ubicaciones geográficas</h4>
-    <div id="ubicacionesGeoraficas" cantidad="0">
-
+    <div id="ubicacionesGeoraficas" cantidad="{{count($dpt->principalesUbicacionesGeograficas)}}">
+    
+      @if(!empty($dpt->principalesUbicacionesGeograficas))
+        @foreach($dpt->principalesUbicacionesGeograficas as $dlgeo)
+        @include('contenido.ubicacionesGeograficas',[
+        'dlgeo'=>$dlgeo,
+        'indiceLgeo' => $loop->index,
+        'indicept' => $indicept
+        ])
+        @endforeach
+      @endif
+    </div>
+    <div class="col clearfix">
+    <button class="btn btn-primary float-right mb-4 agregarUbicacionGeo" id="agregarUbicacionGeo${id}">Agregar ubicación</button>
     </div>
   </div>
 </div>
