@@ -91,7 +91,7 @@
                         <li class="nav-item">
                             <a href="/oficios/7122020" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
-                                <p class="text">Listado de clientes</p>
+                                <p class="text">Listado de oficios</p>
                             </a>
                         </li>
                         <li class="nav-item">
