@@ -1668,7 +1668,7 @@ function templateInputNumber(
     deshabilitado
 ) {
     let tmNom = $(`<label>${textolabel}</label>
-                   <input name="${tipo}${id}" id="${tipo}${id}" type="number" class="form-control ${tipo}" placeholder="${textolabel} ..." maxlength="${tamanio}"/>`);
+                   <input name="${tipo}${id}" id="${tipo}${id}" type="number" class="form-control ${tipo}" placeholder="${textolabel} ..." min="1" max="999999999999999" maxlength="${tamanio}"/>`);
     tmNom = templateFormGroup(tmNom);
     if (requerido === true) {
         $(tmNom).find(`input#${tipo}${id}`).prop("required", true);

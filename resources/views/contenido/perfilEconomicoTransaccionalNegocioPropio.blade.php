@@ -50,19 +50,19 @@
           <div class="col-sm">
             <div class="form-group">
               <label>Número de registro</label>
-              <input name="numeroRegistro{{$indiceNeg}}" id="numeroRegistro{{$indiceNeg}}" type="number" class="form-control numeroRegistro" placeholder="Número de registro ..." maxlength="15" value="{{$negp->numeroRegistro}}">
+              <input name="numeroRegistro{{$indiceNeg}}" id="numeroRegistro{{$indiceNeg}}" type="number" class="form-control numeroRegistro" placeholder="Número de registro ..." min="1" max="999999999999999" value="{{$negp->numeroRegistro}}">
             </div>
           </div>
           <div class="col-sm">
             <div class="form-group">
               <label>Folio</label>
-              <input name="folio{{$indiceNeg}}" id="folio{{$indiceNeg}}" type="number" class="form-control folio" placeholder="Folio ..." maxlength="15" value="{{$negp->folio}}">
+              <input name="folio{{$indiceNeg}}" id="folio{{$indiceNeg}}" type="number" class="form-control folio" placeholder="Folio ..." min="1" max="999999999999999" value="{{$negp->folio}}">
             </div>
           </div>
           <div class="col-sm">
             <div class="form-group">
               <label>Libro</label>
-              <input name="libro{{$indiceNeg}}" id="libro{{$indiceNeg}}" type="number" class="form-control libro" placeholder="Libro ..." maxlength="15" value="{{$negp->libro}}">
+              <input name="libro{{$indiceNeg}}" id="libro{{$indiceNeg}}" type="number" class="form-control libro" placeholder="Libro ..." min="1" max="999999999999999"" value="{{$negp->libro}}">
             </div>
           </div>
         </div>
