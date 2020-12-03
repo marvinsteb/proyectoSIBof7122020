@@ -1484,9 +1484,12 @@ function agregarTemplateFuenteIngresos(btnFuenteIngreso) {
         $(divContenedor).attr("cantidad", posicion);
     });
 }
-function templateCalidadActua(id) {
+function templateCalidadActua(id, tipo) {
+    if (tipo == "OtrosFirmantes") {
+        tipo = "otros firmantes";
+    }
     let cmCA = $(`
-                    <div class="row mb-3"><h4>I. TIPO DE ACTUACIÓN DEL CLIENTE</h4></div>
+                    <div class="row mb-3"><h4>I. TIPO DE ACTUACIÓN DEL ${tipo.toUpperCase()}</h4></div>
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="form-check">
@@ -1563,7 +1566,7 @@ function templateCamposMinimos(id, indice, tipo) {
                 `);
     eliminarCard($(cm));
     let dCardBody = $(cm).find("div.card-body");
-    $(dCardBody).append(templateCalidadActua(id));
+    $(dCardBody).append(templateCalidadActua(id, tipo));
     $(dCardBody).append(templateLugarCM(id));
 
     let cmCM = $(`<div id="camposMinimos${id}"></div>`);
@@ -2810,9 +2813,7 @@ function obtenerDatosProductoServicio(ps) {
         producto.nombreContrata = $(ps[i])
             .find(`input#nombreContrata${id}`)
             .val();
-        producto.moneda = $(ps[i])
-            .find(`select[id=moneda${id}] option:selected`)
-            .val();
+        producto.moneda = $(ps[i]).find(`select.moneda option:selected`).val();
         producto.valor = $(ps[i]).find(`input#valor${id}`).val();
         const beneficiarios = $(ps[i])
             .find(`div#datosBeneficiario${id}`)

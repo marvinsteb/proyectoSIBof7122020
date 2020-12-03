@@ -1,13 +1,12 @@
 @extends('layouts.admin')
 @section('contenido')
-<h2>Oficio IVe Núm. 712-2020 - Listado de clientes</h2>
+<h2>Oficio IVe Núm. 712-2020 - Listado de oficios</h2>
 <div class="container mt-5">
     @include('contenido.buscarEnOficios')
     <table class="table mb-5">
         <thead>
             <tr class="table-success">
                 <th scope="col">#</th>
-                <th scope="col">Tipo Actuacion</th>
                 <th scope="col">Nombre Cliente</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -18,8 +17,7 @@
             @foreach($dicFormulario as $dc)
             <tr>
                 <td scope="row">{{$dc->idDiccionarioFormulario}}</td>
-                <td>{{ $dc->tipoActuacion == 'C' ? 'Cliente' :'Representante' }}</td>
-                <td>{{ $dc->primerNombre." ".$dc->segundoNombre}}</td>
+                <td>{{ $dc->nombre}}</td>
                 <td>
                     <a href="/oficios/7122020/editar/{{$dc->idDiccionarioFormulario}}">
                         <button class="btn btn-success">Editar</button>

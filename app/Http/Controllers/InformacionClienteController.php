@@ -55,39 +55,39 @@ class InformacionClienteController extends Controller
     {
 
         $camposMinimos = [
-            'primerApellido' => $datosPersonales["primerApellido"],
-            'segundoApellido' => empty($datosPersonales["segundoApellido"]) ? 'SOA' : $datosPersonales["segundoApellido"],
-            'apellidoCasada' => $datosPersonales["apellidoCasada"],
-            'primerNombre' => $datosPersonales["primerNombre"],
-            'segundoNombre' => empty($datosPersonales["segundoNombre"]) ? 'SON' : $datosPersonales["segundoNombre"],
-            'otrosNombres' => $datosPersonales["otrosNombres"],
+            'primerApellido' => strtoupper($datosPersonales["primerApellido"]),
+            'segundoApellido' => empty($datosPersonales["segundoApellido"]) ? 'SOA' : strtoupper($datosPersonales["segundoApellido"]),
+            'apellidoCasada' => strtoupper($datosPersonales["apellidoCasada"]),
+            'primerNombre' => strtoupper($datosPersonales["primerNombre"]),
+            'segundoNombre' => empty($datosPersonales["segundoNombre"]) ? 'SON' : strtoupper($datosPersonales["segundoNombre"]),
+            'otrosNombres' => strtoupper($datosPersonales["otrosNombres"]),
             'fechaNacimiento' => $this->formatoFechaDB(
                 $datosPersonales["fechaNacimiento"]
             ),
             'nacimiento' => $this->guardarLugar($datosPersonales["nacimiento"]),
             'condicionMigratoria' => $datosPersonales["condicionMigratoria"],
-            'otraCondicionMigratoria' => $datosPersonales["otraCondicionMigratoria"],
-            'sexo' => $datosPersonales["sexo"],
-            'estadoCivil' => $datosPersonales["estadoCivil"],
-            'nit' => $datosPersonales["nit"],
-            'profesionOficio' => $datosPersonales["profesionOficio"],
-            'tipoDocumentoIdentificacion' => $datosPersonales["tipoDocumentoIdentificacion"],
-            'numeroDocumentoIdentificacion' => $datosPersonales["numeroDocumentoIdentificacion"],
+            'otraCondicionMigratoria' => strtoupper($datosPersonales["otraCondicionMigratoria"]),
+            'sexo' => strtoupper($datosPersonales["sexo"]),
+            'estadoCivil' => strtoupper($datosPersonales["estadoCivil"]),
+            'nit' => strtoupper($datosPersonales["nit"]),
+            'profesionOficio' => strtoupper($datosPersonales["profesionOficio"]),
+            'tipoDocumentoIdentificacion' => strtoupper($datosPersonales["tipoDocumentoIdentificacion"]),
+            'numeroDocumentoIdentificacion' => strtoupper($datosPersonales["numeroDocumentoIdentificacion"]),
             'emisionPasaporte' => $datosPersonales["emisionPasaporte"],
-            'email' => $datosPersonales["email"],
-            'direccionResidencia' => $datosPersonales["direccionResidencia"],
+            'email' => strtoupper($datosPersonales["email"]),
+            'direccionResidencia' => strtoupper($datosPersonales["direccionResidencia"]),
             'residencia' => $this->guardarLugar($datosPersonales["residencia"]),
-            'pep' => $datosPersonales["pep"],
-            'parienteAsociadoPep' => $datosPersonales["parienteAsociadoPep"],
-            'cpe' => $datosPersonales["cpe"]
+            'pep' => strtoupper($datosPersonales["pep"]),
+            'parienteAsociadoPep' => strtoupper($datosPersonales["parienteAsociadoPep"]),
+            'cpe' => strtoupper($datosPersonales["cpe"])
         ];
         if ($camposMinimos["pep"] == "S") {
             $obpep = DatosPep::updateOrCreate(['idDatosPep' => $datosPersonales["datospep"]["idDatosPep"]], [
-                'entidad' => $datosPersonales["datospep"]["entidad"],
-                'puestoDesempenia' => $datosPersonales["datospep"]["puestoDesempenia"],
-                'paisEntidad' => $datosPersonales["datospep"]["paisEntidad"],
-                'origenRiqueza' => $datosPersonales["datospep"]["origenRiqueza"],
-                'otroOrigenRiqueza' => $datosPersonales["datospep"]["otroOrigenRiqueza"],
+                'entidad' => strtoupper($datosPersonales["datospep"]["entidad"]),
+                'puestoDesempenia' => strtoupper($datosPersonales["datospep"]["puestoDesempenia"]),
+                'paisEntidad' => strtoupper($datosPersonales["datospep"]["paisEntidad"]),
+                'origenRiqueza' => strtoupper($datosPersonales["datospep"]["origenRiqueza"]),
+                'otroOrigenRiqueza' => strtoupper($datosPersonales["datospep"]["otroOrigenRiqueza"]),
             ]);
             $camposMinimos['datosPep'] = $obpep->idDatosPep;
         } else {
@@ -107,20 +107,20 @@ class InformacionClienteController extends Controller
 
             foreach ($arrayDatosParienteAsociadoPep as $parienteAsociadoPep) {
                 $datos = $parienteAsociadoPep;
-                $datos["parentesco"] = $datos["parentesco"];
-                $datos["otroParentesco"] = $datos["otroParentesco"];
-                $datos["motivoAsociacion"] = $datos["motivoAsociacion"];
-                $datos["otroMotivoAsociacion"] = $datos["otroMotivoAsociacion"];
-                $datos["primerApellido"] = $datos["primerApellido"];
-                $datos["segundoApellido"] = empty($datos["segundoApellido"]) ? 'SOA' : $datos["segundoApellido"];
-                $datos["apellidoCasada"] = $datos["apellidoCasada"];
-                $datos["primerNombre"] = $datos["primerNombre"];
-                $datos["segundoNombre"] = empty($datos["segundoNombre"]) ? 'SON' : $datos["segundoNombre"];
-                $datos["otrosNombres"] = $datos["otrosNombres"];
-                $datos["sexo"] = $datos["sexo"];
-                $datos["condicion"] = $datos["condicion"];
-                $datos["entidad"] = $datos["entidad"];
-                $datos["puestoDesempenia"] = $datos["puestoDesempenia"];
+                $datos["parentesco"] = strtoupper($datos["parentesco"]);
+                $datos["otroParentesco"] = strtoupper($datos["otroParentesco"]);
+                $datos["motivoAsociacion"] = strtoupper($datos["motivoAsociacion"]);
+                $datos["otroMotivoAsociacion"] = strtoupper($datos["otroMotivoAsociacion"]);
+                $datos["primerApellido"] = strtoupper($datos["primerApellido"]);
+                $datos["segundoApellido"] = empty($datos["segundoApellido"]) ? 'SOA' : strtoupper($datos["segundoApellido"]);
+                $datos["apellidoCasada"] = strtoupper($datos["apellidoCasada"]);
+                $datos["primerNombre"] = strtoupper($datos["primerNombre"]);
+                $datos["segundoNombre"] = empty($datos["segundoNombre"]) ? 'SON' : strtoupper($datos["segundoNombre"]);
+                $datos["otrosNombres"] = strtoupper($datos["otrosNombres"]);
+                $datos["sexo"] = strtoupper($datos["sexo"]);
+                $datos["condicion"] = strtoupper($datos["condicion"]);
+                $datos["entidad"] = strtoupper($datos["entidad"]);
+                $datos["puestoDesempenia"] = strtoupper($datos["puestoDesempenia"]);
                 $idDatosParAsoPep = DatosParienteAsociadoPep::updateOrCreate(['idDatosParienteAsociadoPep' => $datos["idDatosParienteAsociadoPep"]], $datos);
                 $oPAP = ParienteAsociadoPep::updateOrCreate([
                     'idDatosPersonales' => $idClienteCamposMinimos,
@@ -197,10 +197,10 @@ class InformacionClienteController extends Controller
                     $obFuenteIngresos['otrasFuentesIngreso'] = $info['otrasFuentesIngreso'];
                     break;
             }
-            $obFuenteIngresos["tipo"] = $obFuenteIngresos["tipo"];
-            $obFuenteIngresos["nombreComercial"] = $obFuenteIngresos["nombreComercial"];
-            $obFuenteIngresos["nombreEmpleador"] = $obFuenteIngresos["nombreEmpleador"];
-            $obFuenteIngresos["otrasFuentesIngreso"] = $obFuenteIngresos["otrasFuentesIngreso"];
+            $obFuenteIngresos["tipo"] = strtoupper($obFuenteIngresos["tipo"]);
+            $obFuenteIngresos["nombreComercial"] = strtoupper($obFuenteIngresos["nombreComercial"]);
+            $obFuenteIngresos["nombreEmpleador"] = strtoupper($obFuenteIngresos["nombreEmpleador"]);
+            $obFuenteIngresos["otrasFuentesIngreso"] = strtoupper($obFuenteIngresos["otrasFuentesIngreso"]);
             FuenteIngresos::updateOrCreate($obFuenteIngresos, $obFuenteIngresos);
         }
     }
@@ -210,7 +210,7 @@ class InformacionClienteController extends Controller
             ['idInformacionEconomicaInicial' => $infoEconomica["idInformacionEconomicaInicial"]],
             [
                 'montoIngresos' => $infoEconomica["montoIngresos"],
-                'propositoRC' => $infoEconomica["propositoRC"]
+                'propositoRC' => strtoupper($infoEconomica["propositoRC"])
             ]
         );
         // $listaFuenteIngresos = FuenteIngresos::where('idInformacionEconomicaInicial','=',$obInfoEcoIni->idInformacionEconomicaInicial)->get()->pluck('idFuenteIngresos','idFuenteIngresos')->toArray();
@@ -250,13 +250,13 @@ class InformacionClienteController extends Controller
                         ],
                         [
                             'idPerfilEconomicoTransaccional'=>$idObpet,
-                            'nombreComercial'=>$ngp["nombreComercial"],
-                            'principalActividadEconomica'=>$ngp["principalActividadEconomica"],
-                            'fechaInscripcionNegocio'=>$this->formatoFechaDB($ngp["fechaInscripcionNegocio"]),
+                            'nombreComercial'=>strtoupper($ngp["nombreComercial"]),
+                            'principalActividadEconomica'=>strtoupper($ngp["principalActividadEconomica"]),
+                            'fechaInscripcionNegocio'=>empty($ngp["fechaInscripcionNegocio"]) ? null :$this->formatoFechaDB($ngp["fechaInscripcionNegocio"]),
                             'numeroRegistro'=>$ngp["numeroRegistro"],
                             'folio'=>$ngp["folio"],
                             'libro'=>$ngp["libro"],
-                            'direccionNegocio'=>$ngp["direccionNegocio"],
+                            'direccionNegocio'=>strtoupper($ngp["direccionNegocio"]),
                             'lugar'=>$this->guardarLugar($ngp["lugar"]),
                             'tipoMoneda'=>$ngp["tipoMoneda"],
                             'montoAproximado'=>$ngp["montoAproximado"]
@@ -284,11 +284,11 @@ class InformacionClienteController extends Controller
                         ],
                         [
                             'idPerfilEconomicoTransaccional' => $idObpet,
-                            'sector' => $prd["sector"],
-                            'nombreEmpleador' => $prd["nombreEmpleador"],
-                            'principalActividadEconomicaEmpleador' => $prd["priActEcoE"],
-                            'puestoDesempenia' => $prd["puestoDesempenia"],
-                            'direccionEmpleador' => $prd["direccionEmpleador"],
+                            'sector' => strtoupper($prd["sector"]),
+                            'nombreEmpleador' => strtoupper($prd["nombreEmpleador"]),
+                            'principalActividadEconomicaEmpleador' => strtoupper($prd["priActEcoE"]),
+                            'puestoDesempenia' => strtoupper($prd["puestoDesempenia"]),
+                            'direccionEmpleador' => strtoupper($prd["direccionEmpleador"]),
                             'lugar' => $this->guardarLugar($prd["lugar"]),
                             'tipoMoneda'=>$prd["tipoMoneda"],
                             'montoAproximado'=>$prd["montoAproximado"]
@@ -317,7 +317,7 @@ class InformacionClienteController extends Controller
                         [
                             'idPerfilEconomicoTransaccional'=>$idObpet,
                             'tipoOtrosIngresos'=>$peoi["tipoOI"],
-                            'detalleOtrosIngresos'=>$peoi["detalleOI"],
+                            'detalleOtrosIngresos'=>strtoupper($peoi["detalleOI"]),
                             'tipoMoneda'=>$peoi["tipoMoneda"],
                             'montoAproximado'=>$peoi["montoAproximado"]
                         ]
@@ -345,7 +345,7 @@ class InformacionClienteController extends Controller
                         [
                             'idPerfilEconomicoTransaccional'=>$idObpet,
                             'fecha'=>$this->formatoFechaDB($dpt["fecha"]),
-                            'productoServicio'=>$dpt["productoServicio"],
+                            'productoServicio'=>strtoupper($dpt["productoServicio"]),
                             'tipoMoneda'=>$dpt["tipoMoneda"],
                             'montoPromedioMensual'=>$dpt["montoPromedioMensual"]
                         ]
@@ -385,11 +385,11 @@ class InformacionClienteController extends Controller
                     [
                         'lugar' => $this->guardarLugar($productoServicio["lugar"]),
                         'fecha' => $this->formatoFechaDB($productoServicio["fecha"]),
-                        'tipo' => $productoServicio["tipo"],
-                        'nombre' => $productoServicio["nombre"],
-                        'descripcion' => $productoServicio["descripcion"],
-                        'identificador' => $productoServicio["identificador"],
-                        'nombreContrata' => $productoServicio["nombreContrata"],
+                        'tipo' => strtoupper($productoServicio["tipo"]),
+                        'nombre' => strtoupper($productoServicio["nombre"]),
+                        'descripcion' => strtoupper($productoServicio["descripcion"]),
+                        'identificador' => strtoupper($productoServicio["identificador"]),
+                        'nombreContrata' => strtoupper($productoServicio["nombreContrata"]),
                         'moneda' => $productoServicio["moneda"],
                         'valor' => $productoServicio["valor"]
                     ]
@@ -502,7 +502,7 @@ class InformacionClienteController extends Controller
         $telefonos = [];
         $querytbTelefonos = Telefono::select('numTelefono')->where('telefono.idDatosPersonales', '=', $idDatosPersonales)->get();
         foreach ($querytbTelefonos as $telefono) {
-            $telefonos[] = $telefono["numTelefono"];
+            $telefonos[] = (int)$telefono["numTelefono"];
         }
         return $telefonos;
     }
@@ -669,7 +669,7 @@ class InformacionClienteController extends Controller
         $listaObNegoP = PerfilEconomicoNegocioPropio::where('idPerfilEconomicoTransaccional',$idPerfilEconomicoTransaccional)->get();
         foreach ($listaObNegoP as $obngp) {
             $obngp["lugar"] = $this->querylugar($obngp["lugar"],$jsonive);
-            $obngp["fechaInscripcionNegocio"] = $this->formatoFechaJson($obngp["fechaInscripcionNegocio"]);
+            $obngp["fechaInscripcionNegocio"] = empty($obngp["fechaInscripcionNegocio"]) ? '' : $this->formatoFechaJson($obngp["fechaInscripcionNegocio"]);
             if($jsonive){
                 $obngp['ingresos'] = [
                     'tipoMoneda'=>$obngp['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $obngp['tipoMoneda'])->first()["codigoMoneda"],
@@ -836,7 +836,7 @@ class InformacionClienteController extends Controller
         $query = trim($request->get('searchText'));
         $dicFormulario = DB::table('listaDiccionarioFormulario')->select('*')
         ->where('idUser', '=', Auth::id())
-        ->where('primerNombre','LIKE','%'.$query.'%')
+        ->where('nombre','LIKE','%'.$query.'%')
         ->orderBy('idDiccionarioFormulario', 'desc')
         ->simplePaginate(15);
         return view('contenido.oficioive7122020', ["dicFormulario"=>$dicFormulario,"searchText"=>$query]);
@@ -869,14 +869,14 @@ class InformacionClienteController extends Controller
     public function guardarCamposMinimos($requesCamposMinimos)
     {
         $camposMinimos = [
-            'tipoActuacion' => $requesCamposMinimos["tipoActuacion"],
+            'tipoActuacion' => strtoupper($requesCamposMinimos["tipoActuacion"]),
             'lugar' => $this->guardarLugar($requesCamposMinimos["lugar"]),
             'fecha' => $this->formatoFechaDB($requesCamposMinimos["fecha"]),
             'cliente' => $this->guardarDatosPersonales($requesCamposMinimos["cliente"]),
             'infoEconomica' => $this->guardarInformacionEconomica($requesCamposMinimos["infoEconomicaInical"]),
         ];
         if ($camposMinimos["tipoActuacion"] == "R") {
-            $camposMinimos["calidadActua"] = $requesCamposMinimos["calidadActua"];
+            $camposMinimos["calidadActua"] = strtoupper($requesCamposMinimos["calidadActua"]);
             $camposMinimos["representante"] =  $this->guardarDatosPersonales($requesCamposMinimos["representante"]);
         }else{
             $camposMinimos["representante"] = null;

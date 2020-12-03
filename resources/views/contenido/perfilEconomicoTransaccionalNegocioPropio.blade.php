@@ -30,7 +30,7 @@
             <div class="form-group">
               <label>Fecha de inscripción del negocio</label>
               <div class="input-group date" id="fechaInscripcionNegocio_{{$indiceNeg}}" data-target-input="nearest">
-                <input name="fechaInscripcionNegocio{{$indiceNeg}}" id="fechaInscripcionNegocio{{$indiceNeg}}" type="text" class="form-control InscripcionNegocio datetimepicker-input" data-target="#fechaInscripcionNegocio_{{$indiceNeg}}" value="{{\Carbon\Carbon::parse($negp->fechaInscripcionNegocio)->format('d/m/Y')}}">
+                <input name="fechaInscripcionNegocio{{$indiceNeg}}" id="fechaInscripcionNegocio{{$indiceNeg}}" type="text" class="form-control InscripcionNegocio datetimepicker-input" data-target="#fechaInscripcionNegocio_{{$indiceNeg}}" value="{{empty($negp->fechaInscripcionNegocio)? '' : \Carbon\Carbon::parse($negp->fechaInscripcionNegocio)->format('d/m/Y')}}">
                 <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
                 <div class="input-group-append" data-target="#fechaInscripcionNegocio_{{$indiceNeg}}" data-toggle="datetimepicker">
                   <div class="input-group-text">
