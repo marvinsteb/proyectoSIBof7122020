@@ -1266,6 +1266,7 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
             let idInput = `${idDivPadre}_${idSelect}`;
             let cmTelefono = templateTelefono(idInput, true);
             $(`#${idDivPadre}>div:nth-last-child(2)`).after(cmTelefono);
+            $(cmTelefono).find(`input`).focus();
             $(divPadre).attr("cantidad", idSelect);
             eliminarTemplateTelefono(
                 $(`#${idDivPadre}>div.form-group>div.row`)
