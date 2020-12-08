@@ -1244,7 +1244,7 @@ function agregarTemplateNacionalidad(arrBtnsAgregarNacionalidad) {
             let selectPaisActual = $(`#${idPadre}>div.form-group>div.row`).find(
                 `select#${idSelect}`
             );
-            $(".select2").select2();
+            $(selectPaisActual).select2();
             cargarPais(selectPaisActual);
         });
     }
