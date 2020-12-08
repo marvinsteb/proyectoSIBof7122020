@@ -7,3 +7,10 @@
 *:focus {
     outline: 0px;
 }
+form#diccionarioFormulario label > span {
+    color: red;
+}
+form#diccionarioFormulario label > span.oculto {
+    display: none;
+    color: red;
+}

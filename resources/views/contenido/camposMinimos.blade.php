@@ -21,7 +21,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-check">
                                        <div>
-                                            <label>El {{$tipo}} actúa en nombre propio</label>
+                                            <label>El {{$tipo}} actúa en nombre propio <span>*</span></label>
                                         </div>
                                         <div class="icheck-primary d-inline">
                                             <input type="radio" id="siActua{{$tipo}}_{{$indice}}" class="actuaNombrePropio form-check-input" name="tipoActuacion{{$tipo}}_{{$indice}}" value="C" required {{ $titular->tipoActuacion == 'C' ? 'checked' : ''}}/>
@@ -37,7 +37,7 @@
 
                                 <div class="col-sm-8">
                                     <div class="form-group">
-                                        <label for ="calidadActua{{$tipo}}_{{$indice}}">Calidad con que actúa</label>
+                                        <label for ="calidadActua{{$tipo}}_{{$indice}}">Calidad con que actúa <span>*</span></label>
                                         <input name="calidadActua{{$tipo}}_{{$indice}}" id="calidadActua{{$tipo}}_{{$indice}}" type="text" class="form-control calidadActua" placeholder="Calidad con que actúa ..." maxlength="100" {{ $titular->tipoActuacion == 'R' ? '' : 'disabled'}} value="{{$titular->calidadActua}}"/>
                                         <div class="invalid-tooltip">Por Ejemplo: Mandatario, Patria potestad, Tutor, Otros.</div>
                                     </div>

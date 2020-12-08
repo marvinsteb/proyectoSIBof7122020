@@ -816,10 +816,18 @@ function verificaActuaNombrePropio(elementoActuaNomprePropio) {
                 inputCalidadActua[0].disabled = true;
                 $(inputCalidadActua[0]).val(null);
                 $(inputCalidadActua[0]).prop("required", false);
+                $(inputCalidadActua[0])
+                    .parent()
+                    .find("label>span")
+                    .addClass("oculto");
                 $(divDatosRepresentante).children().remove();
             } else if (this.value === "R") {
                 inputCalidadActua[0].disabled = false;
                 $(inputCalidadActua[0]).prop("required", true);
+                $(inputCalidadActua[0])
+                    .parent()
+                    .find("label>span.oculto")
+                    .removeClass("oculto");
                 agregarDatosPersonales(
                     divDatosRepresentante,
                     `Representante${tipo}`,
@@ -1495,7 +1503,7 @@ function templateCalidadActua(id, tipo) {
                         <div class="col-sm-4">
                             <div class="form-check">
                                 <div>
-                                    <label>El cliente actúa en nombre propio</label>
+                                    <label>El cliente actúa en nombre propio <span>*</span></label>
                                 </div>
                                 <div class="icheck-primary d-inline">
                                     <input type="radio" id="siActua${id}" class="actuaNombrePropio form-check-input" name="tipoActuacion${id}" value="C" required/>
@@ -1511,7 +1519,7 @@ function templateCalidadActua(id, tipo) {
 
                         <div class="col-sm-8">
                             <div class="form-group">
-                                <label for ="calidadActua${id}" >Calidad con que actúa</label>
+                                <label for ="calidadActua${id}" >Calidad con que actúa <span class="oculto">*</span></label>
                                 <input name="calidadActua${id}" id="calidadActua${id}" type="text" class="form-control calidadActuaCliente" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
                                 <div class="invalid-tooltip">Por Ejemplo: Mandatario, Patria potestad, Tutor, Otros.</div>
                             </div>

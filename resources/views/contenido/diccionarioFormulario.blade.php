@@ -61,7 +61,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-check">
                                         <div>
-                                            <label>El cliente actúa en nombre propio</label>
+                                            <label>El cliente actúa en nombre propio <span>*</span></label>
                                         </div>
                                         <div class="icheck-primary d-inline">
                                             <input type="radio" id="siActuaCliente_1" class="actuaNombrePropio form-check-input" name="tipoActuacionCliente_1" value="C" required />
@@ -77,7 +77,7 @@
 
                                 <div class="col-sm-8">
                                     <div class="form-group">
-                                        <label for="calidadActuaCliente_1">Calidad con que actúa</label>
+                                        <label for="calidadActuaCliente_1">Calidad con que actúa <span class="oculto">*</span></label>
                                         <input name="calidadActuaCliente_1" id="calidadActuaCliente_1" type="text" class="form-control calidadActua" placeholder="Calidad con que actúa ..." maxlength="100" disabled />
                                         <div class="invalid-tooltip">Por Ejemplo: Mandatario, Patria potestad, Tutor, Otros.</div>
                                     </div>
