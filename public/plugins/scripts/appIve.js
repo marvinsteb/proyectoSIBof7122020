@@ -859,6 +859,11 @@ function habilitaDepartamentoMunicipio(selectPais) {
                     );
                     $(otraCondicionMigratoria[0]).val(null);
                     otraCondicionMigratoria[0].disabled = true;
+                    $(otraCondicionMigratoria[0])
+                        .parent()
+                        .find("span")
+                        .removeClass("oculto");
+
                 }
             } else {
                 departamento[0].disabled = true;

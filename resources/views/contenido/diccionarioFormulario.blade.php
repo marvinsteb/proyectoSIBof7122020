@@ -105,7 +105,7 @@
                                 <!-- select departamento -->
                                 <div class="col-sm">
                                     <div class="form-group">
-                                        <label>Departamento</label>
+                                        <label>Departamento <span class="oculto">*</span></label>
                                         <select name="deptoCaMiCliente_1" id="deptoCaMiCliente_1" class="form-control custom-select deptoCaMiCliente getMunicipio select2" style="width: 100%" required disabled>
                                             <option value="" disabled selected>Selecciona</option>
                                             @foreach($departamentos as $departamento)
@@ -117,7 +117,7 @@
                                 <!-- select muni -->
                                 <div class="col-sm">
                                     <div class="form-group">
-                                        <label>Municipio</label>
+                                        <label>Municipio <span class="oculto">*</span></label>
                                         <select name="muniCaMiCliente_1" id="muniCaMiCliente_1" class="form-control custom-select muniCaMiCliente setMunicipio select2" style="width: 100%" required disabled>
                                             <option value="" disabled selected>Selecciona</option>
                                         </select>
