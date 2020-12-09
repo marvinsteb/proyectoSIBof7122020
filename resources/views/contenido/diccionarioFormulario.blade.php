@@ -126,7 +126,7 @@
                                 <!-- fecha -->
                                 <div class="col-sm">
                                     <div class="form-group">
-                                        <label>Fecha</label>
+                                        <label>Fecha <span>*</span></label>
                                         <div class="input-group date" id="fechaDoc_1" data-target-input="nearest">
                                             <input name="fechaDocCaMiCliente_1" id="fechaDocCaMiCliente_1" type="text" class="form-control datetimepicker-input fechaCaMi" data-target="#fechaDoc_1" required />
                                             <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
