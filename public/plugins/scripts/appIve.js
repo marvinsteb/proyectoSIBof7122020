@@ -148,7 +148,7 @@ function templatePais(
     if (deshabilitado == true) {
         selectDesabilitado = "disabled";
     }
-    let templatepais = $(`<label for="${id}">${textolabel}</label>
+    let templatepais = $(`<label for="${id}">${textolabel} <span>*</span></label>
                         <select name="${id}" id="${id}" class="form-control custom-select pais ${claseDeptoMuni} setPais ${clasesAdicionales} select2" style="width: 100%" required ${selectDesabilitado}>
                         <option value="" disabled selected>Selecciona</option>
                         </select>`);
@@ -164,7 +164,7 @@ function templatePais(
     return templatepais;
 }
 function templateDepartamento(id, textolabel) {
-    let cmDpto = $(` <label>${textolabel}</label>
+    let cmDpto = $(` <label>${textolabel} <span class="oculto">*</span></label>
                             <select name="depto${id}" id="depto${id}" class="form-control custom-select depto getMunicipio setDepartamento select2" style="width: 100%" required disabled>
                                 <option value="" disabled selected>Selecciona</option>
                             </select>`);
@@ -175,7 +175,7 @@ function templateDepartamento(id, textolabel) {
     return cmDpto;
 }
 function templateMunicipio(id, textolabel) {
-    let cmMuni = $(`<label>${textolabel}</label>
+    let cmMuni = $(`<label>${textolabel} <span class="oculto">*</span></label>
                         <select name="muni${id}" id="muni${id}" class="form-control custom-select muni setMunicipio select2" style="width: 100%" required disabled>
                             <option value="" disabled selected>Selecciona</option>
                         </select>`);
@@ -849,6 +849,7 @@ function habilitaDepartamentoMunicipio(selectPais) {
             let municipio = $(divPadre).find("select.setMunicipio");
             if (this.value == 1) {
                 departamento[0].disabled = false;
+                $(departamento[0]).parent().find("span").removeClass("oculto");
                 // verifica si existe el campo CondicionMigratoria
                 if (selectCondicionMig.length) {
                     selectCondicionMig[0].disabled = true;
@@ -861,9 +862,11 @@ function habilitaDepartamentoMunicipio(selectPais) {
                 }
             } else {
                 departamento[0].disabled = true;
+                $(departamento[0]).parent().find("span").addClass("oculto");
                 cargarDepartamentos($(departamento[0]));
                 municipio[0].disabled = true;
                 $(municipio[0]).empty();
+                $(municipio[0]).parent().find("span").addClass("oculto");
                 $(municipio[0]).append(
                     '<option value="" disabled selected>Selecciona</option>'
                 );
@@ -884,6 +887,7 @@ function cargarMunicipios(selectDeptos) {
                 .parent()
                 .find("select.setMunicipio");
             selectMuniActual[0].disabled = true;
+            $(selectMuniActual[0]).parent().find("span").removeClass("oculto");
             $(selectMuniActual[0]).empty();
             $(selectMuniActual[0]).append(
                 '<option value="" disabled selected>Selecciona</option>'
@@ -1530,7 +1534,6 @@ function templateCalidadActua(id, tipo) {
     return cmCA;
 }
 function templateLugarCM(id) {
-    //DocCaMi cambiar este id
     let camposLugar = $(`   <div class="row lugarFecha">
                                 <div class="col-sm-12 mb-3">
                                     <h4>II. LUGAR Y FECHA</h4>
@@ -1555,7 +1558,6 @@ function templateLugarCM(id) {
     return camposLugar;
 }
 function templateCamposMinimos(id, indice, tipo) {
-    console.log(tipo);
     let cm = $(`
                 <div class="card card-primary" id="${id}">
                     <div class="card-header">

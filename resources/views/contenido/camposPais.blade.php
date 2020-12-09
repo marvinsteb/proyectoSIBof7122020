@@ -1,6 +1,6 @@
 <div class="col-sm">
     <div class="form-group">
-        <label>País</label>
+        <label>País <span>*</span></label>
         <select name="pais{{$tipoCampo}}{{$tipo}}_{{$indice}}" id="pais{{$tipoCampo}}{{$tipo}}_{{$indice}}" class="form-control custom-select pais{{$tipoCampo}}{{$tipo}} deshabilitaDepartamentoMunicipio select2" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
             @foreach($paises as $pais)
@@ -16,7 +16,13 @@
 <!-- select departamento -->
 <div class="col-sm">
     <div class="form-group">
-        <label>Departamento</label>
+        <label>Departamento
+            @if($lugar["pais"] == 'GT')
+                <span>*</span>
+            @else
+                <span class="oculto">*</span>
+            @endif
+        </label>
         <select name="depto{{$tipoCampo}}{{$tipo}}_{{$indice}}" id="depto{{$tipoCampo}}{{$tipo}}_{{$indice}}" class="form-control custom-select depto{{$tipoCampo}}{{$tipo}} getMunicipio select2" style="width: 100%" required {{$lugar["pais"] == 'GT' ? '' : 'disabled'}}>
             <option value="" disabled selected>Selecciona</option>
             @foreach($departamentos as $departamento)
@@ -32,7 +38,13 @@
 <!-- select muni -->
 <div class="col-sm">
     <div class="form-group">
-        <label>Municipio</label>
+        <label>Municipio
+            @if($lugar["pais"] == 'GT')
+                <span>*</span>
+            @else
+                <span class="oculto">*</span>
+            @endif
+        </label>
         <select name="muni{{$tipoCampo}}{{$tipo}}_{{$indice}}" id="muni{{$tipoCampo}}{{$tipo}}_{{$indice}}" class="form-control custom-select muni{{$tipoCampo}}{{$tipo}} setMunicipio select2" style="width: 100%" required {{$lugar["pais"] == 'GT' ? '' : 'disabled'}}>
             <option value="" disabled selected>Selecciona</option>
             @foreach($municipios as $municipio)

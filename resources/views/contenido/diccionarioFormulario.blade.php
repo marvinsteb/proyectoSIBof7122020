@@ -93,7 +93,7 @@
                                 <!-- select pais -->
                                 <div class="col-sm">
                                     <div class="form-group">
-                                        <label>País</label>
+                                        <label>País <span>*</span></label>
                                         <select name="paisCaMiCliente_1" id="paisCaMiCliente_1" class="form-control custom-select paisCaMiCliente deshabilitaDepartamentoMunicipio select2" style="width: 100%" required>
                                             <option value="" disabled selected>Selecciona</option>
                                             @foreach($paises as $pais)
