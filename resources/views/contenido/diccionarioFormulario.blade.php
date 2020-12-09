@@ -154,7 +154,7 @@
                                         <div class="row">
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Primer Apellido</label>
+                                                    <label>Primer Apellido <span>*</span></label>
                                                     <input name="primerApellidoCliente_1" id="primerApellidoCliente_1" type="text" class="form-control primerApellido" placeholder="Primer Apellido ..." maxlength="15" required />
                                                 </div>
                                             </div>
@@ -173,7 +173,7 @@
                                             </div>
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Primer nombre</label>
+                                                    <label>Primer nombre <span>*</span></label>
                                                     <input name="primerNombreCliente_1" id="primerNombreCliente_1" type="text" class="form-control primerNombre" placeholder="Primer nombre ..." maxlength="15" required />
                                                 </div>
                                             </div>

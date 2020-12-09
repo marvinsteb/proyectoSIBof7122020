@@ -13,9 +13,6 @@ class MunicipioController extends Controller
         if($request->ajax())
         {
             $municipios = Municipio::municipioPorDepartamento($idDepartamento);
-            // $municipios = array(
-            //     'prueba' => 1
-            // );
             return response()->json($municipios);
         }
     }

@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <label>Primer Apellido</label>
+                    <label>Primer Apellido <span>*</span></label>
                     <input name="primerApellido{{$tipo}}_{{$indice}}" id="primerApellido{{$tipo}}_{{$indice}}" type="text" class="form-control primerApellido" placeholder="Primer Apellido ..." maxlength="15" required value="{{$datosPersonales->primerApellido}}" />
                 </div>
             </div>
@@ -30,7 +30,7 @@
             </div>
             <div class="col-sm">
                 <div class="form-group">
-                    <label>Primer nombre</label>
+                    <label>Primer nombre <span>*</span></label>
                     <input name="primerNombre{{$tipo}}_{{$indice}}" id="primerNombre{{$tipo}}_{{$indice}}" type="text" class="form-control primerNombre" placeholder="Primer nombre ..." maxlength="15" required value="{{$datosPersonales->primerNombre}}" />
                 </div>
             </div>

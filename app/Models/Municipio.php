@@ -19,6 +19,6 @@ class Municipio extends Model
 
     ];
     public static function municipioPorDepartamento($idDepartamento){
-        return Municipio::where('codigoDepartamento','=',$idDepartamento)->get();
+        return Municipio::select('idMunicipio','nombreMunicipio')->where('codigoDepartamento','=',$idDepartamento)->get();
     }
 }
