@@ -185,7 +185,7 @@ function templateMunicipio(id, textolabel) {
     return cmMuni;
 }
 function templateCondicionMigratoria(id) {
-    let cmCond = $(`<label>Condición migratoria</label>
+    let cmCond = $(`<label>Condición migratoria <span class="oculto">*</span></label>
                     <select name="condicionMigratoria${id}" id="condicionMigratoria${id}" class="form-control custom-select condicionMigratoria select2" style="width: 100%" disabled required>
                     <option value="" disabled selected>Selecciona</option>
                     </select>`);
@@ -853,6 +853,10 @@ function habilitaDepartamentoMunicipio(selectPais) {
                 // verifica si existe el campo CondicionMigratoria
                 if (selectCondicionMig.length) {
                     selectCondicionMig[0].disabled = true;
+                    $(selectCondicionMig[0])
+                        .parent()
+                        .find("label>span")
+                        .addClass("oculto");
                     $(selectCondicionMig[0]).empty();
                     $(selectCondicionMig[0]).append(
                         '<option value="" disabled selected>Selecciona</option>'
@@ -876,6 +880,10 @@ function habilitaDepartamentoMunicipio(selectPais) {
                 );
                 if (selectCondicionMig.length) {
                     selectCondicionMig[0].disabled = false;
+                    $(selectCondicionMig[0])
+                        .parent()
+                        .find("label>span")
+                        .removeClass("oculto");
                     cargarCondicionMigratoria($(selectCondicionMig[0]));
                 }
             }

@@ -69,7 +69,13 @@
             ])
             <div class="col-sm">
                 <div class="form-group">
-                    <label>Condición migratoria</label>
+                    <label>Condición migratoria
+                        @if(empty($datosPersonales->condicionMigratoria)) 
+                        <span class="oculto">*</span>
+                        @else
+                        <span>*</span>
+                        @endif
+                    </label>
                     <select name="condicionMigratoria{{$tipo}}_{{$indice}}" id="condicionMigratoria{{$tipo}}_{{$indice}}" class="form-control custom-select condicionMigratoria select2" style="width: 100%" {{empty($datosPersonales->condicionMigratoria) ? 'disabled' : ''}} require>
                         <option value="" disabled selected>Selecciona</option>
                         @foreach($listaCondicionMigratoria as $condicionMigratoria)

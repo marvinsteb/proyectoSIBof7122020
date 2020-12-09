@@ -245,7 +245,7 @@
                                             </div>
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Condición migratoria</label>
+                                                    <label>Condición migratoria <span class="oculto">*</span></label>
                                                     <select name="condicionMigratoriaCliente_1" id="condicionMigratoriaCliente_1" class="form-control custom-select condicionMigratoria select2" style="width: 100%" disabled required>
                                                         <option value="" disabled selected>Selecciona</option>
                                                         @foreach($listaCondicionMigratoria as $condicionMigratoria)
