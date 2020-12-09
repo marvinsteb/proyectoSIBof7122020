@@ -57,7 +57,7 @@
                                 <!-- fecha -->
                                 <div class="col-sm">
                                     <div class="form-group">
-                                        <label>Fecha</label>
+                                        <label>Fecha <span>*</span></label>
                                         <div class="input-group date" id="fechaDoc_{{$indice}}" data-target-input="nearest">
                                             <input name="fechaDocCaMi{{$tipo}}_{{$indice}}" id="fechaDocCaMi{{$tipo}}_{{$indice}}" type="text" class="form-control datetimepicker-input fechaCaMi{{$tipo}}" data-target="#fechaDoc_{{$indice}}" required value="{{\Carbon\Carbon::parse($titular["fecha"])->format('d/m/Y')}}" />
                                             <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
