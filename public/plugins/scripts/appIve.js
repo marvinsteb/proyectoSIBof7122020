@@ -23,11 +23,12 @@ function templateInputText(
     requerido,
     deshabilitado
 ) {
-    let tmNom = $(`<label>${textolabel}</label>
+    let tmNom = $(`<label>${textolabel} <span class="oculto">*</span></label>
                    <input name="${tipo}${id}" id="${tipo}${id}" type="text" class="form-control ${tipo}" placeholder="${textolabel} ..." maxlength="${tamanio}"/>`);
     tmNom = templateFormGroup(tmNom);
     if (requerido === true) {
         $(tmNom).find(`input#${tipo}${id}`).prop("required", true);
+        $(tmNom).find(`label> span`).removeClass("oculto");
     }
     if (deshabilitado === true) {
         $(tmNom).find(`input#${tipo}${id}`).prop("disabled", true);
@@ -198,7 +199,7 @@ function templateOtraCondicionMigratoria(id) {
     return cmOtraCM;
 }
 function templateFecha(id, nombre, textolabel, tamanio, requerido) {
-    let temCampoFecha = $(`<label>Fecha ${textolabel}</label>
+    let temCampoFecha = $(`<label>Fecha ${textolabel} <span>*</span></label>
                         <div class="input-group date" id="fecha${nombre}_${id}" data-target-input="nearest">
                             <input name="fecha${nombre}${id}" id="fecha${nombre}${id}" type="text" class="form-control ${nombre} datetimepicker-input" data-target="#fecha${nombre}_${id}" required />
                             <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
@@ -210,9 +211,8 @@ function templateFecha(id, nombre, textolabel, tamanio, requerido) {
                         </div>`);
     let cm = templateFormGroup(temCampoFecha, tamanio);
     if (requerido === false) {
-        let input = $(cm)
-            .find(`input#fecha${nombre}${id}`)
-            .prop("required", false);
+        $(cm).find(`input#fecha${nombre}${id}`).prop("required", false);
+        $(cm).find(`label>span`).addClass("oculto", false);
     }
     setFormatoFecha($(cm).find("div.date"));
     return cm;
@@ -863,7 +863,6 @@ function habilitaDepartamentoMunicipio(selectPais) {
                         .parent()
                         .find("span")
                         .removeClass("oculto");
-
                 }
             } else {
                 departamento[0].disabled = true;
@@ -917,7 +916,7 @@ function cargarDepartamentos(selectDepartamentos) {
         getDepartamentos(function (departamentos) {
             departamentos.forEach(function (depto) {
                 $(selectDepartamentos[i]).append(
-                    `<option value=${depto.codigoDepartamento}> ${depto.nombreDepartamento} </option>`
+                    `<option value=${depto.codigoDepartamento}>${depto.nombreDepartamento}</option>`
                 );
             });
         });
