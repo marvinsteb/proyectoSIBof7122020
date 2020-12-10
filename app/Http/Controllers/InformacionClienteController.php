@@ -55,39 +55,39 @@ class InformacionClienteController extends Controller
     {
 
         $camposMinimos = [
-            'primerApellido' => strtoupper($datosPersonales["primerApellido"]),
-            'segundoApellido' => empty($datosPersonales["segundoApellido"]) ? 'SOA' : strtoupper($datosPersonales["segundoApellido"]),
-            'apellidoCasada' => strtoupper($datosPersonales["apellidoCasada"]),
-            'primerNombre' => strtoupper($datosPersonales["primerNombre"]),
-            'segundoNombre' => empty($datosPersonales["segundoNombre"]) ? 'SON' : strtoupper($datosPersonales["segundoNombre"]),
-            'otrosNombres' => strtoupper($datosPersonales["otrosNombres"]),
+            'primerApellido' => mb_strtoupper($datosPersonales["primerApellido"]),
+            'segundoApellido' => empty($datosPersonales["segundoApellido"]) ? 'SOA' : mb_strtoupper($datosPersonales["segundoApellido"]),
+            'apellidoCasada' => mb_strtoupper($datosPersonales["apellidoCasada"]),
+            'primerNombre' => mb_strtoupper($datosPersonales["primerNombre"]),
+            'segundoNombre' => empty($datosPersonales["segundoNombre"]) ? 'SON' : mb_strtoupper($datosPersonales["segundoNombre"]),
+            'otrosNombres' => mb_strtoupper($datosPersonales["otrosNombres"]),
             'fechaNacimiento' => $this->formatoFechaDB(
                 $datosPersonales["fechaNacimiento"]
             ),
             'nacimiento' => $this->guardarLugar($datosPersonales["nacimiento"]),
             'condicionMigratoria' => $datosPersonales["condicionMigratoria"],
-            'otraCondicionMigratoria' => strtoupper($datosPersonales["otraCondicionMigratoria"]),
-            'sexo' => strtoupper($datosPersonales["sexo"]),
-            'estadoCivil' => strtoupper($datosPersonales["estadoCivil"]),
-            'nit' => strtoupper($datosPersonales["nit"]),
-            'profesionOficio' => strtoupper($datosPersonales["profesionOficio"]),
-            'tipoDocumentoIdentificacion' => strtoupper($datosPersonales["tipoDocumentoIdentificacion"]),
-            'numeroDocumentoIdentificacion' => strtoupper($datosPersonales["numeroDocumentoIdentificacion"]),
+            'otraCondicionMigratoria' => mb_strtoupper($datosPersonales["otraCondicionMigratoria"]),
+            'sexo' => mb_strtoupper($datosPersonales["sexo"]),
+            'estadoCivil' => mb_strtoupper($datosPersonales["estadoCivil"]),
+            'nit' => mb_strtoupper($datosPersonales["nit"]),
+            'profesionOficio' => mb_strtoupper($datosPersonales["profesionOficio"]),
+            'tipoDocumentoIdentificacion' => mb_strtoupper($datosPersonales["tipoDocumentoIdentificacion"]),
+            'numeroDocumentoIdentificacion' => mb_strtoupper($datosPersonales["numeroDocumentoIdentificacion"]),
             'emisionPasaporte' => $datosPersonales["emisionPasaporte"],
-            'email' => strtoupper($datosPersonales["email"]),
-            'direccionResidencia' => strtoupper($datosPersonales["direccionResidencia"]),
+            'email' => mb_strtoupper($datosPersonales["email"]),
+            'direccionResidencia' => mb_strtoupper($datosPersonales["direccionResidencia"]),
             'residencia' => $this->guardarLugar($datosPersonales["residencia"]),
-            'pep' => strtoupper($datosPersonales["pep"]),
-            'parienteAsociadoPep' => strtoupper($datosPersonales["parienteAsociadoPep"]),
-            'cpe' => strtoupper($datosPersonales["cpe"])
+            'pep' => mb_strtoupper($datosPersonales["pep"]),
+            'parienteAsociadoPep' => mb_strtoupper($datosPersonales["parienteAsociadoPep"]),
+            'cpe' => mb_strtoupper($datosPersonales["cpe"])
         ];
         if ($camposMinimos["pep"] == "S") {
             $obpep = DatosPep::updateOrCreate(['idDatosPep' => $datosPersonales["datospep"]["idDatosPep"]], [
-                'entidad' => strtoupper($datosPersonales["datospep"]["entidad"]),
-                'puestoDesempenia' => strtoupper($datosPersonales["datospep"]["puestoDesempenia"]),
-                'paisEntidad' => strtoupper($datosPersonales["datospep"]["paisEntidad"]),
-                'origenRiqueza' => strtoupper($datosPersonales["datospep"]["origenRiqueza"]),
-                'otroOrigenRiqueza' => strtoupper($datosPersonales["datospep"]["otroOrigenRiqueza"]),
+                'entidad' => mb_strtoupper($datosPersonales["datospep"]["entidad"]),
+                'puestoDesempenia' => mb_strtoupper($datosPersonales["datospep"]["puestoDesempenia"]),
+                'paisEntidad' => mb_strtoupper($datosPersonales["datospep"]["paisEntidad"]),
+                'origenRiqueza' => mb_strtoupper($datosPersonales["datospep"]["origenRiqueza"]),
+                'otroOrigenRiqueza' => mb_strtoupper($datosPersonales["datospep"]["otroOrigenRiqueza"]),
             ]);
             $camposMinimos['datosPep'] = $obpep->idDatosPep;
         } else {
@@ -107,20 +107,20 @@ class InformacionClienteController extends Controller
 
             foreach ($arrayDatosParienteAsociadoPep as $parienteAsociadoPep) {
                 $datos = $parienteAsociadoPep;
-                $datos["parentesco"] = strtoupper($datos["parentesco"]);
-                $datos["otroParentesco"] = strtoupper($datos["otroParentesco"]);
-                $datos["motivoAsociacion"] = strtoupper($datos["motivoAsociacion"]);
-                $datos["otroMotivoAsociacion"] = strtoupper($datos["otroMotivoAsociacion"]);
-                $datos["primerApellido"] = strtoupper($datos["primerApellido"]);
-                $datos["segundoApellido"] = empty($datos["segundoApellido"]) ? 'SOA' : strtoupper($datos["segundoApellido"]);
-                $datos["apellidoCasada"] = strtoupper($datos["apellidoCasada"]);
-                $datos["primerNombre"] = strtoupper($datos["primerNombre"]);
-                $datos["segundoNombre"] = empty($datos["segundoNombre"]) ? 'SON' : strtoupper($datos["segundoNombre"]);
-                $datos["otrosNombres"] = strtoupper($datos["otrosNombres"]);
-                $datos["sexo"] = strtoupper($datos["sexo"]);
-                $datos["condicion"] = strtoupper($datos["condicion"]);
-                $datos["entidad"] = strtoupper($datos["entidad"]);
-                $datos["puestoDesempenia"] = strtoupper($datos["puestoDesempenia"]);
+                $datos["parentesco"] = mb_strtoupper($datos["parentesco"]);
+                $datos["otroParentesco"] = mb_strtoupper($datos["otroParentesco"]);
+                $datos["motivoAsociacion"] = mb_strtoupper($datos["motivoAsociacion"]);
+                $datos["otroMotivoAsociacion"] = mb_strtoupper($datos["otroMotivoAsociacion"]);
+                $datos["primerApellido"] = mb_strtoupper($datos["primerApellido"]);
+                $datos["segundoApellido"] = empty($datos["segundoApellido"]) ? 'SOA' : mb_strtoupper($datos["segundoApellido"]);
+                $datos["apellidoCasada"] = mb_strtoupper($datos["apellidoCasada"]);
+                $datos["primerNombre"] = mb_strtoupper($datos["primerNombre"]);
+                $datos["segundoNombre"] = empty($datos["segundoNombre"]) ? 'SON' : mb_strtoupper($datos["segundoNombre"]);
+                $datos["otrosNombres"] = mb_strtoupper($datos["otrosNombres"]);
+                $datos["sexo"] = mb_strtoupper($datos["sexo"]);
+                $datos["condicion"] = mb_strtoupper($datos["condicion"]);
+                $datos["entidad"] = mb_strtoupper($datos["entidad"]);
+                $datos["puestoDesempenia"] = mb_strtoupper($datos["puestoDesempenia"]);
                 $idDatosParAsoPep = DatosParienteAsociadoPep::updateOrCreate(['idDatosParienteAsociadoPep' => $datos["idDatosParienteAsociadoPep"]], $datos);
                 $oPAP = ParienteAsociadoPep::updateOrCreate([
                     'idDatosPersonales' => $idClienteCamposMinimos,
@@ -197,10 +197,10 @@ class InformacionClienteController extends Controller
                     $obFuenteIngresos['otrasFuentesIngreso'] = $info['otrasFuentesIngreso'];
                     break;
             }
-            $obFuenteIngresos["tipo"] = strtoupper($obFuenteIngresos["tipo"]);
-            $obFuenteIngresos["nombreComercial"] = strtoupper($obFuenteIngresos["nombreComercial"]);
-            $obFuenteIngresos["nombreEmpleador"] = strtoupper($obFuenteIngresos["nombreEmpleador"]);
-            $obFuenteIngresos["otrasFuentesIngreso"] = strtoupper($obFuenteIngresos["otrasFuentesIngreso"]);
+            $obFuenteIngresos["tipo"] = mb_strtoupper($obFuenteIngresos["tipo"]);
+            $obFuenteIngresos["nombreComercial"] = mb_strtoupper($obFuenteIngresos["nombreComercial"]);
+            $obFuenteIngresos["nombreEmpleador"] = mb_strtoupper($obFuenteIngresos["nombreEmpleador"]);
+            $obFuenteIngresos["otrasFuentesIngreso"] = mb_strtoupper($obFuenteIngresos["otrasFuentesIngreso"]);
             FuenteIngresos::updateOrCreate($obFuenteIngresos, $obFuenteIngresos);
         }
     }
@@ -210,7 +210,7 @@ class InformacionClienteController extends Controller
             ['idInformacionEconomicaInicial' => $infoEconomica["idInformacionEconomicaInicial"]],
             [
                 'montoIngresos' => $infoEconomica["montoIngresos"],
-                'propositoRC' => strtoupper($infoEconomica["propositoRC"])
+                'propositoRC' => mb_strtoupper($infoEconomica["propositoRC"])
             ]
         );
         // $listaFuenteIngresos = FuenteIngresos::where('idInformacionEconomicaInicial','=',$obInfoEcoIni->idInformacionEconomicaInicial)->get()->pluck('idFuenteIngresos','idFuenteIngresos')->toArray();
@@ -250,13 +250,13 @@ class InformacionClienteController extends Controller
                         ],
                         [
                             'idPerfilEconomicoTransaccional'=>$idObpet,
-                            'nombreComercial'=>strtoupper($ngp["nombreComercial"]),
-                            'principalActividadEconomica'=>strtoupper($ngp["principalActividadEconomica"]),
+                            'nombreComercial'=>mb_strtoupper($ngp["nombreComercial"]),
+                            'principalActividadEconomica'=>mb_strtoupper($ngp["principalActividadEconomica"]),
                             'fechaInscripcionNegocio'=>empty($ngp["fechaInscripcionNegocio"]) ? null :$this->formatoFechaDB($ngp["fechaInscripcionNegocio"]),
                             'numeroRegistro'=>$ngp["numeroRegistro"],
                             'folio'=>$ngp["folio"],
                             'libro'=>$ngp["libro"],
-                            'direccionNegocio'=>strtoupper($ngp["direccionNegocio"]),
+                            'direccionNegocio'=>mb_strtoupper($ngp["direccionNegocio"]),
                             'lugar'=>$this->guardarLugar($ngp["lugar"]),
                             'tipoMoneda'=>$ngp["tipoMoneda"],
                             'montoAproximado'=>$ngp["montoAproximado"]
@@ -284,11 +284,11 @@ class InformacionClienteController extends Controller
                         ],
                         [
                             'idPerfilEconomicoTransaccional' => $idObpet,
-                            'sector' => strtoupper($prd["sector"]),
-                            'nombreEmpleador' => strtoupper($prd["nombreEmpleador"]),
-                            'principalActividadEconomicaEmpleador' => strtoupper($prd["priActEcoE"]),
-                            'puestoDesempenia' => strtoupper($prd["puestoDesempenia"]),
-                            'direccionEmpleador' => strtoupper($prd["direccionEmpleador"]),
+                            'sector' => mb_strtoupper($prd["sector"]),
+                            'nombreEmpleador' => mb_strtoupper($prd["nombreEmpleador"]),
+                            'principalActividadEconomicaEmpleador' => mb_strtoupper($prd["priActEcoE"]),
+                            'puestoDesempenia' => mb_strtoupper($prd["puestoDesempenia"]),
+                            'direccionEmpleador' => mb_strtoupper($prd["direccionEmpleador"]),
                             'lugar' => $this->guardarLugar($prd["lugar"]),
                             'tipoMoneda'=>$prd["tipoMoneda"],
                             'montoAproximado'=>$prd["montoAproximado"]
@@ -317,7 +317,7 @@ class InformacionClienteController extends Controller
                         [
                             'idPerfilEconomicoTransaccional'=>$idObpet,
                             'tipoOtrosIngresos'=>$peoi["tipoOI"],
-                            'detalleOtrosIngresos'=>strtoupper($peoi["detalleOI"]),
+                            'detalleOtrosIngresos'=>mb_strtoupper($peoi["detalleOI"]),
                             'tipoMoneda'=>$peoi["tipoMoneda"],
                             'montoAproximado'=>$peoi["montoAproximado"]
                         ]
@@ -345,7 +345,7 @@ class InformacionClienteController extends Controller
                         [
                             'idPerfilEconomicoTransaccional'=>$idObpet,
                             'fecha'=>$this->formatoFechaDB($dpt["fecha"]),
-                            'productoServicio'=>strtoupper($dpt["productoServicio"]),
+                            'productoServicio'=>mb_strtoupper($dpt["productoServicio"]),
                             'tipoMoneda'=>$dpt["tipoMoneda"],
                             'montoPromedioMensual'=>$dpt["montoPromedioMensual"]
                         ]
@@ -385,11 +385,11 @@ class InformacionClienteController extends Controller
                     [
                         'lugar' => $this->guardarLugar($productoServicio["lugar"]),
                         'fecha' => $this->formatoFechaDB($productoServicio["fecha"]),
-                        'tipo' => strtoupper($productoServicio["tipo"]),
-                        'nombre' => strtoupper($productoServicio["nombre"]),
-                        'descripcion' => strtoupper($productoServicio["descripcion"]),
-                        'identificador' => strtoupper($productoServicio["identificador"]),
-                        'nombreContrata' => strtoupper($productoServicio["nombreContrata"]),
+                        'tipo' => mb_strtoupper($productoServicio["tipo"]),
+                        'nombre' => mb_strtoupper($productoServicio["nombre"]),
+                        'descripcion' => mb_strtoupper($productoServicio["descripcion"]),
+                        'identificador' => mb_strtoupper($productoServicio["identificador"]),
+                        'nombreContrata' => mb_strtoupper($productoServicio["nombreContrata"]),
                         'moneda' => $productoServicio["moneda"],
                         'valor' => $productoServicio["valor"]
                     ]
@@ -869,14 +869,14 @@ class InformacionClienteController extends Controller
     public function guardarCamposMinimos($requesCamposMinimos)
     {
         $camposMinimos = [
-            'tipoActuacion' => strtoupper($requesCamposMinimos["tipoActuacion"]),
+            'tipoActuacion' => mb_strtoupper($requesCamposMinimos["tipoActuacion"]),
             'lugar' => $this->guardarLugar($requesCamposMinimos["lugar"]),
             'fecha' => $this->formatoFechaDB($requesCamposMinimos["fecha"]),
             'cliente' => $this->guardarDatosPersonales($requesCamposMinimos["cliente"]),
             'infoEconomica' => $this->guardarInformacionEconomica($requesCamposMinimos["infoEconomicaInical"]),
         ];
         if ($camposMinimos["tipoActuacion"] == "R") {
-            $camposMinimos["calidadActua"] = strtoupper($requesCamposMinimos["calidadActua"]);
+            $camposMinimos["calidadActua"] = mb_strtoupper($requesCamposMinimos["calidadActua"]);
             $camposMinimos["representante"] =  $this->guardarDatosPersonales($requesCamposMinimos["representante"]);
         }else{
             $camposMinimos["representante"] = null;
