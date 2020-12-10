@@ -849,7 +849,10 @@ function habilitaDepartamentoMunicipio(selectPais) {
             let municipio = $(divPadre).find("select.setMunicipio");
             if (this.value == 1) {
                 departamento[0].disabled = false;
-                $(departamento[0]).parent().find("span").removeClass("oculto");
+                $(departamento[0])
+                    .parent()
+                    .find("label>span")
+                    .removeClass("oculto");
                 // verifica si existe el campo CondicionMigratoria
                 if (selectCondicionMig.length) {
                     selectCondicionMig[0].disabled = true;
@@ -865,16 +868,19 @@ function habilitaDepartamentoMunicipio(selectPais) {
                     otraCondicionMigratoria[0].disabled = true;
                     $(otraCondicionMigratoria[0])
                         .parent()
-                        .find("span")
+                        .find("label>span")
                         .removeClass("oculto");
                 }
             } else {
                 departamento[0].disabled = true;
-                $(departamento[0]).parent().find("span").addClass("oculto");
+                $(departamento[0])
+                    .parent()
+                    .find("label>span")
+                    .addClass("oculto");
                 cargarDepartamentos($(departamento[0]));
                 municipio[0].disabled = true;
                 $(municipio[0]).empty();
-                $(municipio[0]).parent().find("span").addClass("oculto");
+                $(municipio[0]).parent().find("label>span").addClass("oculto");
                 $(municipio[0]).append(
                     '<option value="" disabled selected>Selecciona</option>'
                 );
@@ -899,7 +905,10 @@ function cargarMunicipios(selectDeptos) {
                 .parent()
                 .find("select.setMunicipio");
             selectMuniActual[0].disabled = true;
-            $(selectMuniActual[0]).parent().find("span").removeClass("oculto");
+            $(selectMuniActual[0])
+                .parent()
+                .find("label>span")
+                .removeClass("oculto");
             $(selectMuniActual[0]).empty();
             $(selectMuniActual[0]).append(
                 '<option value="" disabled selected>Selecciona</option>'
