@@ -227,39 +227,41 @@ class InformacionClienteController extends Controller
 
         return $obInfoEcoIni->idInformacionEconomicaInicial;
     }
-    
-    public function guardarPerfilEconomicoTransaccional($perEco,$idDiccionarioFormulario){
-        if (!empty($perEco)){
-            $obpet =PerfilEconomicoTransaccional::updateOrCreate(
-                ['idPerfilEconomicoTransaccional'=>$perEco["idPerfilEconomicoTransaccional"]],
+
+    public function guardarPerfilEconomicoTransaccional($perEco, $idDiccionarioFormulario)
+    {
+        if (!empty($perEco)) {
+            $obpet = PerfilEconomicoTransaccional::updateOrCreate(
+                ['idPerfilEconomicoTransaccional' => $perEco["idPerfilEconomicoTransaccional"]],
                 [
-                    'idDiccionarioFormulario'=>$idDiccionarioFormulario,
-                    'actualizacion'=>$perEco["actualizacion"],
-                    'fecha'=>$this->formatoFechaDB($perEco["fecha"])
-                ]);
+                    'idDiccionarioFormulario' => $idDiccionarioFormulario,
+                    'actualizacion' => $perEco["actualizacion"],
+                    'fecha' => $this->formatoFechaDB($perEco["fecha"])
+                ]
+            );
             $idObpet = $obpet->idPerfilEconomicoTransaccional;
-            
+
 
             // negocio propio 
             $listapenp = PerfilEconomicoNegocioPropio::where('idPerfilEconomicoTransaccional', '=',  $idObpet)->get()->pluck('idDiccionarioPerfilEconomicoNegocioPropio', 'idDiccionarioPerfilEconomicoNegocioPropio')->toArray();
-            if(!empty($perEco["negocioPropio"])){
+            if (!empty($perEco["negocioPropio"])) {
                 foreach ($perEco["negocioPropio"] as $ngp) {
                     $obpenp = PerfilEconomicoNegocioPropio::updateOrCreate(
                         [
-                            'idDiccionarioPerfilEconomicoNegocioPropio'=>$ngp['idDiccionarioPerfilEconomicoNegocioPropio']
+                            'idDiccionarioPerfilEconomicoNegocioPropio' => $ngp['idDiccionarioPerfilEconomicoNegocioPropio']
                         ],
                         [
-                            'idPerfilEconomicoTransaccional'=>$idObpet,
-                            'nombreComercial'=>mb_strtoupper($ngp["nombreComercial"]),
-                            'principalActividadEconomica'=>mb_strtoupper($ngp["principalActividadEconomica"]),
-                            'fechaInscripcionNegocio'=>empty($ngp["fechaInscripcionNegocio"]) ? null :$this->formatoFechaDB($ngp["fechaInscripcionNegocio"]),
-                            'numeroRegistro'=>$ngp["numeroRegistro"],
-                            'folio'=>$ngp["folio"],
-                            'libro'=>$ngp["libro"],
-                            'direccionNegocio'=>mb_strtoupper($ngp["direccionNegocio"]),
-                            'lugar'=>$this->guardarLugar($ngp["lugar"]),
-                            'tipoMoneda'=>$ngp["tipoMoneda"],
-                            'montoAproximado'=>$ngp["montoAproximado"]
+                            'idPerfilEconomicoTransaccional' => $idObpet,
+                            'nombreComercial' => mb_strtoupper($ngp["nombreComercial"]),
+                            'principalActividadEconomica' => mb_strtoupper($ngp["principalActividadEconomica"]),
+                            'fechaInscripcionNegocio' => empty($ngp["fechaInscripcionNegocio"]) ? null : $this->formatoFechaDB($ngp["fechaInscripcionNegocio"]),
+                            'numeroRegistro' => $ngp["numeroRegistro"],
+                            'folio' => $ngp["folio"],
+                            'libro' => $ngp["libro"],
+                            'direccionNegocio' => mb_strtoupper($ngp["direccionNegocio"]),
+                            'lugar' => $this->guardarLugar($ngp["lugar"]),
+                            'tipoMoneda' => $ngp["tipoMoneda"],
+                            'montoAproximado' => $ngp["montoAproximado"]
                         ]
                     );
                     if (!empty($listapenp[$obpenp->idDiccionarioPerfilEconomicoNegocioPropio])) {
@@ -269,18 +271,18 @@ class InformacionClienteController extends Controller
                 if (count($listapenp)) {
                     PerfilEconomicoNegocioPropio::whereRaw(sprintf('idDiccionarioPerfilEconomicoNegocioPropio IN (%s)', implode(',', $listapenp)))->delete();
                 }
-            }else{
+            } else {
                 if (count($listapenp)) {
                     PerfilEconomicoNegocioPropio::whereRaw(sprintf('idDiccionarioPerfilEconomicoNegocioPropio IN (%s)', implode(',', $listapenp)))->delete();
                 }
             }
             //relacion de dependencia 
             $listaPerfilErd = PerfilEconomicoRelacionDependencia::where('idPerfilEconomicoTransaccional', '=',  $idObpet)->get()->pluck('idPerfilEconommicoRelacionDependencia', 'idPerfilEconommicoRelacionDependencia')->toArray();
-            if(!empty($perEco["relacionDependencia"])){
+            if (!empty($perEco["relacionDependencia"])) {
                 foreach ($perEco["relacionDependencia"] as $prd) {
                     $oprd = PerfilEconomicoRelacionDependencia::updateOrCreate(
                         [
-                            'idPerfilEconommicoRelacionDependencia'=>$prd['idPerd']
+                            'idPerfilEconommicoRelacionDependencia' => $prd['idPerd']
                         ],
                         [
                             'idPerfilEconomicoTransaccional' => $idObpet,
@@ -290,8 +292,8 @@ class InformacionClienteController extends Controller
                             'puestoDesempenia' => mb_strtoupper($prd["puestoDesempenia"]),
                             'direccionEmpleador' => mb_strtoupper($prd["direccionEmpleador"]),
                             'lugar' => $this->guardarLugar($prd["lugar"]),
-                            'tipoMoneda'=>$prd["tipoMoneda"],
-                            'montoAproximado'=>$prd["montoAproximado"]
+                            'tipoMoneda' => $prd["tipoMoneda"],
+                            'montoAproximado' => $prd["montoAproximado"]
                         ]
                     );
                     if (!empty($listaPerfilErd[$oprd->idPerfilEconommicoRelacionDependencia])) {
@@ -301,25 +303,25 @@ class InformacionClienteController extends Controller
                 if (count($listaPerfilErd)) {
                     PerfilEconomicoRelacionDependencia::whereRaw(sprintf('idPerfilEconommicoRelacionDependencia IN (%s)', implode(',', $listaPerfilErd)))->delete();
                 }
-            }else{
+            } else {
                 if (count($listaPerfilErd)) {
                     PerfilEconomicoRelacionDependencia::whereRaw(sprintf('idPerfilEconommicoRelacionDependencia IN (%s)', implode(',', $listaPerfilErd)))->delete();
                 }
             }
             // otros ingresos
             $listapeoi = PerfilEconomicoOtrosIngresos::where('idPerfilEconomicoTransaccional', '=',  $idObpet)->get()->pluck('idPerfilEconomicoOtrosIngresos', 'idPerfilEconomicoOtrosIngresos')->toArray();
-            if(!empty($perEco["otrosIngresos"])){
+            if (!empty($perEco["otrosIngresos"])) {
                 foreach ($perEco["otrosIngresos"] as $peoi) {
                     $obpenp = PerfilEconomicoOtrosIngresos::updateOrCreate(
                         [
-                            'idPerfilEconomicoOtrosIngresos'=>$peoi["idOI"]
+                            'idPerfilEconomicoOtrosIngresos' => $peoi["idOI"]
                         ],
                         [
-                            'idPerfilEconomicoTransaccional'=>$idObpet,
-                            'tipoOtrosIngresos'=>$peoi["tipoOI"],
-                            'detalleOtrosIngresos'=>mb_strtoupper($peoi["detalleOI"]),
-                            'tipoMoneda'=>$peoi["tipoMoneda"],
-                            'montoAproximado'=>$peoi["montoAproximado"]
+                            'idPerfilEconomicoTransaccional' => $idObpet,
+                            'tipoOtrosIngresos' => $peoi["tipoOI"],
+                            'detalleOtrosIngresos' => mb_strtoupper($peoi["detalleOI"]),
+                            'tipoMoneda' => $peoi["tipoMoneda"],
+                            'montoAproximado' => $peoi["montoAproximado"]
                         ]
                     );
                     if (!empty($listapeoi[$obpenp->idPerfilEconomicoOtrosIngresos])) {
@@ -329,34 +331,34 @@ class InformacionClienteController extends Controller
                 if (count($listapeoi)) {
                     PerfilEconomicoOtrosIngresos::whereRaw(sprintf('idPerfilEconomicoOtrosIngresos IN (%s)', implode(',', $listapeoi)))->delete();
                 }
-            }else{
+            } else {
                 if (count($listapeoi)) {
                     PerfilEconomicoOtrosIngresos::whereRaw(sprintf('idPerfilEconomicoOtrosIngresos IN (%s)', implode(',', $listapeoi)))->delete();
                 }
             }
             // perfil transaccional 
             $listapt = DiccionarioPerfilTransaccional::where('idPerfilEconomicoTransaccional', '=',  $idObpet)->get()->pluck('idDiccionarioPerfilTransaccional', 'idDiccionarioPerfilTransaccional')->toArray();
-            if(!empty($perEco["perfilTransaccional"])){
+            if (!empty($perEco["perfilTransaccional"])) {
                 foreach ($perEco["perfilTransaccional"] as $dpt) {
                     $obdpt = DiccionarioPerfilTransaccional::updateOrCreate(
                         [
-                            'idDiccionarioPerfilTransaccional'=>$dpt["iddpet"]
+                            'idDiccionarioPerfilTransaccional' => $dpt["iddpet"]
                         ],
                         [
-                            'idPerfilEconomicoTransaccional'=>$idObpet,
-                            'fecha'=>$this->formatoFechaDB($dpt["fecha"]),
-                            'productoServicio'=>mb_strtoupper($dpt["productoServicio"]),
-                            'tipoMoneda'=>$dpt["tipoMoneda"],
-                            'montoPromedioMensual'=>$dpt["montoPromedioMensual"]
+                            'idPerfilEconomicoTransaccional' => $idObpet,
+                            'fecha' => $this->formatoFechaDB($dpt["fecha"]),
+                            'productoServicio' => mb_strtoupper($dpt["productoServicio"]),
+                            'tipoMoneda' => $dpt["tipoMoneda"],
+                            'montoPromedioMensual' => $dpt["montoPromedioMensual"]
                         ]
                     );
-                    PrincipalesUbicacionesGeograficas::where('idDiccionarioPerfilTransaccional',$obdpt->idDiccionarioPerfilTransaccional)->delete();
+                    PrincipalesUbicacionesGeograficas::where('idDiccionarioPerfilTransaccional', $obdpt->idDiccionarioPerfilTransaccional)->delete();
                     foreach ($dpt["pubGeo"] as $lugar) {
                         $idLugar = $this->guardarLugar($lugar);
                         PrincipalesUbicacionesGeograficas::updateOrCreate([
-                                                                'idDiccionarioPerfilTransaccional'=>$obdpt->idDiccionarioPerfilTransaccional,
-                                                                'idLugar'=> $idLugar
-                                                            ]);
+                            'idDiccionarioPerfilTransaccional' => $obdpt->idDiccionarioPerfilTransaccional,
+                            'idLugar' => $idLugar
+                        ]);
                     }
                     if (!empty($listapt[$obdpt->idDiccionarioPerfilTransaccional])) {
                         unset($listapt[$obdpt->idDiccionarioPerfilTransaccional]);
@@ -365,9 +367,8 @@ class InformacionClienteController extends Controller
                 if (count($listapt)) {
                     PrincipalesUbicacionesGeograficas::whereRaw(sprintf('idDiccionarioPerfilTransaccional IN (%s)', implode(',', $listapt)))->delete();
                     DiccionarioPerfilTransaccional::whereRaw(sprintf('idDiccionarioPerfilTransaccional IN (%s)', implode(',', $listapt)))->delete();
-
                 }
-            }else{
+            } else {
                 if (count($listapt)) {
                     PrincipalesUbicacionesGeograficas::whereRaw(sprintf('idDiccionarioPerfilTransaccional IN (%s)', implode(',', $listapt)))->delete();
                     DiccionarioPerfilTransaccional::whereRaw(sprintf('idDiccionarioPerfilTransaccional IN (%s)', implode(',', $listapt)))->delete();
@@ -400,7 +401,7 @@ class InformacionClienteController extends Controller
                 if (!empty($productoServicio["beneficiarios"])) {
                     foreach ($productoServicio["beneficiarios"] as $beneficiario) {
                         $idBeneficiario =  $this->guardarCamposMinimos($beneficiario);
-                       $obB =  Beneficiario::updateOrCreate([
+                        $obB =  Beneficiario::updateOrCreate([
                             'idProductoServicio' => $idProductoServicio,
                             'idCamposMinimos' =>  $idBeneficiario
                         ], [
@@ -414,17 +415,17 @@ class InformacionClienteController extends Controller
                     if (count($listaBenef)) {
                         Beneficiario::whereRaw(sprintf('idBeneficiario IN (%s)', implode(',', $listaBenef)))->delete();
                     }
-                }else{
-                        if (count($listaBenef)) {
-                            Beneficiario::whereRaw(sprintf('idBeneficiario IN (%s)', implode(',', $listaBenef)))->delete();
-                        }
+                } else {
+                    if (count($listaBenef)) {
+                        Beneficiario::whereRaw(sprintf('idBeneficiario IN (%s)', implode(',', $listaBenef)))->delete();
+                    }
                 }
                 //otros firmantes
                 $listaOtFi = OtrosFirmantes::where('idProductoServicio', '=', $idProductoServicio)->get()->pluck('idOtrosFirmantes', 'idOtrosFirmantes')->toArray();
                 if (!empty($productoServicio["otrosFirmantes"])) {
                     foreach ($productoServicio["otrosFirmantes"] as $of) {
                         $idOtrosFirmantes =  $this->guardarCamposMinimosFirmante($of);
-                       $oOF =  OtrosFirmantes::updateOrCreate([
+                        $oOF =  OtrosFirmantes::updateOrCreate([
                             'idCamposMinimosFirmante' =>  $idOtrosFirmantes,
                             'idProductoServicio' => $idProductoServicio
                         ], [
@@ -438,11 +439,11 @@ class InformacionClienteController extends Controller
                     if (count($listaOtFi)) {
                         OtrosFirmantes::whereRaw(sprintf('idOtrosFirmantes IN (%s)', implode(',', $listaOtFi)))->delete();
                     }
-                }else {
+                } else {
                     if (count($listaOtFi)) {
                         OtrosFirmantes::whereRaw(sprintf('idOtrosFirmantes IN (%s)', implode(',', $listaOtFi)))->delete();
                     }
-                } 
+                }
                 $obPS = DiccionarioProductoServicio::updateOrCreate([
                     'idDiccionarioFormulario' => $idDiccionarioFormulario,
                     'idProductoServicio' => $idProductoServicio,
@@ -451,11 +452,11 @@ class InformacionClienteController extends Controller
                     unset($listaProductos[$obPS->idDiccionarioProductoServicio]);
                 }
             }
-             if (count($listaProductos)) {
+            if (count($listaProductos)) {
                 DiccionarioProductoServicio::whereRaw(sprintf('idDiccionarioProductoServicio IN (%s)', implode(',', $listaProductos)))->delete();
             }
-        }else{
-             if (count($listaProductos)) {
+        } else {
+            if (count($listaProductos)) {
                 DiccionarioProductoServicio::whereRaw(sprintf('idDiccionarioProductoServicio IN (%s)', implode(',', $listaProductos)))->delete();
             }
         }
@@ -521,7 +522,7 @@ class InformacionClienteController extends Controller
     {
         return Pais::select("codigoPais")->where('idPais', '=', $idPais)->get()[0]["codigoPais"];
     }
-    public function queryDatosParienteAsociadoPep($idDatosPersonales,$jsonive)
+    public function queryDatosParienteAsociadoPep($idDatosPersonales, $jsonive)
     {
         $arrParienteAsociadoPep = ParienteAsociadoPep::select('datosParienteAsociadoPep.*')
             ->join('datosParienteAsociadoPep', 'datosParienteAsociadoPep.idDatosParienteAsociadoPep', '=', 'parienteAsociadoPep.idDatosParienteAsociadoPep')
@@ -534,7 +535,7 @@ class InformacionClienteController extends Controller
             if ($dt["otrosNombres"] == null) {
                 $dt["otrosNombres"] = "";
             }
-            if($jsonive){
+            if ($jsonive) {
                 unset($dt["idDatosParienteAsociadoPep"]);
             }
         }
@@ -559,14 +560,14 @@ class InformacionClienteController extends Controller
             $datosPersonales["datosPep"] = DatosPep::where('idDatosPep', '=', $datosPersonales["datosPep"])->get()[0];
             $datosPersonales["datosPep"]["paisEntidad"] =  $this->obtenerCodigoPais($datosPersonales["datosPep"]["paisEntidad"]);
             if ($jsonive) {
-                $datosPersonales["datosPep"]["otroOrigenRiqueza"] = $datosPersonales["datosPep"]["origenRiqueza"] == 8 ? $datosPersonales["datosPep"]["otroOrigenRiqueza"] : "";                 
+                $datosPersonales["datosPep"]["otroOrigenRiqueza"] = $datosPersonales["datosPep"]["origenRiqueza"] == 8 ? $datosPersonales["datosPep"]["otroOrigenRiqueza"] : "";
                 unset($datosPersonales["datosPep"]["idDatosPep"]);
             }
         } else {
             $datosPersonales["datosPep"] = "";
         }
         if ($datosPersonales["parienteAsociadoPep"] == 'S') {
-            $datosPersonales["datosParienteAsociadoPep"] = $this->queryDatosParienteAsociadoPep($datosPersonales["idDatosPersonales"],$jsonive);
+            $datosPersonales["datosParienteAsociadoPep"] = $this->queryDatosParienteAsociadoPep($datosPersonales["idDatosPersonales"], $jsonive);
         } else {
             $datosPersonales["datosParienteAsociadoPep"] = "";
         }
@@ -621,7 +622,7 @@ class InformacionClienteController extends Controller
         $obInfoEco["negocioPropio"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial, 'NP');
         $obInfoEco["relacionDependencia"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial, 'RD');
         $obInfoEco["otrosIngresos"] = $this->queryArrayFuenteIngresos($obInfoEco->idInformacionEconomicaInicial, 'OI');
-        if($jsonive){
+        if ($jsonive) {
             unset($obInfoEco["idInformacionEconomicaInicial"]);
         }
         return $obInfoEco;
@@ -659,25 +660,26 @@ class InformacionClienteController extends Controller
         $ObCamposMinimosOtrosFirmantes["lugar"] = $this->queryLugar($ObCamposMinimosOtrosFirmantes["lugar"], $jsonive);
         $ObCamposMinimosOtrosFirmantes["fecha"] = $this->formatoFechaJson($ObCamposMinimosOtrosFirmantes["fecha"]);
         $ObCamposMinimosOtrosFirmantes["firmante"] = $this->queryDatosPersonales($ObCamposMinimosOtrosFirmantes["firmante"], $jsonive);
-        if($jsonive){
+        if ($jsonive) {
             unset($ObCamposMinimosOtrosFirmantes["idCamposMinimosFirmante"]);
         }
         return  $ObCamposMinimosOtrosFirmantes;
     }
-    public function queryPerfilEconomicoNegocioPropio($idPerfilEconomicoTransaccional,$jsonive){
+    public function queryPerfilEconomicoNegocioPropio($idPerfilEconomicoTransaccional, $jsonive)
+    {
         $arrNgp = [];
-        $listaObNegoP = PerfilEconomicoNegocioPropio::where('idPerfilEconomicoTransaccional',$idPerfilEconomicoTransaccional)->get();
+        $listaObNegoP = PerfilEconomicoNegocioPropio::where('idPerfilEconomicoTransaccional', $idPerfilEconomicoTransaccional)->get();
         foreach ($listaObNegoP as $obngp) {
-            $obngp["lugar"] = $this->querylugar($obngp["lugar"],$jsonive);
+            $obngp["lugar"] = $this->querylugar($obngp["lugar"], $jsonive);
             $obngp["fechaInscripcionNegocio"] = empty($obngp["fechaInscripcionNegocio"]) ? '' : $this->formatoFechaJson($obngp["fechaInscripcionNegocio"]);
-            if($jsonive){
+            if ($jsonive) {
                 $obngp['ingresos'] = [
-                    'tipoMoneda'=>$obngp['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $obngp['tipoMoneda'])->first()["codigoMoneda"],
-                    'montoAproximado'=>$obngp['montoAproximado']
+                    'tipoMoneda' => $obngp['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $obngp['tipoMoneda'])->first()["codigoMoneda"],
+                    'montoAproximado' => $obngp['montoAproximado']
                 ];
-                $obngp["numeroRegistro"] = empty($obngp["numeroRegistro"]) ? "" : $obngp["numeroRegistro"] ; 
-                $obngp["folio"] = empty($obngp["folio"]) ? "" : $obngp["folio"] ; 
-                $obngp["libro"] = empty($obngp["libro"]) ? "" : $obngp["libro"] ; 
+                $obngp["numeroRegistro"] = empty($obngp["numeroRegistro"]) ? "" : $obngp["numeroRegistro"];
+                $obngp["folio"] = empty($obngp["folio"]) ? "" : $obngp["folio"];
+                $obngp["libro"] = empty($obngp["libro"]) ? "" : $obngp["libro"];
                 unset($obngp['tipoMoneda']);
                 unset($obngp['montoAproximado']);
                 unset($obngp['idDiccionarioPerfilEconomicoNegocioPropio']);
@@ -688,15 +690,16 @@ class InformacionClienteController extends Controller
         return $arrNgp;
     }
 
-    public function queryPerfilEconomicoRelacionDependencia($idPerfilEconomicoTransaccional,$jsonive){
+    public function queryPerfilEconomicoRelacionDependencia($idPerfilEconomicoTransaccional, $jsonive)
+    {
         $arraRd = [];
-        $listaPerRd = PerfilEconomicoRelacionDependencia::where('idPerfilEconomicoTransaccional',$idPerfilEconomicoTransaccional)->get();
+        $listaPerRd = PerfilEconomicoRelacionDependencia::where('idPerfilEconomicoTransaccional', $idPerfilEconomicoTransaccional)->get();
         foreach ($listaPerRd as $rd) {
-            $rd["lugar"] = $this->querylugar($rd["lugar"],$jsonive);
-            if($jsonive){
+            $rd["lugar"] = $this->querylugar($rd["lugar"], $jsonive);
+            if ($jsonive) {
                 $rd['ingresos'] = [
-                    'tipoMoneda'=>$rd['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $rd['tipoMoneda'])->first()["codigoMoneda"],
-                    'montoAproximado'=>$rd['montoAproximado']
+                    'tipoMoneda' => $rd['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $rd['tipoMoneda'])->first()["codigoMoneda"],
+                    'montoAproximado' => $rd['montoAproximado']
                 ];
                 unset($rd['tipoMoneda']);
                 unset($rd['montoAproximado']);
@@ -707,15 +710,16 @@ class InformacionClienteController extends Controller
         }
         return $arraRd;
     }
-    public function queryPerfilEconomicoOtrosIngresos($idPerfilEconomicoTransaccional,$jsonive){
+    public function queryPerfilEconomicoOtrosIngresos($idPerfilEconomicoTransaccional, $jsonive)
+    {
         $arraOi = [];
-        $listaPeoi = PerfilEconomicoOtrosIngresos::where('idPerfilEconomicoTransaccional',$idPerfilEconomicoTransaccional)->get();
+        $listaPeoi = PerfilEconomicoOtrosIngresos::where('idPerfilEconomicoTransaccional', $idPerfilEconomicoTransaccional)->get();
         foreach ($listaPeoi as $oi) {
-             $oi['ingresos'] = [
-                    'tipoMoneda'=>$oi['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $oi['tipoMoneda'])->first()["codigoMoneda"],
-                    'montoAproximado'=>$oi['montoAproximado']
-                ];
-            if($jsonive){
+            $oi['ingresos'] = [
+                'tipoMoneda' => $oi['tipoMoneda'] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $oi['tipoMoneda'])->first()["codigoMoneda"],
+                'montoAproximado' => $oi['montoAproximado']
+            ];
+            if ($jsonive) {
                 unset($oi["tipoMoneda"]);
                 unset($oi["montoAproximado"]);
                 unset($oi["idPerfilEconomicoOtrosIngresos"]);
@@ -725,21 +729,23 @@ class InformacionClienteController extends Controller
         }
         return $arraOi;
     }
-    public function queryPrincipalesUbicacionesGeograficas($idDiccionarioPerfilTransaccional,$jsonive){
-        $listaLugares = PrincipalesUbicacionesGeograficas::select('idLugar')->where('idDiccionarioPerfilTransaccional',$idDiccionarioPerfilTransaccional)->get();
+    public function queryPrincipalesUbicacionesGeograficas($idDiccionarioPerfilTransaccional, $jsonive)
+    {
+        $listaLugares = PrincipalesUbicacionesGeograficas::select('idLugar')->where('idDiccionarioPerfilTransaccional', $idDiccionarioPerfilTransaccional)->get();
         $arrayLugares = [];
         foreach ($listaLugares as $idlugar) {
-            $arrayLugares[] = $this->querylugar($idlugar["idLugar"],$jsonive);
+            $arrayLugares[] = $this->querylugar($idlugar["idLugar"], $jsonive);
         }
         return $arrayLugares;
     }
-    public function queryDiccionarioPerfilTransaccional($idPerfilEconomicoTransaccional,$jsonive){
+    public function queryDiccionarioPerfilTransaccional($idPerfilEconomicoTransaccional, $jsonive)
+    {
         $arraDpt = [];
-        $listaDpt = DiccionarioPerfilTransaccional::where('idPerfilEconomicoTransaccional',$idPerfilEconomicoTransaccional)->get();
+        $listaDpt = DiccionarioPerfilTransaccional::where('idPerfilEconomicoTransaccional', $idPerfilEconomicoTransaccional)->get();
         foreach ($listaDpt as $dpt) {
             $dpt["tipoMoneda"] = Moneda::select('codigoMoneda')->where('idMoneda', '=', $dpt['tipoMoneda'])->first()["codigoMoneda"];
-            $dpt["principalesUbicacionesGeograficas"] = $this->queryPrincipalesUbicacionesGeograficas($dpt["idDiccionarioPerfilTransaccional"],$jsonive);
-            if($jsonive){
+            $dpt["principalesUbicacionesGeograficas"] = $this->queryPrincipalesUbicacionesGeograficas($dpt["idDiccionarioPerfilTransaccional"], $jsonive);
+            if ($jsonive) {
                 $dpt["fecha"] = $this->formatoFechaJson($dpt["fecha"]);
                 unset($dpt["idDiccionarioPerfilTransaccional"]);
                 unset($dpt["idPerfilEconomicoTransaccional"]);
@@ -747,25 +753,25 @@ class InformacionClienteController extends Controller
             $arraDpt[] = $dpt;
         }
         return $arraDpt;
-
     }
-    public function queryPerfilEconomicoTransacional($idDiccionarioFormulario, $jsonive){
-          $obtransac = PerfilEconomicoTransaccional::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->first();
-          if(!empty($obtransac)){
-              $obtransac["fecha"] = $this->formatoFechaJson($obtransac["fecha"]);
-              $obtransac["negocioPropio"] = $this->queryPerfilEconomicoNegocioPropio($obtransac->idPerfilEconomicoTransaccional,$jsonive); 
-              $obtransac["relacionDependencia"] = $this->queryPerfilEconomicoRelacionDependencia($obtransac->idPerfilEconomicoTransaccional,$jsonive);
-              $obtransac["otrosIngresos"] =$this->queryPerfilEconomicoOtrosIngresos($obtransac->idPerfilEconomicoTransaccional,$jsonive);
-              $obtransac["perfilTransaccional"] = $this->queryDiccionarioPerfilTransaccional($obtransac->idPerfilEconomicoTransaccional,$jsonive);
-              if($jsonive){
+    public function queryPerfilEconomicoTransacional($idDiccionarioFormulario, $jsonive)
+    {
+        $obtransac = PerfilEconomicoTransaccional::where('idDiccionarioFormulario', '=', $idDiccionarioFormulario)->first();
+        if (!empty($obtransac)) {
+            $obtransac["fecha"] = $this->formatoFechaJson($obtransac["fecha"]);
+            $obtransac["negocioPropio"] = $this->queryPerfilEconomicoNegocioPropio($obtransac->idPerfilEconomicoTransaccional, $jsonive);
+            $obtransac["relacionDependencia"] = $this->queryPerfilEconomicoRelacionDependencia($obtransac->idPerfilEconomicoTransaccional, $jsonive);
+            $obtransac["otrosIngresos"] = $this->queryPerfilEconomicoOtrosIngresos($obtransac->idPerfilEconomicoTransaccional, $jsonive);
+            $obtransac["perfilTransaccional"] = $this->queryDiccionarioPerfilTransaccional($obtransac->idPerfilEconomicoTransaccional, $jsonive);
+            if ($jsonive) {
                 unset($obtransac["idPerfilEconomicoTransaccional"]);
                 unset($obtransac["idDiccionarioFormulario"]);
-              }
-          } else {
-              $obtransac = ""; 
-          }
+            }
+        } else {
+            $obtransac = "";
+        }
 
-          return $obtransac;
+        return $obtransac;
     }
     public function queryDicionarioFormulario($id, $jsonive)
     {
@@ -796,7 +802,7 @@ class InformacionClienteController extends Controller
             }
             $obPS["beneficiarios"] = $listaBeneficiarios;
             $obPS["otrosFirmantes"] = $listaOtrosFirmantes;
-            if($jsonive){
+            if ($jsonive) {
                 unset($obPS["idProductoServicio"]);
             }
             $listaProductosServicios[] = $obPS;
@@ -835,11 +841,11 @@ class InformacionClienteController extends Controller
     {
         $query = trim($request->get('searchText'));
         $dicFormulario = DB::table('listaDiccionarioFormulario')->select('*')
-        ->where('idUser', '=', Auth::id())
-        ->where('nombre','LIKE','%'.$query.'%')
-        ->orderBy('idDiccionarioFormulario', 'desc')
-        ->simplePaginate(15);
-        return view('contenido.oficioive7122020', ["dicFormulario"=>$dicFormulario,"searchText"=>$query]);
+            ->where('idUser', '=', Auth::id())
+            ->where('nombre', 'LIKE', '%' . $query . '%')
+            ->orderBy('idDiccionarioFormulario', 'desc')
+            ->simplePaginate(15);
+        return view('contenido.oficioive7122020', ["dicFormulario" => $dicFormulario, "searchText" => $query]);
     }
 
     /**
@@ -878,7 +884,7 @@ class InformacionClienteController extends Controller
         if ($camposMinimos["tipoActuacion"] == "R") {
             $camposMinimos["calidadActua"] = mb_strtoupper($requesCamposMinimos["calidadActua"]);
             $camposMinimos["representante"] =  $this->guardarDatosPersonales($requesCamposMinimos["representante"]);
-        }else{
+        } else {
             $camposMinimos["representante"] = null;
             $camposMinimos["calidadActua"] = null;
         }
@@ -901,7 +907,7 @@ class InformacionClienteController extends Controller
         if ($camposMinimosFirmante["tipoActuacion"] == "R") {
             $camposMinimosFirmante["calidadActua"] = $requesCamposMinimosFirmante["calidadActua"];
             $camposMinimosFirmante["representante"] =  $this->guardarDatosPersonales($requesCamposMinimosFirmante["representante"]);
-        }else {
+        } else {
             $camposMinimosFirmante["calidadActua"] = null;
             $camposMinimosFirmante["representante"] = null;
         }
@@ -952,7 +958,7 @@ class InformacionClienteController extends Controller
                 'Status' => 'Success'
             ];
             $this->guardarProductosServicios($request->productos, $idDiccionarioFormulario);
-            $this->guardarPerfilEconomicoTransaccional($request->perfilEconomico,$idDiccionarioFormulario);
+            $this->guardarPerfilEconomicoTransaccional($request->perfilEconomico, $idDiccionarioFormulario);
 
             DB::commit();
             // all good
