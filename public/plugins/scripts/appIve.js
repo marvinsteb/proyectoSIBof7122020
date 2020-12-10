@@ -856,21 +856,21 @@ function habilitaDepartamentoMunicipio(selectPais) {
                     .removeClass("oculto");
                 // verifica si existe el campo CondicionMigratoria
                 if (selectCondicionMig.length) {
-                    selectCondicionMig[0].disabled = true;
-                    $(selectCondicionMig[0])
+                    $(selectCondicionMig).prop("disabled", true);
+                    $(selectCondicionMig)
                         .parent()
                         .find("label>span")
                         .addClass("oculto");
-                    $(selectCondicionMig[0]).empty();
-                    $(selectCondicionMig[0]).append(
+                    $(selectCondicionMig).empty();
+                    $(selectCondicionMig).append(
                         '<option value="" disabled selected>Selecciona</option>'
                     );
-                    $(otraCondicionMigratoria[0]).val(null);
-                    otraCondicionMigratoria[0].disabled = true;
-                    $(otraCondicionMigratoria[0])
+                    $(otraCondicionMigratoria).prop("disabled", true);
+                    $(otraCondicionMigratoria)
                         .parent()
                         .find("label>span")
-                        .removeClass("oculto");
+                        .addClass("oculto");
+                    $(otraCondicionMigratoria).val(null);
                 }
             } else {
                 departamento[0].disabled = true;
@@ -886,12 +886,12 @@ function habilitaDepartamentoMunicipio(selectPais) {
                     '<option value="" disabled selected>Selecciona</option>'
                 );
                 if (selectCondicionMig.length) {
-                    selectCondicionMig[0].disabled = false;
-                    $(selectCondicionMig[0])
+                    $(selectCondicionMig).prop("disabled", false);
+                    $(selectCondicionMig)
                         .parent()
                         .find("label>span")
                         .removeClass("oculto");
-                    cargarCondicionMigratoria($(selectCondicionMig[0]));
+                    cargarCondicionMigratoria($(selectCondicionMig));
                 }
             }
         });
