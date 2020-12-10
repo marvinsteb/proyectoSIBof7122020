@@ -194,7 +194,7 @@ function templateCondicionMigratoria(id) {
 }
 function templateOtraCondicionMigratoria(id) {
     let cmOtraCM = templateFormGroup(`
-                     <label>Especifique</label>
+                     <label>Especifique <span class="oculto">*</span></label>
                      <input name="otraCoMi${id}" id="otraCoMi${id}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />`);
     return cmOtraCM;
 }
@@ -1111,23 +1111,25 @@ function habilitaOtroCampoDesdeSelect(inputSelect, opcionSelect) {
         });
     }
 }
-// remplaza esta funcion por la funcion habilitarotrocampo
 function habilitaOtraCondicionMigratoria(condicionMigratoria) {
-    for (let i = 0; i < condicionMigratoria.length; i++) {
-        $(condicionMigratoria[i]).change(function (event) {
-            let otraCondicionMigratoria = $(this)
-                .parent()
-                .parent()
-                .parent()
-                .find("input.otraCoMi");
-            if (event.target.value == 8) {
-                otraCondicionMigratoria[0].disabled = false;
-            } else {
-                otraCondicionMigratoria[0].disabled = true;
-                $(otraCondicionMigratoria[0]).val(null);
-            }
-        });
-    }
+    $(condicionMigratoria).on("change", function (event) {
+        const otraCondicionMigratoria = $(this)
+            .parent()
+            .parent()
+            .parent()
+            .find("input.otraCoMi");
+        const spanLabel = $(otraCondicionMigratoria)
+            .parent()
+            .find("label>span");
+        if (event.target.value == 8) {
+            $(otraCondicionMigratoria).prop("disabled", false);
+            $(spanLabel).removeClass("oculto");
+        } else {
+            $(otraCondicionMigratoria).prop("disabled", true);
+            $(spanLabel).addClass("oculto");
+            $(otraCondicionMigratoria).val(null);
+        }
+    });
 }
 function habilitaPaisPasaporte(pasaportes) {
     for (let i = 0; i < pasaportes.length; i++) {
@@ -3027,7 +3029,6 @@ $(document).ready(function () {
     // }
     // window.addEventListener("beforeunload", askConfirmation);
     console.log("Esperando a que la pagina cargue completamente ");
-    $("input[type=text]");
     noEnviarFormularioConEnter();
     setFormatoFecha($(".date"));
     verificaActuaNombrePropio($(".actuaNombrePropio"));

@@ -91,7 +91,7 @@
 
             <div class="col-sm">
                 <div class="form-group">
-                    <label>Especifique</label>
+                    <label>Especifique <span class="oculto">*</span></label>
                     <input name="otraCoMi{{$tipo}}_{{$indice}}" id="otraCoMi{{$tipo}}_{{$indice}}" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" {{empty($datosPersonales->otraCondicionMigratoria) ? 'disabled' : ''}} required value="{{$datosPersonales->otraCondicionMigratoria}}" />
                 </div>
             </div>

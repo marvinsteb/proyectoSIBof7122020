@@ -257,7 +257,7 @@
 
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Especifique</label>
+                                                    <label>Especifique <span class="oculto">*</span></label>
                                                     <input name="otraCoMiCliente_1" id="otraCoMiCliente_1" type="text" class="form-control otraCoMi" placeholder="Otra condición migratoria ..." maxlength="100" disabled required />
                                                 </div>
                                             </div>
