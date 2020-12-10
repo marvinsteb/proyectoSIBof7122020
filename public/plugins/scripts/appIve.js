@@ -190,6 +190,7 @@ function templateCondicionMigratoria(id) {
                     <option value="" disabled selected>Selecciona</option>
                     </select>`);
     cmCond = templateFormGroup(cmCond);
+    $(cmCond).find("select").select2();
     return cmCond;
 }
 function templateOtraCondicionMigratoria(id) {
