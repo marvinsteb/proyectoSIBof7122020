@@ -560,7 +560,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group row">
                                                             <div class="col-sm-2">
-                                                                <label for="inputfuenteingresosCliente_1_0" class="ml-4" id="labelfuenteingresosCliente_1_0"></label>
+                                                                <label for="inputfuenteingresosCliente_1_0" id="labelfuenteingresosCliente_1_0"></label>
                                                             </div>
                                                             <div class="col-sm ml-2">
                                                                 <input name="inputfuenteingresos" id="inputfuenteingresosCliente_1_0" type="text" class="form-control" required disabled />

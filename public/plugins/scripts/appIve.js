@@ -573,7 +573,7 @@ function templateCamposFuenteIngreso(id, posicion) {
         <div class="col-sm">
             <div class="form-group row">
                     <div class="col-sm-2">
-                        <label for="input${id}_${posicion}" class="ml-4" id="label${id}_${posicion}"></label>
+                        <label for="input${id}_${posicion}" id="label${id}_${posicion}"></label>
                     </div>
                     <div class="col-sm ml-2">
                         <input name="input" id="input${id}_${posicion}" type="text" class="form-control" required disabled />
@@ -1465,21 +1465,24 @@ function validarTipoFuenteIngreso(fuenteIngresos) {
         $(input).prop("disabled", false);
         switch ($(this).val()) {
             case "NP":
-                $(label).text("Nombre comercial");
+                $(label).text("Nombre comercial ");
+                $(label).append("<span>*</span>");
                 $(input)
                     .attr("placeholder", "Nombre comercial ...")
                     .attr("maxlength", "400")
                     .attr("name", "nombreComercial");
                 break;
             case "RD":
-                $(label).text("Nombre empleador");
+                $(label).text("Nombre empleador ");
+                $(label).append("<span>*</span>");
                 $(input)
                     .attr("placeholder", "Nombre empleador ...")
                     .attr("maxlength", "200")
                     .attr("name", "nombreEmpleador");
                 break;
             case "OI":
-                $(label).text("Otras fuentes de ingreso");
+                $(label).text("Otras fuentes de ingreso ");
+                $(label).append("<span>*</span>");
                 $(input)
                     .attr("placeholder", "Otra fuente ...")
                     .attr("maxlength", "400")
