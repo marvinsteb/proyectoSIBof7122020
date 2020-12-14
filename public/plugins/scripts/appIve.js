@@ -444,7 +444,7 @@ function templatePersonaPep(id) {
 function templateMontoIngresos(id) {
     let tmMontoIngresos = $(` <div class="row"></div>`);
     let labelMontoIngresos = $(
-        `<label for="montoIngresos${id}" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>`
+        `<label for="montoIngresos${id}" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales) <span>*</span></label>`
     );
     labelMontoIngresos = templateFormGroup(labelMontoIngresos, "col-sm-9");
     let inputMontoIngresos = $(
@@ -457,7 +457,7 @@ function templateMontoIngresos(id) {
 }
 function templatePropositoRc(id) {
     let tempPropositoRc = $(`<div class="row"></div>`);
-    const tmPrc = `<label for="propositoRC${id}">Propósito de la relación de negocios</label>
+    const tmPrc = `<label for="propositoRC${id}">Propósito de la relación de negocios <span>*</span></label>
                    <input name="propositoRC" id="propositoRC${id}" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />`;
     $(tempPropositoRc).append(templateFormGroup(tmPrc));
     return tempPropositoRc;
@@ -475,7 +475,7 @@ function templateDatosIngresos(id) {
                         <div class="row">
                             <div class="col-sm">
                                 <div class="form-group">
-                                    <label for="">Fuente de ingresos</label>
+                                    <label for="">Fuente de ingresos <span>*</span></label>
                                 </div>
                             </div>
                         </div>
