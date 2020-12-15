@@ -195,7 +195,7 @@
                                         <div class="row">
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Fecha nacimiento</label>
+                                                    <label>Fecha nacimiento <span>*</span></label>
                                                     <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
                                                         <input name="fechaNacimientoCliente_1" id="fechaNacimientoCliente_1" type="text" class="form-control datetimepicker-input fechaNacimiento" data-target="#fechaNacimiento" required />
                                                         <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
@@ -210,7 +210,7 @@
 
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>País nacimiento</label>
+                                                    <label>País nacimiento <span>*</span></label>
                                                     <select name="paisNacimientoCliente_1" id="paisNacimientoCliente_1" class="form-control custom-select paisNacimientoCliente deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
                                                         <option value="" disabled selected>Selecciona</option>
                                                         @foreach($paises as $pais)
@@ -225,7 +225,7 @@
                                             <!-- select departamento -->
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Depto. nacimiento</label>
+                                                    <label>Depto. nacimiento <span class="oculto">*</span></label>
                                                     <select name="deptoNacimientoCliente_1" id="deptoNacimientoCliente_1" class="form-control custom-select deptoNacimientoCliente getMunicipio select2" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                         @foreach($departamentos as $departamento)
@@ -237,7 +237,7 @@
                                             <!-- select muni -->
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Municipio nacimiento</label>
+                                                    <label>Municipio nacimiento <span class="oculto">*</span></label>
                                                     <select name="muniNacimientoCliente_1" id="muniNacimientoCliente_1" class="form-control custom-select muniNacimientoCliente setMunicipio select2" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>

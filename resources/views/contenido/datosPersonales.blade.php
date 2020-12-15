@@ -50,7 +50,7 @@
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <label>Fecha nacimiento</label>
+                    <label>Fecha nacimiento <span>*</span></label>
                     <div class="input-group date" id="fechaNacimiento" data-target-input="nearest">
                         <input name="fechaNacimiento{{$tipo}}_{{$indice}}" id="fechaNacimiento{{$tipo}}_{{$indice}}" type="text" class="form-control datetimepicker-input fechaNacimiento" data-target="#fechaNacimiento" required value="{{\Carbon\Carbon::parse($datosPersonales->fechaNacimiento)->format('d/m/Y')}}" />
                         <div class="invalid-tooltip">Ingresa una fecha correcta, no se permite una fecha mayor a la fecha actual</div>
