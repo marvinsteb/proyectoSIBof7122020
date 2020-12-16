@@ -345,17 +345,8 @@
                                         <!-- .row -->
 
                                         <div class="row">
-                                            <div class="col-sm-12">
-                                                <h5>Residencia</h5>
-                                            </div>
-                                            <br />
-                                            <br />
-                                        </div>
-                                        <!-- .row -->
-
-                                        <div class="row">
                                             <div class="col-sm">
-                                                <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
+                                                <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros) <span>*</span></label>
                                                 <input name="direccionRecidenciaCliente_1" id="direccionRecidenciaCliente_1" type="text" class="form-control direccionRecidencia" placeholder="Dirección de residencia completa ..." maxlength="400" required />
                                             </div>
                                         </div>

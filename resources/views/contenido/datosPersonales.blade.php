@@ -186,20 +186,9 @@
                 </div>
             </div>
         </div>
-        <!-- .row -->
-
-        <div class="row">
-            <div class="col-sm-12">
-                <h5>Residencia</h5>
-            </div>
-            <br />
-            <br />
-        </div>
-        <!-- .row -->
-
         <div class="row">
             <div class="col-sm">
-                <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros)</label>
+                <label>Dirección de residencia completa (calle o avenida, número de casa, colonia, sector, lote, manzana, otros) <span>*</span></label>
                 <input name="direccionRecidencia{{$tipo}}_{{$indice}}" id="direccionRecidencia{{$tipo}}_{{$indice}}" type="text" class="form-control direccionRecidencia{{$tipo}}" placeholder="Dirección de residencia completa ..." maxlength="400" required value="{{$datosPersonales->direccionResidencia}}" />
             </div>
         </div>
