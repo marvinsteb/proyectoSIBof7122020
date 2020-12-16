@@ -175,7 +175,7 @@
         <div class="row">
             <div class="col-sm">
                 <div class="form-group">
-                    <label>Profesión u oficio</label>
+                    <label>Profesión u oficio <span>*</span></label>
                     <input name="profecionOficio{{$tipo}}_{{$indice}}" id="profecionOficio{{$tipo}}_{{$indice}}" type="text" class="form-control profecionOficio{{$tipo}}" placeholder="Profesión u oficio ..." maxlength="100" required value="{{$datosPersonales->profesionOficio}}" />
                 </div>
             </div>

@@ -114,7 +114,7 @@ function templateNumDocumento(id) {
     return templateFormGroup(temNumDoc);
 }
 function templateProfecionOficio(id) {
-    const temProfOfici = `<label>Profesión u oficio</label>
+    const temProfOfici = `<label>Profesión u oficio <span>*</span></label>
                           <input name="profecionOficio${id}" id="profecionOficio${id}" type="text" class="form-control profecionOficio" placeholder="Profesión u oficio ..." maxlength="100" required />`;
     return templateFormGroup(temProfOfici);
 }
