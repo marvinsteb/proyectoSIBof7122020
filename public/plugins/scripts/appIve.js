@@ -76,7 +76,7 @@ function templateCamposNommbres(id) {
     return rowNombres;
 }
 function templateSexo(id) {
-    let templatesexo = $(`<label for="sexo${id}">Sexo</label>
+    let templatesexo = $(`<label for="sexo${id}">Sexo <span>*</span></label>
                           <select name="sexo${id}" id="sexo${id}" class="form-control custom-select sexo select2" style="width: 100%" required>
                               <option value="" disabled selected>Selecciona</option>
                               <option value="M">Masculino</option>
@@ -94,7 +94,7 @@ function templateNit(id) {
     return temNit;
 }
 function templateDoctoIdentificacion(id) {
-    let temDoctoIdent = $(`<label for="tipoDoctoIdentificacion${id}">Docto. identificación</label>
+    let temDoctoIdent = $(`<label for="tipoDoctoIdentificacion${id}">Docto. identificación <span>*</span></label>
                            <select name="tipoDoctoIdentificacion${id}" id="tipoDoctoIdentificacion${id}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte select2" style="width: 100%" required>
                                <option value="" disabled selected>Selecciona</option>
                                <option value="D">DPI</option>
@@ -108,7 +108,7 @@ function templateDoctoIdentificacion(id) {
     return temDoctoIdent;
 }
 function templateNumDocumento(id) {
-    let temNumDoc = $(`<label>Número identificación</label>
+    let temNumDoc = $(`<label>Número identificación <span>*</span></label>
                        <input name="noDocIdentificacion${id}" id="noDocIdentificacion${id}" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required disabled/>`);
     temNumDoc = templateFormGroup(temNumDoc);
     return templateFormGroup(temNumDoc);
@@ -124,7 +124,7 @@ function templateEmail(id) {
     return templateFormGroup(temcorreo);
 }
 function templateEstadoCivil(id) {
-    let temEs = $(`<label>Estado civil</label>
+    let temEs = $(`<label>Estado civil <span>*</span></label>
                  <select name="estadoCivil${id}" id="estadoCivil${id}" class="form-control custom-select estadoCivil select2" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
                     <option value="S">Soltero</option>
@@ -1135,18 +1135,27 @@ function habilitaOtraCondicionMigratoria(condicionMigratoria) {
 function habilitaPaisPasaporte(pasaportes) {
     for (let i = 0; i < pasaportes.length; i++) {
         $(pasaportes[i]).change(function (event) {
-            console.log("cambiando dpi o pasaporte");
             let divPadre = $(this).parent().parent().parent();
-            console.log($(divPadre).index());
             let selectPaisPasaporte = $(divPadre).find(
                 "select.emicionPasaporte"
             );
             let inputDocumento = $(divPadre).find("input.noDocIdentificacion");
             if (event.target.value == "P") {
                 selectPaisPasaporte[0].disabled = false;
+                $(selectPaisPasaporte)
+                    .parent()
+                    .parent()
+                    .find("label>span")
+                    .removeClass("oculto");
                 inputDocumento[0].disabled = false;
             } else {
                 selectPaisPasaporte[0].disabled = true;
+
+                $(selectPaisPasaporte)
+                    .parent()
+                    .parent()
+                    .find("label>span")
+                    .addClass("oculto");
                 inputDocumento[0].disabled = false;
                 cargarPais(selectPaisPasaporte);
             }

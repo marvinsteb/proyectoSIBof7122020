@@ -102,7 +102,7 @@
             <!-- sexo {{$tipo}} -->
             <div class="col-sm-2">
                 <div class="form-group">
-                    <label>Sexo</label>
+                    <label>Sexo <span>*</span></label>
                     <select name="sexo{{$tipo}}_{{$indice}}" id="sexo{{$tipo}}_{{$indice}}" class="form-control custom-select sexo select2" style="width: 100%" required>
                         <option value="" disabled selected>Selecciona</option>
                         <option value="M" {{$datosPersonales->sexo == 'M' ? 'selected' : ''}}>Masculino</option>
@@ -113,7 +113,7 @@
             <!-- .col-sm -->
             <div class="col-sm">
                 <div class="form-group">
-                    <label>Estado civil</label>
+                    <label>Estado civil <span>*</span></label>
                     <select name="estadoCivil{{$tipo}}_{{$indice}}" id="estadoCivil{{$tipo}}_{{$indice}}" class="form-control custom-select estadoCivil select2" style="width: 100%" required>
                         <option value="" disabled selected>Selecciona</option>
                         <option value="S" {{$datosPersonales->estadoCivil == 'S' ? 'selected' : ''}}>Soltero</option>
@@ -132,7 +132,7 @@
 
             <div class="col-sm">
                 <div class="form-group">
-                    <label>Docto. identificación</label>
+                    <label>Docto. identificación <span>*</span></label>
                     <select name="tipoDoctoIdentificacion{{$tipo}}_{{$indice}}" id="tipoDoctoIdentificacion{{$tipo}}_{{$indice}}" class="form-control custom-select tipoDoctoIdentificacion validaPaisPasaporte select2" style="width: 100%" required>
                         <option value="" disabled selected>Selecciona</option>
                         <option value="D" {{$datosPersonales->tipoDocumentoIdentificacion == 'D' ? 'selected' : ''}}>DPI</option>
@@ -143,16 +143,22 @@
 
             <div class="col-sm">
                 <div class="form-group">
-                    <label>Número identificación</label>
+                    <label>Número identificación <span>*</span></label>
                     <input name="noDocIdentificacion{{$tipo}}_{{$indice}}" id="noDocIdentificacion{{$tipo}}_{{$indice}}" type="text" class="form-control noDocIdentificacion" placeholder="Número identificación..." maxlength="20" required value="{{$datosPersonales->numeroDocumentoIdentificacion}}" />
                 </div>
             </div>
 
             <div class="col-sm">
                 <div class="form-group">
-                    <label>País (Pasaporte)</label>
+                    <label>País (Pasaporte) 
+                        <span
+                        @if(empty($datosPersonales->emisionPasaporte))
+                         class="oculto"
+                        @endif
+                        >*</span>
+                    </label>
                     <select name="emicionPasaporte{{$tipo}}_{{$indice}}" id="emicionPasaporte{{$tipo}}_{{$indice}}" class="form-control custom-select emicionPasaporte select2" style="width: 100%" {{empty($datosPersonales->emisionPasaporte) ? 'disabled' : ''}} required>
-                        <option value="" disabled>Selecciona</option>
+                        <option value="" disabled selected>Selecciona</option>
                         @foreach($paises as $pais)
                         @if($pais->codigoPais == $datosPersonales->emisionPasaporte)
                         <option value="{{$pais->idPais}}" selected>{{$pais->nombrePais}}</option>
