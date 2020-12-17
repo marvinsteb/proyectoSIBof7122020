@@ -394,7 +394,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-sm">
-                                                            <label>Nacionalidad</label>
+                                                            <label>Nacionalidad <span>*</span></label>
                                                             <select name="nacionalidadCliente_1" id="nacionalidadCliente_1_1" class="form-control custom-select nacionalidad select2" style="width: 100%" required>
                                                                 <option value="" disabled selected>Selecciona</option>
                                                                 @foreach($paises as $pais)
@@ -416,8 +416,8 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-sm">
-                                                            <label>Teléfonos:</label>
-                                                            <input name="telefonoCliente_1_1" id="telefonoCliente_1_1" type="text" class="form-control telefono" placeholder="telefono ..." maxlength="30" required />
+                                                            <label>Teléfonos: <span>*</span></label>
+                                                            <input name="telefonoCliente_1_1" id="telefonoCliente_1_1" type="text" class="form-control telefono" placeholder="teléfono ..." maxlength="30" required />
                                                         </div>
                                                         <div class="col-sm"></div>
                                                     </div>

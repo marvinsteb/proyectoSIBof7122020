@@ -203,7 +203,7 @@
 
         <div class="row">
             <div class="col-sm" id="nacionalidad{{$tipo}}_{{$indice}}" cantidad="{{count($datosPersonales->nacionalidades)}}">
-                <label>Nacionalidad</label>
+                <label>Nacionalidad <span>*</span></label>
                 @foreach($datosPersonales->nacionalidades as $nacionalidad)
                 <div class="form-group">
                     <div class="row">
@@ -235,7 +235,7 @@
             </div>
             <!-- .nacionalidad -->
             <div class="col-sm" id="telefono{{$tipo}}_{{$indice}}" cantidad="{{count($datosPersonales->telefonos)}}">
-                <label>Teléfonos:</label>
+                <label>Teléfonos: <span>*</span></label>
                 @foreach($datosPersonales->telefonos as $telefono)
                 <div class="form-group">
                     <div class="row">

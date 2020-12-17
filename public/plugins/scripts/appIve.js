@@ -224,7 +224,7 @@ function templateNacionalidad(id) {
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm">
-                        <label>Nacionalidad</label>
+                        <label>Nacionalidad <span>*</span></label>
                         <select name="nacionalidad${id}" id="nacionalidad${id}_1" class="form-control custom-select nacionalidad select2" style="width: 100%" required>
                             <option value="" disabled selected>Selecciona</option>
                         </select>
@@ -267,7 +267,7 @@ function templateContenedorTelefonos(id) {
     let cmTel = templateTelefono(`telefono${id}_1`, false);
     let temTelefono = $(`
     <div class="col-sm" id="telefono${id}" cantidad="1">
-        <label>Teléfonos</label>
+        <label>Teléfonos <span>*</span></label>
         <div class="form-group">
             <button type="button" id="agregarTelefono${id}" class="btn btn-primary agregarTelefono">Agregar teléfono</button>
         </div>
