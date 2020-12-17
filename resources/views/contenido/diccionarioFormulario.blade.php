@@ -356,7 +356,7 @@
                                             <!-- select pais nacimiento Cliente -->
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>País residencia</label>
+                                                    <label>País residencia <span>*</span></label>
                                                     <select name="paisRecidenciaCliente_1" id="paisRecidenciaCliente_1" class="form-control custom-select paisRecidencia deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
                                                         <option value="" disabled selected>Selecciona</option>
                                                         @foreach($paises as $pais)
@@ -369,7 +369,7 @@
                                             <!-- select departamento -->
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Departamento residencia</label>
+                                                    <label>Departamento residencia <span class="oculto">*</span></label>
                                                     <select name="deptoRecidenciaCliente_1" id="deptoRecidenciaCliente_1" class="form-control custom-select deptoRecidenciaCliente getMunicipio select2" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                         @foreach($departamentos as $departamento)
@@ -381,7 +381,7 @@
                                             <!-- select muni -->
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Municipio residencia</label>
+                                                    <label>Municipio residencia <span class="oculto">*</span></label>
                                                     <select name="muniRecidenciaCliente_1" id="muniRecidenciaCliente_1" class="form-control custom-select muniRecidenciaCliente setMunicipio select2" style="width: 100%" required disabled>
                                                         <option value="" disabled selected>Selecciona</option>
                                                     </select>
