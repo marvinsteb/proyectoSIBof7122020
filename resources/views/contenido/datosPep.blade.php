@@ -1,13 +1,13 @@
   <div class="row">
     <div class="col-sm">
       <div class="form-group">
-        <label for="entidadpep{{$tipo}}_{{$indice}}">Entidad</label>
+        <label for="entidadpep{{$tipo}}_{{$indice}}">Entidad <span>*</span></label>
         <input name="entidadpep{{$tipo}}_{{$indice}}" id="entidadpep{{$tipo}}_{{$indice}}" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required value="{{$datosPep->entidad}}"/>
       </div>
     </div>
     <div class="col-sm">
       <div class="form-group">
-        <label for="puestoDesepeniapep{{$tipo}}_{{$indice}}">Puesto que desempeña</label>
+        <label for="puestoDesepeniapep{{$tipo}}_{{$indice}}">Puesto que desempeña <span>*</span></label>
         <input name="puestoDesepeniapep{{$tipo}}_{{$indice}}" id="puestoDesepeniapep{{$tipo}}_{{$indice}}" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required value="{{$datosPep->puestoDesempenia}}"/>
       </div>
     </div>
@@ -15,7 +15,7 @@
   <div class="row">
     <div class="col-sm">
       <div class="form-group">
-        <label for="paisEntidadpep{{$tipo}}_{{$indice}}">País entidad</label>
+        <label for="paisEntidadpep{{$tipo}}_{{$indice}}">País entidad <span>*</span></label>
         <select name="paisEntidadpep{{$tipo}}_{{$indice}}" id="paisEntidadpep{{$tipo}}_{{$indice}}" class="form-control custom-select pais setPais otroOrigenRiqueza select2" required>
           <option value="" disabled selected>Selecciona</option>
           @foreach($paises as $pais)
@@ -30,7 +30,7 @@
     </div>
     <div class="col-sm">
       <div class="form-group">
-        <label for="origenRiquezapep{{$tipo}}_{{$indice}}">Origen o procedencia de su riqueza</label>
+        <label for="origenRiquezapep{{$tipo}}_{{$indice}}">Origen o procedencia de su riqueza <span>*</span></label>
         <select name="origenRiquezapep{{$tipo}}_{{$indice}}" id="origenRiquezapep{{$tipo}}_{{$indice}}" class="form-control custom-select otroOrigenRiqueza select2" style="width: 100%" required="">
           <option value="" disabled="" selected="">Selecciona</option>
           <option value="1" {{ $datosPep->origenRiqueza == '1' ? 'selected' : ''}}>Bienes muebles e inmuebles por herencia </option>
@@ -46,7 +46,13 @@
     </div>
     <div class="col-sm">
       <div class="form-group">
-        <label id="otroOrigenRiquezapep{{$tipo}}_{{$indice}}">Especifique</label>
+        <label id="otroOrigenRiquezapep{{$tipo}}_{{$indice}}">Especifique
+          <span
+            @if($datosPep->origenRiqueza != 8)
+            class="oculto"
+            @endif
+          >*</span>
+        </label>
         <input name="otroOrigenRiquezapep{{$tipo}}_{{$indice}}" id="otroOrigenRiquezapep{{$tipo}}_{{$indice}}" type="text" class="form-control otroOrigenRiqueza" placeholder="Origen o procedencia de su riqueza ..." maxlength="100" required value="{{$datosPep->otroOrigenRiqueza}}" {{ $datosPep->origenRiqueza == '8' ? '' : 'disabled'}}/>
       </div>
     </div>

@@ -1164,18 +1164,18 @@ function habilitaPaisPasaporte(pasaportes) {
 }
 
 function templateEntidad(id) {
-    const tme = $(`<label for="entidad${id}">Entidad</label>
+    const tme = $(`<label for="entidad${id}">Entidad <span>*</span></label>
                    <input name="entidad${id}" id="entidad${id}" type="text" class="form-control" placeholder="Entidad ..." maxlength="400" required>`);
     return templateFormGroup(tme);
 }
 function templatePuestoDesempenia(id) {
-    const tpd = $(`<label for="puestoDesepenia${id}">Puesto que desempeña</label>
+    const tpd = $(`<label for="puestoDesepenia${id}">Puesto que desempeña <span>*</span></label>
                    <input name="puestoDesepenia${id}" id="puestoDesepenia${id}" type="text" class="form-control" placeholder="Puesto que desempeña ..." maxlength="200" required>`);
     return templateFormGroup(tpd);
 }
 function templateOrigenRiqueza(id) {
     let tor = $(`
-                    <label for= "origenRiqueza${id}">Origen o procedencia de su riqueza</label>
+                    <label for= "origenRiqueza${id}">Origen o procedencia de su riqueza <span>*<span></label>
                     <select name="origenRiqueza${id}" id="origenRiqueza${id}" class="form-control custom-select select2 origenRiqueza" style="width: 100%;" required>
                         <option value="" disabled selected>Selecciona</option>
                         <option value="1">Bienes muebles e inmuebles por herencia</option>
@@ -1196,7 +1196,7 @@ function templateOrigenRiqueza(id) {
 }
 function templateOtroOrigenRiqueza(id) {
     const toor = $(`
-                    <label id="otroOrigenRiqueza${id}">Especifique</label>
+                    <label id="otroOrigenRiqueza${id}">Especifique <span class="oculto">*</span></label>
                     <input name="otroOrigenRiqueza${id}" id="otroOrigenRiqueza${id}" type="text" class="form-control otroOrigenRiqueza" placeholder="Origen o procedencia de su riqueza ..." maxlength="100" required disabled>`);
     return templateFormGroup(toor);
 }
@@ -1246,10 +1246,18 @@ function habilitaOtroOrigenriqueza(selectOrigenRiqueza) {
                 .parent()
                 .find("input.otroOrigenRiqueza");
             if (event.target.value == 8) {
-                otraselectOrigenRiqueza[0].disabled = false;
+                $(otraselectOrigenRiqueza).prop("disabled", false);
+                $(otraselectOrigenRiqueza)
+                    .parent()
+                    .find("label>span")
+                    .removeClass("oculto");
             } else {
-                otraselectOrigenRiqueza[0].disabled = true;
-                $(otraselectOrigenRiqueza[0]).val(null);
+                $(otraselectOrigenRiqueza).prop("disabled", true);
+                $(otraselectOrigenRiqueza).val(null);
+                $(otraselectOrigenRiqueza)
+                    .parent()
+                    .find("label>span")
+                    .addClass("oculto");
             }
         });
     }
