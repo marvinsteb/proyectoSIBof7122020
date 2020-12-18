@@ -374,7 +374,7 @@ function templateCpe(id) {
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-check">
-                    <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label></div>
+                    <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)? <span>*</span></label></div>
                     <div class="icheck-primary d-inline">
                         <input type="radio" id="cpeSi${id}" class="cpe form-check-input" name="cpe${id}" value="S" required />
                         <label for="cpeSi${id}">Sí</label>
@@ -395,7 +395,7 @@ function templateAsoPep(id) {
             <div class="col-sm">
                 <div class="form-check">
                     <div>
-                        <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
+                        <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)? <span>*</span></label>
                     </div>
                     <div class="icheck-primary d-inline">
                         <input type="radio" id="primaryAsoPepSi${id}" class="asoPep form-check-input" name="asoPep${id}" value="S" required />
@@ -425,7 +425,7 @@ function templatePersonaPep(id) {
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-check">
-                        <div><label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label></div>
+                        <div><label>¿El cliente es una Persona Expuesta Políticamente (PEP)? <span>*</span></label></div>
                         <div class="icheck-primary d-inline">
                             <input type="radio" id="pepSi${id}" class="pep form-check-input" name="pep${id}" value="S" required />
                             <label for="pepSi${id}">Sí</label>

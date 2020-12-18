@@ -262,7 +262,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-check">
-                    <div><label>¿El {{$tipo}} es Contratista y Proveedor del Estado (CPE)?</label></div>
+                    <div><label>¿El {{$tipo}} es Contratista y Proveedor del Estado (CPE)? <span>*</span></label></div>
                     <div class="icheck-primary d-inline">
                         <input type="radio" id="cpeSi{{$tipo}}_{{$indice}}" class="cpe form-check-input" name="cpe{{$tipo}}_{{$indice}}" value="S" required {{ $datosPersonales->cpe == 'S' ? 'checked' : ''}} />
                         <label for="cpeSi{{$tipo}}_{{$indice}}">Sí</label>
@@ -280,7 +280,7 @@
             <div class="col-sm-6">
                 <div class="form-check">
                     <div>
-                        <label>¿El {{$tipo}} es una Persona Expuesta Políticamente (PEP)?</label>
+                        <label>¿El {{$tipo}} es una Persona Expuesta Políticamente (PEP)? <span>*</span></label>
                     </div>
                     <div class="icheck-primary d-inline">
                         <input type="radio" id="primaryPepSi_{{$tipo}}_{{$indice}}" class="pep form-check-input" name="pep{{$tipo}}_{{$indice}}" value="S" required {{ $datosPersonales->pep == 'S' ? 'checked' : ''}} />
@@ -307,7 +307,7 @@
             <div class="col-sm">
                 <div class="form-check">
                     <div>
-                        <label>¿El {{$tipo}} tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
+                        <label>¿El {{$tipo}} tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)? <span>*</span></label>
                     </div>
                     <div class="icheck-primary d-inline">
                         <input type="radio" id="primaryAsoPep{{$tipo}}Si_{{$indice}}" class="asoPep form-check-input" name="asoPep{{$tipo}}_{{$indice}}" value="S" required {{ $datosPersonales->parienteAsociadoPep == 'S' ? 'checked' : ''}} />

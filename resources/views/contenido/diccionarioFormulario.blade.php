@@ -434,7 +434,7 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-check">
-                                                    <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)?</label></div>
+                                                    <div><label>¿El cliente es Contratista y Proveedor del Estado (CPE)? <span>*</span></label></div>
                                                     <div class="icheck-primary d-inline">
                                                         <input type="radio" id="cpeSiCliente_1" class="cpe form-check-input" name="cpeCliente_1" value="S" required />
                                                         <label for="cpeSiCliente_1">Sí</label>
@@ -452,7 +452,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-check">
                                                     <div>
-                                                        <label>¿El cliente es una Persona Expuesta Políticamente (PEP)?</label>
+                                                        <label>¿El cliente es una Persona Expuesta Políticamente (PEP)? <span>*</span></label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
                                                         <input type="radio" id="primaryPepSi_1" class="pep form-check-input" name="pepCliente_1" value="S" required />
@@ -473,7 +473,7 @@
                                             <div class="col-sm">
                                                 <div class="form-check">
                                                     <div>
-                                                        <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)?</label>
+                                                        <label>¿El cliente tiene parentesco o es asociado cercano a una Persona Expuesta Políticamente (PEP)? <span>*</span></label>
                                                     </div>
                                                     <div class="icheck-primary d-inline">
                                                         <input type="radio" id="primaryAsoPepClienteSi_1" class="asoPep form-check-input" name="asoPepCliente_1" value="S" required />
