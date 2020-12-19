@@ -32,6 +32,7 @@ function templateInputText(
     }
     if (deshabilitado === true) {
         $(tmNom).find(`input#${tipo}${id}`).prop("disabled", true);
+        $(tmNom).find(`label>span`).addClass("oculto");
     }
     return tmNom;
 }
@@ -1102,8 +1103,16 @@ function habilitaOtroCampoDesdeSelect(inputSelect, opcionSelect) {
             if (inputActual.length != 0) {
                 if (event.target.value == opcionSelect) {
                     $(inputActual).prop("disabled", false);
+                    $(inputActual)
+                        .parent()
+                        .find("label>span")
+                        .removeClass("oculto");
                 } else {
                     $(inputActual).prop("disabled", true);
+                    $(inputActual)
+                        .parent()
+                        .find("label>span")
+                        .addClass("oculto");
                     $(inputActual).val(null);
                 }
             } else {
@@ -1329,7 +1338,7 @@ function agregarTemplateTelefono(arrBtnAgregarTelefono) {
 }
 
 function templateParentesco(id) {
-    let tmP = ` <label for="parentesco${id}">Parentesco</label>
+    let tmP = ` <label for="parentesco${id}">Parentesco <span>*</span></label>
                 <select name="parentesco${id}" id="parentesco${id}" class="form-control custom-select parentesco select2" targetOtro="otroParentesco" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
                     <option value="1">Padre</option>

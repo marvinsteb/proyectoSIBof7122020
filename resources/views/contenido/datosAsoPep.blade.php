@@ -18,7 +18,7 @@
       <div></div>
       <div class="col-sm">
         <div class="form-group">
-          <label for="parentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}">Parentesco</label>
+          <label for="parentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}">Parentesco <span>*</span></label>
           <select name="parentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" id="parentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" class="form-control custom-select parentesco select2" targetOtro="otroParentesco" style="width: 100%" required>
             <option value="" disabled="" selected="">Selecciona</option>
             <option value="1" {{$datosParienteAsociadoPep->parentesco == '1' ? 'selected' : ''}}>Padre</option>
@@ -31,7 +31,13 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Especifique</label>
+          <label>Especifique
+            <span
+            @if($datosParienteAsociadoPep->parentesco != '6') 
+              class="oculto"
+            @endif
+            >*</span>
+          </label>
           <input name="otroParentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" id="otroParentescoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" type="text" class="form-control otroParentesco" placeholder="Especifique ..." maxlength="100" required {{$datosParienteAsociadoPep->parentesco == '6' ? '' : 'disabled'}} value="{{$datosParienteAsociadoPep->otroParentesco}}">
         </div>
       </div>
