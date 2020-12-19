@@ -1441,6 +1441,9 @@ function agregaAsoPep(idAsoPep) {
                                 <div class="card-header">
                                     <h3 class="card-title">Familiar Asociado ${indiceAsociadosAgregados}</h3>
                                     <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
                                     <button type="button" class="btn btn-tool" data-card-widget="remove">
                                         <i class="fas fa-times"></i>
                                     </button>
@@ -1448,6 +1451,9 @@ function agregaAsoPep(idAsoPep) {
                                 </div>
                                 <div class="card-body"></div>
                                 </div>`);
+    if ($(`#datos${idAsoPep}>div.info`).children().length == 0) {
+        $(templateAsocPep).find("button")[1].remove();
+    }
     const uno = templateRowUnoAsoPep(id);
     const tres = templateRowTresAsoPep(id);
     $(templateAsocPep).find(`div.card-body`).append(uno);

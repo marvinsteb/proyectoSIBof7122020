@@ -3,9 +3,14 @@
   <div class="card-header">
     <h3 class="card-title">Familiar Asociado {{$indicePep + 1 }}</h3>
     <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+          <i class="fas fa-minus"></i>
+      </button>
+      @if($indicePep != 0)
       <button type="button" class="btn btn-tool" data-card-widget="remove">
         <i class="fas fa-times"></i>
       </button>
+      @endif
     </div>
   </div>
   <div class="card-body">
