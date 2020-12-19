@@ -1355,7 +1355,7 @@ function templateParentesco(id) {
     return tmP;
 }
 function templateMotivoAsociacion(id) {
-    let tM = `  <label for="motivoAsociacion${id}">Motivo asociación</label>
+    let tM = `  <label for="motivoAsociacion${id}">Motivo asociación <span>*</span></label>
                 <select name="motivoAsociacion${id}" id="motivoAsociacion${id}" class="form-control custom-select motivoAsociacion select2" targetOtro="otroMotivoAsociacion" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
                     <option value="1">Profesionales</option>

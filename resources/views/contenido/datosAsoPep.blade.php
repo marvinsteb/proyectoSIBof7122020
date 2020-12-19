@@ -43,7 +43,7 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label for="motivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}">Motivo asociación</label>
+          <label for="motivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}">Motivo asociación <span>*</span></label>
           <select name="motivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" id="motivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" class="form-control custom-select motivoAsociacion select2" targetOtro="otroMotivoAsociacion" style="width: 100%" required>
             <option value="" disabled="" selected="">Selecciona</option>
             <option value="1" {{$datosParienteAsociadoPep->motivoAsociacion == '1' ? 'selected' : ''}}>Profesionales</option>
@@ -55,7 +55,13 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Especifique</label>
+          <label>Especifique
+            <span
+            @if($datosParienteAsociadoPep->motivoAsociacion != '5') 
+              class="oculto"
+            @endif
+            >*</span>
+          </label>
           <input name="otroMotivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" id="otroMotivoAsociacionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" type="text" class="form-control otroMotivoAsociacion" placeholder="Especifique ..." maxlength="100" {{$datosParienteAsociadoPep->motivoAsociacion == '5' ? '' : 'disabled'}} value="{{$datosParienteAsociadoPep->otroMotivoAsociacion}}" required>
         </div>
       </div>
