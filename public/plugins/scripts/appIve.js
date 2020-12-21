@@ -671,7 +671,7 @@ function templateFilaCuatroProductoServicio(id) {
     return tm;
 }
 function templateMoneda(id) {
-    let moneda = $(`<label for="moneda${id}">Moneda</label>
+    let moneda = $(`<label for="moneda${id}">Moneda <span>*</span></label>
                     <select name="moneda" class="form-control custom-select moneda select2" style="width: 100%" required></select>`);
     moneda = templateFormGroup(moneda, "col-sm-3");
     let selectMoneda = $(moneda).find("select.moneda");
@@ -680,7 +680,7 @@ function templateMoneda(id) {
     return moneda;
 }
 function templateValor(id) {
-    const valor = $(`<label for="valor${id}">Valor producto y/o servicio</label>
+    const valor = $(`<label for="valor${id}">Valor producto y/o servicio <span>*</span></label>
                      <input type="number" name = "valor" id="valor${id}" class="form-control valor" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
     return templateFormGroup(valor, "col-sm-3");
 }
