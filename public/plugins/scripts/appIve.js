@@ -1636,7 +1636,7 @@ function agregarProductoServicio(poservicio) {
     });
 }
 function templateSelectActualizacion() {
-    let sa = $(`<label for="actualizacionPet">Tipo ingreso</label>
+    let sa = $(`<label for="actualizacionPet">Tipo ingreso <span>*</span></label>
                   <select name="actualizacionPet" id="actualizacionPet" class="form-control custom-select actualizacionPet select2" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
                     <option value="I">Perfil inicial</option>
