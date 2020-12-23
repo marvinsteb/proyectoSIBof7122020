@@ -354,7 +354,7 @@ function templateDireccion(id, textolabel, tipo) {
     let temDirec = $(`
         <div class="row">
             <div class="col-sm">
-                <label>${textolabel}</label>
+                <label>${textolabel} <span>*</span></label>
                 <input name="direccion${tipo}${id}" id="direccion${tipo}${id}" type="text" class="form-control direccion" placeholder="Dirección..." maxlength="400" required />
             </div>
         </div>`);
