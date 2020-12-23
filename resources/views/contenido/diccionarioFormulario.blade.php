@@ -511,7 +511,7 @@
                                         <div class="row">
                                             <div class="col-sm-9">
                                                 <div class="form-group">
-                                                    <label for="montoIngresosCliente_1" class="d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>
+                                                    <label for="montoIngresosCliente_1" class="d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales) <span>*</span></label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
@@ -523,7 +523,7 @@
                                         <div class="row">
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label for="propositoRCCliente_1">Propósito de la relación de negocios</label>
+                                                    <label for="propositoRCCliente_1">Propósito de la relación de negocios <span>*</span></label>
                                                     <input name="propositoRC" id="propositoRCCliente_1" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />
                                                 </div>
                                             </div>
@@ -532,7 +532,7 @@
                                             <div class="row">
                                                 <div class="col-sm">
                                                     <div class="form-group">
-                                                        <label for="">Fuente de ingresos</label>
+                                                        <label for="">Fuente de ingresos <span>*</span></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -551,7 +551,7 @@
                                                     <div class="col-sm">
                                                         <div class="form-group row">
                                                             <div class="col-sm-2">
-                                                                <label for="inputfuenteingresosCliente_1_0" class="ml-4" id="labelfuenteingresosCliente_1_0"></label>
+                                                                <label for="inputfuenteingresosCliente_1_0" id="labelfuenteingresosCliente_1_0"></label>
                                                             </div>
                                                             <div class="col-sm ml-2">
                                                                 <input name="inputfuenteingresos" id="inputfuenteingresosCliente_1_0" type="text" class="form-control" required disabled />

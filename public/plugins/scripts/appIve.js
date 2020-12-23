@@ -446,7 +446,7 @@ function templatePersonaPep(id) {
 function templateMontoIngresos(id) {
     let tmMontoIngresos = $(` <div class="row"></div>`);
     let labelMontoIngresos = $(
-        `<label for="montoIngresos${id}" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales)</label>`
+        `<label for="montoIngresos${id}" class = "d-inline">Monto mensual aproximado de los ingresos considerando todas las actividades económicas a las que se dedica (monto en quetzales) <span>*</span></label>`
     );
     labelMontoIngresos = templateFormGroup(labelMontoIngresos, "col-sm-9");
     let inputMontoIngresos = $(
@@ -459,7 +459,7 @@ function templateMontoIngresos(id) {
 }
 function templatePropositoRc(id) {
     let tempPropositoRc = $(`<div class="row"></div>`);
-    const tmPrc = `<label for="propositoRC${id}">Propósito de la relación de negocios</label>
+    const tmPrc = `<label for="propositoRC${id}">Propósito de la relación de negocios <span>*</span></label>
                    <input name="propositoRC" id="propositoRC${id}" type="text" class="form-control" placeholder="Propósito de la relación de negocios..." maxlength="400" required />`;
     $(tempPropositoRc).append(templateFormGroup(tmPrc));
     return tempPropositoRc;
@@ -477,7 +477,7 @@ function templateDatosIngresos(id) {
                         <div class="row">
                             <div class="col-sm">
                                 <div class="form-group">
-                                    <label for="">Fuente de ingresos</label>
+                                    <label for="">Fuente de ingresos <span>*</span></label>
                                 </div>
                             </div>
                         </div>
@@ -575,7 +575,7 @@ function templateCamposFuenteIngreso(id, posicion) {
         <div class="col-sm">
             <div class="form-group row">
                     <div class="col-sm-2">
-                        <label for="input${id}_${posicion}" class="ml-4" id="label${id}_${posicion}"></label>
+                        <label for="input${id}_${posicion}" id="label${id}_${posicion}"></label>
                     </div>
                     <div class="col-sm ml-2">
                         <input name="input" id="input${id}_${posicion}" type="text" class="form-control" required disabled />
@@ -673,7 +673,7 @@ function templateFilaCuatroProductoServicio(id) {
     return tm;
 }
 function templateMoneda(id) {
-    let moneda = $(`<label for="moneda${id}">Moneda</label>
+    let moneda = $(`<label for="moneda${id}">Moneda <span>*</span></label>
                     <select name="moneda" class="form-control custom-select moneda select2" style="width: 100%" required></select>`);
     moneda = templateFormGroup(moneda, "col-sm-3");
     let selectMoneda = $(moneda).find("select.moneda");
@@ -682,7 +682,7 @@ function templateMoneda(id) {
     return moneda;
 }
 function templateValor(id) {
-    const valor = $(`<label for="valor${id}">Valor producto y/o servicio</label>
+    const valor = $(`<label for="valor${id}">Valor producto y/o servicio <span>*</span></label>
                      <input type="number" name = "valor" id="valor${id}" class="form-control valor" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
     return templateFormGroup(valor, "col-sm-3");
 }
@@ -1517,21 +1517,24 @@ function validarTipoFuenteIngreso(fuenteIngresos) {
         $(input).prop("disabled", false);
         switch ($(this).val()) {
             case "NP":
-                $(label).text("Nombre comercial");
+                $(label).text("Nombre comercial ");
+                $(label).append("<span>*</span>");
                 $(input)
                     .attr("placeholder", "Nombre comercial ...")
                     .attr("maxlength", "400")
                     .attr("name", "nombreComercial");
                 break;
             case "RD":
-                $(label).text("Nombre empleador");
+                $(label).text("Nombre empleador ");
+                $(label).append("<span>*</span>");
                 $(input)
                     .attr("placeholder", "Nombre empleador ...")
                     .attr("maxlength", "200")
                     .attr("name", "nombreEmpleador");
                 break;
             case "OI":
-                $(label).text("Otras fuentes de ingreso");
+                $(label).text("Otras fuentes de ingreso ");
+                $(label).append("<span>*</span>");
                 $(input)
                     .attr("placeholder", "Otra fuente ...")
                     .attr("maxlength", "400")
@@ -1685,7 +1688,7 @@ function agregarProductoServicio(poservicio) {
     });
 }
 function templateSelectActualizacion() {
-    let sa = $(`<label for="actualizacionPet">Tipo ingreso</label>
+    let sa = $(`<label for="actualizacionPet">Tipo ingreso <span>*</span></label>
                   <select name="actualizacionPet" id="actualizacionPet" class="form-control custom-select actualizacionPet select2" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
                     <option value="I">Perfil inicial</option>
