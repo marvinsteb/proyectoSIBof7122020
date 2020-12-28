@@ -67,7 +67,7 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label for="sexoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}">Sexo</label>
+          <label for="sexoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}">Sexo <span>*</span></label>
           <select name="sexoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" id="sexoasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" class="form-control custom-select sexo select2" style="width: 100%" required="">
             <option value="" disabled="" selected="">Selecciona</option>
             <option value="M" {{$datosParienteAsociadoPep->sexo == 'M' ? 'selected' : ''}}>Masculino</option>
@@ -76,7 +76,7 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label for="condicionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}">Condición</label>
+          <label for="condicionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}">Condición <span>*</span></label>
           <select name="condicionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" id="condicionasoPep{{$tipo}}_{{$indice}}_{{$indicePep}}" class="form-control custom-select select2" style="width: 100%" required="">
             <option value="">Selecciona</option>
             <option value="N" {{$datosParienteAsociadoPep->condicion == 'N' ? 'selected' : ''}}>Nacional</option>

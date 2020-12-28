@@ -1371,7 +1371,7 @@ function templateMotivoAsociacion(id) {
     return tM;
 }
 function templateCondicion(id) {
-    let tC = `<label for="condicion${id}">Condición</label>
+    let tC = `<label for="condicion${id}">Condición <span>*</span></label>
                 <select name="condicion${id}" id="condicion${id}" class="form-control custom-select select2" style="width: 100%" required>
                     <option value="">Selecciona</option>
                     <option value="N">Nacional</option>
