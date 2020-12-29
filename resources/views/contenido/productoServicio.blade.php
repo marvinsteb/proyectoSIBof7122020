@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-sm">
         <div class="form-group">
-          <label>Fecha </label>
+          <label>Fecha <span>*</span></label>
           <div class="input-group date" id="fechaProductoServicio__{{ $indicePro }}" data-target-input="nearest">
             <input name="fechaProductoServicio_{{ $indicePro }}" id="fechaProductoServicio_{{ $indicePro }}" type="text" class="form-control ProductoServicio datetimepicker-input" data-target="#fechaProductoServicio__{{$indicePro}}" required value="{{\Carbon\Carbon::parse($producto->fecha)->format('d/m/Y')}}" />
             <div class="invalid-tooltip">
@@ -31,7 +31,7 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label for="paisProductoServicio_{{ $indicePro }}">País en donde se contrata el producto o servicio</label>
+          <label for="paisProductoServicio_{{ $indicePro }}">País en donde se contrata el producto/servicio <span>*</span></label>
           <select name="paisProductoServicio_{{ $indicePro }}" id="paisProductoServicio_{{ $indicePro }}" class="form-control custom-select pais deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
               @foreach($paises as $pais)
@@ -46,7 +46,13 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Departamento</label>
+          <label>Departamento
+            <span
+              @if($producto->lugar->pais != 'GT')
+                class = "oculto"
+              @endif
+            >*</span>
+          </label>
           <select name="deptoProductoServicio_{{ $indicePro }}" id="deptoProductoServicio_{{ $indicePro }}" class="form-control custom-select depto getMunicipio setDepartamento select2" style="width: 100%" required {{$producto->lugar->pais == 'GT' ? '' : 'disabled'}}>
             <option value="" disabled="" selected>Selecciona</option>
               @foreach($departamentos as $departamento)
@@ -61,7 +67,13 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Municipio</label>
+          <label>Municipio
+            <span
+              @if($producto->lugar->pais != 'GT')
+                class = "oculto"
+              @endif
+            >*</span>
+          </label>
           <select name="muniProductoServicio_{{ $indicePro }}" id="muniProductoServicio_{{ $indicePro }}" class="form-control custom-select muni setMunicipio select2" style="width: 100%" required {{$producto->lugar->pais == 'GT' ? '' : 'disabled'}}>
             <option value="" disabled="" selected>Selecciona</option>
               @foreach($municipios as $municipio)
@@ -84,7 +96,7 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Tipo producto y/o servicio</label>
+          <label>Tipo producto y/o servicio <span>*</span></label>
           <input name="tipoProductoServicio_{{ $indicePro }}" id="tipoProductoServicio_{{ $indicePro }}" type="text" class="form-control tipoProductoServicio_" placeholder="Tipo producto y/o servicio ..." maxlength="100" required value="{{$producto->tipo}}" />
         </div>
       </div>
@@ -98,7 +110,7 @@
     <div class="row">
       <div class="col-sm">
         <div class="form-group">
-          <label>Descripción producto y/o servicio</label>
+          <label>Descripción producto y/o servicio <span>*</span></label>
           <input name="descripcionProductoServicio_{{ $indicePro }}" id="descripcionProductoServicio_{{ $indicePro }}" type="text" class="form-control descripcionProductoServicio_" placeholder="Descripción producto y/o servicio ..." maxlength="600" required value="{{$producto->descripcion}}" />
         </div>
       </div>
@@ -115,7 +127,7 @@
     <div class="row">
       <div class="col-sm-3">
         <div class="form-group">
-          <label for="monedaProductoServicio_{{ $indicePro }}">Moneda</label>
+          <label for="monedaProductoServicio_{{ $indicePro }}">Moneda <span>*</span></label>
           <select name="moneda" id="monedaProductoServicio_{{ $indicePro }}" class="form-control custom-select moneda select2" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
               @foreach($monedas as $moneda)
@@ -130,7 +142,7 @@
       </div>
       <div class="col-sm-3">
         <div class="form-group">
-          <label for="valorProductoServicio_{{ $indicePro }}">Valor producto y/o servicio</label>
+          <label for="valorProductoServicio_{{ $indicePro }}">Valor producto y/o servicio <span>*</span></label>
           <input type="number" name="valor" id="valorProductoServicio_{{ $indicePro }}" class="form-control valor" placeholder="0.00" min="0" step=".01" style="text-align: right" required value="{{$producto->valor}}" />
         </div>
       </div>

@@ -603,7 +603,7 @@ function templateFilaUnoProductoServicio(id) {
     const cmFechaProducto = templateFecha(`_${id}`, "ProductoServicio", "");
     const pais = templatePais(
         `paisProductoServicio_${id}`,
-        "País en donde se contrata el producto o servicio",
+        "País en donde se contrata el producto/servicio",
         true,
         "",
         false
