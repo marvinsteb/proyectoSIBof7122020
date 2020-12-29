@@ -1786,7 +1786,7 @@ function templateCamposLugarPet(id) {
     return tempCamResidencia;
 }
 function templateMontoAproximado(id, textolabel) {
-    let tm = $(`<label>${textolabel}</label>
+    let tm = $(`<label>${textolabel} <span>*</span></label>
                 <input type="number" name = "montoAproximado" class="form-control d-inline montoAproximado" placeholder="0.00"  min="0" step=".01" style="text-align:right;" required/>`);
     tm = templateFormGroup(tm, "col-sm-3");
     return tm;
@@ -1855,7 +1855,7 @@ function templateContenedorNegocioPropio() {
     return tpnp;
 }
 function templateSelectSector(id) {
-    let sa = $(`<label for="sectorPet">Sector</label>
+    let sa = $(`<label for="sectorPet">Sector <span>*</span></label>
                   <select name="sectorPet" id="sectorPet${id}" class="form-control custom-select sector select2" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
                     <option value="PU">Sector Público</option>
@@ -1969,7 +1969,7 @@ function templateContenedorRelacionDependencia() {
     return trd;
 }
 function templateSelectOtrosIngresos(id) {
-    let sa = $(`<label for="tipoOtrosIngresosPet">Tipo de ingreso</label>
+    let sa = $(`<label for="tipoOtrosIngresosPet">Tipo de ingreso <span>*</span></label>
                   <select name="tipoOtrosIngresosPet" id="tipoOtrosIngresosPet${id}" class="form-control custom-select tipoOtrosIngresos select2" style="width: 100%" required>
                     <option value="" disabled selected>Selecciona</option>
                     <option value="1">Actividades profecionales</option>
