@@ -14,7 +14,7 @@
         <div class="row">
           <div class="col-sm">
             <div class="form-group">
-              <label>Nombre comercial</label>
+              <label>Nombre comercial <span>*</span></label>
               <input name="nombreComercial{{$indiceNeg}}" id="nombreComercial{{$indiceNeg}}" type="text" class="form-control nombreComercial" placeholder="Nombre comercial ..." maxlength="400" required value="{{$negp->nombreComercial}}">
             </div>
           </div>
@@ -22,7 +22,7 @@
         <div class="row">
           <div class="col-sm">
             <div class="form-group">
-              <label>Principal actividad económica</label>
+              <label>Principal actividad económica <span>*</span></label>
               <input name="principalActividadEconomica{{$indiceNeg}}" id="principalActividadEconomica{{$indiceNeg}}" type="text" class="form-control principalActividadEconomica" placeholder="Principal actividad económica ..." maxlength="200" required value="{{$negp->principalActividadEconomica}}">
             </div>
           </div>
@@ -44,7 +44,7 @@
         <div class="row">
           <div class="col-sm-12">
             <div class="form-group">
-              <h2>Patente de comercio de empresa</h2>
+              <h2>Patente de comercio de empresa</h2>   
             </div>
           </div>
           <div class="col-sm">
@@ -68,14 +68,14 @@
         </div>
         <div class="row">
           <div class="col-sm">
-            <label>Dirección negocio</label>
+            <label>Dirección negocio <span>*</span></label>
             <input name="direccionNegocio{{$indiceNeg}}" id="direccionNegocio{{$indiceNeg}}" type="text" class="form-control direccion" placeholder="Dirección..." maxlength="400" required value="{{$negp->direccionNegocio}}">
           </div>
         </div>
         <div class="row">
           <div class="col-sm">
             <div class="form-group">
-              <label for="paisPet{{$indiceNeg}}">País</label>
+              <label for="paisPet{{$indiceNeg}}">País <span>*</span></label>
               <select name="paisPet{{$indiceNeg}}" id="paisPet{{$indiceNeg}}" class="form-control custom-select pais deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
                 <option value="" disabled>Selecciona</option>
                     @foreach($paises as $pais)
@@ -90,7 +90,13 @@
           </div>
           <div class="col-sm">
             <div class="form-group">
-              <label>Departamento</label>
+              <label>Departamento
+              <span
+                @if($negp->lugar->pais != 'GT') 
+                  class="oculto"
+                @endif
+              >*</span>
+              </label>
               <select name="deptoPet{{$indiceNeg}}" id="deptoPet{{$indiceNeg}}" class="form-control custom-select depto getMunicipio setDepartamento select2 " style="width: 100%" required {{$negp->lugar->pais == 'GT' ? '' : 'disabled'}}>
                 <option value="" disabled selected>Selecciona</option>
                   @foreach($departamentos as $departamento)
@@ -105,7 +111,13 @@
           </div>
           <div class="col-sm">
             <div class="form-group">
-              <label>Municipio {{$negp->lugar->nombreMunicipio}}</label>
+              <label>Municipio
+              <span
+                @if($negp->lugar->pais != 'GT') 
+                  class="oculto"
+                @endif
+              >*</span>
+              </label>
               <select name="muniPet{{$indiceNeg}}" id="muniPet{{$indiceNeg}}" class="form-control custom-select muni setMunicipio select2" style="width: 100%" required {{$negp->lugar->pais == 'GT' ? '' : 'disabled'}}>
                 <option value="" disabled selected>Selecciona</option>
                     @foreach($municipios as $municipio)
@@ -122,7 +134,7 @@
         <div class="row">
           <div class="col-sm-3">
             <div class="form-group">
-              <label for="moneda{{$indiceNeg}}">Moneda</label>
+              <label for="moneda{{$indiceNeg}}">Moneda <span>*</span></label>
               <select name="moneda" class="form-control custom-select moneda select2 select2-hidden-accessible" style="width: 100%" required="" data-select2-id="moneda1" tabindex="-1" aria-hidden="true">
                 <option value="" disabled>Selecciona</option>
                       @foreach($monedas as $moneda)
@@ -137,7 +149,7 @@
           </div>
           <div class="col-sm-3">
             <div class="form-group">
-              <label>Monto aproximado ingresos</label>
+              <label>Monto aproximado ingresos <span>*</span></label>
               <input type="number" name="montoAproximado" class="form-control d-inline montoAproximado" placeholder="0.00" min="0" step=".01" style="text-align:right;" required value="{{$negp->montoAproximado}}">
             </div>
           </div>
