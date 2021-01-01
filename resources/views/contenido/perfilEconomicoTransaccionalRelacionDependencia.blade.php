@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-sm-2">
         <div class="form-group">
-          <label for="sectorPet">Sector</label>
+          <label for="sectorPet">Sector <span>*</span></label>
           <select name="sectorPet" id="sectorPet{{$indiceRd}}" class="form-control custom-select sector select2" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
             <option value="PU" {{$drd->sector == 'PU' ? 'selected' : ''}}>Sector Público</option>
@@ -24,7 +24,7 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Nombre del empleador</label>
+          <label>Nombre del empleador <span>*</span></label>
           <input name="NombreEmpleador{{$indiceRd}}" id="NombreEmpleador{{$indiceRd}}" type="text" class="form-control NombreEmpleador" placeholder="Nombre del empleador ..." maxlength="200" required value="{{$drd->nombreEmpleador}}">
         </div>
       </div>
@@ -32,27 +32,27 @@
     <div class="row">
       <div class="col-sm">
         <div class="form-group">
-          <label>Principal actividad económica empleador</label>
+          <label>Principal actividad económica empleador <span>*</span></label>
           <input name="prinActiEcoEmple{{$indiceRd}}" id="prinActiEcoEmple{{$indiceRd}}" type="text" class="form-control prinActiEcoEmple" placeholder="Principal actividad económica empleador ..." maxlength="200" required value="{{$drd->principalActividadEconomicaEmpleador}}"> 
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Puesto que desempeña</label>
+          <label>Puesto que desempeña <span>*</span></label>
           <input name="puestoDesempenia{{$indiceRd}}" id="puestoDesempenia{{$indiceRd}}" type="text" class="form-control puestoDesempenia" placeholder="Puesto que desempeña ..." maxlength="200" required value="{{$drd->puestoDesempenia}}">
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm">
-        <label>Dirección empleador</label>
+        <label>Dirección empleador <span>*</span></label>
         <input name="direccionEmpleador{{$indiceRd}}" id="direccionEmpleador{{$indiceRd}}" type="text" class="form-control direccion" placeholder="Dirección..." maxlength="400" required value="{{$drd->direccionEmpleador}}">   
       </div>
     </div>
     <div class="row">
       <div class="col-sm">
         <div class="form-group">
-          <label for="paisRd{{$indiceRd}}">País</label>
+          <label for="paisRd{{$indiceRd}}">País <span>*</span></label>
           <select name="paisRd{{$indiceRd}}" id="paisRd{{$indiceRd}}" class="form-control custom-select pais deshabilitaDepartamentoMunicipio setPais select2" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
                 @foreach($paises as $pais)
@@ -67,7 +67,13 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Departamento</label>
+          <label>Departamento 
+          <span 
+          @if($drd->lugar->pais != 'GT')
+            class="oculto"
+          @endif
+          >*</span>
+        </label>
           <select name="deptoRd{{$indiceRd}}" id="deptoRd{{$indiceRd}}" class="form-control custom-select depto getMunicipio setDepartamento select2" style="width: 100%" required {{$drd->lugar->pais == 'GT' ? '' : 'disabled'}}>
             <option value="" disabled selected>Selecciona</option>
                   @foreach($departamentos as $departamento)
@@ -82,7 +88,13 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Municipio</label>
+          <label>Municipio 
+            <span 
+            @if($drd->lugar->pais != 'GT')
+              class="oculto"
+            @endif
+            >*</span>
+          </label>
           <select name="muniRd{{$indiceRd}}" id="muniRd{{$indiceRd}}" class="form-control custom-select muni setMunicipio select2 select2-hidden-accessible" style="width: 100%" required {{$drd->lugar->pais == 'GT' ? '' : 'disabled'}}>
             <option value="" disabled selected>Selecciona</option>
               @foreach($municipios as $municipio)
@@ -99,7 +111,7 @@
     <div class="row">
       <div class="col-sm-3">
         <div class="form-group">
-          <label for="moneda{{$indiceRd}}">Moneda</label>
+          <label for="moneda{{$indiceRd}}">Moneda <span>*</span></label>
           <select name="moneda" id="moneda{{$indiceRd}}" class="form-control custom-select moneda select2 select2-hidden-accessible" style="width: 100%" required>
             <option value="" disabled selected>Selecciona</option>
                       @foreach($monedas as $moneda)
@@ -114,7 +126,7 @@
       </div>
       <div class="col-sm-3">
         <div class="form-group">
-          <label>Monto aproximado ingresos</label>
+          <label>Monto aproximado ingresos <span>*</span></label>
           <input type="number" name="montoAproximado" id="montoAproximado{{$indiceRd}}" class="form-control d-inline montoAproximado" placeholder="0.00" min="0" step=".01" style="text-align:right;" required="" value="{{$drd->montoAproximado}}">
         </div>
       </div>
