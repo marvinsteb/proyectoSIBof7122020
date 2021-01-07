@@ -564,12 +564,12 @@ class InformacionClienteController extends Controller
                 unset($datosPersonales["datosPep"]["idDatosPep"]);
             }
         } else {
-            $datosPersonales["datosPep"] = "";
+            $datosPersonales["datosPep"] = (object) null;
         }
         if ($datosPersonales["parienteAsociadoPep"] == 'S') {
             $datosPersonales["datosParienteAsociadoPep"] = $this->queryDatosParienteAsociadoPep($datosPersonales["idDatosPersonales"], $jsonive);
         } else {
-            $datosPersonales["datosParienteAsociadoPep"] = "";
+            $datosPersonales["datosParienteAsociadoPep"] = array();
         }
         if ($datosPersonales["apellidoCasada"] == null) {
             $datosPersonales["apellidoCasada"] = "";
@@ -634,7 +634,7 @@ class InformacionClienteController extends Controller
             $ObCamposMinimos["representante"] = $this->queryDatosPersonales($ObCamposMinimos["representante"], $jsonive);
         } else {
             $ObCamposMinimos["calidadActua"] = "";
-            $ObCamposMinimos["representante"] = "";
+            $ObCamposMinimos["representante"] = (object) null;
         }
 
         $ObCamposMinimos["lugar"] = $this->queryLugar($ObCamposMinimos["lugar"], $jsonive);
@@ -768,7 +768,13 @@ class InformacionClienteController extends Controller
                 unset($obtransac["idDiccionarioFormulario"]);
             }
         } else {
-            $obtransac = "";
+            if ($jsonive) {
+                $obtransac = (object) null;
+                
+            }else{
+                $obtransac = null;
+
+            }
         }
 
         return $obtransac;
