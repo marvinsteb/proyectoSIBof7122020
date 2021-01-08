@@ -27,7 +27,7 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Especificar otra fuente de ingresos <span>*</span></label>
+          <label>Especificar <span>*</span></label>
           <input name="DetalleOtrosIngresos1" id="DetalleOtrosIngresos1" type="text" class="form-control DetalleOtrosIngresos" placeholder="Especificar otra fuente de ingresos ..." maxlength="400" required value="{{$doi->detalleOtrosIngresos}}"> 
         </div>
       </div>

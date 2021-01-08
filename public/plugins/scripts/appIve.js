@@ -1988,7 +1988,7 @@ function templateRowUnoOtrosIngresos(id) {
         id,
         "DetalleOtrosIngresos",
         400,
-        "Especificar otra fuente de ingresos",
+        "Especificar",
         true,
         false
     );
