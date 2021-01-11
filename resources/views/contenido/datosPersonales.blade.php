@@ -42,7 +42,7 @@
             </div>
             <div class="col-sm">
                 <div class="form-group">
-                    <label>Otros nombre</label>
+                    <label>Otros nombres</label>
                     <input name="otrosNombres{{$tipo}}_{{$indice}}" id="otrosNombres{{$tipo}}_{{$indice}}" type="text" class="form-control otrosNombres" placeholder="Otros nombres ..." maxlength="30" value="{{$datosPersonales->otrosNombres}}" />
                 </div>
             </div>

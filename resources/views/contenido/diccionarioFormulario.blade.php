@@ -185,7 +185,7 @@
                                             </div>
                                             <div class="col-sm">
                                                 <div class="form-group">
-                                                    <label>Otros nombre</label>
+                                                    <label>Otros nombres</label>
                                                     <input name="otrosNombresCliente_1" id="otrosNombresCliente_1" type="text" class="form-control otrosNombres" placeholder="Otros nombres ..." maxlength="30" />
                                                 </div>
                                             </div>
