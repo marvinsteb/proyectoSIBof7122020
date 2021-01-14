@@ -45,12 +45,6 @@
                                 </div>
                                 <!-- /.col -->
                                 </div>
-
-                                <p class="mb-1">
-                                     @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
-                                    @endif
-                                </p>
                         </form>
     </div>
 </div>

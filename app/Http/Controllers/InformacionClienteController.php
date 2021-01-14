@@ -841,7 +841,6 @@ class InformacionClienteController extends Controller
     {
         $query = trim($request->get('searchText'));
         $dicFormulario = DB::table('listaDiccionarioFormulario')->select('*')
-            ->where('idUser', '=', Auth::id())
             ->where('nombre', 'LIKE', '%' . $query . '%')
             ->orderBy('idDiccionarioFormulario', 'desc')
             ->simplePaginate(15);
